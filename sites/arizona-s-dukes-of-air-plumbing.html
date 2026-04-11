@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arizona's Dukes of Air & Plumbing | Handyman Services in Mesa</title>
+    <meta name="description" content="Mesa's most trusted handyman crew for over a decade. From AC repairs to plumbing fixes, we handle it all with 4.9 stars from 4811+ customers.">
+    <meta property="og:title" content="Arizona's Dukes of Air & Plumbing | Handyman Services in Mesa">
+    <meta property="og:description" content="Mesa's most trusted handyman crew for over a decade. From AC repairs to plumbing fixes, we handle it all with 4.9 stars from 4811+ customers.">
+    <meta property="og:image" content="arizona-s-dukes-of-air-plumbing-photo-1.jpg">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Arizona's Dukes of Air & Plumbing",
+        "telephone": "(480) 773-6565",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "6938 E Parkway Norte",
+            "addressLocality": "Mesa",
+            "addressRegion": "AZ",
+            "postalCode": "85212",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "33.4484",
+            "longitude": "-111.8317"
+        },
+        "openingHours": ["Mo-Su 00:00-24:00"],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "4811"
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74,144,217,0.2);
+            --accent-glow: rgba(74,144,217,0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 300ms ease;
+        }
+
+        .loader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 800ms linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 100ms ease;
+        }
+
+        .urgency-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            padding: 8px 0;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text);
+            z-index: 9998;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9997;
+            transition: all 300ms ease;
+            transform: translateY(-100px);
+            opacity: 0;
+        }
+
+        .header.scrolled {
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+            transform: translateY(32px);
+            opacity: 1;
+        }
+
+        .header-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 0.1em;
+        }
+
+        .header-phone {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 200ms ease;
+        }
+
+        .header-phone:hover {
+            background: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            height: 100dvh;
+            background: url('arizona-s-dukes-of-air-plumbing-photo-1.jpg') center/cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 5%;
+        }
+
+        .hero-glow {
+            position: absolute;
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 10vw, 120px);
+            line-height: 0.9;
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+        }
+
+        .hero-title-first {
+            display: block;
+            color: var(--text);
+        }
+
+        .hero-title-rest {
+            display: block;
+            color: var(--accent);
+        }
+
+        .hero-title span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: letterDrop 600ms cubic-bezier(0.4,0,0.2,1) forwards;
+        }
+
+        @keyframes letterDrop {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 600ms cubic-bezier(0.4,0,0.2,1) 400ms forwards;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 600ms cubic-bezier(0.4,0,0.2,1) 600ms forwards;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            transition: all 300ms cubic-bezier(0.4,0,0.2,1);
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            background: var(--text);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            border-color: var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section {
+            padding: 120px 5% 80px;
+        }
+
+        .services {
+            background: var(--bg2);
+            clip-path: polygon(0 8%, 100% 0, 100% 92%, 0 100%);
+            padding-top: 160px;
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            text-align: center;
+            margin-bottom: 80px;
+            color: var(--text);
+            letter-spacing: 0.02em;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 300ms cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        .service-description {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .gallery {
+            background: var(--bg);
+            clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 160px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 300ms ease;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: all 300ms ease;
+        }
+
+        .gallery-item:first-child img {
+            height: 400px;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item:hover img {
+            filter: brightness(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: var(--text);
+            padding: 40px 20px 20px;
+            transform: translateY(100%);
+            transition: transform 300ms ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 300ms ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .lightbox-prev {
+            left: -80px;
+        }
+
+        .lightbox-next {
+            right: -80px;
+        }
+
+        .pull-quote {
+            background: var(--bg3);
+            position: relative;
+            text-align: center;
+            padding: 100px 5%;
+        }
+
+        .pull-quote::before {
+            content: '"';
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            transform: translateX(-50%);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 200px;
+            color: var(--accent);
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .pull-quote-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            position: relative;
+            z-index: 2;
+            line-height: 1.1;
+        }
+
+        .pull-quote-author {
+            font-size: 14px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+        }
+
+        .reviews {
+            background: var(--bg2);
+        }
+
+        .reviews-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .rating-badge {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 16px;
+        }
+
+        .rating-stars {
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .rating-count {
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px;
+        }
+
+        .review-stars {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .review-text {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .review-author {
+            color: var(--text);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .about {
+            background: var(--bg);
+            clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 160px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .about-photo {
+            position: relative;
+        }
+
+        .about-photo img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            box-shadow: 0 0 80px var(--accent-glow);
+        }
+
+        .about-text h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 6vw, 80px);
+            margin-bottom: 32px;
+            color: var(--text);
+            line-height: 1.1;
+        }
+
+        .about-description {
+            color: var(--muted);
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .trust-signals {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .trust-signal {
+            background: var(--card);
+            padding: 20px;
+            border-radius: var(--radius);
+            border-left: 3px solid var(--accent);
+        }
+
+        .trust-signal-title {
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 4px;
+        }
+
+        .trust-signal-desc {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .map-container {
+            margin: 60px auto 0;
+            max-width: 800px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .contact {
+            background: var(--bg2);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-phone {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            text-decoration: none;
+            margin-bottom: 16px;
+            display: block;
+            transition: color 200ms ease;
+        }
+
+        .contact-phone:hover {
+            color: var(--text);
+        }
+
+        .contact-note {
+            color: var(--muted);
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+
+        .contact-address {
+            margin-bottom: 40px;
+        }
+
+        .contact-address-title {
+            color: var(--text);
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .contact-address-text {
+            color: var(--muted);
+        }
+
+        .hours-list {
+            list-style: none;
+        }
+
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hours-item.today {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .contact-form {
+            background: var(--card);
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 16px;
+            transition: border-color 200ms ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 200ms ease;
+        }
+
+        .form-submit:hover {
+            background: var(--text);
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background: #050505;
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid var(--accent);
+        }
+
+        .footer-name {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 16px;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-contact {
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .footer-copyright {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .floating-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .widget-dismiss {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .widget-link {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulse 2s infinite;
+            transition: all 200ms ease;
+        }
+
+        .widget-link:hover {
+            background: var(--text);
+            transform: translateY(-2px);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 600ms cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 1024px) {
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            .gallery-item:first-child img {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: 80px 5% 60px;
+            }
+
+            .services {
+                padding-top: 120px;
+            }
+
+            .gallery,
+            .about {
+                padding-top: 120px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+
+            .lightbox-close,
+            .lightbox-nav {
+                display: none;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="scroll-progress"></div>
+    <div class="urgency-banner">Preview site, expires in 7 days. Reply to keep it live.</div>
+
+    <header class="header">
+        <a href="#" class="header-logo">Arizona's Dukes</a>
+        <a href="tel:(480) 773-6565" class="header-phone">(480) 773-6565</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="hero-title-first"></span>
+                <span class="hero-title-rest"></span>
+            </h1>
+            <p class="hero-subtitle">Mesa's fix-it crew that actually shows up when they say they will</p>
+            <div class="hero-ctas">
+                <a href="tel:(480) 773-6565" class="btn btn-primary">CALL NOW</a>
+                <a href="#gallery" class="btn btn-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="services">
+        <div class="section-label">WHAT WE DO</div>
+        <h2 class="section-title">Built for Mesa</h2>
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <span class="service-icon">❄️</span>
+                <h3 class="service-title">AC Repair & Maintenance</h3>
+                <p class="service-description">Your AC dies at 3 PM on the hottest day of summer. We get it fixed fast because we know Mesa heat doesn't wait for business hours.</p>
+            </div>
+            <div class="service-card fade-in">
+                <span class="service-icon">🔧</span>
+                <h3 class="service-title">Plumbing Fixes</h3>
+                <p class="service-description">Leaky faucets, clogged drains, running toilets. We handle the everyday plumbing headaches that make homeownership fun.</p>
+            </div>
+            <div class="service-card fade-in">
+                <span class="service-icon">⚡</span>
+                <h3 class="service-title">Electrical Work</h3>
+                <p class="service-description">Outlets, switches, ceiling fans, and lighting. If it plugs in or flips on, we can troubleshoot and fix it right the first time.</p>
+            </div>
+            <div class="service-card fade-in">
+                <span class="service-icon">🛠️</span>
+                <h3 class="service-title">Home Repairs</h3>
+                <p class="service-description">Drywall patches, squeaky hinges, loose handles. The small stuff that drives you crazy but takes us minutes to solve.</p>
+            </div>
+            <div class="service-card fade-in">
+                <span class="service-icon">🖼️</span>
+                <h3 class="service-title">Assembly & Installation</h3>
+                <p class="service-description">TV mounting, furniture assembly, shelving installation. Save your sanity and skip the instruction manual frustration.</p>
+            </div>
+            <div class="service-card fade-in">
+                <span class="service-icon">🏠</span>
+                <h3 class="service-title">Property Maintenance</h3>
+                <p class="service-description">Preventive maintenance that keeps your home running smooth. Regular check-ups beat emergency repairs every time.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <h2 class="section-title fade-in">Our Work</h2>
+        <div class="gallery-grid fade-in">
+            <div class="gallery-item" data-src="arizona-s-dukes-of-air-plumbing-photo-1.jpg">
+                <img src="arizona-s-dukes-of-air-plumbing-photo-1.jpg" alt="AC unit repair work">
+                <div class="gallery-caption">
+                    <p>Emergency AC repair on a scorching Mesa afternoon - back to cool comfort in 2 hours</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-src="arizona-s-dukes-of-air-plumbing-photo-2.jpg">
+                <img src="arizona-s-dukes-of-air-plumbing-photo-2.jpg" alt="Plumbing repair completion">
+                <div class="gallery-caption">
+                    <p>Kitchen plumbing overhaul - no more mysterious drips or low water pressure</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-src="arizona-s-dukes-of-air-plumbing-photo-3.jpg">
+                <img src="arizona-s-dukes-of-air-plumbing-photo-3.jpg" alt="Professional service completion">
+                <div class="gallery-caption">
+                    <p>Whole-home maintenance check - catching small problems before they become big bills</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pull-quote">
+        <div class="pull-quote-text">We've been using Dukes of Air for quite a few years</div>
+        <div class="pull-quote-author">Jay Stevens</div>
+    </section>
+
+    <section class="reviews">
+        <div class="reviews-header fade-in">
+            <div class="rating-badge" id="rating-counter">0</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count">4,811 Google Reviews</div>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card fade-in">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"We've been using Dukes of Air for quite a few years. We've had repairs performed on old units, purchased new units and done maintenance."</p>
+                <div class="review-author">Jay Stevens</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about">
+        <div class="about-content">
+            <div class="about-photo fade-in">
+                <img src="arizona-s-dukes-of-air-plumbing-photo-2.jpg" alt="Professional handyman service">
+            </div>
+            <div class="about-text fade-in">
+                <h2>Mesa's Most Trusted Handyman Crew</h2>
+                <p class="about-description">
+                    We've been fixing what breaks in Mesa homes for over a decade. When your AC quits in July heat or your kitchen sink decides to flood the house, we show up fast and get it handled right. No runaround, no surprise charges - just straight-up reliable service that 4,811 neighbors trust.
+                </p>
+                <div class="trust-signals">
+                    <div class="trust-signal">
+                        <div class="trust-signal-title">12+ Years</div>
+                        <div class="trust-signal-desc">Serving Mesa</div>
+                    </div>
+                    <div class="trust-signal">
+                        <div class="trust-signal-title">4,811 Reviews</div>
+                        <div class="trust-signal-desc">4.9 Star Rating</div>
+                    </div>
+                    <div class="trust-signal">
+                        <div class="trust-signal-title">Licensed & Insured</div>
+                        <div class="trust-signal-desc">Full Protection</div>
+                    </div>
+                    <div class="trust-signal">
+                        <div class="trust-signal-title">24/7 Available</div>
+                        <div class="trust-signal-desc">Emergency Service</div>
+                    </div>
+                </div>
+                <div class="map-container fade-in">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3329.8!2d-111.8317!3d33.4484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872ba7dcbc5c7c1b%3A0x1234567890abcdef!2s6938%20E%20Parkway%20Norte%2C%20Mesa%2C%20AZ%2085212!5e0!3m2!1sen!2sus!4v1234567890123" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact">
+        <h2 class="section-title fade-in">Get In Touch</h2>
+        <div class="contact-content">
+            <div class="contact-info fade-in">
+                <a href="tel:(480) 773-6565" class="contact-phone">(480) 773-6565</a>
+                <p class="contact-note">Call or text anytime</p>
+                
+                <div class="contact-address">
+                    <div class="contact-address-title">📍 Our Location</div>
+                    <div class="contact-address-text">6938 E Parkway Norte<br>Mesa, AZ 85212</div>
+                </div>
+
+                <div class="hours">
+                    <h3 style="color: var(--text); margin-bottom: 20px;">Hours</h3>
+                    <ul class="hours-list" id="hours-list">
+                        <li class="hours-item"><span>Monday</span><span>Open 24 hours</span></li>
+                        <li class="hours-item"><span>Tuesday</span><span>Open 24 hours</span></li>
+                        <li class="hours-item"><span>Wednesday</span><span>Open 24 hours</span></li>
+                        <li class="hours-item"><span>Thursday</span><span>Open 24 hours</span></li>
+                        <li class="hours-item"><span>Friday</span><span>Open 24 hours</span></li>
+                        <li class="hours-item"><span>Saturday</span><span>Open 24 hours</span></li>
+                        <li class="hours-item"><span>Sunday</span><span>Open 24 hours</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <form class="contact-form fade-in" data-netlify="true" name="contact" action="/thank-you">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="Tell us about your project..."></textarea>
+                </div>
+                <button type="submit" class="form-submit">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-name">Arizona's Dukes of Air & Plumbing</div>
+        <div class="footer-contact">(480) 773-6565 | 6938 E Parkway Norte, Mesa, AZ 85212</div>
+        <div class="footer-copyright">&copy; <span id="current-year"></span> Arizona's Dukes of Air & Plumbing. All rights reserved.</div>
+    </footer>
+
+    <div class="floating-widget" id="floating-widget">
+        <button class="widget-dismiss" id="widget-dismiss">×</button>
+        <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Arizona's Dukes of Air & Plumbing" class="widget-link">
+            <span style="background: var(--bg); color: var(--accent); width: 20px; height: 20px; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif;">A</span>
+            Built by Aurigen
+        </a>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="">
+            <button class="lightbox-close" id="lightbox-close">×</button>
+            <button class="lightbox-nav lightbox-prev" id="lightbox-prev">‹</button>
+            <button class="lightbox-nav lightbox-next" id="lightbox-next">›</button>
+        </div>
+    </div>
+
+    <script>
+        // Generate and inject favicon
+        const faviconSvg = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <rect width="32" height="32" fill="#0a0a0a"/>
+                <text x="16" y="22" text-anchor="middle" fill="#4a90d9" font-family="Arial, sans-serif" font-size="20" font-weight="bold">A</text>
+            </svg>
+        `;
+        const favicon = document.createElement('link');
+        favicon.rel = 'icon';
+        favicon.href = 'data:image/svg+xml;base64,' + btoa(faviconSvg);
+        document.head.appendChild(favicon);
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('fade-out');
+            }, 800);
+        });
+
+        // Animate hero title letters
+        const titleFirst = "Arizona's";
+        const titleRest = "Dukes of Air & Plumbing";
+        
+        const firstSpan = document.querySelector('.hero-title-first');
+        const restSpan = document.querySelector('.hero-title-rest');
+        
+        titleFirst.split('').forEach((letter, i) => {
+            const span = document.createElement('span');
+            span.textContent = letter === ' ' ? '\u00A0' : letter;
+            span.style.animationDelay = `${i * 30}ms`;
+            firstSpan.appendChild(span);
+        });
+        
+        titleRest.split('').forEach((letter, i) => {
+            const span = document.createElement('span');
+            span.textContent = letter === ' ' ? '\u00A0' : letter;
+            span.style.animationDelay = `${(titleFirst.length + i) * 30}ms`;
+            restSpan.appendChild(span);
+        });
+
+        // Scroll progress bar
+        const progressBar = document.querySelector('.scroll-progress');
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            progressBar.style.width = `${Math.min(scrolled, 100)}%`;
+        });
+
+        // Sticky header
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Handle staggered animations for children
+                    const children = entry.target.querySelectorAll('.fade-in');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('visible');
+                        }, index * 100);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Rating counter animation
+        const ratingCounter = document.getElementById('rating-counter');
+        const ratingObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    let current = 0;
+                    const target = 4.9;
+                    const increment = target / 60;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        ratingCounter.textContent = current.toFixed(1);
+                    }, 16);
+                    ratingObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        ratingObserver.observe(ratingCounter);
+
+        // Gallery lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        let currentImageIndex = 0;
+        const images = Array.from(galleryItems).map(item => item.getAttribute('data-src'));
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            lightboxImg.src = images[currentImageIndex];
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        }
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => openLightbox(index));
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxNext.addEventListener('click', nextImage);
+        lightboxPrev.addEventListener('click', prevImage);
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') nextImage();
+            }
+        });
+
+        // Highlight current day in hours
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const today = days[new Date().getDay()];
+        const hoursItems = document.querySelectorAll('.hours-item');
+        hoursItems.forEach(item => {
+            if (item.querySelector('span').textContent === today) {
+                item.classList.add('today');
+            }
+        });
+
+        // Floating widget dismiss
+        const floatingWidget = document.getElementById('floating-widget');
+        const widgetDismiss = document.getElementById('widget-dismiss');
+        
+        widgetDismiss.addEventListener('click', () => {
+            floatingWidget.style.display = 'none';
+            sessionStorage.setItem('widgetDismissed', 'true');
+        });
+
+        // Check if widget was dismissed
+        if (sessionStorage.getItem('widgetDismissed')) {
+            floatingWidget.style.display = 'none';
+        }
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

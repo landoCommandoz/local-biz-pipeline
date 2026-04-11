@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stott Plumbing & Excavating</title>
+    <meta name="description" content="Stott Plumbing & Excavating. general contractor, plumber in Salt Lake City. Call (801) 467-2432.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a2e1a;
+            --accent-color: #d4822a;
+            --accent-light: #e6a54e;
+            --accent-glow: rgba(212, 130, 42, 0.3);
+            --text-light: #e8ede8;
+            --text-muted: #b4c4b4;
+            --border-color: #2d4d2d;
+            --card-bg: #234223;
+            --footer-bg: #152415;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background-color: var(--accent-color);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero {
+            height: 100vh;
+            background-color: #1a2e1a;
+            background-image: linear-gradient(rgba(26, 46, 26, 0.75), rgba(26, 46, 26, 0.8)), url('stott-plumbing-excavating-photo-1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: clamp(2.5rem, 8vw, 5.5rem);
+            line-height: 0.9;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero .sub-headline {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 600;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .hero .tagline {
+            font-style: italic;
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-height: 44px;
+            margin-bottom: 0.5rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        .phone-number {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section h2 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 3rem;
+            color: var(--text-light);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-item {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent-color);
+            transition: all 0.3s ease;
+        }
+
+        .service-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-item h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .service-item p {
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .gallery {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--bg-color) 0%, #1f3a1f 100%);
+        }
+
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .gallery-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent-color);
+        }
+
+        .reviews {
+            background: var(--card-bg);
+        }
+
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            background: var(--bg-color);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            margin-bottom: 3rem;
+            border: 2px solid var(--accent-color);
+        }
+
+        .rating-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .rating-stars {
+            color: var(--accent-color);
+            font-size: 1.2rem;
+        }
+
+        .rating-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .review-card {
+            background: var(--bg-color);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        .review-stars {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-text {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .about-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid var(--accent-color);
+        }
+
+        .about-content h2 {
+            margin-bottom: 2rem;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-muted);
+        }
+
+        .contact {
+            background: var(--card-bg);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .contact-phone {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .contact-phone:hover {
+            color: var(--accent-light);
+        }
+
+        .contact-address {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .hours-list {
+            list-style: none;
+            color: var(--text-muted);
+        }
+
+        .hours-list li {
+            padding: 0.3rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 1rem;
+            background: var(--bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            min-height: 44px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-height: 44px;
+        }
+
+        .submit-button:hover {
+            background-color: var(--accent-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        .footer {
+            background-color: var(--footer-bg);
+            padding: 3rem 2rem 2rem;
+            text-align: center;
+            border-top: 2px solid var(--accent-color);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .footer-phone {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+            transition: color 0.3s ease;
+        }
+
+        .footer-phone:hover {
+            color: var(--accent-light);
+        }
+
+        .footer-address {
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-copyright {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 0 1rem;
+                text-align: left;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .about-split {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="scroll-progress"></div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="fade-up" style="transition-delay: 0.2s;">STOTT PLUMBING</h1>
+            <div class="sub-headline fade-up" style="transition-delay: 0.4s;">& Excavating</div>
+            <p class="tagline fade-up" style="transition-delay: 0.6s;">Expert general contractor and plumber serving Salt Lake City</p>
+            <a href="tel:(801) 467-2432" class="cta-button fade-up" style="transition-delay: 0.8s;">CALL NOW</a>
+            <span class="phone-number fade-up" style="transition-delay: 1s;">(801) 467-2432</span>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="fade-up">Our Services</h2>
+        <div class="services-grid">
+            <div class="service-item fade-up" style="transition-delay: 0s;">
+                <h3>Home Repairs</h3>
+                <p>That leaky faucet you keep meaning to fix? The door that sticks every winter? We handle the repairs you've been putting off so you can get back to living.</p>
+            </div>
+            <div class="service-item fade-up" style="transition-delay: 0.1s;">
+                <h3>Bathroom Remodels</h3>
+                <p>Ready to upgrade that bathroom? From new fixtures to complete overhauls, we'll turn your vision into reality with quality work that lasts.</p>
+            </div>
+            <div class="service-item fade-up" style="transition-delay: 0.2s;">
+                <h3>Plumbing Solutions</h3>
+                <p>Blocked drains, water line issues, or emergency repairs. We show up with the right tools and know-how to get your plumbing working properly.</p>
+            </div>
+            <div class="service-item fade-up" style="transition-delay: 0.3s;">
+                <h3>Excavation Work</h3>
+                <p>Need something dug up or dug out? From utility line access to foundation work, we handle excavation projects big and small with precision.</p>
+            </div>
+            <div class="service-item fade-up" style="transition-delay: 0.4s;">
+                <h3>General Contracting</h3>
+                <p>Multi-trade projects that need coordination and expertise. We manage the details so you don't have to worry about a thing.</p>
+            </div>
+            <div class="service-item fade-up" style="transition-delay: 0.5s;">
+                <h3>Emergency Services</h3>
+                <p>Water emergencies don't wait for business hours. When disaster strikes, we're here 24/7 to minimize damage and get things back to normal.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery">
+        <div class="gallery-container">
+            <h2 class="fade-up">Our Work</h2>
+            <div class="gallery-grid">
+                <img src="stott-plumbing-excavating-photo-1.jpg" alt="Stott Plumbing & Excavating photo 1" loading="lazy" class="gallery-img fade-up" style="transition-delay: 0s;">
+        <img src="stott-plumbing-excavating-photo-2.jpg" alt="Stott Plumbing & Excavating photo 2" loading="lazy" class="gallery-img fade-up" style="transition-delay: 0.1s;">
+        <img src="stott-plumbing-excavating-photo-3.jpg" alt="Stott Plumbing & Excavating photo 3" loading="lazy" class="gallery-img fade-up" style="transition-delay: 0.2s;">
+            </div>
+        </div>
+    </section>
+
+    <section class="section reviews">
+        <h2 class="fade-up">What Our Customers Say</h2>
+        <div class="rating-badge fade-up">
+          <span class="rating-number">4.8</span>
+          <span class="rating-stars">★★★★★</span>
+          <span class="rating-label">1101 Google Reviews</span>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card fade-up" style="transition-delay: 0s;">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"I bought the Homeserve insurance and hoped I never needed it.    Yip we had a main line water leak right under the cement sidewalks and our walk way."</p>
+          <p class="review-author">Brett Hilton</p>
+        </div>
+        <div class="review-card fade-up" style="transition-delay: 0.1s;">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"The two gentlemen who came to our home to unplug our pipes were awesome. They were here promptly and assessed our problems and determined where to start."</p>
+          <p class="review-author">Jean Shaw</p>
+        </div>
+        <div class="review-card fade-up" style="transition-delay: 0.2s;">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"I appreciate the immediate response from Stott Plumbing and Excavation to address the urgent need to make the necessary repairs to my water line."</p>
+          <p class="review-author">V Bouy</p>
+        </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="about-split">
+            <img src="stott-plumbing-excavating-photo-2.jpg" alt="Stott Plumbing & Excavating" class="about-image fade-up">
+            <div class="about-content">
+                <h2 class="fade-up">About Us</h2>
+                <p class="about-text fade-up">We're Stott Plumbing & Excavating, and we handle repairs, remodels, and everything in between across Salt Lake City. We answer our phone, we show up when we say we will, and we clean up after ourselves. Give us a call at (801) 467-2432 and let's figure out what you need.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section contact" id="contact">
+        <h2 class="fade-up">Get In Touch</h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3 class="fade-up">Contact Information</h3>
+                <a href="tel:(801) 467-2432" class="contact-phone fade-up">(801) 467-2432</a>
+                <p class="contact-address fade-up">165 Gregson Ave S<br>Salt Lake City, UT 84115</p>
+                
+                <h3 class="fade-up">Hours</h3>
+                <ul class="hours-list fade-up">
+                    <li>Monday: Open 24 hours</li>
+              <li>Tuesday: Open 24 hours</li>
+              <li>Wednesday: Open 24 hours</li>
+              <li>Thursday: Open 24 hours</li>
+              <li>Friday: Open 24 hours</li>
+              <li>Saturday: Open 24 hours</li>
+              <li>Sunday: Open 24 hours</li>
+                </ul>
+            </div>
+            <form class="contact-form fade-up" action="#" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Stott Plumbing & Excavating</h3>
+            <a href="tel:(801) 467-2432" class="footer-phone">(801) 467-2432</a>
+            <p class="footer-address">165 Gregson Ave S, Salt Lake City, UT 84115</p>
+            <p class="footer-copyright">© <script>document.write(new Date().getFullYear())</script> Stott Plumbing & Excavating. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.fade-up').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

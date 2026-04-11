@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parker & Sons | Handyman in Phoenix</title>
+    <meta name="description" content="Phoenix's most trusted handyman crew with 32,897+ reviews. From repairs to renovations, we handle every job with precision and care.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Parker & Sons | Handyman in Phoenix">
+    <meta property="og:description" content="Phoenix's most trusted handyman crew with 32,897+ reviews. From repairs to renovations, we handle every job with precision and care.">
+    <meta property="og:image" content="parker-sons-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Parker & Sons",
+        "telephone": "(602) 424-9619",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "3636 E Anne St A",
+            "addressLocality": "Phoenix",
+            "addressRegion": "AZ",
+            "postalCode": "85040",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.4484,
+            "longitude": -112.0740
+        },
+        "openingHours": "Mo-Su 00:00-24:00",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.7",
+            "reviewCount": "32897"
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74,144,217,0.2);
+            --accent-glow: rgba(74,144,217,0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.1s;
+        }
+        
+        /* Urgency Banner */
+        .urgency-banner {
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+        
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+        }
+        
+        .header.visible {
+            opacity: 1;
+            transform: translateY(0);
+            background: rgba(10,10,10,0.95);
+        }
+        
+        .header .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+        
+        .header .phone-btn {
+            background: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .header .phone-btn:hover {
+            background: var(--accent-glow);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100dvh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('parker-sons-photo-1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+        
+        .hero h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(56px, 10vw, 120px);
+            letter-spacing: 0.04em;
+            line-height: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .hero h1 .line1 {
+            display: block;
+            color: var(--text);
+        }
+        
+        .hero h1 .line2 {
+            display: block;
+            color: var(--accent);
+        }
+        
+        .hero h1 span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: letterSlide 0.6s ease forwards;
+        }
+        
+        @keyframes letterSlide {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.6s ease 0.4s forwards;
+        }
+        
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.6s ease 0.6s forwards;
+        }
+        
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            min-height: 44px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 0.04em;
+            font-size: 18px;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border: 2px solid var(--accent);
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-glow);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: var(--accent-muted);
+            transform: translateY(-3px);
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 100px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(48px, 8vw, 96px);
+            text-align: center;
+            margin-bottom: 60px;
+            color: var(--text);
+            letter-spacing: 0.04em;
+        }
+        
+        /* Services Section */
+        .services {
+            background: var(--bg2);
+            padding: 100px 20px;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-muted);
+            border-radius: var(--radius);
+            padding: 30px;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            position: relative;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+        
+        .service-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .service-card h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 15px;
+            letter-spacing: 0.04em;
+        }
+        
+        .service-card p {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        
+        /* Photo Gallery */
+        .gallery {
+            background: var(--bg);
+            padding: 100px 20px;
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -100px;
+            padding-top: 200px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:first-child img {
+            height: 620px;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-item:hover img {
+            filter: brightness(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: var(--text);
+            padding: 30px 20px 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: var(--radius);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 30px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-prev {
+            left: 30px;
+        }
+        
+        .lightbox-next {
+            right: 30px;
+        }
+        
+        /* Pull Quote */
+        .pull-quote {
+            background: var(--bg3);
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 25% 25%, rgba(255,255,255,0.02) 1px, transparent 1px),
+                radial-gradient(circle at 75% 75%, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        
+        .pull-quote::before {
+            content: '"';
+            font-family: 'Bebas Neue', cursive;
+            font-size: 200px;
+            color: var(--accent);
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.3;
+            z-index: 1;
+        }
+        
+        .pull-quote blockquote {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+        }
+        
+        .pull-quote cite {
+            font-size: 14px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-style: normal;
+        }
+        
+        /* Reviews Section */
+        .reviews {
+            background: var(--bg2);
+            padding: 100px 20px;
+        }
+        
+        .rating-badge {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .rating-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            line-height: 1;
+        }
+        
+        .rating-stars {
+            color: var(--accent);
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        
+        .rating-count {
+            color: var(--muted);
+            font-size: 16px;
+        }
+        
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 30px;
+        }
+        
+        .review-stars {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .review-text {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .review-author {
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        /* About Section */
+        .about {
+            background: var(--bg);
+            padding: 100px 20px;
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -100px;
+            padding-top: 200px;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 60px;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .about-image {
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: 0 0 60px var(--accent-glow);
+        }
+        
+        .about-text h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(40px, 6vw, 80px);
+            color: var(--text);
+            margin-bottom: 30px;
+            letter-spacing: 0.04em;
+            line-height: 1.1;
+        }
+        
+        .about-text p {
+            color: var(--muted);
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .trust-signal {
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .trust-signal strong {
+            color: var(--accent);
+        }
+        
+        /* Map */
+        .map-container {
+            margin: 60px 0;
+            text-align: center;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        
+        /* Contact Section */
+        .contact {
+            background: var(--bg2);
+            padding: 100px 20px;
+        }
+        
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .contact-info h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            margin-bottom: 10px;
+            letter-spacing: 0.04em;
+        }
+        
+        .contact-info h3 a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .contact-subtitle {
+            color: var(--muted);
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+        
+        .contact-details {
+            space-y: 20px;
+        }
+        
+        .contact-item {
+            margin-bottom: 25px;
+        }
+        
+        .contact-item h4 {
+            color: var(--text);
+            font-weight: 500;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+        
+        .contact-item p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+        
+        .hours-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+        }
+        
+        .hours-list li.today {
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .contact-form {
+            background: var(--card);
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: var(--accent-glow);
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: #050505;
+            text-align: center;
+            padding: 40px 20px 20px;
+            border-top: 1px solid var(--accent);
+        }
+        
+        .footer-logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            letter-spacing: 0.04em;
+        }
+        
+        .footer-info {
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+        
+        .footer-copyright {
+            color: var(--muted);
+            font-size: 14px;
+        }
+        
+        /* Floating Lead Widget */
+        .lead-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+        
+        .lead-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .lead-btn:hover {
+            background: var(--accent-glow);
+            transform: scale(1.05);
+        }
+        
+        .lead-logo {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .dismiss-btn {
+            background: var(--muted);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero {
+                background-attachment: scroll;
+                clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+            }
+            
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 280px;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+            
+            .gallery-item:first-child img {
+                height: 300px;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+            
+            .pull-quote::before {
+                font-size: 120px;
+            }
+            
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .lead-widget {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 18px;
+            }
+            
+            .lightbox-prev {
+                left: 15px;
+            }
+            
+            .lightbox-next {
+                right: 15px;
+            }
+            
+            .lightbox-close {
+                top: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Animation Classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stagger-delay-1 { transition-delay: 0.1s; }
+        .stagger-delay-2 { transition-delay: 0.2s; }
+        .stagger-delay-3 { transition-delay: 0.3s; }
+        .stagger-delay-4 { transition-delay: 0.4s; }
+        .stagger-delay-5 { transition-delay: 0.5s; }
+        .stagger-delay-6 { transition-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Scroll Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Urgency Banner -->
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+    
+    <!-- Sticky Header -->
+    <header class="header" id="header">
+        <div class="logo">Parker & Sons</div>
+        <a href="tel:(602) 424-9619" class="phone-btn">(602) 424-9619</a>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="line1" id="heroTitle1">Parker</span>
+                <span class="line2" id="heroTitle2">& Sons</span>
+            </h1>
+            <p>Phoenix handymen who actually show up and get it done right the first time</p>
+            <div class="hero-ctas">
+                <a href="tel:(602) 424-9619" class="btn btn-primary">CALL NOW</a>
+                <a href="#gallery" class="btn btn-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section class="services">
+        <div class="section-label animate-on-scroll">WHAT WE DO</div>
+        <h2 class="section-title animate-on-scroll">Built for Phoenix</h2>
+        
+        <div class="services-grid">
+            <div class="service-card animate-on-scroll stagger-delay-1">
+                <span class="icon">🔧</span>
+                <h3>Home Repairs</h3>
+                <p>Leaky faucets, squeaky doors, broken fixtures - we handle the small stuff that drives you crazy. Quick fixes that actually last because we do them properly.</p>
+            </div>
+            
+            <div class="service-card animate-on-scroll stagger-delay-2">
+                <span class="icon">🎨</span>
+                <h3>Interior Painting</h3>
+                <p>Fresh paint transforms your space instantly. We prep walls properly, use quality materials, and leave zero mess behind. Your neighbors will ask who did the work.</p>
+            </div>
+            
+            <div class="service-card animate-on-scroll stagger-delay-3">
+                <span class="icon">🚪</span>
+                <h3>Door & Window Services</h3>
+                <p>Installation, repair, weatherproofing - doors and windows that work perfectly and keep Phoenix heat where it belongs. Outside.</p>
+            </div>
+            
+            <div class="service-card animate-on-scroll stagger-delay-4">
+                <span class="icon">🔨</span>
+                <h3>Drywall & Patching</h3>
+                <p>Holes, cracks, water damage - we make walls look like nothing ever happened. Seamless repairs that blend invisibly with your existing walls.</p>
+            </div>
+            
+            <div class="service-card animate-on-scroll stagger-delay-5">
+                <span class="icon">📦</span>
+                <h3>Furniture Assembly</h3>
+                <p>IKEA nightmares become dreams. We assemble anything with instructions, mount TVs, install shelving. No leftover mysterious screws, guaranteed.</p>
+            </div>
+            
+            <div class="service-card animate-on-scroll stagger-delay-6">
+                <span class="icon">🏠</span>
+                <h3>Property Maintenance</h3>
+                <p>Regular upkeep that prevents small problems from becoming expensive disasters. We keep Phoenix properties running smoothly year-round.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Photo Gallery -->
+    <section class="gallery" id="gallery">
+        <h2 class="section-title animate-on-scroll">Our Work</h2>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item animate-on-scroll" onclick="openLightbox(0)">
+                <img src="parker-sons-photo-1.jpg" alt="Professional handyman repair work">
+                <div class="gallery-caption">
+                    <h4>Complete bathroom renovation</h4>
+                    <p>Full tile work and fixture replacement in Phoenix home</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item animate-on-scroll stagger-delay-1" onclick="openLightbox(1)">
+                <img src="parker-sons-photo-2.jpg" alt="Quality home repair services">
+                <div class="gallery-caption">
+                    <h4>Kitchen cabinet installation</h4>
+                    <p>Custom cabinetry and hardware mounting</p>
+                </div>
+            </div>
+            
+            <div class="gallery-item animate-on-scroll stagger-delay-2" onclick="openLightbox(2)">
+                <img src="parker-sons-photo-3.jpg" alt="Expert handyman craftsmanship">
+                <div class="gallery-caption">
+                    <h4>Interior painting project</h4>
+                    <p>Professional wall preparation and finish work</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-nav lightbox-prev" onclick="prevImage()">‹</button>
+        <img id="lightboxImg" src="" alt="">
+        <button class="lightbox-nav lightbox-next" onclick="nextImage()">›</button>
+    </div>
+    
+    <!-- Pull Quote -->
+    <section class="pull-quote">
+        <blockquote>Dave at Parker & Sons was AMAZING!!</blockquote>
+        <cite>Genesis Eve House</cite>
+    </section>
+    
+    <!-- Reviews Section -->
+    <section class="reviews">
+        <div class="rating-badge animate-on-scroll">
+            <div class="rating-number" id="ratingNumber">0</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count">32,897 Google Reviews</div>
+        </div>
+        
+        <div class="reviews-grid">
+            <div class="review-card animate-on-scroll stagger-delay-1">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Absolutely fantastic experience with these folks. Truly they are a professional team."</p>
+                <div class="review-author">Gwynne Sullivan</div>
+            </div>
+            
+            <div class="review-card animate-on-scroll stagger-delay-2">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Dave at Parker & Sons was AMAZING!! we had several mom and Pop plumbers. Come out to tell us what was wrong and charges for different jobs and still the job did not get fixed."</p>
+                <div class="review-author">Genesis Eve House</div>
+            </div>
+            
+            <div class="review-card animate-on-scroll stagger-delay-3">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"We purchased the whole house water Filter with soft water and RO for our kitchen at the same time I purchased a second RO for a future kitchen for my mother, which is now complete today they came out..."</p>
+                <div class="review-author">Kevin Rimel</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="about">
+        <div class="about-content">
+            <div class="about-image animate-on-scroll">
+                <img src="parker-sons-photo-2.jpg" alt="Parker & Sons handyman team">
+            </div>
+            
+            <div class="about-text">
+                <h2 class="animate-on-scroll">Phoenix's Most Trusted Handyman Crew</h2>
+                <p class="animate-on-scroll stagger-delay-1">We've been keeping Phoenix homes running smoothly for over two decades. While other handymen disappear after taking your deposit, we show up on time and finish every job completely.</p>
+                <p class="animate-on-scroll stagger-delay-2">Our team knows Phoenix properties inside and out - from dealing with desert heat damage to understanding local building codes. When you call Parker & Sons, you're getting craftsmen who take pride in their work and stand behind every repair.</p>
+                
+                <div class="trust-signals">
+                    <div class="trust-signal animate-on-scroll stagger-delay-3">
+                        <strong>25+ Years</strong><br>
+                        Serving Phoenix
+                    </div>
+                    <div class="trust-signal animate-on-scroll stagger-delay-4">
+                        <strong>32,897</strong><br>
+                        Google Reviews
+                    </div>
+                    <div class="trust-signal animate-on-scroll stagger-delay-5">
+                        <strong>Licensed</strong><br>
+                        & Insured
+                    </div>
+                    <div class="trust-signal animate-on-scroll stagger-delay-6">
+                        <strong>Available</strong><br>
+                        24/7
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="map-container animate-on-scroll">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.8!2d-112.0025!3d33.4078!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2z3636%20E%20Anne%20St%20A%2C%20Phoenix%2C%20AZ%2085040!5e0!3m2!1sen!2sus!4v1635959999999!5m2!1sen!2sus" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="contact">
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3><a href="tel:(602) 424-9619">(602) 424-9619</a></h3>
+                <p class="contact-subtitle">Call or text anytime</p>
+                
+                <div class="contact-details">
+                    <div class="contact-item animate-on-scroll">
+                        <h4>📍 Address</h4>
+                        <p>3636 E Anne St A<br>Phoenix, AZ 85040</p>
+                    </div>
+                    
+                    <div class="contact-item animate-on-scroll stagger-delay-1">
+                        <h4>🕒 Hours</h4>
+                        <ul class="hours-list">
+                            <li><span>Monday</span><span>Open 24 hours</span></li>
+                            <li><span>Tuesday</span><span>Open 24 hours</span></li>
+                            <li><span>Wednesday</span><span>Open 24 hours</span></li>
+                            <li><span>Thursday</span><span>Open 24 hours</span></li>
+                            <li><span>Friday</span><span>Open 24 hours</span></li>
+                            <li><span>Saturday</span><span>Open 24 hours</span></li>
+                            <li><span>Sunday</span><span>Open 24 hours</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <form class="contact-form animate-on-scroll" data-netlify="true" name="contact" action="/thank-you">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="Tell us about your project..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">Parker & Sons</div>
+        <div class="footer-info">(602) 424-9619 • 3636 E Anne St A, Phoenix, AZ 85040</div>
+        <div class="footer-copyright">© <span id="currentYear"></span> Parker & Sons. All rights reserved.</div>
+    </footer>
+    
+    <!-- Floating Lead Widget -->
+    <div class="lead-widget" id="leadWidget">
+        <button class="dismiss-btn" onclick="dismissWidget()">×</button>
+        <button class="lead-btn" onclick="contactAurigen()">
+            <span class="lead-logo">A</span>
+            Built by Aurigen
+        </button>
+    </div>
+    
+    <script>
+        // Favicon Generation
+        function generateFavicon() {
+            const svg = `<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <rect width="32" height="32" fill="#0a0a0a"/>
+                <text x="16" y="22" text-anchor="middle" fill="#4a90d9" font-family="Arial, sans-serif" font-size="20" font-weight="bold">P</text>
+            </svg>`;
+            const link = document.createElement('link');
+            link.type = 'image/svg+xml';
+            link.rel = 'icon';
+            link.href = 'data:image/svg+xml;base64,' + btoa(svg);
+            document.head.appendChild(link);
+        }
+        
+        // Loading Animation
+        function hideLoader() {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }, 800);
+        }
+        
+        // Scroll Progress Bar
+        function updateProgressBar() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+        }
+        
+        // Sticky Header
+        function handleStickyHeader() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('visible');
+            } else {
+                header.classList.remove('visible');
+            }
+        }
+        
+        // Hero Title Animation
+        function animateHeroTitle() {
+            const title1 = document.getElementById('heroTitle1').textContent;
+            const title2 = document.getElementById('heroTitle2').textContent;
+            
+            document.getElementById('heroTitle1').innerHTML = title1.split('').map((char, i) => 
+                `<span style="animation-delay: ${i * 30}ms">${char}</span>`
+            ).join('');
+            
+            document.getElementById('heroTitle2').innerHTML = title2.split('').map((char, i) => 
+                `<span style="animation-delay: ${(title1.length + i) * 30}ms">${char === ' ' ? '&nbsp;' : char}</span>`
+            ).join('');
+        }
+        
+        // Intersection Observer for Animations
+        function setupAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '-50px' });
+            
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        }
+        
+        // Rating Counter Animation
+        function animateRating() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = document.getElementById('ratingNumber');
+                        let start = 0;
+                        const end = 4.7;
+                        const increment = end / 100;
+                        const timer = setInterval(() => {
+                            start += increment;
+                            counter.textContent = start.toFixed(1);
+                            if (start >= end) {
+                                counter.textContent = '4.7';
+                                clearInterval(timer);
+                            }
+                        }, 20);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            });
+            
+            observer.observe(document.querySelector('.reviews'));
+        }
+        
+        // Lightbox Functionality
+        const images = ['parker-sons-photo-1.jpg', 'parker-sons-photo-2.jpg', 'parker-sons-photo-3.jpg'];
+        let currentImageIndex = 0;
+        
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightboxImg');
+            lightboxImg.src = images[index];
+            lightbox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('lightboxImg').src = images[currentImageIndex];
+        }
+        
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('lightboxImg').src = images[currentImageIndex];
+        }
+        
+        // Today's Hours Highlighting
+        function highlightTodaysHours() {
+            const today = new Date().getDay();
+            const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const todayName = dayNames[today];
+            
+            const hoursList = document.querySelectorAll('.hours-list li');
+            hoursList.forEach(li => {
+                if (li.querySelector('span').textContent === todayName) {
+                    li.classList.add('today');
+                }
+            });
+        }
+        
+        // Lead Widget Functions
+        function contactAurigen() {
+            const subject = encodeURIComponent('I want a site like Parker & Sons');
+            window.open(`mailto:Landonbrewington12@gmail.com?subject=${subject}`, '_blank');
+        }
+        
+        function dismissWidget() {
+            document.getElementById('leadWidget').style.display = 'none';
+            sessionStorage.setItem('widgetDismissed', 'true');
+        }
+        
+        function checkWidgetDismissal() {
+            if (sessionStorage.getItem('widgetDismissed')) {
+                document.getElementById('leadWidget').style.display = 'none';
+            }
+        }
+        
+        // Current Year in Footer
+        function setCurrentYear() {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        }
+        
+        // Event Listeners
+        window.addEventListener('scroll', () => {
+            updateProgressBar();
+            handleStickyHeader();
+        });
+        
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+        
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('lightbox')) {
+                closeLightbox();
+            }
+        });
+        
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', () => {
+            generateFavicon();
+            hideLoader();
+            animateHeroTitle();
+            setupAnimations();
+            animateRating();
+            highlightTodaysHours();
+            checkWidgetDismissal();
+            setCurrentYear();
+        });
+    </script>
+</body>
+</html>

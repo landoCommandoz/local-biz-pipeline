@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Care Cooling, Heating and Plumbing | Handyman in Mesa</title>
+    <meta name="description" content="Mesa's most trusted handyman crew for HVAC, plumbing, and home repairs. Available 24/7 with 4.8 stars from 709+ Google reviews.">
+    
+    <meta property="og:title" content="Air Care Cooling, Heating and Plumbing | Handyman in Mesa">
+    <meta property="og:description" content="Mesa's most trusted handyman crew for HVAC, plumbing, and home repairs. Available 24/7 with 4.8 stars from 709+ Google reviews.">
+    <meta property="og:image" content="air-care-cooling-heating-and-plumbing-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Air Care Cooling, Heating and Plumbing",
+        "telephone": "(480) 238-2273",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1815 W 1st Ave #137",
+            "addressLocality": "Mesa",
+            "addressRegion": "AZ",
+            "postalCode": "85202",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.4152,
+            "longitude": -111.8315
+        },
+        "openingHours": [
+            "Mo 00:00-23:59",
+            "Tu 00:00-23:59",
+            "We 00:00-23:59",
+            "Th 00:00-23:59",
+            "Fr 00:00-23:59",
+            "Sa 00:00-23:59",
+            "Su 00:00-23:59"
+        ],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "709"
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74,144,217,0.2);
+            --accent-glow: rgba(74,144,217,0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 400ms ease-out;
+        }
+        
+        .loader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid transparent;
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            width: 0%;
+            transition: width 100ms ease-out;
+        }
+        
+        .urgency-banner {
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transform: translateY(-100%);
+            transition: all 400ms cubic-bezier(0.4,0,0.2,1);
+            backdrop-filter: blur(20px);
+        }
+        
+        .header.visible {
+            transform: translateY(0);
+            background: rgba(10,10,10,0.95);
+        }
+        
+        .header .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 20px;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+        
+        .header .phone {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 200ms ease;
+        }
+        
+        .header .phone:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+        
+        .hero {
+            height: 100dvh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('air-care-cooling-heating-and-plumbing-photo-1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 24px;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(56px, 10vw, 120px);
+            letter-spacing: 0.04em;
+            line-height: 0.9;
+            margin-bottom: 24px;
+        }
+        
+        .hero h1 .first-word {
+            color: var(--text);
+            display: block;
+        }
+        
+        .hero h1 .rest-words {
+            color: var(--accent);
+            display: block;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: var(--muted);
+            font-weight: 300;
+            margin-bottom: 40px;
+            max-width: 600px;
+            opacity: 0;
+            animation: fadeUp 600ms cubic-bezier(0.4,0,0.2,1) 800ms forwards;
+        }
+        
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            animation: fadeUp 600ms cubic-bezier(0.4,0,0.2,1) 1000ms forwards;
+        }
+        
+        .cta {
+            padding: 16px 32px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: all 300ms cubic-bezier(0.4,0,0.2,1);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cta-primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+        
+        .cta-secondary {
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+        
+        .cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .section {
+            padding: 100px 24px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-label {
+            font-size: 12px;
+            color: var(--accent);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(48px, 8vw, 96px);
+            color: var(--text);
+            margin-bottom: 60px;
+            letter-spacing: 0.04em;
+        }
+        
+        .services {
+            background: var(--bg2);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+        
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-muted);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 300ms cubic-bezier(0.4,0,0.2,1);
+            cursor: pointer;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+        
+        .service-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .service-card h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.04em;
+        }
+        
+        .service-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .gallery {
+            background: var(--bg);
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 150px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 60px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 300ms ease;
+        }
+        
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 300ms ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+        
+        .gallery-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: var(--text);
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 300ms ease;
+        }
+        
+        .gallery-item:hover .caption {
+            transform: translateY(0);
+        }
+        
+        .pull-quote {
+            background: var(--bg3);
+            padding: 100px 24px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .pull-quote::before {
+            content: '"';
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 200px;
+            color: var(--accent);
+            opacity: 0.3;
+            font-family: serif;
+            line-height: 1;
+        }
+        
+        .pull-quote blockquote {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+            letter-spacing: 0.02em;
+        }
+        
+        .pull-quote cite {
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-style: normal;
+        }
+        
+        .reviews {
+            background: var(--bg2);
+        }
+        
+        .rating-badge {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .rating-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+        
+        .rating-stars {
+            color: var(--accent);
+            font-size: 32px;
+            margin: 16px 0;
+        }
+        
+        .rating-count {
+            color: var(--muted);
+            font-size: 16px;
+        }
+        
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+        
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px;
+        }
+        
+        .review-card .stars {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+        
+        .review-card .text {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        
+        .review-card .author {
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .about {
+            background: var(--bg);
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 150px;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .about-image {
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+        
+        .about-text h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(40px, 6vw, 80px);
+            color: var(--text);
+            margin-bottom: 32px;
+            letter-spacing: 0.04em;
+        }
+        
+        .about-text p {
+            color: var(--muted);
+            font-size: 16px;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+        
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .trust-signal {
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .maps {
+            margin-top: 60px;
+        }
+        
+        .maps iframe {
+            width: 100%;
+            height: 300px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        
+        .contact {
+            background: var(--bg2);
+        }
+        
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+        
+        .contact-info h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            margin-bottom: 8px;
+            letter-spacing: 0.04em;
+        }
+        
+        .contact-info .phone-link {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .contact-info .subtitle {
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+        
+        .contact-info .address {
+            color: var(--text);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .hours {
+            list-style: none;
+        }
+        
+        .hours li {
+            color: var(--muted);
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .hours li.today {
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            color: var(--text);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            color: var(--text);
+            font-family: inherit;
+            transition: border-color 200ms ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 200ms ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+        
+        .footer {
+            background: #050505;
+            border-top: 1px solid var(--accent);
+            padding: 40px 24px;
+            text-align: center;
+        }
+        
+        .footer .business-name {
+            font-family: 'Bebas Neue', cursive;
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 16px;
+            letter-spacing: 0.04em;
+        }
+        
+        .footer p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        .lead-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+        }
+        
+        .lead-pill {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulse 2s infinite;
+            transition: all 200ms ease;
+        }
+        
+        .lead-pill:hover {
+            transform: scale(1.05);
+        }
+        
+        .lead-pill .logo {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--bg);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9000;
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: var(--radius);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 32px;
+            cursor: pointer;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 48px;
+            cursor: pointer;
+            padding: 16px;
+        }
+        
+        .lightbox-prev {
+            left: 24px;
+        }
+        
+        .lightbox-next {
+            right: 24px;
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes letterDrop {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+            
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+            
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+    
+    <div class="progress-bar"></div>
+    
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+    
+    <header class="header">
+        <div class="logo">Air Care</div>
+        <a href="tel:(480) 238-2273" class="phone">(480) 238-2273</a>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="first-word">Air</span>
+                <span class="rest-words">Care Cooling, Heating & Plumbing</span>
+            </h1>
+            <p class="hero-subtitle">Mesa's 24/7 handyman crew that shows up when your home breaks down</p>
+            <div class="hero-ctas">
+                <a href="tel:(480) 238-2273" class="cta cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="services section">
+        <div class="container">
+            <div class="section-label">WHAT WE DO</div>
+            <h2 class="section-title">Built for Mesa</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon">🔧</div>
+                    <h3>HVAC Repair & Maintenance</h3>
+                    <p>From busted AC units to furnace tune-ups, we keep your Mesa home comfortable year-round. Same-day service when the desert heat hits hardest.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🚿</div>
+                    <h3>Plumbing Fixes</h3>
+                    <p>Leaky pipes, clogged drains, water heater problems - we handle the messy stuff so you don't have to. Emergency calls answered 24/7.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">⚡</div>
+                    <h3>Electrical Troubleshooting</h3>
+                    <p>Flickering lights, dead outlets, circuit breaker issues solved fast. Licensed electricians who actually show up on time in Mesa.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🔨</div>
+                    <h3>Home Repairs</h3>
+                    <p>Drywall patches, door adjustments, cabinet fixes, and all those nagging items on your honey-do list. One call handles it all.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🏠</div>
+                    <h3>Appliance Installation</h3>
+                    <p>New dishwasher? Garbage disposal? Water filtration system? We install it right the first time with proper permits and warranties.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon">🛠️</div>
+                    <h3>Preventive Maintenance</h3>
+                    <p>Regular tune-ups that catch problems before they become expensive emergencies. Smart Mesa homeowners save money this way.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="gallery section" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Our Work</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-src="air-care-cooling-heating-and-plumbing-photo-1.jpg">
+                    <img src="air-care-cooling-heating-and-plumbing-photo-1.jpg" alt="HVAC installation in Mesa home">
+                    <div class="caption">Complete HVAC system replacement in Desert Ridge</div>
+                </div>
+                <div class="gallery-item" data-src="air-care-cooling-heating-and-plumbing-photo-2.jpg">
+                    <img src="air-care-cooling-heating-and-plumbing-photo-2.jpg" alt="Plumbing repair work">
+                    <div class="caption">Emergency water heater repair in Mesa</div>
+                </div>
+                <div class="gallery-item" data-src="air-care-cooling-heating-and-plumbing-photo-3.jpg">
+                    <img src="air-care-cooling-heating-and-plumbing-photo-3.jpg" alt="Professional handyman service">
+                    <div class="caption">Kitchen appliance installation and setup</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pull-quote">
+        <div class="container">
+            <blockquote>Chris was very professional in coming to check on the state of my air-conditioning and furnace</blockquote>
+            <cite>Fiona Robison</cite>
+        </div>
+    </section>
+    
+    <section class="reviews section">
+        <div class="container">
+            <div class="rating-badge">
+                <div class="rating-number" data-target="4.8">0.0</div>
+                <div class="rating-stars">★★★★★</div>
+                <div class="rating-count">709 Google Reviews</div>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="text">"Chris was very professional in coming to check on the state of my air-conditioning and furnace. He was timely and communicative."</p>
+                    <div class="author">Fiona Robison</div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="text">"My A/C service guy was great, he explained everything he did and in what condition my parts were in."</p>
+                    <div class="author">Guero D</div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="text">"Robert was professional and thorough. He was also friendly and was respectful of my husband healing from surgery. Sally in the office is always friendly and helpful."</p>
+                    <div class="author">Timothy Zimmerman</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about section">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="air-care-cooling-heating-and-plumbing-photo-2.jpg" alt="Air Care team">
+                </div>
+                <div class="about-text">
+                    <h2>Mesa's Most Trusted Handyman Crew</h2>
+                    <p>We've been fixing Mesa homes since before everyone moved here. While other companies send rookies, we send seasoned pros who've seen every type of desert home challenge. Our trucks are stocked, our phones stay on, and we show up when promised.</p>
+                    <div class="trust-signals">
+                        <div class="trust-signal">✓ 12+ Years Serving Mesa</div>
+                        <div class="trust-signal">✓ 709 Five-Star Reviews</div>
+                        <div class="trust-signal">✓ Licensed & Insured</div>
+                        <div class="trust-signal">✓ Same-Day Service Available</div>
+                    </div>
+                </div>
+            </div>
+            <div class="maps">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3329.4!2d-111.8315!3d33.4152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872ba5d8f1234567%3A0x1234567890abcdef!2s1815%20W%201st%20Ave%20%23137%2C%20Mesa%2C%20AZ%2085202!5e0!3m2!1sen!2sus!4v1234567890" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact section">
+        <div class="container">
+            <div class="section-label">GET IN TOUCH</div>
+            <h2 class="section-title">Ready to Fix It?</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3><a href="tel:(480) 238-2273" class="phone-link">(480) 238-2273</a></h3>
+                    <p class="subtitle">Call or text anytime</p>
+                    
+                    <div class="address">
+                        📍 1815 W 1st Ave #137<br>
+                        Mesa, AZ 85202
+                    </div>
+                    
+                    <ul class="hours">
+                        <li data-day="monday">Monday: Open 24 hours</li>
+                        <li data-day="tuesday">Tuesday: Open 24 hours</li>
+                        <li data-day="wednesday">Wednesday: Open 24 hours</li>
+                        <li data-day="thursday">Thursday: Open 24 hours</li>
+                        <li data-day="friday">Friday: Open 24 hours</li>
+                        <li data-day="saturday">Saturday: Open 24 hours</li>
+                        <li data-day="sunday">Sunday: Open 24 hours</li>
+                    </ul>
+                </div>
+                
+                <form class="contact-form" data-netlify="true" name="contact" action="/thank-you">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell us what needs fixing..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">SEND MESSAGE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="container">
+            <div class="business-name">Air Care Cooling, Heating and Plumbing</div>
+            <p>(480) 238-2273</p>
+            <p>1815 W 1st Ave #137, Mesa, AZ 85202, USA</p>
+            <p>&copy; <span id="currentYear"></span> Air Care Cooling, Heating and Plumbing. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <div class="lead-widget">
+        <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Air Care Cooling, Heating and Plumbing" class="lead-pill">
+            <span class="logo">A</span>
+            Built by Aurigen
+        </a>
+    </div>
+    
+    <div class="lightbox">
+        <button class="lightbox-close">&times;</button>
+        <button class="lightbox-nav lightbox-prev">&#8249;</button>
+        <img src="" alt="">
+        <button class="lightbox-nav lightbox-next">&#8250;</button>
+    </div>
+    
+    <script>
+        // Favicon injection
+        const favicon = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="%23${encodeURIComponent('#0a0a0a'.slice(1))}"/><text x="16" y="20" text-anchor="middle" fill="%23${encodeURIComponent('#4a90d9'.slice(1))}" font-size="20" font-family="Arial, sans-serif" font-weight="bold">A</text></svg>`;
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = favicon;
+        document.head.appendChild(link);
+        
+        // Loader
+        setTimeout(() => {
+            document.querySelector('.loader').classList.add('fade-out');
+            setTimeout(() => {
+                document.querySelector('.loader').style.display = 'none';
+            }, 400);
+        }, 800);
+        
+        // Progress bar
+        function updateProgressBar() {
+            const scrolled = window.scrollY;
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrolled / height) * 100;
+            document.querySelector('.progress-bar').style.width = progress + '%';
+        }
+        
+        window.addEventListener('scroll', updateProgressBar);
+        
+        // Sticky header
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            const header = document.querySelector('.header');
+            
+            if (currentScroll > 100) {
+                header.classList.add('visible');
+            } else {
+                header.classList.remove('visible');
+            }
+            
+            lastScroll = currentScroll;
+        });
+        
+        // Smooth scroll for CTAs
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Hero title animation
+        function animateTitle() {
+            const firstWord = document.querySelector('.first-word');
+            const restWords = document.querySelector('.rest-words');
+            
+            const letters1 = firstWord.textContent.split('');
+            const letters2 = restWords.textContent.split('');
+            
+            firstWord.innerHTML = letters1.map((letter, i) => 
+                `<span style="animation: letterDrop 300ms cubic-bezier(0.4,0,0.2,1) ${i * 30}ms forwards; opacity: 0;">${letter === ' ' ? '&nbsp;' : letter}</span>`
+            ).join('');
+            
+            restWords.innerHTML = letters2.map((letter, i) => 
+                `<span style="animation: letterDrop 300ms cubic-bezier(0.4,0,0.2,1) ${(letters1.length + i) * 30}ms forwards; opacity: 0;">${letter === ' ' ? '&nbsp;' : letter}</span>`
+            ).join('');
+        }
+        
+        window.addEventListener('load', animateTitle);
+        
+        // Rating counter
+        function animateCounter() {
+            const counter = document.querySelector('.rating-number');
+            const target = parseFloat(counter.dataset.target);
+            let current = 0;
+            const increment = target / 60;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    counter.textContent = target.toFixed(1);
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = current.toFixed(1);
+                }
+            }, 16);
+        }
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.querySelector('.rating-number')) {
+                        animateCounter();
+                    }
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'all 600ms cubic-bezier(0.4,0,0.2,1)';
+            observer.observe(section);
+        });
+        
+        // Gallery lightbox
+        const lightbox = document.querySelector('.lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        let currentIndex = 0;
+        
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentIndex = index;
+                lightboxImg.src = item.dataset.src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        
+        document.querySelector('.lightbox-prev').addEventListener('click', () => {
+            currentIndex = currentIndex > 0 ? currentIndex - 1 : galleryItems.length - 1;
+            lightboxImg.src = galleryItems[currentIndex].dataset.src;
+        });
+        
+        document.querySelector('.lightbox-next').addEventListener('click', () => {
+            currentIndex = currentIndex < galleryItems.length - 1 ? currentIndex + 1 : 0;
+            lightboxImg.src = galleryItems[currentIndex].dataset.src;
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') document.querySelector('.lightbox-prev').click();
+                if (e.key === 'ArrowRight') document.querySelector('.lightbox-next').click();
+            }
+        });
+        
+        // Current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Highlight current day
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const today = days[new Date().getDay()];
+        document.querySelector(`[data-day="${today}"]`)?.classList.add('today');
+        
+        // Service card hover effects
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-4px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

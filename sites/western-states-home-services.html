@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Western States Home Services | Handyman in Mesa</title>
+    <meta name="description" content="Mesa's most trusted handyman crew with 4.9 stars from 1510+ Google reviews. Available 24/7 for all your home repairs, installations, and maintenance needs.">
+    
+    <meta property="og:title" content="Western States Home Services | Handyman in Mesa">
+    <meta property="og:description" content="Mesa's most trusted handyman crew with 4.9 stars from 1510+ Google reviews. Available 24/7 for all your home repairs, installations, and maintenance needs.">
+    <meta property="og:image" content="western-states-home-services-photo-1.png">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74,144,217,0.2);
+            --accent-glow: rgba(74,144,217,0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.8s ease-out;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid transparent;
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.2s ease-out;
+        }
+        
+        .urgency-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
+            color: var(--text);
+            z-index: 9998;
+            transition: transform 0.3s ease-out;
+        }
+        
+        .urgency-banner.hidden {
+            transform: translateY(-100%);
+        }
+        
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9997;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-out;
+        }
+        
+        .sticky-header.visible {
+            transform: translateY(28px);
+        }
+        
+        .header-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+        
+        .header-phone {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+        
+        .header-phone:hover {
+            transform: translateY(-2px);
+        }
+        
+        .hero {
+            height: 100dvh;
+            background-image: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('western-states-home-services-photo-1.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            padding: 0 2rem;
+        }
+        
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 10vw, 120px);
+            letter-spacing: 0.04em;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: heroTitle 1s ease-out 0.2s forwards;
+        }
+        
+        .hero h1 .first-word {
+            color: var(--text);
+            display: block;
+        }
+        
+        .hero h1 .rest-words {
+            color: var(--accent);
+            display: block;
+        }
+        
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out 0.6s forwards;
+        }
+        
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeUp 0.8s ease-out 1s forwards;
+        }
+        
+        .cta-primary {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 0.75rem 2rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-2px);
+        }
+        
+        .cta-secondary {
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.75rem 2rem;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        
+        .cta-secondary:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        @keyframes heroTitle {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        
+        section {
+            padding: 6rem 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .services {
+            background: var(--bg2);
+        }
+        
+        .section-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            margin-bottom: 3rem;
+            color: var(--text);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            border-left: 3px solid var(--accent-muted);
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .service-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        
+        .service-card p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        
+        .gallery {
+            background: var(--bg);
+            clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 8rem;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:first-child img {
+            height: 600px;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-item:hover img {
+            filter: brightness(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: var(--text);
+            padding: 2rem 1rem 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--text);
+            font-size: 2rem;
+            padding: 1rem;
+            cursor: pointer;
+            border-radius: var(--radius);
+        }
+        
+        .lightbox-prev {
+            left: 2rem;
+        }
+        
+        .lightbox-next {
+            right: 2rem;
+        }
+        
+        .pull-quote {
+            background: var(--bg3);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%23ffffff' fill-opacity='0.02' d='m0,0h2v2h-2zm2,2h2v2h-2z'/%3E%3C/svg%3E");
+            text-align: center;
+            position: relative;
+        }
+        
+        .pull-quote::before {
+            content: '"';
+            font-size: 200px;
+            color: var(--accent);
+            position: absolute;
+            top: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: serif;
+            opacity: 0.3;
+        }
+        
+        .pull-quote blockquote {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .pull-quote cite {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--muted);
+            font-style: normal;
+        }
+        
+        .reviews {
+            background: var(--bg2);
+        }
+        
+        .rating-badge {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .rating-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            line-height: 1;
+        }
+        
+        .rating-stars {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rating-count {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+        
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 2rem;
+        }
+        
+        .review-stars {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .review-text {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .review-author {
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .about {
+            background: var(--bg);
+            clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 8rem;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 4rem;
+            align-items: center;
+        }
+        
+        .about-image {
+            position: relative;
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            box-shadow: 0 0 60px var(--accent-glow);
+        }
+        
+        .about-text h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 6vw, 80px);
+            margin-bottom: 1.5rem;
+            color: var(--text);
+        }
+        
+        .about-text p {
+            color: var(--muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .trust-signal {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .trust-signal strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        
+        .map-embed {
+            margin: 3rem 0;
+        }
+        
+        .map-embed iframe {
+            width: 100%;
+            height: 300px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+        
+        .contact {
+            background: var(--bg2);
+        }
+        
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+        
+        .contact-info h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .contact-subtitle {
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+        
+        .contact-item {
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-item strong {
+            color: var(--text);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hours-list {
+            list-style: none;
+        }
+        
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .hours-list li.today {
+            color: var(--accent);
+        }
+        
+        .contact-form {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .form-submit:hover {
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            background: #050505;
+            border-top: 1px solid var(--accent);
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .footer-info {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+        
+        .footer-info a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .lead-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 9000;
+        }
+        
+        .widget-button {
+            background: var(--bg2);
+            border: 1px solid var(--accent);
+            color: var(--text);
+            padding: 0.75rem 1rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .widget-button:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+        
+        .widget-logo {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 0.75rem;
+            color: var(--bg);
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 var(--accent-glow); }
+            70% { box-shadow: 0 0 0 10px transparent; }
+            100% { box-shadow: 0 0 0 0 transparent; }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            section {
+                padding: 4rem 1rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+            
+            .gallery-item:first-child img {
+                height: 300px;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .cta-primary,
+            .cta-secondary {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .sticky-header {
+                padding: 1rem;
+            }
+            
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Western States Home Services",
+        "telephone": "(480) 531-8858",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "3065 N Norfolk",
+            "addressLocality": "Mesa",
+            "addressRegion": "AZ",
+            "postalCode": "85215",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.4734,
+            "longitude": -111.8309
+        },
+        "openingHours": "Mo-Su 00:00-23:59",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "1510"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+    
+    <div class="scroll-progress"></div>
+    
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+    
+    <header class="sticky-header">
+        <div class="header-logo">Western States</div>
+        <a href="tel:+14805318858" class="header-phone">(480) 531-8858</a>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="first-word">Western</span>
+                <span class="rest-words">States Home Services</span>
+            </h1>
+            <p>Mesa's go-to crew for every fix, install, and repair your home throws at you</p>
+            <div class="hero-ctas">
+                <a href="tel:+14805318858" class="cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="services fade-in">
+        <div class="container">
+            <div class="section-label">WHAT WE DO</div>
+            <h2 class="section-title">Built for Mesa</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">🔧</span>
+                    <h3>General Repairs</h3>
+                    <p>From squeaky doors to broken fixtures, we handle every household headache. No job too small, no repair too tricky for our experienced Mesa crew.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🔨</span>
+                    <h3>Furniture Assembly</h3>
+                    <p>Skip the frustration of confusing instructions and missing screws. We'll have your furniture assembled properly and rock-solid in no time.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🖼️</span>
+                    <h3>TV Mounting</h3>
+                    <p>Perfect placement, hidden cables, secure installation. We mount TVs the right way so you never worry about expensive equipment falling.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🚿</span>
+                    <h3>Fixture Installation</h3>
+                    <p>Ceiling fans, light fixtures, faucets, and more. Professional installation that works perfectly and looks clean from day one.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🏠</span>
+                    <h3>Home Maintenance</h3>
+                    <p>Regular upkeep keeps small problems from becoming big expenses. We maintain your Mesa home so it stays in peak condition.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🔩</span>
+                    <h3>Custom Projects</h3>
+                    <p>Shelving, storage solutions, and custom installations tailored to your space. If you can dream it, we can build it right.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="gallery fade-in" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Our Work</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-index="0">
+                    <img src="western-states-home-services-photo-1.png" alt="Professional handyman work">
+                    <div class="gallery-caption">Complete bathroom fixture installation with custom tile work</div>
+                </div>
+                <div class="gallery-item" data-index="1">
+                    <img src="western-states-home-services-photo-2.jpg" alt="Home repair project">
+                    <div class="gallery-caption">Kitchen cabinet repair and hardware upgrade</div>
+                </div>
+                <div class="gallery-item" data-index="2">
+                    <img src="western-states-home-services-photo-3.jpg" alt="Installation service">
+                    <div class="gallery-caption">Living room TV mount with custom entertainment center</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pull-quote fade-in">
+        <div class="container">
+            <blockquote>Very polite, very knowledgeable, and very efficient</blockquote>
+            <cite>Jacob Sampson</cite>
+        </div>
+    </section>
+    
+    <section class="reviews fade-in">
+        <div class="container">
+            <div class="rating-badge">
+                <div class="rating-number" data-target="4.9">0</div>
+                <div class="rating-stars">★★★★★</div>
+                <div class="rating-count">1510 Google reviews</div>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">"They've done it again. We've had our units under warranty with Western States for a few years now. We had Jason come out for routine maintenance and he was amazing."</div>
+                    <div class="review-author">Sara Ramos</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">"Western States Home Services represented by Jason is an exceptionally good company. Jason went through the options of air conditioning equipment and finance services very clearly and thoroughly."</div>
+                    <div class="review-author">Phillip Walker</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">"Yonathan and his crew did an excellent job installing a new unit in our home. Very polite, very knowledgeable, and very efficient. They were done an hour earlier than they originally told me."</div>
+                    <div class="review-author">Jacob Sampson</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about fade-in">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="western-states-home-services-photo-2.jpg" alt="Western States Home Services team">
+                </div>
+                <div class="about-text">
+                    <h2>Mesa's Most Trusted Handyman Crew</h2>
+                    <p>We're the team Mesa homeowners call when they need it done right the first time. With over 1500 five-star reviews, we've earned our reputation by showing up on time, working clean, and never leaving a job half-finished. From quick fixes to major installations, we treat every Mesa home like it's our own.</p>
+                    <div class="trust-signals">
+                        <div class="trust-signal">
+                            <strong>8+ Years</strong>
+                            Serving Mesa
+                        </div>
+                        <div class="trust-signal">
+                            <strong>1510+</strong>
+                            Google Reviews
+                        </div>
+                        <div class="trust-signal">
+                            <strong>Licensed</strong>
+                            & Insured
+                        </div>
+                        <div class="trust-signal">
+                            <strong>Mesa</strong>
+                            & Surrounding
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="map-embed">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3334.7!2d-111.8309!3d33.4734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872ba7d2f3e8a3b1%3A0x8c8c8c8c8c8c8c8c!2s3065%20N%20Norfolk%2C%20Mesa%2C%20AZ%2085215!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" loading="lazy" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+    
+    <section class="contact fade-in">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3><a href="tel:+14805318858">(480) 531-8858</a></h3>
+                    <p class="contact-subtitle">Call or text anytime</p>
+                    
+                    <div class="contact-item">
+                        <strong>📍 Address</strong>
+                        3065 N Norfolk, Mesa, AZ 85215
+                    </div>
+                    
+                    <div class="contact-item">
+                        <strong>🕒 Hours</strong>
+                        <ul class="hours-list">
+                            <li data-day="monday"><span>Monday</span><span>Open 24 hours</span></li>
+                            <li data-day="tuesday"><span>Tuesday</span><span>Open 24 hours</span></li>
+                            <li data-day="wednesday"><span>Wednesday</span><span>Open 24 hours</span></li>
+                            <li data-day="thursday"><span>Thursday</span><span>Open 24 hours</span></li>
+                            <li data-day="friday"><span>Friday</span><span>Open 24 hours</span></li>
+                            <li data-day="saturday"><span>Saturday</span><span>Open 24 hours</span></li>
+                            <li data-day="sunday"><span>Sunday</span><span>Open 24 hours</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <form class="contact-form" data-netlify="true" name="contact" action="/thank-you">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="Tell us about your project..." required></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">SEND MESSAGE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-logo">Western States Home Services</div>
+            <div class="footer-info">
+                <a href="tel:+14805318858">(480) 531-8858</a> • 3065 N Norfolk, Mesa, AZ 85215<br>
+                <span id="copyright-year"></span> Western States Home Services. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    
+    <div class="lead-widget">
+        <a href="mailto:Landonbrewington12@gmail.com?subject=I%20want%20a%20site%20like%20Western%20States%20Home%20Services" class="widget-button">
+            <span class="widget-logo">A</span>
+            Built by Aurigen
+        </a>
+    </div>
+    
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-nav lightbox-prev" onclick="prevImage()">❮</button>
+        <img id="lightbox-img" src="" alt="">
+        <button class="lightbox-nav lightbox-next" onclick="nextImage()">❯</button>
+    </div>
+    
+    <script>
+        // Favicon generation
+        const favicon = document.createElement('link');
+        favicon.rel = 'icon';
+        favicon.href = `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%23${getComputedStyle(document.documentElement).getPropertyValue('--bg').slice(1)}'/><text y='70' x='50' text-anchor='middle' font-size='60' fill='%234a90d9' font-family='Arial,sans-serif' font-weight='bold'>W</text></svg>`;
+        document.head.appendChild(favicon);
+        
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hidden');
+            }, 800);
+        });
+        
+        // Scroll progress
+        function updateScrollProgress() {
+            const scrolled = window.pageYOffset;
+            const maxHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrolled / maxHeight) * 100;
+            document.querySelector('.scroll-progress').style.width = progress + '%';
+        }
+        
+        // Sticky header
+        function updateStickyHeader() {
+            const header = document.querySelector('.sticky-header');
+            const banner = document.querySelector('.urgency-banner');
+            
+            if (window.pageYOffset > 100) {
+                header.classList.add('visible');
+                banner.classList.add('hidden');
+            } else {
+                header.classList.remove('visible');
+                banner.classList.remove('hidden');
+            }
+        }
+        
+        // Rating counter
+        function animateRating() {
+            const ratingElement = document.querySelector('[data-target="4.9"]');
+            const target = 4.9;
+            let current = 0;
+            const increment = target / 100;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                ratingElement.textContent = current.toFixed(1);
+                if (current >= target) {
+                    ratingElement.textContent = target;
+                    clearInterval(timer);
+                }
+            }, 20);
+        }
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Trigger rating animation
+                    if (entry.target.querySelector('[data-target="4.9"]')) {
+                        animateRating();
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        // Observe fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Today's hours highlighting
+        const today = new Date().getDay();
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const todayElement = document.querySelector(`[data-day="${days[today]}"]`);
+        if (todayElement) {
+            todayElement.classList.add('today');
+        }
+        
+        // Lightbox functionality
+        let currentImageIndex = 0;
+        const images = ['western-states-home-services-photo-1.png', 'western-states-home-services-photo-2.jpg', 'western-states-home-services-photo-3.jpg'];
+        
+        function openLightbox(index) {
+            currentImageIndex = index;
+            document.getElementById('lightbox').classList.add('active');
+            document.getElementById('lightbox-img').src = images[index];
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('lightbox-img').src = images[currentImageIndex];
+        }
+        
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('lightbox-img').src = images[currentImageIndex];
+        }
+        
+        // Gallery click handlers
+        document.querySelectorAll('.gallery-item').forEach((item, index) => {
+            item.addEventListener('click', () => openLightbox(index));
+        });
+        
+        // Lightbox keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('lightbox').classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') nextImage();
+            }
+        });
+        
+        // Click outside to close lightbox
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) {
+                closeLightbox();
+            }
+        });
+        
+        // Copyright year
+        document.getElementById('copyright-year').textContent = new Date().getFullYear() + '©';
+        
+        // Scroll event listeners
+        window.addEventListener('scroll', () => {
+            updateScrollProgress();
+            updateStickyHeader();
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

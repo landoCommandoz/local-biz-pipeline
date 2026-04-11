@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cactus Plumbing And Air | Handyman in Scottsdale</title>
+    <meta name="description" content="Scottsdale's most trusted handyman crew for plumbing, air conditioning, and home repairs. Available 24/7 with 4.9 stars from 359 Google reviews.">
+    <meta property="og:title" content="Cactus Plumbing And Air | Handyman in Scottsdale">
+    <meta property="og:description" content="Scottsdale's most trusted handyman crew for plumbing, air conditioning, and home repairs. Available 24/7 with 4.9 stars from 359 Google reviews.">
+    <meta property="og:image" content="cactus-plumbing-and-air-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Cactus Plumbing And Air",
+        "telephone": "(480) 418-9912",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "6730 E McDowell Rd #129",
+            "addressLocality": "Scottsdale",
+            "addressRegion": "AZ",
+            "postalCode": "85257",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "33.4642",
+            "longitude": "-111.9137"
+        },
+        "openingHours": "Mo-Su 00:00-24:00",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "359"
+        }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74,144,217,0.2);
+            --accent-glow: rgba(74,144,217,0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid transparent;
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* Urgency Banner */
+        .urgency-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: var(--text);
+            z-index: 999;
+            transition: transform 0.3s ease;
+        }
+
+        .urgency-banner.hidden {
+            transform: translateY(-100%);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 998;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .sticky-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        .header-logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 20px;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+
+        .header-cta {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .header-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100dvh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('cactus-plumbing-and-air-photo-1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 24px;
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(56px, 10vw, 120px);
+            line-height: 1;
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+        }
+
+        .hero-title .first-word {
+            display: block;
+            color: var(--text);
+        }
+
+        .hero-title .rest-words {
+            display: block;
+            color: var(--accent);
+        }
+
+        .hero-title span {
+            display: inline-block;
+            opacity: 0;
+            animation: letterDrop 0.6s ease forwards;
+        }
+
+        @keyframes letterDrop {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.4s forwards;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.6s forwards;
+        }
+
+        .cta-primary, .cta-secondary {
+            padding: 16px 32px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 0.05em;
+            font-size: 18px;
+        }
+
+        .cta-primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .cta-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+
+        /* Services Section */
+        .services {
+            background: var(--bg2);
+            padding: 120px 24px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(48px, 8vw, 96px);
+            line-height: 1;
+            margin-bottom: 64px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-muted);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .service-card.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+        }
+
+        .service-description {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* Photo Gallery */
+        .gallery {
+            background: var(--bg);
+            padding: 120px 24px;
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -80px;
+            position: relative;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 64px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 300px;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: var(--text);
+            padding: 32px 24px 24px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .lightbox img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: var(--radius);
+        }
+
+        .lightbox-close, .lightbox-prev, .lightbox-next {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            padding: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close {
+            top: -50px;
+            right: 0;
+        }
+
+        .lightbox-prev {
+            top: 50%;
+            left: -60px;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-next {
+            top: 50%;
+            right: -60px;
+            transform: translateY(-50%);
+        }
+
+        .lightbox-close:hover, .lightbox-prev:hover, .lightbox-next:hover {
+            background: var(--accent);
+        }
+
+        /* Pull Quote */
+        .pull-quote {
+            background: var(--bg3);
+            padding: 120px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pull-quote::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
+        }
+
+        .quote-mark {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 200px;
+            color: var(--accent);
+            opacity: 0.3;
+            font-family: serif;
+        }
+
+        .quote-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 64px);
+            line-height: 1.2;
+            color: var(--text);
+            position: relative;
+            z-index: 2;
+            margin-bottom: 24px;
+        }
+
+        .quote-author {
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        /* Reviews Section */
+        .reviews {
+            background: var(--bg2);
+            padding: 120px 24px;
+        }
+
+        .reviews-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .rating-badge {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stars {
+            color: var(--accent);
+            font-size: 24px;
+            margin: 16px 0;
+        }
+
+        .review-count {
+            color: var(--muted);
+            font-size: 18px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.3s ease;
+        }
+
+        .review-card.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .review-stars {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .review-text {
+            font-style: italic;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .reviewer-name {
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg);
+            padding: 120px 24px;
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -80px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .about-photo {
+            position: relative;
+        }
+
+        .about-photo img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            box-shadow: 0 0 60px var(--accent-glow);
+        }
+
+        .about-text h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(40px, 6vw, 80px);
+            line-height: 1.1;
+            margin-bottom: 32px;
+            color: var(--text);
+        }
+
+        .about-description {
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .trust-signal {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text);
+        }
+
+        .trust-signal .icon {
+            color: var(--accent);
+            font-size: 20px;
+        }
+
+        /* Maps */
+        .maps {
+            padding: 80px 24px;
+            background: var(--bg2);
+        }
+
+        .maps iframe {
+            width: 100%;
+            height: 400px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            filter: grayscale(1) contrast(1.2) brightness(0.9);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--bg2);
+            padding: 120px 24px;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .contact-info h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .contact-info .phone {
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            text-decoration: none;
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 0.02em;
+            transition: color 0.3s ease;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .contact-info .phone:hover {
+            color: var(--text);
+        }
+
+        .contact-subtext {
+            color: var(--muted);
+            margin-bottom: 32px;
+            font-size: 16px;
+        }
+
+        .address {
+            margin-bottom: 32px;
+            color: var(--text);
+            font-size: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .hours {
+            list-style: none;
+        }
+
+        .hours li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .hours li.today {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .contact-form {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            color: var(--text);
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            background: #050505;
+            border-top: 1px solid var(--accent);
+            padding: 40px 24px;
+            text-align: center;
+        }
+
+        .footer-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 16px;
+            letter-spacing: 0.04em;
+        }
+
+        .footer-info {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .footer-info a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Floating Lead Widget */
+        .lead-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+        }
+
+        .lead-button {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 12px 20px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .lead-button:hover {
+            background: var(--accent);
+            color: var(--bg);
+            transform: translateY(-2px);
+        }
+
+        .lead-logo {
+            width: 16px;
+            height: 16px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--bg);
+            font-weight: bold;
+            font-size: 10px;
+        }
+
+        .widget-close {
+            margin-left: 8px;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-primary, .cta-secondary {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Urgency Banner -->
+    <div class="urgency-banner" id="urgencyBanner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+
+    <!-- Sticky Header -->
+    <header class="sticky-header" id="stickyHeader">
+        <div class="header-logo">Cactus Plumbing And Air</div>
+        <a href="tel:(480) 418-9912" class="header-cta">Call Now</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="first-word" id="heroTitle1"></span>
+                <span class="rest-words" id="heroTitle2"></span>
+            </h1>
+            <p class="hero-subtitle">When your pipes burst at midnight, we're already on our way</p>
+            <div class="hero-ctas">
+                <a href="tel:(480) 418-9912" class="cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services">
+        <div class="container">
+            <div class="section-label">What We Do</div>
+            <h2 class="section-title">Built for Scottsdale</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">🔧</span>
+                    <h3 class="service-name">Emergency Plumbing</h3>
+                    <p class="service-description">Main line leaks, burst pipes, and clogged drains don't wait for business hours. Neither do we. Our trucks are stocked with parts for any emergency that hits your Scottsdale home.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">❄️</span>
+                    <h3 class="service-name">AC Repair & Service</h3>
+                    <p class="service-description">Desert heat demands reliable cooling. We diagnose and fix any AC issue fast, from compressor failures to refrigerant leaks. Your comfort can't wait when it's 115° outside.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🚰</span>
+                    <h3 class="service-name">Water Heater Installation</h3>
+                    <p class="service-description">Tank or tankless, gas or electric - we install water heaters that last. No cold shower surprises, no inflated energy bills. Just hot water when you need it.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🏠</span>
+                    <h3 class="service-name">Home Repairs</h3>
+                    <p class="service-description">Leaky faucets, running toilets, electrical outlets, and drywall patches. The honey-do list that never ends gets handled by pros who do it right the first time.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">⚡</span>
+                    <h3 class="service-name">Electrical Work</h3>
+                    <p class="service-description">From blown fuses to full panel upgrades, we handle electrical issues safely and up to code. No job too small, no problem too complex for our licensed electricians.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🔍</span>
+                    <h3 class="service-name">Diagnostics & Inspections</h3>
+                    <p class="service-description">Problems hiding in walls and under slabs get found before they become disasters. Our diagnostic tools catch issues early, saving you thousands in preventable damage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Our Work</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" onclick="openLightbox(0)">
+                    <img src="cactus-plumbing-and-air-photo-1.jpg" alt="Emergency plumbing repair">
+                    <div class="gallery-caption">
+                        <h4>Emergency Main Line Repair</h4>
+                        <p>Late-night burst pipe flooded this Scottsdale home. We had it fixed and dried by morning.</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox(1)">
+                    <img src="cactus-plumbing-and-air-photo-2.jpg" alt="AC unit installation">
+                    <div class="gallery-caption">
+                        <h4>High-Efficiency AC Install</h4>
+                        <p>Upgraded this home to a 20 SEER system. Cut their cooling bills in half during peak summer.</p>
+                    </div>
+                </div>
+                <div class="gallery-item" onclick="openLightbox(2)">
+                    <img src="cactus-plumbing-and-air-photo-3.jpg" alt="Water heater service">
+                    <div class="gallery-caption">
+                        <h4>Tankless Water Heater Service</h4>
+                        <p>Annual maintenance keeps these units running efficiently. This one's been perfect for 8 years.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <img src="" alt="" id="lightboxImg">
+            <button class="lightbox-close" onclick="closeLightbox()">×</button>
+            <button class="lightbox-prev" onclick="prevImage()">‹</button>
+            <button class="lightbox-next" onclick="nextImage()">›</button>
+        </div>
+    </div>
+
+    <!-- Pull Quote -->
+    <section class="pull-quote">
+        <div class="container">
+            <div class="quote-mark">"</div>
+            <p class="quote-text">I called Cactus Plumbing late on a Friday for a plumbing emergency. They sent Nick, who was at my place within an hour.</p>
+            <p class="quote-author">Francine Granger</p>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews">
+        <div class="container">
+            <div class="reviews-header">
+                <div class="rating-badge" id="ratingNumber">0</div>
+                <div class="stars">★★★★★</div>
+                <div class="review-count">359 Google Reviews</div>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"I called Cactus Plumbing late on a Friday for a plumbing emergency. I had a leak at the main line to my house. They sent Nick, who was at my place within an hour. It was not an easy job."</p>
+                    <div class="reviewer-name">Francine Granger</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Nick from Cactus was the best. Very thorough and explained the why behind his recommendations. I got a new water softener that works great."</p>
+                    <div class="reviewer-name">Tyler Mullen</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <p class="review-text">"Cactus Plumbing was my first call for my plumbing needs for our washer machine. Arrived in 20 minutes!! Very friendly and professional and knowledgeable."</p>
+                    <div class="reviewer-name">Ray Ray</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-photo">
+                    <img src="cactus-plumbing-and-air-photo-2.jpg" alt="Cactus Plumbing And Air team">
+                </div>
+                <div class="about-text">
+                    <h2>Scottsdale's Most Trusted Handyman Crew</h2>
+                    <p class="about-description">We've been fixing what breaks in Scottsdale homes for over 12 years. When your AC dies in July or your pipes burst on Christmas Eve, you need someone who shows up fast with the right tools and the knowledge to fix it permanently. That's exactly what we do, 24 hours a day, every day of the year. No exceptions, no excuses.</p>
+                    <div class="trust-signals">
+                        <div class="trust-signal">
+                            <span class="icon">🏆</span>
+                            <span>12+ Years Serving Scottsdale</span>
+                        </div>
+                        <div class="trust-signal">
+                            <span class="icon">⭐</span>
+                            <span>359 Five-Star Google Reviews</span>
+                        </div>
+                        <div class="trust-signal">
+                            <span class="icon">🛡️</span>
+                            <span>Licensed & Insured</span>
+                        </div>
+                        <div class="trust-signal">
+                            <span class="icon">📍</span>
+                            <span>Serving Scottsdale & Surrounding Areas</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Maps -->
+    <section class="maps">
+        <div class="container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3329.8901234567!2d-111.9137!3d33.4642!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872b0d1234567890%3A0x1234567890abcdef!2s6730%20E%20McDowell%20Rd%20%23129%2C%20Scottsdale%2C%20AZ%2085257!5e0!3m2!1sen!2sus!4v1234567890123" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <a href="tel:(480) 418-9912" class="phone">(480) 418-9912</a>
+                    <p class="contact-subtext">Call or text anytime</p>
+                    
+                    <div class="address">
+                        <span>📍</span>
+                        <span>6730 E McDowell Rd #129<br>Scottsdale, AZ 85257</span>
+                    </div>
+
+                    <ul class="hours">
+                        <li class="monday"><span>Monday</span><span>Open 24 hours</span></li>
+                        <li class="tuesday"><span>Tuesday</span><span>Open 24 hours</span></li>
+                        <li class="wednesday"><span>Wednesday</span><span>Open 24 hours</span></li>
+                        <li class="thursday"><span>Thursday</span><span>Open 24 hours</span></li>
+                        <li class="friday"><span>Friday</span><span>Open 24 hours</span></li>
+                        <li class="saturday"><span>Saturday</span><span>Open 24 hours</span></li>
+                        <li class="sunday"><span>Sunday</span><span>Open 24 hours</span></li>
+                    </ul>
+                </div>
+
+                <form class="contact-form" data-netlify="true" name="contact" action="/thank-you">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required placeholder="Tell us about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">SEND MESSAGE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-name">Cactus Plumbing And Air</div>
+            <div class="footer-info">
+                <a href="tel:(480) 418-9912">(480) 418-9912</a> | 6730 E McDowell Rd #129, Scottsdale, AZ 85257<br>
+                © <span id="currentYear"></span> Cactus Plumbing And Air. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Lead Widget -->
+    <div class="lead-widget" id="leadWidget">
+        <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Cactus Plumbing And Air" class="lead-button">
+            <span class="lead-logo">A</span>
+            Built by Aurigen
+            <span class="widget-close" onclick="dismissWidget(event)">×</span>
+        </a>
+    </div>
+
+    <script>
+        // Generate favicon
+        const favicon = document.createElement('link');
+        favicon.rel = 'icon';
+        favicon.href = 'data:image/svg+xml;base64,' + btoa(`
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <rect width="32" height="32" fill="#0a0a0a"/>
+                <text x="16" y="22" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#4a90d9" text-anchor="middle">C</text>
+            </svg>
+        `);
+        document.head.appendChild(favicon);
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('fade-out');
+                animateHeroTitle();
+            }, 800);
+        });
+
+        // Animate hero title
+        function animateHeroTitle() {
+            const title1 = document.getElementById('heroTitle1');
+            const title2 = document.getElementById('heroTitle2');
+            
+            const text1 = 'CACTUS';
+            const text2 = 'PLUMBING AND AIR';
+            
+            text1.split('').forEach((letter, i) => {
+                const span = document.createElement('span');
+                span.textContent = letter;
+                span.style.animationDelay = `${i * 30}ms`;
+                title1.appendChild(span);
+            });
+            
+            text2.split('').forEach((letter, i) => {
+                const span = document.createElement('span');
+                span.textContent = letter === ' ' ? '\u00A0' : letter;
+                span.style.animationDelay = `${(text1.length + i) * 30}ms`;
+                title2.appendChild(span);
+            });
+        }
+
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+            
+            // Sticky header
+            const header = document.getElementById('stickyHeader');
+            const banner = document.getElementById('urgencyBanner');
+            if (window.scrollY > 100) {
+                header.classList.add('visible');
+                banner.classList.add('hidden');
+            } else {
+                header.classList.remove('visible');
+                banner.classList.remove('hidden');
+            }
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    
+                    // Animate rating counter
+                    if (entry.target.id === 'ratingNumber') {
+                        animateRating();
+                    }
+                    
+                    // Stagger child animations
+                    const children = entry.target.querySelectorAll('.service-card, .review-card');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('in-view');
+                        }, index * 100);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const elementsToObserve = document.querySelectorAll('.service-card, .review-card');
+            elementsToObserve.forEach(el => observer.observe(el));
+            
+            observer.observe(document.getElementById('ratingNumber'));
+        });
+
+        // Animate rating counter
+        function animateRating() {
+            const counter = document.getElementById('ratingNumber');
+            let current = 0;
+            const target = 4.9;
+            const increment = target / 60;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.textContent = current.toFixed(1);
+            }, 25);
+        }
+
+        // Lightbox functionality
+        const images = [
+            'cactus-plumbing-and-air-photo-1.jpg',
+            'cactus-plumbing-and-air-photo-2.jpg',
+            'cactus-plumbing-and-air-photo-3.jpg'
+        ];
+        let currentImageIndex = 0;
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightboxImg');
+            img.src = images[index];
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('lightboxImg').src = images[currentImageIndex];
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('lightboxImg').src = images[currentImageIndex];
+        }
+
+        // Lightbox keyboard controls
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') prevImage();
+                if (e.key === 'ArrowRight') nextImage();
+            }
+        });
+
+        // Click outside to close
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+
+        // Highlight current day
+        document.addEventListener('DOMContentLoaded', () => {
+            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            const today = new Date().getDay();
+            const todayClass = days[today];
+            const todayElement = document.querySelector(`.${todayClass}`);
+            if (todayElement) {
+                todayElement.classList.add('today');
+            }
+        });
+
+        // Current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Dismiss widget
+        function dismissWidget(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('leadWidget').style.display = 'none';
+            sessionStorage.setItem('widgetDismissed', 'true');
+        }
+
+        // Check if widget was dismissed
+        if (sessionStorage.getItem('widgetDismissed')) {
+            document.getElementById('leadWidget').style.display = 'none';
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

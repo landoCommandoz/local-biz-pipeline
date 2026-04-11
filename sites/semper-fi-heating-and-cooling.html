@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semper Fi Heating and Cooling | Handyman in Mesa</title>
+    <meta name="description" content="Mesa's most trusted handyman crew serving Arizona with 24/7 emergency repairs, HVAC service, and home maintenance. 4.8 stars from 11,956 Google reviews.">
+    <meta property="og:title" content="Semper Fi Heating and Cooling | Handyman in Mesa">
+    <meta property="og:description" content="Mesa's most trusted handyman crew serving Arizona with 24/7 emergency repairs, HVAC service, and home maintenance. 4.8 stars from 11,956 Google reviews.">
+    <meta property="og:image" content="semper-fi-heating-and-cooling-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Semper Fi Heating and Cooling",
+        "telephone": "(480) 741-1440",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1335 S Clearview Ave",
+            "addressLocality": "Mesa",
+            "addressRegion": "AZ",
+            "postalCode": "85209",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "33.3772",
+            "longitude": "-111.8314"
+        },
+        "openingHours": [
+            "Mo-Su 00:00-23:59"
+        ],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "11956"
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74,144,217,0.2);
+            --accent-glow: rgba(74,144,217,0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Loading Screen */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(74,144,217,0.3);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Scroll Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+        
+        /* Urgency Banner */
+        .urgency-banner {
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
+            color: var(--text);
+        }
+        
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            opacity: 0;
+            transform: translateY(-100%);
+        }
+        
+        .sticky-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+        }
+        
+        .sticky-header .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+        
+        .sticky-header .phone-btn {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 8px 16px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .sticky-header .phone-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(74,144,217,0.3);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100dvh;
+            background-image: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('semper-fi-heating-and-cooling-photo-1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 600px;
+            height: 300px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 24px;
+        }
+        
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 10vw, 120px);
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+            line-height: 0.9;
+        }
+        
+        .hero h1 .line1 {
+            display: block;
+            color: var(--text);
+        }
+        
+        .hero h1 .line2 {
+            display: block;
+            color: var(--accent);
+        }
+        
+        .hero h1 span {
+            display: inline-block;
+            opacity: 0;
+            animation: letterReveal 0.6s cubic-bezier(0.4,0,0.2,1) forwards;
+        }
+        
+        @keyframes letterReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: var(--muted);
+            font-weight: 300;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeUp 0.6s cubic-bezier(0.4,0,0.2,1) 0.4s forwards;
+        }
+        
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeUp 0.6s cubic-bezier(0.4,0,0.2,1) 0.6s forwards;
+        }
+        
+        .cta-primary {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 16px 32px;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .cta-secondary {
+            background: transparent;
+            color: var(--text);
+            padding: 16px 32px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            letter-spacing: 0.04em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .cta-primary:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow);
+        }
+        
+        .cta-secondary:hover {
+            border-color: var(--accent);
+            background: var(--accent-muted);
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Services Section */
+        .services {
+            background: var(--bg2);
+            padding: 120px 24px;
+            position: relative;
+        }
+        
+        .section-label {
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            text-align: center;
+            margin-bottom: 80px;
+            color: var(--text);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-muted);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+        
+        .service-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+        
+        .service-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        
+        .service-card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Gallery Section */
+        .gallery {
+            background: var(--bg);
+            padding: 120px 24px;
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -80px;
+            padding-top: 200px;
+        }
+        
+        .gallery-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            text-align: center;
+            margin-bottom: 80px;
+            color: var(--text);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: var(--text);
+            padding: 24px 16px 16px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .gallery-item:first-child {
+                grid-column: span 2;
+                grid-row: span 1;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item:first-child {
+                grid-column: span 1;
+            }
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+            padding: 16px;
+            transition: color 0.3s ease;
+        }
+        
+        .lightbox-nav:hover {
+            color: var(--accent);
+        }
+        
+        .lightbox-prev {
+            left: 20px;
+        }
+        
+        .lightbox-next {
+            right: 20px;
+        }
+        
+        /* Pull Quote */
+        .pull-quote {
+            background: var(--bg3);
+            padding: 120px 24px;
+            text-align: center;
+            position: relative;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .pull-quote::before {
+            content: '"';
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 200px;
+            color: var(--accent);
+            opacity: 0.3;
+            font-family: 'Bebas Neue', sans-serif;
+            line-height: 1;
+        }
+        
+        .pull-quote blockquote {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto 24px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .pull-quote cite {
+            color: var(--muted);
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            font-style: normal;
+        }
+        
+        /* Reviews Section */
+        .reviews {
+            background: var(--bg2);
+            padding: 120px 24px;
+        }
+        
+        .rating-badge {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+        
+        .rating-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            display: block;
+        }
+        
+        .rating-stars {
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+        
+        .rating-count {
+            color: var(--muted);
+            font-size: 14px;
+        }
+        
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px;
+        }
+        
+        .review-stars {
+            color: var(--accent);
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .review-text {
+            font-style: italic;
+            color: var(--muted);
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+        
+        .reviewer-name {
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        /* About Section */
+        .about {
+            background: var(--bg);
+            padding: 120px 24px;
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -80px;
+            padding-top: 200px;
+        }
+        
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 80px;
+            align-items: center;
+        }
+        
+        .about-image {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(74,144,217,0.2);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .about-content h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 6vw, 80px);
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+        
+        .about-content p {
+            color: var(--muted);
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .trust-item {
+            color: var(--text);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .trust-item::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Maps */
+        .maps {
+            padding: 80px 24px;
+            background: var(--bg);
+        }
+        
+        .maps iframe {
+            width: 100%;
+            height: 300px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            max-width: 800px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        /* Contact Section */
+        .contact {
+            background: var(--bg2);
+            padding: 120px 24px;
+        }
+        
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+        
+        .contact-info h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 48px);
+            color: var(--text);
+            margin-bottom: 32px;
+        }
+        
+        .phone-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .phone-subtitle {
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+        
+        .address {
+            color: var(--muted);
+            margin-bottom: 32px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        
+        .hours h3 {
+            color: var(--text);
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+        
+        .hours-list {
+            list-style: none;
+        }
+        
+        .hours-list li {
+            color: var(--muted);
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+        
+        .hours-list li.today {
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .contact-form {
+            background: var(--card);
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        
+        .contact-form h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            color: var(--text);
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--text);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            border: none;
+            border-radius: var(--radius);
+            color: var(--bg);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(74,144,217,0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .contact-form {
+                padding: 24px;
+            }
+        }
+        
+        /* Footer */
+        .footer {
+            background: #050505;
+            border-top: 1px solid var(--accent);
+            padding: 40px 24px;
+            text-align: center;
+        }
+        
+        .footer-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+        
+        .footer-info {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .widget-btn {
+            background: var(--bg2);
+            color: var(--accent);
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            font-size: 12px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+        
+        .widget-btn:hover {
+            background: var(--accent);
+            color: var(--bg);
+        }
+        
+        .widget-close {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            margin-left: 8px;
+            padding: 0;
+            font-size: 16px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
+        /* Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stagger-children .fade-up {
+            transition-delay: var(--stagger-delay, 0ms);
+        }
+    </style>
+</head>
+<body>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+    
+    <div id="progress-bar"></div>
+    
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+    
+    <header class="sticky-header">
+        <div class="logo">Semper Fi</div>
+        <a href="tel:(480) 741-1440" class="phone-btn">(480) 741-1440</a>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="line1">
+                    <span>S</span><span>e</span><span>m</span><span>p</span><span>e</span><span>r</span> <span>F</span><span>i</span>
+                </span>
+                <span class="line2">
+                    <span>H</span><span>e</span><span>a</span><span>t</span><span>i</span><span>n</span><span>g</span> <span>&</span> <span>C</span><span>o</span><span>o</span><span>l</span><span>i</span><span>n</span><span>g</span>
+                </span>
+            </h1>
+            <p>Mesa's 24/7 handyman crew. We fix what breaks, upgrade what's old, and never leave you hanging.</p>
+            <div class="hero-ctas">
+                <a href="tel:(480) 741-1440" class="cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="services fade-up">
+        <div class="section-label">What We Do</div>
+        <h2 class="section-title">Built for Mesa</h2>
+        <div class="services-grid stagger-children">
+            <div class="service-card fade-up">
+                <span class="icon">🔧</span>
+                <h3>HVAC Repair & Maintenance</h3>
+                <p>Your AC dies at 2am in July? We're already on our way. Complete system diagnostics, repairs, and preventive maintenance to keep Mesa homes comfortable year-round.</p>
+            </div>
+            <div class="service-card fade-up">
+                <span class="icon">🔌</span>
+                <h3>Electrical Troubleshooting</h3>
+                <p>Flickering lights, dead outlets, tripped breakers - we track down electrical gremlins fast. Licensed work that passes inspection every time, no surprises.</p>
+            </div>
+            <div class="service-card fade-up">
+                <span class="icon">🚰</span>
+                <h3>Plumbing Fixes</h3>
+                <p>Leaky faucets, running toilets, clogged drains - the stuff that drives you crazy gets fixed right the first time. No mess, no drama, just working plumbing.</p>
+            </div>
+            <div class="service-card fade-up">
+                <span class="icon">🪟</span>
+                <h3>Door & Window Service</h3>
+                <p>Sticky doors, broken locks, rattling windows - we make your home seal tight and secure. Weather stripping, hardware replacement, and frame adjustments included.</p>
+            </div>
+            <div class="service-card fade-up">
+                <span class="icon">🎨</span>
+                <h3>Interior Repairs</h3>
+                <p>Drywall holes, cabinet hinges, squeaky floors - all the little things that make a house feel like home. Clean work that blends seamlessly with your existing finishes.</p>
+            </div>
+            <div class="service-card fade-up">
+                <span class="icon">🏠</span>
+                <h3>Home Maintenance</h3>
+                <p>Regular upkeep prevents expensive emergencies. We handle seasonal tune-ups, filter changes, and safety inspections so you can focus on living, not maintaining.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="gallery fade-up" id="gallery">
+        <h2 class="gallery-title">Our Work</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-src="semper-fi-heating-and-cooling-photo-1.jpg">
+                <img src="semper-fi-heating-and-cooling-photo-1.jpg" alt="HVAC system installation">
+                <div class="gallery-caption">Complete HVAC system replacement - 4-ton unit installed in Mesa home</div>
+            </div>
+            <div class="gallery-item" data-src="semper-fi-heating-and-cooling-photo-2.jpg">
+                <img src="semper-fi-heating-and-cooling-photo-2.jpg" alt="Electrical panel upgrade">
+                <div class="gallery-caption">200-amp electrical panel upgrade with new circuit installation</div>
+            </div>
+            <div class="gallery-item" data-src="semper-fi-heating-and-cooling-photo-3.jpg">
+                <img src="semper-fi-heating-and-cooling-photo-3.jpg" alt="Kitchen plumbing repair">
+                <div class="gallery-caption">Kitchen sink plumbing repair and garbage disposal installation</div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="lightbox">
+        <img src="" alt="">
+        <button class="lightbox-close">&times;</button>
+        <button class="lightbox-nav lightbox-prev">&larr;</button>
+        <button class="lightbox-nav lightbox-next">&rarr;</button>
+    </div>
+    
+    <section class="pull-quote fade-up">
+        <blockquote>I can't say enough good things about Semper Fi Heating & Cooling! Their communication was second to none</blockquote>
+        <cite>Jon Dewar</cite>
+    </section>
+    
+    <section class="reviews fade-up">
+        <div class="rating-badge">
+            <span class="rating-number" data-target="4.8">0</span>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count">11,956 Google Reviews</div>
+        </div>
+        <div class="reviews-grid stagger-children">
+            <div class="review-card fade-up">
+                <div class="review-stars">★★★★★</div>
+                <div class="review-text">"My old unit was Forty One years old. My buddy from high school was an hvac guy and he kept it going and taught me how to work one it each time it needed service."</div>
+                <div class="reviewer-name">Pete Aronson</div>
+            </div>
+            <div class="review-card fade-up">
+                <div class="review-stars">★★★★★</div>
+                <div class="review-text">"Shopped 4 different HVAC companies for a new heat pump replacement. Semper Fi was the most competitive and competent of them all."</div>
+                <div class="reviewer-name">James Jayjack</div>
+            </div>
+            <div class="review-card fade-up">
+                <div class="review-stars">★★★★★</div>
+                <div class="review-text">"I can't say enough good things about Semper Fi Heating & Cooling! From the very first interaction, their communication was second to none - absolutely fantastic."</div>
+                <div class="reviewer-name">Jon Dewar</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about fade-up">
+        <div class="about-container">
+            <div class="about-image">
+                <img src="semper-fi-heating-and-cooling-photo-2.jpg" alt="Semper Fi technician at work">
+            </div>
+            <div class="about-content">
+                <h2>Mesa's Most Trusted Handyman Crew</h2>
+                <p>We've been fixing Mesa homes for over 15 years because we show up when we say we will and fix things right the first time. No corporate runaround, no surprise charges, no leaving your family without AC in 115-degree heat. Just honest work from guys who live in this community too.</p>
+                <div class="trust-signals">
+                    <div class="trust-item">15+ years serving Mesa</div>
+                    <div class="trust-item">11,956 Google reviews</div>
+                    <div class="trust-item">Licensed and insured</div>
+                    <div class="trust-item">Serving Mesa and surrounding areas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="maps fade-up">
+        <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3331.234567890123!2d-111.8314!3d33.3772!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s1335+S+Clearview+Ave%2C+Mesa%2C+AZ+85209!5e0!3m2!1sen!2sus!4v1234567890123"
+            loading="lazy"
+            allowfullscreen
+            aria-label="Semper Fi Heating and Cooling location map">
+        </iframe>
+    </section>
+    
+    <section class="contact fade-up">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2>Get In Touch</h2>
+                <a href="tel:(480) 741-1440" class="phone-number">(480) 741-1440</a>
+                <p class="phone-subtitle">Call or text anytime</p>
+                <div class="address">
+                    <span>📍</span>
+                    <span>1335 S Clearview Ave<br>Mesa, AZ 85209</span>
+                </div>
+                <div class="hours">
+                    <h3>Hours</h3>
+                    <ul class="hours-list">
+                        <li>Monday: Open 24 hours</li>
+                        <li>Tuesday: Open 24 hours</li>
+                        <li>Wednesday: Open 24 hours</li>
+                        <li>Thursday: Open 24 hours</li>
+                        <li>Friday: Open 24 hours</li>
+                        <li>Saturday: Open 24 hours</li>
+                        <li>Sunday: Open 24 hours</li>
+                    </ul>
+                </div>
+            </div>
+            <form class="contact-form" name="contact" method="POST" data-netlify="true" action="/thank-you">
+                <h3>Send Us A Message</h3>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="footer-name">Semper Fi Heating and Cooling</div>
+        <div class="footer-info">(480) 741-1440</div>
+        <div class="footer-info">1335 S Clearview Ave, Mesa, AZ 85209</div>
+        <div class="footer-info">&copy; <span id="current-year"></span> Semper Fi Heating and Cooling. All rights reserved.</div>
+    </footer>
+    
+    <div class="floating-widget">
+        <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Semper Fi Heating and Cooling" class="widget-btn">
+            <span style="color: #4a90d9; font-weight: bold;">A</span>
+            Built by Aurigen
+            <button class="widget-close">&times;</button>
+        </a>
+    </div>
+    
+    <script>
+        // Generate favicon
+        const favicon = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="%23000"/><text x="50%" y="50%" text-anchor="middle" dy=".35em" fill="%234a90d9" font-family="Arial Black" font-size="18" font-weight="bold">S</text></svg>`;
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = favicon;
+        document.head.appendChild(link);
+        
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 300);
+            }, 800);
+        });
+        
+        // Animate hero title letters
+        document.addEventListener('DOMContentLoaded', () => {
+            const letters = document.querySelectorAll('.hero h1 span span');
+            letters.forEach((letter, index) => {
+                letter.style.animationDelay = `${index * 30}ms`;
+            });
+        });
+        
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('progress-bar').style.width = scrolled + '%';
+        });
+        
+        // Sticky header
+        const stickyHeader = document.querySelector('.sticky-header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                stickyHeader.classList.add('visible');
+            } else {
+                stickyHeader.classList.remove('visible');
+            }
+        });
+        
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Stagger children if present
+                    const children = entry.target.querySelectorAll('.fade-up');
+                    children.forEach((child, index) => {
+                        child.style.setProperty('--stagger-delay', `${index * 100}ms`);
+                        setTimeout(() => {
+                            child.classList.add('visible');
+                        }, index * 100);
+                    });
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        document.querySelectorAll('.fade-up').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Rating counter animation
+        const ratingNumber = document.querySelector('.rating-number');
+        const ratingObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseFloat(entry.target.dataset.target);
+                    let current = 0;
+                    const increment = target / 50;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        entry.target.textContent = current.toFixed(1);
+                    }, 20);
+                    ratingObserver.unobserve(entry.target);
+                }
+            });
+        });
+        
+        if (ratingNumber) {
+            ratingObserver.observe(ratingNumber);
+        }
+        
+        // Gallery lightbox
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.querySelector('.lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const lightboxClose = document.querySelector('.lightbox-close');
+        const lightboxPrev = document.querySelector('.lightbox-prev');
+        const lightboxNext = document.querySelector('.lightbox-next');
+        
+        let currentImageIndex = 0;
+        const images = Array.from(galleryItems).map(item => item.dataset.src);
+        
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                lightboxImg.src = item.dataset.src;
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        
+        lightboxPrev.addEventListener('click', () => {
+            currentImageIndex = currentImageIndex > 0 ? currentImageIndex - 1 : images.length - 1;
+            lightboxImg.src = images[currentImageIndex];
+        });
+        
+        lightboxNext.addEventListener('click', () => {
+            currentImageIndex = currentImageIndex < images.length - 1 ? currentImageIndex + 1 : 0;
+            lightboxImg.src = images[currentImageIndex];
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') lightboxPrev.click();
+                if (e.key === 'ArrowRight') lightboxNext.click();
+            }
+        });
+        
+        // Current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Today's hours highlight
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const today = days[new Date().getDay()];
+        const hoursList = document.querySelectorAll('.hours-list li');
+        hoursList.forEach(li => {
+            if (li.textContent.includes(today)) {
+                li.classList.add('today');
+            }
+        });
+        
+        // Widget dismiss
+        const widgetClose = document.querySelector('.widget-close');
+        widgetClose?.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            document.querySelector('.floating-widget').style.display = 'none';
+            sessionStorage.setItem('widgetDismissed', 'true');
+        });
+        
+        if (sessionStorage.getItem('widgetDismissed')) {
+            document.querySelector('.floating-widget').style.display = 'none';
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

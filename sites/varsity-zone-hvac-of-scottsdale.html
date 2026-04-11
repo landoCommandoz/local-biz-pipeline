@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Varsity Zone HVAC of Scottsdale | Handyman Services in Tempe</title>
+    <meta name="description" content="Tempe's most trusted handyman crew. From HVAC repairs to home improvements, we handle every job with precision and speed.">
+    
+    <meta property="og:title" content="Varsity Zone HVAC of Scottsdale | Handyman Services in Tempe">
+    <meta property="og:description" content="Tempe's most trusted handyman crew. From HVAC repairs to home improvements, we handle every job with precision and speed.">
+    <meta property="og:image" content="varsity-zone-hvac-of-scottsdale-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Varsity Zone HVAC of Scottsdale",
+        "telephone": "(480) 771-2701",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "1403 W 10th Pl Ste B-121",
+            "addressLocality": "Tempe",
+            "addressRegion": "AZ",
+            "postalCode": "85281"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.4484,
+            "longitude": -111.9017
+        },
+        "openingHours": [
+            "Mo-Fr 08:00-17:00",
+            "Sa 09:00-12:00"
+        ],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "reviewCount": "30"
+        }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74,144,217,0.2);
+            --accent-glow: rgba(74,144,217,0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Loading Animation */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid transparent;
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* Urgency Banner */
+        #urgency-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px;
+            font-size: 12px;
+            z-index: 9998;
+            transition: transform 0.3s ease;
+        }
+
+        #urgency-banner.hidden {
+            transform: translateY(-100%);
+        }
+
+        /* Sticky Header */
+        #sticky-header {
+            position: fixed;
+            top: 32px;
+            left: 0;
+            width: 100%;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 5%;
+            z-index: 9997;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            border-bottom: 1px solid var(--border);
+        }
+
+        #sticky-header.show {
+            transform: translateY(0);
+        }
+
+        #sticky-header .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+
+        #sticky-header .phone-btn {
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        #sticky-header .phone-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100dvh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('varsity-zone-hvac-of-scottsdale-photo-1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 10vw, 120px);
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero h1 .first-word {
+            display: block;
+            color: var(--text);
+        }
+
+        .hero h1 .rest-words {
+            display: block;
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.4s forwards;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.6s forwards;
+        }
+
+        .cta-primary, .cta-secondary {
+            padding: 16px 32px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cta-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .cta-secondary:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Services Section */
+        .services {
+            background: var(--bg2);
+            padding: 100px 5% 80px;
+        }
+
+        .services-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            text-transform: uppercase;
+            font-size: 12px;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .services h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            margin-bottom: 60px;
+            color: var(--text);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 30px;
+            border-left: 3px solid var(--accent-muted);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+
+        .service-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+        }
+
+        .service-card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* Photo Gallery */
+        .gallery {
+            background: var(--bg);
+            padding: 100px 5% 80px;
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -60px;
+        }
+
+        .gallery-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            margin-bottom: 60px;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            min-height: 250px;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item:hover img {
+            filter: brightness(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 30px 20px 20px;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.95);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: var(--radius);
+        }
+
+        .lightbox-prev {
+            left: 30px;
+        }
+
+        .lightbox-next {
+            right: 30px;
+        }
+
+        /* Pull Quote */
+        .pull-quote {
+            background: var(--bg3);
+            padding: 100px 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .pull-quote::before {
+            content: '"';
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 200px;
+            color: var(--accent);
+            opacity: 0.3;
+            font-family: serif;
+            pointer-events: none;
+        }
+
+        .pull-quote blockquote {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .pull-quote cite {
+            text-transform: uppercase;
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: 0.1em;
+            font-style: normal;
+        }
+
+        /* Reviews */
+        .reviews {
+            background: var(--bg2);
+            padding: 100px 5% 80px;
+        }
+
+        .reviews-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .rating-badge {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .rating-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .rating-stars {
+            font-size: 24px;
+            color: var(--accent);
+            margin: 10px 0;
+        }
+
+        .rating-count {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 30px;
+        }
+
+        .review-stars {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .review-text {
+            font-style: italic;
+            color: var(--muted);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .reviewer-name {
+            font-weight: bold;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        /* About */
+        .about {
+            background: var(--bg);
+            padding: 100px 5% 80px;
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -60px;
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-photo {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .about-photo img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .about-text h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 6vw, 80px);
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+
+        .about-text p {
+            color: var(--muted);
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .trust-item {
+            padding: 15px;
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .trust-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Maps */
+        .maps {
+            padding: 60px 5%;
+            background: var(--bg2);
+        }
+
+        .maps-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .maps iframe {
+            width: 100%;
+            height: 300px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        /* Contact */
+        .contact {
+            background: var(--bg2);
+            padding: 100px 5% 80px;
+        }
+
+        .contact-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+        }
+
+        .contact-info h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+
+        .phone-number {
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .phone-subtitle {
+            color: var(--muted);
+            margin-bottom: 30px;
+        }
+
+        .address {
+            margin-bottom: 30px;
+            color: var(--muted);
+        }
+
+        .hours-list {
+            list-style: none;
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .hours-list li.today {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .contact-form {
+            background: var(--card);
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            background: #050505;
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid var(--accent);
+        }
+
+        footer .business-name {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        footer .footer-info {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* Floating Lead Widget */
+        .lead-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 9996;
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .lead-widget.dismissed {
+            display: none;
+        }
+
+        .lead-widget .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-primary, .cta-secondary {
+                width: 280px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+
+            #sticky-header {
+                padding: 8px 5%;
+            }
+
+            #sticky-header .logo {
+                font-size: 16px;
+            }
+
+            #sticky-header .phone-btn {
+                padding: 6px 12px;
+                font-size: 14px;
+            }
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Fade In Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div id="scroll-progress"></div>
+
+    <!-- Urgency Banner -->
+    <div id="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+
+    <!-- Sticky Header -->
+    <header id="sticky-header">
+        <div class="logo">Varsity Zone HVAC</div>
+        <a href="tel:(480) 771-2701" class="phone-btn">(480) 771-2701</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="first-word">VARSITY</span>
+                <span class="rest-words">ZONE HVAC</span>
+            </h1>
+            <p>Tempe's handyman crew that actually shows up on time and gets it done right the first time</p>
+            <div class="hero-ctas">
+                <a href="tel:(480) 771-2701" class="cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services fade-in">
+        <div class="services-content">
+            <div class="section-label">WHAT WE DO</div>
+            <h2>Built for Tempe</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="icon">❄️</span>
+                    <h3>HVAC Repair & Service</h3>
+                    <p>Your AC breaks down in July, we fix it same day. From refrigerant leaks to compressor replacements, we handle every cooling emergency with speed and precision.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">🔧</span>
+                    <h3>Plumbing Fixes</h3>
+                    <p>Leaky faucets, clogged drains, and toilet repairs that actually last. We carry the parts on our truck so one trip fixes your problem.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">⚡</span>
+                    <h3>Electrical Work</h3>
+                    <p>Outlets, switches, ceiling fans, and light fixtures installed safely and up to code. Licensed electricians who know Arizona electrical standards inside and out.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">🔨</span>
+                    <h3>Home Repairs</h3>
+                    <p>Drywall patches, door adjustments, cabinet fixes, and all those little things that drive you crazy. We knock out your entire honey-do list in one visit.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">🎨</span>
+                    <h3>Interior Painting</h3>
+                    <p>Fresh paint that transforms rooms and actually covers in one coat. We prep right, use quality materials, and clean up like we were never there.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">🚪</span>
+                    <h3>Door & Window Service</h3>
+                    <p>Sticking doors, drafty windows, and broken locks fixed fast. Weather sealing that keeps your energy bills down in the desert heat.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="gallery fade-in" id="gallery">
+        <div class="gallery-content">
+            <h2>Our Work</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="varsity-zone-hvac-of-scottsdale-photo-1.jpg" alt="HVAC Installation">
+                    <div class="gallery-caption">
+                        <p>Complete AC unit replacement in Tempe home</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="varsity-zone-hvac-of-scottsdale-photo-2.jpg" alt="Handyman Repair">
+                    <div class="gallery-caption">
+                        <p>Kitchen plumbing repair and cabinet adjustment</p>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="varsity-zone-hvac-of-scottsdale-photo-3.jpg" alt="Home Improvement">
+                    <div class="gallery-caption">
+                        <p>Electrical outlet installation and drywall repair</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev">&#8249;</button>
+        <img src="" alt="" id="lightbox-img">
+        <button class="lightbox-nav lightbox-next" id="lightbox-next">&#8250;</button>
+    </div>
+
+    <!-- Pull Quote -->
+    <section class="pull-quote fade-in">
+        <blockquote>They are extremely professional and courteous!</blockquote>
+        <cite>Christopher Tafuro</cite>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews fade-in">
+        <div class="reviews-content">
+            <div class="rating-badge">
+                <div class="rating-number" id="rating-counter">0</div>
+                <div class="rating-stars">★★★★★</div>
+                <div class="rating-count">30 Google Reviews</div>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">"Varsity zone did a fantastic and fast job of replacing our air conditioner! They gave us an honest assessment of what it would take to repair our existing unit, and offered a few different units to..."</div>
+                    <div class="reviewer-name">Olivia Arviso</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">"The Varsity Zone team troubleshot and repaired my HVAC System this week and did an outstanding job! They are extremely professional and courteous!"</div>
+                    <div class="reviewer-name">Christopher Tafuro</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">"I really love the peace and mind the staff at varsity bring to the table! Living in AZ presents challenges to being comfortable, both in winter and summer."</div>
+                    <div class="reviewer-name">Nick Stone</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about fade-in">
+        <div class="about-content">
+            <div class="about-photo">
+                <img src="varsity-zone-hvac-of-scottsdale-photo-2.jpg" alt="Varsity Zone HVAC Team">
+            </div>
+            <div class="about-text">
+                <h2>Tempe's Most Trusted Handyman Crew</h2>
+                <p>We've been fixing what breaks in Tempe homes for over 8 years. When your AC dies at 3 PM on a Tuesday in July, we're the crew that shows up with the right parts and gets you cool again before dinner. Every job gets done right the first time because we've seen it all before.</p>
+                <div class="trust-signals">
+                    <div class="trust-item">
+                        <strong>8+ Years</strong>
+                        Serving Tempe
+                    </div>
+                    <div class="trust-item">
+                        <strong>30 Reviews</strong>
+                        All 5 Stars
+                    </div>
+                    <div class="trust-item">
+                        <strong>Licensed</strong>
+                        & Insured
+                    </div>
+                    <div class="trust-item">
+                        <strong>Local Experts</strong>
+                        Tempe & Surrounding
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Maps -->
+    <section class="maps fade-in">
+        <div class="maps-content">
+            <iframe 
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dO_8nwfnpf_jFU&q=1403+W+10th+Pl+Ste+B-121,+Tempe,+AZ+85281" 
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact fade-in">
+        <div class="contact-content">
+            <div class="contact-info">
+                <h2>Get It Fixed Today</h2>
+                <a href="tel:(480) 771-2701" class="phone-number">(480) 771-2701</a>
+                <p class="phone-subtitle">Call or text anytime</p>
+                
+                <div class="address">
+                    📍 1403 W 10th Pl Ste B-121<br>
+                    Tempe, AZ 85281
+                </div>
+
+                <ul class="hours-list" id="hours-list">
+                    <li data-day="1"><span>Monday</span><span>8:00 AM - 5:00 PM</span></li>
+                    <li data-day="2"><span>Tuesday</span><span>8:00 AM - 5:00 PM</span></li>
+                    <li data-day="3"><span>Wednesday</span><span>8:00 AM - 5:00 PM</span></li>
+                    <li data-day="4"><span>Thursday</span><span>8:00 AM - 5:00 PM</span></li>
+                    <li data-day="5"><span>Friday</span><span>8:00 AM - 5:00 PM</span></li>
+                    <li data-day="6"><span>Saturday</span><span>9:00 AM - 12:00 PM</span></li>
+                    <li data-day="0"><span>Sunday</span><span>Closed</span></li>
+                </ul>
+            </div>
+
+            <form class="contact-form" data-netlify="true" name="contact" action="/thank-you">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="What can we fix for you?" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="business-name">Varsity Zone HVAC of Scottsdale</div>
+        <div class="footer-info">
+            (480) 771-2701 • 1403 W 10th Pl Ste B-121, Tempe, AZ 85281<br>
+            © <span id="current-year"></span> Varsity Zone HVAC of Scottsdale. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Floating Lead Widget -->
+    <a href="mailto:Landonbrewington12@gmail.com?subject=I%20want%20a%20site%20like%20Varsity%20Zone%20HVAC%20of%20Scottsdale" class="lead-widget" id="lead-widget">
+        <strong>A</strong> Built by Aurigen
+        <button class="close-btn" onclick="dismissWidget(event)">&times;</button>
+    </a>
+
+    <script>
+        // Generate and inject favicon
+        const favicon = `data:image/svg+xml,${encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                <rect width="64" height="64" fill="#0a0a0a"/>
+                <text x="32" y="44" text-anchor="middle" fill="#4a90d9" font-family="Arial, sans-serif" font-size="36" font-weight="bold">V</text>
+            </svg>
+        `)}`;
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = favicon;
+        document.head.appendChild(link);
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 800);
+        });
+
+        // Scroll progress bar
+        function updateScrollProgress() {
+            const scrollProgress = document.getElementById('scroll-progress');
+            const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        }
+
+        // Sticky header
+        function updateStickyHeader() {
+            const stickyHeader = document.getElementById('sticky-header');
+            const urgencyBanner = document.getElementById('urgency-banner');
+            
+            if (window.scrollY > 100) {
+                stickyHeader.classList.add('show');
+                urgencyBanner.classList.add('hidden');
+            } else {
+                stickyHeader.classList.remove('show');
+                urgencyBanner.classList.remove('hidden');
+            }
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Special handling for rating counter
+                    if (entry.target.classList.contains('reviews')) {
+                        animateRatingCounter();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Rating counter animation
+        function animateRatingCounter() {
+            const counter = document.getElementById('rating-counter');
+            let current = 0;
+            const target = 5;
+            const duration = 1500;
+            const increment = target / (duration / 16);
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.textContent = current.toFixed(1);
+            }, 16);
+        }
+
+        // Gallery lightbox
+        let currentImageIndex = 0;
+        const galleryImages = [
+            'varsity-zone-hvac-of-scottsdale-photo-1.jpg',
+            'varsity-zone-hvac-of-scottsdale-photo-2.jpg',
+            'varsity-zone-hvac-of-scottsdale-photo-3.jpg'
+        ];
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            lightboxImg.src = galleryImages[currentImageIndex];
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        function navigateLightbox(direction) {
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = galleryImages.length - 1;
+            if (currentImageIndex >= galleryImages.length) currentImageIndex = 0;
+            document.getElementById('lightbox-img').src = galleryImages[currentImageIndex];
+        }
+
+        // Highlight today's hours
+        function highlightTodaysHours() {
+            const today = new Date().getDay();
+            const hoursList = document.getElementById('hours-list');
+            const todayItem = hoursList.querySelector(`[data-day="${today}"]`);
+            if (todayItem) {
+                todayItem.classList.add('today');
+            }
+        }
+
+        // Dismiss lead widget
+        function dismissWidget(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('lead-widget').classList.add('dismissed');
+            sessionStorage.setItem('widgetDismissed', 'true');
+        }
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateScrollProgress();
+            updateStickyHeader();
+        });
+
+        // Gallery event listeners
+        document.querySelectorAll('.gallery-item').forEach((item, index) => {
+            item.addEventListener('click', () => openLightbox(index));
+        });
+
+        document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+        document.getElementById('lightbox-prev').addEventListener('click', () => navigateLightbox(-1));
+        document.getElementById('lightbox-next').addEventListener('click', () => navigateLightbox(1));
+
+        // Close lightbox on escape or outside click
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') closeLightbox();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up intersection observer
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Highlight today's hours
+            highlightTodaysHours();
+
+            // Check if widget was dismissed
+            if (sessionStorage.getItem('widgetDismissed')) {
+                document.getElementById('lead-widget').classList.add('dismissed');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

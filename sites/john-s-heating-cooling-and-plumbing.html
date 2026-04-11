@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John's Heating, Cooling, and Plumbing | Handyman in Mesa</title>
+    <meta name="description" content="Mesa's most trusted handyman crew fixing what others can't for 20+ years. Emergency HVAC, plumbing, and home repairs available 24/7 across Mesa, Arizona.">
+    
+    <meta property="og:title" content="John's Heating, Cooling, and Plumbing | Handyman in Mesa">
+    <meta property="og:description" content="Mesa's most trusted handyman crew fixing what others can't for 20+ years. Emergency HVAC, plumbing, and home repairs available 24/7 across Mesa, Arizona.">
+    <meta property="og:image" content="john-s-heating-cooling-and-plumbing-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "John's Heating, Cooling, and Plumbing",
+        "telephone": "(480) 648-0921",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "211 E 10th Dr #2",
+            "addressLocality": "Mesa",
+            "addressRegion": "AZ",
+            "postalCode": "85210",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "33.4147",
+            "longitude": "-111.8314"
+        },
+        "openingHours": "Mo-Su 00:00-23:59",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "3187"
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74,144,217,0.2);
+            --accent-glow: rgba(74,144,217,0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 300ms ease-out;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--accent-muted);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.1s ease-out;
+        }
+        
+        .urgency-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 12px;
+            z-index: 9998;
+            transition: transform 300ms ease-out;
+        }
+        
+        .urgency-banner.hidden {
+            transform: translateY(-100%);
+        }
+        
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10,10,10,0);
+            backdrop-filter: blur(0px);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9997;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 300ms ease-out;
+        }
+        
+        .sticky-header.visible {
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .sticky-header .business-name {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--accent);
+            font-size: 20px;
+            letter-spacing: 0.04em;
+        }
+        
+        .sticky-header .phone-btn {
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            text-decoration: none;
+            transition: transform 200ms ease-out;
+        }
+        
+        .sticky-header .phone-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .hero {
+            height: 100dvh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 clamp(24px, 5vw, 80px);
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('john-s-heating-cooling-and-plumbing-photo-1.jpg');
+            background-size: cover;
+            background-position: center;
+            clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+        }
+        
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 10vw, 120px);
+            line-height: 0.9;
+            letter-spacing: 0.04em;
+            margin-bottom: 24px;
+        }
+        
+        .hero h1 .first-line {
+            display: block;
+            color: var(--text);
+        }
+        
+        .hero h1 .second-line {
+            display: block;
+            color: var(--accent);
+        }
+        
+        .hero h1 span {
+            opacity: 0;
+            animation: fadeInUp 300ms ease-out forwards;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero .subtitle {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: var(--muted);
+            font-weight: 300;
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 300ms ease-out 400ms forwards;
+        }
+        
+        .hero-ctas {
+            display: flex;
+            gap: 24px;
+            opacity: 0;
+            animation: fadeInUp 300ms ease-out 600ms forwards;
+        }
+        
+        .cta-primary, .cta-secondary {
+            padding: 16px 32px;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            text-decoration: none;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 200ms ease-out;
+        }
+        
+        .cta-primary {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .cta-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .cta-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .section {
+            padding: clamp(80px, 12vw, 160px) clamp(24px, 5vw, 80px);
+        }
+        
+        .section-label {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            color: var(--text);
+            margin-bottom: 64px;
+            letter-spacing: 0.02em;
+        }
+        
+        .services {
+            background: var(--bg2);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 300ms ease-out;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+        
+        .service-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .service-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.04em;
+        }
+        
+        .service-card p {
+            color: var(--muted);
+            font-weight: 300;
+        }
+        
+        .gallery {
+            background: var(--bg);
+            clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+            padding-top: calc(clamp(80px, 12vw, 160px) + 80px);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 300ms ease-out;
+        }
+        
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 250px;
+            transition: all 300ms ease-out;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-item:hover img {
+            filter: brightness(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 24px 20px 20px;
+            transform: translateY(100%);
+            transition: transform 300ms ease-out;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: var(--radius);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 32px;
+            cursor: pointer;
+            padding: 8px;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 24px;
+            padding: 16px;
+            cursor: pointer;
+            border-radius: var(--radius);
+        }
+        
+        .lightbox-prev {
+            left: 24px;
+        }
+        
+        .lightbox-next {
+            right: 24px;
+        }
+        
+        .quote-section {
+            background: var(--bg3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" seed="1"/></filter></defs><rect width="100%" height="100%" filter="url(%23noiseFilter)" opacity="0.02"/></svg>');
+        }
+        
+        .quote-mark {
+            font-size: 200px;
+            color: var(--accent);
+            opacity: 0.3;
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: serif;
+        }
+        
+        .quote-text {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+            margin-bottom: 24px;
+            letter-spacing: 0.02em;
+        }
+        
+        .quote-author {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--muted);
+            letter-spacing: 0.2em;
+        }
+        
+        .reviews {
+            background: var(--bg2);
+        }
+        
+        .rating-badge {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        
+        .rating-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            display: block;
+        }
+        
+        .rating-stars {
+            color: var(--accent);
+            font-size: 24px;
+            margin: 8px 0;
+        }
+        
+        .rating-count {
+            color: var(--muted);
+            font-size: 16px;
+        }
+        
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px;
+        }
+        
+        .review-stars {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+        
+        .review-text {
+            font-style: italic;
+            color: var(--muted);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+        
+        .review-author {
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .about {
+            background: var(--bg);
+            clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+            padding-top: calc(clamp(80px, 12vw, 160px) + 80px);
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+        
+        .about-photo {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 0 80px var(--accent-glow);
+        }
+        
+        .about-photo img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .about-text h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 6vw, 80px);
+            color: var(--text);
+            margin-bottom: 32px;
+            letter-spacing: 0.02em;
+        }
+        
+        .about-text p {
+            font-size: 18px;
+            color: var(--muted);
+            margin-bottom: 24px;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+        
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 40px;
+        }
+        
+        .trust-signal {
+            padding: 16px;
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            text-align: center;
+            font-size: 14px;
+            color: var(--muted);
+        }
+        
+        .maps-embed {
+            margin: 64px auto 0;
+            max-width: 800px;
+        }
+        
+        .maps-embed iframe {
+            width: 100%;
+            height: 300px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+        
+        .contact {
+            background: var(--bg2);
+        }
+        
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .contact-phone {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 16px;
+            letter-spacing: 0.04em;
+        }
+        
+        .contact-subtitle {
+            color: var(--muted);
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+        
+        .contact-address {
+            margin-bottom: 32px;
+            color: var(--muted);
+        }
+        
+        .hours-list {
+            list-style: none;
+        }
+        
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+        }
+        
+        .hours-list li.today {
+            color: var(--accent);
+        }
+        
+        .contact-form {
+            display: grid;
+            gap: 24px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-group label {
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 16px;
+            transition: border-color 200ms ease-out;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-submit {
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            padding: 16px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 200ms ease-out;
+        }
+        
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .footer {
+            background: #050505;
+            text-align: center;
+            padding: 64px 24px;
+            border-top: 1px solid var(--accent);
+        }
+        
+        .footer-name {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 16px;
+            letter-spacing: 0.04em;
+        }
+        
+        .footer-info {
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        
+        .footer-copyright {
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 24px;
+        }
+        
+        .floating-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 14px;
+            color: var(--text);
+            text-decoration: none;
+            z-index: 9996;
+            transition: all 200ms ease-out;
+            animation: pulse 2s infinite;
+        }
+        
+        .floating-widget:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        .widget-close {
+            background: none;
+            border: none;
+            color: var(--muted);
+            margin-left: 12px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-ctas {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .cta-primary,
+            .cta-secondary {
+                width: 100%;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .urgency-banner {
+                position: relative;
+            }
+            
+            .sticky-header {
+                padding: 12px 16px;
+            }
+            
+            .sticky-header .business-name {
+                font-size: 16px;
+            }
+            
+            .sticky-header .phone-btn {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-screen">
+        <div class="spinner"></div>
+    </div>
+    
+    <div class="scroll-progress"></div>
+    
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+    
+    <header class="sticky-header">
+        <div class="business-name">John's Heating, Cooling, and Plumbing</div>
+        <a href="tel:(480) 648-0921" class="phone-btn">(480) 648-0921</a>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="first-line">
+                    <span>J</span><span>o</span><span>h</span><span>n</span><span>'</span><span>s</span>
+                </span>
+                <span class="second-line">
+                    <span>H</span><span>e</span><span>a</span><span>t</span><span>i</span><span>n</span><span>g</span><span>,</span> <span>C</span><span>o</span><span>o</span><span>l</span><span>i</span><span>n</span><span>g</span><span>,</span> <span>&</span> <span>P</span><span>l</span><span>u</span><span>m</span><span>b</span><span>i</span><span>n</span><span>g</span>
+                </span>
+            </h1>
+            <p class="subtitle">Mesa's go-to crew when your home needs fixing and everyone else gives up</p>
+            <div class="hero-ctas">
+                <a href="tel:(480) 648-0921" class="cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section services">
+        <div class="section-label">WHAT WE DO</div>
+        <h2 class="section-title">Built for Mesa</h2>
+        
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="icon">🔧</div>
+                <h3>Emergency Repairs</h3>
+                <p>When your AC dies at 3 AM or pipes burst on Sunday, we're the guys picking up the phone. No waiting for business hours when your home needs help.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="icon">🌡️</div>
+                <h3>HVAC Service & Install</h3>
+                <p>From tune-ups that keep you cool through Mesa summers to complete system replacements. We know which units survive Arizona heat and which don't.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="icon">🚿</div>
+                <h3>Plumbing Solutions</h3>
+                <p>Finding pipes that stumped other plumbers for 20 years? That's Tuesday for us. Leaks, clogs, or full remodels, we solve what others can't.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="icon">⚡</div>
+                <h3>Electrical Work</h3>
+                <p>Panel upgrades, outlet installations, and troubleshooting mysterious electrical issues. Licensed work that keeps your home safe and code compliant.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="icon">🏠</div>
+                <h3>Home Maintenance</h3>
+                <p>The honey-do list that keeps growing? We knock it out in one visit. Drywall, painting, fixtures, and all the small jobs that add up.</p>
+            </div>
+            
+            <div class="service-card">
+                <div class="icon">🛠️</div>
+                <h3>Appliance Repair</h3>
+                <p>Dishwashers that won't drain, garbage disposals that gave up, water heaters on their last legs. We fix them or help you replace them smart.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section gallery" id="gallery">
+        <h2 class="section-title">Our Work</h2>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="john-s-heating-cooling-and-plumbing-photo-1.jpg" alt="HVAC installation">
+                <div class="gallery-caption">
+                    Complete HVAC system replacement for Mesa home - new high-efficiency unit installed and running perfectly
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="john-s-heating-cooling-and-plumbing-photo-2.jpg" alt="Plumbing repair">
+                <div class="gallery-caption">
+                    Complex pipe routing solution that other plumbers couldn't figure out - problem solved permanently
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <img src="john-s-heating-cooling-and-plumbing-photo-3.jpg" alt="Emergency service">
+                <div class="gallery-caption">
+                    Emergency water heater replacement completed same day - customer back to hot showers by evening
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="lightbox">
+        <button class="lightbox-close">&times;</button>
+        <button class="lightbox-nav lightbox-prev">&larr;</button>
+        <button class="lightbox-nav lightbox-next">&rarr;</button>
+        <img src="" alt="">
+    </div>
+    
+    <section class="section quote-section">
+        <div class="quote-mark">"</div>
+        <div class="quote-text">He noticed and fixed the problems no one else could solve</div>
+        <div class="quote-author">Marlin Hull</div>
+    </section>
+    
+    <section class="section reviews">
+        <div class="rating-badge">
+            <span class="rating-number">4.9</span>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count">3,187 Google Reviews</div>
+        </div>
+        
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Our experience with John's was nothing short of incredible. Shawn did an awesome job asking the right questions and evaluating our home to get us into the right HVAC unit for us."</p>
+                <div class="review-author">Madison Abel</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Mike was very pleasant putting up with our yapping puppy. He gave us range of repair options and set us up with temporary service until replacement parts arrive."</p>
+                <div class="review-author">Thomas Hilditch</div>
+            </div>
+            
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Absolutely the best plumber I ever had. He noticed and fixed the problems no one else could solve. For 20 years other plumbers never could find which way my pipes were going. Seriously."</p>
+                <div class="review-author">Marlin Hull</div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section about">
+        <div class="about-content">
+            <div class="about-photo">
+                <img src="john-s-heating-cooling-and-plumbing-photo-2.jpg" alt="Our team at work">
+            </div>
+            
+            <div class="about-text">
+                <h2>Mesa's Most Trusted Handyman Crew</h2>
+                <p>We've been solving Mesa's toughest home problems for over two decades. While other companies give you the runaround, we show up ready to work with the tools and experience to get it right the first time.</p>
+                
+                <p>Our reputation speaks for itself - 3,187 five-star reviews from neighbors who trust us with their homes. When your AC unit gives up during a 115-degree summer or your pipes decide to reroute themselves in ways that baffle other plumbers, you call us.</p>
+                
+                <p>Emergency or routine maintenance, we treat every Mesa home like it's our own. Licensed, insured, and available 24/7 because home problems don't wait for convenient times.</p>
+                
+                <div class="trust-signals">
+                    <div class="trust-signal">20+ Years Serving Mesa</div>
+                    <div class="trust-signal">3,187 Five-Star Reviews</div>
+                    <div class="trust-signal">Licensed & Insured</div>
+                    <div class="trust-signal">24/7 Emergency Service</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="maps-embed">
+            <iframe 
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dO2_oaFZwx_0zw&q=211+E+10th+Dr+%232%2C+Mesa%2C+AZ+85210%2C+USA"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+    
+    <section class="section contact">
+        <div class="contact-content">
+            <div class="contact-info">
+                <a href="tel:(480) 648-0921" class="contact-phone">(480) 648-0921</a>
+                <p class="contact-subtitle">Call or text anytime</p>
+                
+                <div class="contact-address">
+                    📍 211 E 10th Dr #2<br>
+                    Mesa, AZ 85210
+                </div>
+                
+                <ul class="hours-list">
+                    <li><span>Monday</span><span>Open 24 hours</span></li>
+                    <li><span>Tuesday</span><span>Open 24 hours</span></li>
+                    <li><span>Wednesday</span><span>Open 24 hours</span></li>
+                    <li><span>Thursday</span><span>Open 24 hours</span></li>
+                    <li><span>Friday</span><span>Open 24 hours</span></li>
+                    <li><span>Saturday</span><span>Open 24 hours</span></li>
+                    <li><span>Sunday</span><span>Open 24 hours</span></li>
+                </ul>
+            </div>
+            
+            <form class="contact-form" name="contact" method="POST" data-netlify="true" action="/thank-you">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required placeholder="Tell us about your project..."></textarea>
+                </div>
+                
+                <button type="submit" class="form-submit">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+    
+    <footer class="footer">
+        <div class="footer-name">John's Heating, Cooling, and Plumbing</div>
+        <div class="footer-info">(480) 648-0921</div>
+        <div class="footer-info">211 E 10th Dr #2, Mesa, AZ 85210</div>
+        <div class="footer-copyright">© <span id="current-year"></span> John's Heating, Cooling, and Plumbing. All rights reserved.</div>
+    </footer>
+    
+    <a href="#" class="floating-widget" id="floating-widget">
+        Built by Aurigen <span style="color: var(--accent);">A</span>
+        <button class="widget-close" id="widget-close">&times;</button>
+    </a>
+
+    <script>
+        // Generate and inject favicon
+        const favicon = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+                <rect width="32" height="32" fill="#0a0a0a"/>
+                <text x="16" y="24" font-family="Arial, sans-serif" font-size="20" font-weight="bold" 
+                      text-anchor="middle" fill="#4a90d9">J</text>
+            </svg>
+        `;
+        const faviconBlob = new Blob([favicon], {type: 'image/svg+xml'});
+        const faviconUrl = URL.createObjectURL(faviconBlob);
+        const faviconLink = document.createElement('link');
+        faviconLink.rel = 'icon';
+        faviconLink.type = 'image/svg+xml';
+        faviconLink.href = faviconUrl;
+        document.head.appendChild(faviconLink);
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loading-screen').classList.add('hidden');
+            }, 800);
+        });
+
+        // Hero title animation
+        const titleSpans = document.querySelectorAll('.hero h1 span span');
+        titleSpans.forEach((span, index) => {
+            span.style.animationDelay = `${index * 30}ms`;
+        });
+
+        // Scroll progress bar
+        function updateScrollProgress() {
+            const scrolled = window.pageYOffset;
+            const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = (scrolled / maxScroll) * 100;
+            document.querySelector('.scroll-progress').style.width = progress + '%';
+        }
+
+        // Sticky header
+        function updateStickyHeader() {
+            const header = document.querySelector('.sticky-header');
+            const banner = document.querySelector('.urgency-banner');
+            const scrolled = window.pageYOffset;
+
+            if (scrolled > 100) {
+                header.classList.add('visible');
+                banner.classList.add('hidden');
+            } else {
+                header.classList.remove('visible');
+                banner.classList.remove('hidden');
+            }
+        }
+
+        // Smooth scroll for CTA
+        document.querySelector('.cta-secondary').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('#gallery').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Gallery lightbox
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.querySelector('.lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const lightboxClose = document.querySelector('.lightbox-close');
+        const lightboxPrev = document.querySelector('.lightbox-prev');
+        const lightboxNext = document.querySelector('.lightbox-next');
+        let currentImageIndex = 0;
+        const images = ['john-s-heating-cooling-and-plumbing-photo-1.jpg', 'john-s-heating-cooling-and-plumbing-photo-2.jpg', 'john-s-heating-cooling-and-plumbing-photo-3.jpg'];
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            lightboxImg.src = images[index];
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        }
+
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        }
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => openLightbox(index));
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxPrev.addEventListener('click', showPrevImage);
+        lightboxNext.addEventListener('click', showNextImage);
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') showPrevImage();
+                if (e.key === 'ArrowRight') showNextImage();
+            }
+        });
+
+        // Rating counter animation
+        function animateRating() {
+            const ratingElement = document.querySelector('.rating-number');
+            const target = 4.9;
+            const duration = 2000;
+            let start = 0;
+            const startTime = performance.now();
+
+            function updateRating(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = start + (target - start) * progress;
+                ratingElement.textContent = current.toFixed(1);
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateRating);
+                }
+            }
+            requestAnimationFrame(updateRating);
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('reviews')) {
+                        animateRating();
+                    }
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe sections for animation
+        document.querySelectorAll('.section').forEach((section) => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(50px)';
+            section.style.transition = 'opacity 600ms cubic-bezier(0.4,0,0.2,1), transform 600ms cubic-bezier(0.4,0,0.2,1)';
+            observer.observe(section);
+        });
+
+        // Current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Highlight today's hours
+        const today = new Date().getDay();
+        const hoursItems = document.querySelectorAll('.hours-list li');
+        if (hoursItems[today === 0 ? 6 : today - 1]) {
+            hoursItems[today === 0 ? 6 : today - 1].classList.add('today');
+        }
+
+        // Floating widget functionality
+        const floatingWidget = document.getElementById('floating-widget');
+        const widgetClose = document.getElementById('widget-close');
+
+        floatingWidget.addEventListener('click', (e) => {
+            if (e.target !== widgetClose) {
+                e.preventDefault();
+                window.location.href = "mailto:Landonbrewington12@gmail.com?subject=I want a site like John's Heating, Cooling, and Plumbing";
+            }
+        });
+
+        widgetClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            floatingWidget.style.display = 'none';
+            sessionStorage.setItem('widgetDismissed', 'true');
+        });
+
+        // Check if widget was dismissed
+        if (sessionStorage.getItem('widgetDismissed')) {
+            floatingWidget.style.display = 'none';
+        }
+
+        // Event listeners
+        window.addEventListener('scroll', () => {
+            updateScrollProgress();
+            updateStickyHeader();
+        });
+
+        // Initialize on load
+        updateScrollProgress();
+        updateStickyHeader();
+    </script>
+</body>
+</html>

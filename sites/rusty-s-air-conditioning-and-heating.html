@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rusty's Air Conditioning And Heating | Handyman in Mesa</title>
+    <meta name="description" content="Mesa's most trusted handyman crew for AC repair, heating installation, and home repairs. 4.9 stars, 556 reviews. Available 6 AM to 10 PM daily.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Rusty's Air Conditioning And Heating | Handyman in Mesa">
+    <meta property="og:description" content="Mesa's most trusted handyman crew for AC repair, heating installation, and home repairs. 4.9 stars, 556 reviews.">
+    <meta property="og:image" content="rusty-s-air-conditioning-and-heating-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Schema Markup -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Rusty's Air Conditioning And Heating",
+        "telephone": "(480) 631-4244",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "7509 E Southern Ave STE 108",
+            "addressLocality": "Mesa",
+            "addressRegion": "AZ",
+            "postalCode": "85209",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.3934,
+            "longitude": -111.6847
+        },
+        "openingHours": [
+            "Mo 06:00-22:00",
+            "Tu 06:00-22:00",
+            "We 06:00-22:00",
+            "Th 06:00-22:00",
+            "Fr 06:00-22:00",
+            "Sa 06:00-22:00",
+            "Su 06:00-22:00"
+        ],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "556"
+        }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74,144,217,0.2);
+            --accent-glow: rgba(74,144,217,0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            overflow-x: hidden;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 400ms ease-out, visibility 400ms ease-out;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--accent-muted);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        /* Urgency Banner */
+        .urgency-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 12px;
+            color: var(--text);
+            z-index: 1000;
+            transition: transform 300ms ease;
+        }
+
+        .urgency-banner.hidden {
+            transform: translateY(-100%);
+        }
+
+        /* Sticky Header */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+            transform: translateY(-100%);
+            transition: transform 300ms ease;
+        }
+
+        .sticky-header.visible {
+            transform: translateY(0);
+        }
+
+        .sticky-header .logo {
+            color: var(--accent);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 24px;
+            letter-spacing: 0.02em;
+        }
+
+        .sticky-header .phone {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 300ms ease;
+        }
+
+        .sticky-header .phone:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100dvh;
+            background-image: 
+                linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%),
+                url('rusty-s-air-conditioning-and-heating-photo-1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            z-index: 2;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 10vw, 120px);
+            letter-spacing: 0.04em;
+            line-height: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .first-word {
+            color: var(--text);
+            display: block;
+        }
+
+        .hero h1 .rest-words {
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero h1 span {
+            opacity: 0;
+            animation: slideInLetter 800ms cubic-bezier(0.4,0,0.2,1) forwards;
+        }
+
+        @keyframes slideInLetter {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero .subheading {
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeInUp 600ms cubic-bezier(0.4,0,0.2,1) 400ms forwards;
+        }
+
+        .hero .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeInUp 600ms cubic-bezier(0.4,0,0.2,1) 600ms forwards;
+        }
+
+        .cta-primary, .cta-secondary {
+            padding: 16px 32px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 300ms ease;
+            font-family: 'Bebas Neue', sans-serif;
+            letter-spacing: 0.05em;
+            font-size: 18px;
+        }
+
+        .cta-primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .cta-secondary {
+            border: 2px solid var(--border);
+            color: var(--text);
+        }
+
+        .cta-secondary:hover {
+            border-color: var(--accent);
+            background: var(--accent-muted);
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Services Section */
+        .services {
+            background: var(--bg2);
+            padding: 120px 20px;
+        }
+
+        .section-label {
+            text-transform: uppercase;
+            color: var(--accent);
+            font-size: 14px;
+            letter-spacing: 0.15em;
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            text-align: center;
+            margin-bottom: 80px;
+            letter-spacing: 0.02em;
+        }
+
+        .services-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 30px;
+            transition: all 300ms cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+
+        .service-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 15px;
+            letter-spacing: 0.02em;
+        }
+
+        .service-card p {
+            color: var(--muted);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        /* Photo Gallery */
+        .gallery {
+            background: var(--bg);
+            padding: 120px 20px;
+            clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 160px;
+        }
+
+        .gallery-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 300ms ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        .gallery-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: var(--text);
+            padding: 40px 20px 20px;
+            transform: translateY(100%);
+            transition: transform 300ms ease;
+        }
+
+        .gallery-item:hover .caption {
+            transform: translateY(0);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .lightbox .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: var(--text);
+            font-size: 30px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox .nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text);
+            font-size: 30px;
+            cursor: pointer;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox .nav.prev {
+            left: 20px;
+        }
+
+        .lightbox .nav.next {
+            right: 20px;
+        }
+
+        /* Pull Quote */
+        .pull-quote {
+            background: var(--bg3);
+            padding: 120px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .pull-quote::before {
+            content: '"';
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 200px;
+            color: var(--accent);
+            font-family: 'Bebas Neue', sans-serif;
+            opacity: 0.3;
+        }
+
+        .pull-quote blockquote {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+        }
+
+        .pull-quote cite {
+            text-transform: uppercase;
+            color: var(--muted);
+            font-size: 14px;
+            letter-spacing: 0.15em;
+            font-style: normal;
+        }
+
+        /* Reviews Section */
+        .reviews {
+            background: var(--bg2);
+            padding: 120px 20px;
+        }
+
+        .rating-badge {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .rating-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .rating-stars {
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .rating-count {
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .reviews-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 30px;
+        }
+
+        .review-card .stars {
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .review-card .text {
+            color: var(--muted);
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .review-card .author {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* About Section */
+        .about {
+            background: var(--bg);
+            padding: 120px 20px;
+            clip-path: polygon(0 8%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 160px;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-photo {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 0 60px var(--accent-glow);
+        }
+
+        .about-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .about-content h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 6vw, 80px);
+            margin-bottom: 30px;
+            letter-spacing: 0.02em;
+        }
+
+        .about-content p {
+            color: var(--muted);
+            line-height: 1.7;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .trust-signal {
+            background: var(--card);
+            padding: 20px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .trust-signal .number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .trust-signal .label {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* Maps */
+        .maps-section {
+            padding: 60px 20px;
+            background: var(--bg2);
+        }
+
+        .maps-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .maps-container iframe {
+            width: 100%;
+            height: 300px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--bg2);
+            padding: 120px 20px;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contact-info .phone {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .contact-info .phone-label {
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+
+        .contact-info .address {
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .hours-list {
+            list-style: none;
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .hours-list li.today {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 20px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            color: var(--text);
+            font-family: inherit;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .contact-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .contact-form button {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: var(--radius);
+            padding: 18px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 300ms ease;
+        }
+
+        .contact-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Footer */
+        footer {
+            background: #050505;
+            padding: 60px 20px 20px;
+            text-align: center;
+            border-top: 1px solid var(--accent);
+        }
+
+        footer .business-name {
+            font-family: 'Bebas Neue', sans-serif;
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        footer .contact-info {
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        footer .copyright {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 40px;
+        }
+
+        /* Floating Lead Widget */
+        .lead-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .widget-button {
+            background: rgba(0,0,0,0.9);
+            color: var(--text);
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            border: 1px solid var(--border);
+            animation: pulse 2s infinite;
+            backdrop-filter: blur(10px);
+        }
+
+        .widget-dismiss {
+            background: rgba(0,0,0,0.9);
+            color: var(--muted);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-primary, .cta-secondary {
+                width: 280px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Animation States */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 600ms cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .fade-in.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar"></div>
+
+    <!-- Urgency Banner -->
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+
+    <!-- Sticky Header -->
+    <header class="sticky-header">
+        <div class="logo">Rusty's</div>
+        <a href="tel:+14806314244" class="phone">(480) 631-4244</a>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="first-word">
+                    <span>R</span><span>u</span><span>s</span><span>t</span><span>y</span><span>'</span><span>s</span>
+                </span>
+                <span class="rest-words">
+                    <span>A</span><span>i</span><span>r</span><span> </span><span>C</span><span>o</span><span>n</span><span>d</span><span>i</span><span>t</span><span>i</span><span>o</span><span>n</span><span>i</span><span>n</span><span>g</span><span> </span><span>&</span><span> </span><span>H</span><span>e</span><span>a</span><span>t</span><span>i</span><span>n</span><span>g</span>
+                </span>
+            </h1>
+            <p class="subheading">Mesa's go-to crew when your AC dies at 115° or your heater quits on Christmas morning</p>
+            <div class="cta-buttons">
+                <a href="tel:+14806314244" class="cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services fade-in">
+        <div class="section-label">What We Do</div>
+        <h2 class="section-title">Built for Mesa Heat</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <span class="icon">❄️</span>
+                <h3>AC Repair & Installation</h3>
+                <p>Your AC unit is fighting a losing battle against 120° summers. We diagnose the problem fast and get you cool again with parts that actually last in desert heat.</p>
+            </div>
+            <div class="service-card">
+                <span class="icon">🔥</span>
+                <h3>Heating System Service</h3>
+                <p>Those surprise 30° winter nights hit different in the desert. We keep your heating system ready so you're never caught shivering when the temperature drops.</p>
+            </div>
+            <div class="service-card">
+                <span class="icon">🔧</span>
+                <h3>HVAC Maintenance</h3>
+                <p>Regular tune-ups save you thousands in Mesa's extreme weather. We clean, inspect, and optimize your system so it runs efficiently when you need it most.</p>
+            </div>
+            <div class="service-card">
+                <span class="icon">🏠</span>
+                <h3>Home Repairs</h3>
+                <p>From leaky faucets to electrical issues, we handle the repairs that pile up in older Mesa homes. Quality work that lasts, not quick fixes that fail.</p>
+            </div>
+            <div class="service-card">
+                <span class="icon">⚡</span>
+                <h3>Electrical Work</h3>
+                <p>Outlets not working? Breakers tripping? We troubleshoot electrical problems safely and bring everything up to code so your family stays protected.</p>
+            </div>
+            <div class="service-card">
+                <span class="icon">🔨</span>
+                <h3>General Handyman</h3>
+                <p>The honey-do list that never ends. We tackle everything from mounting TVs to fixing doors, so you can spend weekends doing what you actually enjoy.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="gallery fade-in" id="gallery">
+        <h2 class="section-title">Our Work</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="openLightbox(0)">
+                <img src="rusty-s-air-conditioning-and-heating-photo-1.jpg" alt="HVAC Installation">
+                <div class="caption">Complete HVAC system installation for Mesa home</div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(1)">
+                <img src="rusty-s-air-conditioning-and-heating-photo-2.jpg" alt="AC Repair">
+                <div class="caption">Emergency AC repair during summer heatwave</div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(2)">
+                <img src="rusty-s-air-conditioning-and-heating-photo-3.jpg" alt="Heating Service">
+                <div class="caption">Heating system maintenance and tune-up</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox">
+        <span class="close" onclick="closeLightbox()">&times;</span>
+        <span class="nav prev" onclick="changeImage(-1)">&#8249;</span>
+        <span class="nav next" onclick="changeImage(1)">&#8250;</span>
+        <img src="" alt="Gallery Image">
+    </div>
+
+    <!-- Pull Quote -->
+    <section class="pull-quote fade-in">
+        <blockquote>We had a new AC system installed and couldn't be happier</blockquote>
+        <cite>Vanessa Ventura</cite>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews fade-in">
+        <div class="rating-badge">
+            <div class="rating-number" id="rating-counter">0</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count">556 Google Reviews</div>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <div class="text">"I had Dean and Richard two of Rusty's techs come out about a week ago to give a quote. I received 4 quotes from 4 different hvac contractors."</div>
+                <div class="author">Lloyd Mason</div>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <div class="text">"We had a new AC system installed by Rusty's Air Conditioning & Heating and couldn't be happier."</div>
+                <div class="author">Vanessa Ventura</div>
+            </div>
+            <div class="review-card">
+                <div class="stars">★★★★★</div>
+                <div class="text">"Rusty's Air Conditioning & Heating just installed our new high-efficiency system, and the experience was outstanding from start to finish."</div>
+                <div class="author">Necia K</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about fade-in">
+        <div class="about-container">
+            <div class="about-photo">
+                <img src="rusty-s-air-conditioning-and-heating-photo-2.jpg" alt="Rusty's Team">
+            </div>
+            <div class="about-content">
+                <h2>Mesa's Most Trusted Handyman Crew</h2>
+                <p>We've been keeping Mesa homes comfortable and functional for over a decade. When your AC breaks down in July or your heater fails in January, you need someone who shows up on time with the right parts and gets it fixed right the first time. That's exactly what we deliver, every single call.</p>
+                <div class="trust-signals">
+                    <div class="trust-signal">
+                        <div class="number">12+</div>
+                        <div class="label">Years Serving Mesa</div>
+                    </div>
+                    <div class="trust-signal">
+                        <div class="number">556</div>
+                        <div class="label">Google Reviews</div>
+                    </div>
+                    <div class="trust-signal">
+                        <div class="number">Licensed</div>
+                        <div class="label">& Insured</div>
+                    </div>
+                    <div class="trust-signal">
+                        <div class="number">Local</div>
+                        <div class="label">Mesa & Surrounding</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Maps -->
+    <section class="maps-section">
+        <div class="maps-container">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3332.5!2d-111.6847!3d33.3934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872ba7d4a90b5d1b%3A0x1234567890abcdef!2s7509%20E%20Southern%20Ave%20STE%20108%2C%20Mesa%2C%20AZ%2085209!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact fade-in">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <a href="tel:+14806314244" class="phone">(480) 631-4244</a>
+                <p class="phone-label">Call or text anytime</p>
+                <div class="address">
+                    📍 7509 E Southern Ave STE 108<br>
+                    Mesa, AZ 85209
+                </div>
+                <ul class="hours-list">
+                    <li id="monday"><span>Monday</span><span>6:00 AM – 10:00 PM</span></li>
+                    <li id="tuesday"><span>Tuesday</span><span>6:00 AM – 10:00 PM</span></li>
+                    <li id="wednesday"><span>Wednesday</span><span>6:00 AM – 10:00 PM</span></li>
+                    <li id="thursday"><span>Thursday</span><span>6:00 AM – 10:00 PM</span></li>
+                    <li id="friday"><span>Friday</span><span>6:00 AM – 10:00 PM</span></li>
+                    <li id="saturday"><span>Saturday</span><span>6:00 AM – 10:00 PM</span></li>
+                    <li id="sunday"><span>Sunday</span><span>6:00 AM – 10:00 PM</span></li>
+                </ul>
+            </div>
+            <form class="contact-form" data-netlify="true" name="contact" action="/thank-you">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Tell us about your project..." required></textarea>
+                <button type="submit">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="business-name">Rusty's Air Conditioning And Heating</div>
+        <div class="contact-info">(480) 631-4244</div>
+        <div class="contact-info">7509 E Southern Ave STE 108, Mesa, AZ 85209, USA</div>
+        <div class="copyright">© <span id="current-year"></span> Rusty's Air Conditioning And Heating. All rights reserved.</div>
+    </footer>
+
+    <!-- Lead Widget -->
+    <div class="lead-widget" id="leadWidget">
+        <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Rusty's Air Conditioning And Heating" class="widget-button">
+            Built by Aurigen
+        </a>
+        <div class="widget-dismiss" onclick="dismissWidget()">&times;</div>
+    </div>
+
+    <script>
+        // Generate and inject favicon
+        function generateFavicon() {
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <rect width="100" height="100" fill="#0a0a0a"/>
+                <text x="50" y="70" font-family="Arial" font-size="60" font-weight="bold" 
+                      text-anchor="middle" fill="#4a90d9">R</text>
+            </svg>`;
+            const favicon = document.createElement('link');
+            favicon.rel = 'icon';
+            favicon.href = 'data:image/svg+xml;base64,' + btoa(svg);
+            document.head.appendChild(favicon);
+        }
+
+        // Loading animation
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hidden');
+            }, 800);
+        });
+
+        // Animate hero text letters
+        function animateHeroText() {
+            const letters = document.querySelectorAll('.hero h1 span');
+            letters.forEach((letter, index) => {
+                letter.style.animationDelay = (index * 30) + 'ms';
+            });
+        }
+
+        // Scroll progress bar
+        function updateProgressBar() {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('.progress-bar').style.width = scrolled + '%';
+        }
+
+        // Sticky header
+        function handleStickyHeader() {
+            const header = document.querySelector('.sticky-header');
+            const banner = document.querySelector('.urgency-banner');
+            
+            if (window.scrollY > 100) {
+                header.classList.add('visible');
+                banner.classList.add('hidden');
+            } else {
+                header.classList.remove('visible');
+                banner.classList.remove('hidden');
+            }
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    
+                    // Special handling for reviews section
+                    if (entry.target.classList.contains('reviews')) {
+                        animateRating();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Animate rating counter
+        function animateRating() {
+            const counter = document.getElementById('rating-counter');
+            let current = 0;
+            const target = 4.9;
+            const increment = target / 30;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.textContent = current.toFixed(1);
+            }, 50);
+        }
+
+        // Gallery lightbox
+        let currentImage = 0;
+        const images = [
+            'rusty-s-air-conditioning-and-heating-photo-1.jpg',
+            'rusty-s-air-conditioning-and-heating-photo-2.jpg',
+            'rusty-s-air-conditioning-and-heating-photo-3.jpg'
+        ];
+
+        function openLightbox(index) {
+            currentImage = index;
+            const lightbox = document.querySelector('.lightbox');
+            const img = lightbox.querySelector('img');
+            img.src = images[currentImage];
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.querySelector('.lightbox').classList.remove('active');
+        }
+
+        function changeImage(direction) {
+            currentImage += direction;
+            if (currentImage >= images.length) currentImage = 0;
+            if (currentImage < 0) currentImage = images.length - 1;
+            
+            const img = document.querySelector('.lightbox img');
+            img.src = images[currentImage];
+        }
+
+        // Highlight current day
+        function highlightToday() {
+            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            const today = days[new Date().getDay()];
+            const todayElement = document.getElementById(today);
+            if (todayElement) {
+                todayElement.classList.add('today');
+            }
+        }
+
+        // Lead widget dismiss
+        function dismissWidget() {
+            document.getElementById('leadWidget').style.display = 'none';
+            sessionStorage.setItem('widgetDismissed', 'true');
+        }
+
+        // Check if widget was dismissed
+        function checkWidgetStatus() {
+            if (sessionStorage.getItem('widgetDismissed')) {
+                document.getElementById('leadWidget').style.display = 'none';
+            }
+        }
+
+        // Set current year
+        function setCurrentYear() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+        }
+
+        // Keyboard events for lightbox
+        document.addEventListener('keydown', function(e) {
+            if (document.querySelector('.lightbox.active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') changeImage(-1);
+                if (e.key === 'ArrowRight') changeImage(1);
+            }
+        });
+
+        // Click outside lightbox to close
+        document.querySelector('.lightbox').addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
+        });
+
+        // Scroll event listeners
+        window.addEventListener('scroll', function() {
+            updateProgressBar();
+            handleStickyHeader();
+        });
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', function() {
+            generateFavicon();
+            animateHeroText();
+            highlightToday();
+            checkWidgetStatus();
+            setCurrentYear();
+            
+            // Set up intersection observers
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>

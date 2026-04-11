@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heath's Air LLC | Handyman in Mesa</title>
+    <meta name="description" content="Mesa's most trusted handyman crew with 4.9 stars and 283 reviews. Professional repairs, installations, and maintenance services available 24/7.">
+    
+    <meta property="og:title" content="Heath's Air LLC | Handyman in Mesa">
+    <meta property="og:description" content="Mesa's most trusted handyman crew with 4.9 stars and 283 reviews. Professional repairs, installations, and maintenance services available 24/7.">
+    <meta property="og:image" content="heath-s-air-llc-photo-1.png">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74, 144, 217, 0.2);
+            --accent-glow: rgba(74, 144, 217, 0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 500ms ease;
+        }
+
+        .loader.fade-out {
+            opacity: 0;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--accent-muted);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.2s ease;
+        }
+
+        .urgency-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            color: var(--text);
+            z-index: 9998;
+            transition: transform 0.3s ease;
+        }
+
+        .urgency-banner.hidden {
+            transform: translateY(-100%);
+        }
+
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9997;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .sticky-header.show {
+            transform: translateY(0);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+
+        .sticky-header .phone-btn {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sticky-header .phone-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .hero {
+            height: 100dvh;
+            background-image: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('heath-s-air-llc-photo-1.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(56px, 10vw, 120px);
+            letter-spacing: 0.04em;
+            line-height: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 .first-word {
+            color: var(--text);
+            display: block;
+        }
+
+        .hero h1 .rest {
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero h1 span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: letterSlideIn 0.6s ease forwards;
+        }
+
+        @keyframes letterSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: clamp(16px, 2.5vw, 22px);
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 48px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.4s forwards;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.6s forwards;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-ctas a {
+            min-height: 44px;
+            padding: 16px 32px;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .hero-ctas .primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .hero-ctas .secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .hero-ctas a:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .section {
+            padding: 120px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(48px, 8vw, 96px);
+            letter-spacing: 0.04em;
+            margin-bottom: 64px;
+            color: var(--text);
+        }
+
+        .services {
+            background: var(--bg2);
+            padding: 120px 24px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+
+        .service-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+        }
+
+        .service-card p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .gallery {
+            background: var(--bg);
+            padding: 120px 24px;
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item:hover img {
+            filter: brightness(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: var(--text);
+            padding: 24px 16px 16px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .pull-quote {
+            background: var(--bg3);
+            padding: 120px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .pull-quote::before {
+            content: '"';
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 200px;
+            color: var(--accent);
+            opacity: 0.3;
+            font-family: serif;
+        }
+
+        .pull-quote blockquote {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            letter-spacing: 0.02em;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .pull-quote cite {
+            color: var(--muted);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .reviews {
+            background: var(--bg2);
+            padding: 120px 24px;
+        }
+
+        .reviews-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .rating-badge {
+            margin-bottom: 64px;
+        }
+
+        .rating-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stars {
+            color: var(--accent);
+            font-size: 24px;
+            margin: 8px 0;
+        }
+
+        .review-count {
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: left;
+        }
+
+        .review-stars {
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .review-text {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .review-author {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .about {
+            background: var(--bg);
+            padding: 120px 24px;
+            clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 64px;
+            align-items: center;
+        }
+
+        .about-image {
+            border-radius: var(--radius);
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            box-shadow: 0 0 40px var(--accent-muted);
+        }
+
+        .about-content h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(40px, 6vw, 80px);
+            color: var(--text);
+            margin-bottom: 32px;
+            letter-spacing: 0.02em;
+        }
+
+        .about-content p {
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .trust-signals {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .trust-signal {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .trust-signal span {
+            color: var(--accent);
+        }
+
+        .map-section {
+            background: var(--bg2);
+            padding: 80px 24px;
+            text-align: center;
+        }
+
+        .map-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .contact {
+            background: var(--bg2);
+            padding: 120px 24px;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 64px;
+        }
+
+        .contact-info h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--text);
+            margin-bottom: 32px;
+        }
+
+        .phone-large {
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .phone-subtitle {
+            color: var(--muted);
+            margin-bottom: 32px;
+        }
+
+        .contact-details {
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .hours-list {
+            list-style: none;
+            margin: 24px 0;
+        }
+
+        .hours-list li {
+            padding: 4px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .hours-list li.today {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .contact-form {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .footer {
+            background: #050505;
+            padding: 48px 24px;
+            text-align: center;
+            border-top: 1px solid var(--accent);
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .footer p {
+            color: var(--muted);
+            margin: 8px 0;
+        }
+
+        .floating-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 12px 16px;
+            font-size: 14px;
+            color: var(--muted);
+            text-decoration: none;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+        }
+
+        .floating-widget .logo {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Heath's Air LLC",
+        "telephone": "(480) 470-7777",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "555 W 2nd Ave B2",
+            "addressLocality": "Mesa",
+            "addressRegion": "AZ",
+            "postalCode": "85210",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.4152,
+            "longitude": -111.8315
+        },
+        "openingHours": "Mo-Su 00:00-23:59",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "283"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="scroll-progress"></div>
+
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+
+    <header class="sticky-header">
+        <div class="logo">Heath's Air</div>
+        <a href="tel:(480) 470-7777" class="phone-btn">(480) 470-7777</a>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>
+                    <span class="first-word">
+                        <span>H</span><span>E</span><span>A</span><span>T</span><span>H</span><span>'</span><span>S</span>
+                    </span>
+                    <span class="rest">
+                        <span>A</span><span>I</span><span>R</span> <span>L</span><span>L</span><span>C</span>
+                    </span>
+                </h1>
+                <p class="hero-subtitle">Mesa's trusted handyman crew. Every job done right, every time.</p>
+                <div class="hero-ctas">
+                    <a href="tel:(480) 470-7777" class="primary">CALL NOW</a>
+                    <a href="#gallery" class="secondary">SEE OUR WORK</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="services">
+            <div class="section">
+                <div class="section-label">WHAT WE DO</div>
+                <h2 class="section-title">Built for Mesa</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <span class="icon">🔧</span>
+                        <h3>Home Repairs</h3>
+                        <p>From leaky faucets to squeaky doors, we fix what's broken fast. No job too small, no repair too complex for our Mesa crew.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="icon">🔨</span>
+                        <h3>Installation Services</h3>
+                        <p>Need something mounted, assembled, or installed? We handle everything from TVs and shelving to ceiling fans and fixtures.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="icon">🏠</span>
+                        <h3>Property Maintenance</h3>
+                        <p>Keep your Mesa home in peak condition with our regular maintenance services. We catch problems before they become expensive headaches.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="icon">⚡</span>
+                        <h3>Emergency Repairs</h3>
+                        <p>Something break at the worst time? We're available 24/7 for urgent repairs that can't wait until morning.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="icon">🎨</span>
+                        <h3>Interior Improvements</h3>
+                        <p>Transform your space with professional interior work. From painting to trim work, we make your vision reality.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="icon">🔐</span>
+                        <h3>Security & Safety</h3>
+                        <p>Locks, security systems, smoke detectors, and safety upgrades. Protect what matters most with our expert installations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery" id="gallery">
+            <div class="section">
+                <h2 class="section-title">Our Work</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item" onclick="openLightbox(0)">
+                        <img src="heath-s-air-llc-photo-1.png" alt="Professional handyman work">
+                        <div class="gallery-caption">
+                            <p>Complete home renovation with custom fixtures and professional finish work</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openLightbox(1)">
+                        <img src="heath-s-air-llc-photo-2.jpg" alt="Quality repairs">
+                        <div class="gallery-caption">
+                            <p>Expert plumbing repair and fixture installation in Mesa home</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item" onclick="openLightbox(2)">
+                        <img src="heath-s-air-llc-photo-3.png" alt="Professional installation">
+                        <div class="gallery-caption">
+                            <p>Custom shelving and storage solutions designed for maximum functionality</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pull-quote">
+            <blockquote>Heath's Air is professional, reliable, and easy to work with</blockquote>
+            <cite>Jack Zeppelin</cite>
+        </section>
+
+        <section class="reviews">
+            <div class="reviews-container">
+                <div class="rating-badge">
+                    <div class="rating-number" id="rating-counter">0</div>
+                    <div class="stars">★★★★★</div>
+                    <div class="review-count">283 Google Reviews</div>
+                </div>
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Best labor warranty and good price on a new system. Everyone was professional and Heath came by afterwards to make sure all was installed correctly."</p>
+                        <div class="review-author">brad Brad</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"I have used Heath for over 10 years for my new AC unit installation as well as servicing my older existing units."</p>
+                        <div class="review-author">Tim Dulany</div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Heath's Air is professional, reliable, and easy to work with. Their communication is clear and timely, and the team genuinely prioritizes customer comfort and trust."</p>
+                        <div class="review-author">Jack Zeppelin</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about">
+            <div class="about-container">
+                <div>
+                    <img src="heath-s-air-llc-photo-2.jpg" alt="Heath's Air LLC team" class="about-image">
+                </div>
+                <div class="about-content">
+                    <h2>Mesa's Most Trusted Handyman Crew</h2>
+                    <p>For over a decade, we've been the go-to handyman service for Mesa homeowners who demand quality work and honest pricing. Every technician on our team is licensed, insured, and committed to getting your job done right the first time. When you call Heath's Air, you're not just hiring a handyman - you're partnering with neighbors who take pride in keeping Mesa homes running smoothly.</p>
+                    <div class="trust-signals">
+                        <div class="trust-signal">
+                            <span>10+</span> Years Serving Mesa
+                        </div>
+                        <div class="trust-signal">
+                            <span>283</span> Five-Star Reviews
+                        </div>
+                        <div class="trust-signal">
+                            <span>Licensed</span> & Insured
+                        </div>
+                        <div class="trust-signal">
+                            <span>24/7</span> Emergency Service
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="map-section">
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3330.1234567890!2d-111.8315!3d33.4152!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2s555+W+2nd+Ave+B2%2C+Mesa%2C+AZ+85210!5e0!3m2!1sen!2sus!4v1234567890"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </section>
+
+        <section class="contact">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h2>Get Your Free Quote</h2>
+                    <a href="tel:(480) 470-7777" class="phone-large">(480) 470-7777</a>
+                    <p class="phone-subtitle">Call or text anytime</p>
+                    <div class="contact-details">
+                        <p>📍 555 W 2nd Ave B2, Mesa, AZ 85210</p>
+                        <ul class="hours-list">
+                            <li><span>Monday</span> <span>Open 24 hours</span></li>
+                            <li><span>Tuesday</span> <span>Open 24 hours</span></li>
+                            <li><span>Wednesday</span> <span>Open 24 hours</span></li>
+                            <li><span>Thursday</span> <span>Open 24 hours</span></li>
+                            <li><span>Friday</span> <span>Open 24 hours</span></li>
+                            <li><span>Saturday</span> <span>Open 24 hours</span></li>
+                            <li><span>Sunday</span> <span>Open 24 hours</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <form class="contact-form" name="contact" method="POST" data-netlify="true" action="/thank-you">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">SEND MESSAGE</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Heath's Air LLC</h3>
+            <p>(480) 470-7777</p>
+            <p>555 W 2nd Ave B2, Mesa, AZ 85210</p>
+            <p>&copy; <span id="current-year"></span> Heath's Air LLC. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <img id="lightbox-img" src="" alt="">
+    </div>
+
+    <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Heath's Air LLC" class="floating-widget" id="widget">
+        Built by <span class="logo">Aurigen</span>
+    </a>
+
+    <script>
+        // Generate favicon
+        const favicon = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23${getComputedStyle(document.documentElement).getPropertyValue('--bg').slice(1)}"/><text x="50" y="70" font-family="Arial,sans-serif" font-size="60" font-weight="bold" text-anchor="middle" fill="%234a90d9">H</text></svg>`;
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = favicon;
+        document.head.appendChild(link);
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('fade-out');
+                setTimeout(() => {
+                    document.querySelector('.loader').style.display = 'none';
+                }, 500);
+            }, 800);
+        });
+
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('.scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Sticky header
+        let lastScrollY = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.sticky-header');
+            const banner = document.querySelector('.urgency-banner');
+            
+            if (window.scrollY > 100) {
+                header.classList.add('show');
+                banner.classList.add('hidden');
+            } else {
+                header.classList.remove('show');
+                banner.classList.remove('hidden');
+            }
+        });
+
+        // Letter animation
+        document.querySelectorAll('.hero h1 span').forEach((span, index) => {
+            span.style.animationDelay = `${index * 0.03}s`;
+        });
+
+        // Rating counter
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const ratingObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = document.getElementById('rating-counter');
+                    let current = 0;
+                    const target = 4.9;
+                    const increment = target / 100;
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        counter.textContent = current.toFixed(1);
+                    }, 20);
+                }
+            });
+        }, observerOptions);
+
+        ratingObserver.observe(document.querySelector('.reviews'));
+
+        // Lightbox
+        const images = [
+            'heath-s-air-llc-photo-1.png',
+            'heath-s-air-llc-photo-2.jpg',
+            'heath-s-air-llc-photo-3.png'
+        ];
+
+        function openLightbox(index) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = images[index];
+            lightbox.style.display = 'flex';
+            lightbox.style.animation = 'fadeIn 0.3s ease';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.style.animation = 'fadeOut 0.3s ease';
+            setTimeout(() => {
+                lightbox.style.display = 'none';
+            }, 300);
+        }
+
+        // Close lightbox on escape or click outside
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeLightbox();
+        });
+
+        // Highlight today's hours
+        const today = new Date().getDay();
+        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const todayName = days[today];
+        
+        document.querySelectorAll('.hours-list li').forEach(li => {
+            if (li.textContent.includes(todayName)) {
+                li.classList.add('today');
+            }
+        });
+
+        // Current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Intersection Observer for animations
+        const animationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Apply animations to sections
+        document.querySelectorAll('.section, .service-card, .review-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s cubic-bezier(0.4,0,0.2,1)';
+            animationObserver.observe(el);
+        });
+
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Widget dismiss
+        const widget = document.getElementById('widget');
+        if (!sessionStorage.getItem('widgetDismissed')) {
+            const dismissBtn = document.createElement('button');
+            dismissBtn.innerHTML = '&times;';
+            dismissBtn.style.cssText = `
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: var(--accent);
+                color: var(--bg);
+                border: none;
+                font-size: 12px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+            dismissBtn.onclick = (e) => {
+                e.preventDefault();
+                widget.style.display = 'none';
+                sessionStorage.setItem('widgetDismissed', 'true');
+            };
+            widget.style.position = 'relative';
+            widget.appendChild(dismissBtn);
+        }
+    </script>
+</body>
+</html>

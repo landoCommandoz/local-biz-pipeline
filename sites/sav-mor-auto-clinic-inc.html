@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sav-Mor Auto Clinic Inc | Expert Mechanic Services in Orem</title>
+    <meta name="description" content="Orem's most trusted auto repair shop with 4.9 stars and 512+ reviews. Professional mechanical services, honest pricing, and expert diagnostics you can count on.">
+    
+    <meta property="og:title" content="Sav-Mor Auto Clinic Inc | Expert Mechanic Services in Orem">
+    <meta property="og:description" content="Orem's most trusted auto repair shop with 4.9 stars and 512+ reviews. Professional mechanical services, honest pricing, and expert diagnostics you can count on.">
+    <meta property="og:image" content="sav-mor-auto-clinic-inc-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Sav-Mor Auto Clinic Inc",
+        "telephone": "(801) 224-2221",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "780 N 400 W St",
+            "addressLocality": "Orem",
+            "addressRegion": "UT",
+            "postalCode": "84057",
+            "addressCountry": "USA"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "40.3072",
+            "longitude": "-111.7252"
+        },
+        "openingHours": [
+            "Mo 07:30-17:30",
+            "Tu 07:30-17:30", 
+            "We 07:30-17:30",
+            "Th 07:30-17:30",
+            "Fr 07:30-17:30"
+        ],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "512"
+        }
+    }
+    </script>
+</head>
+
+<style>
+:root {
+    --bg: #0a0a0a;
+    --bg2: #111114;
+    --bg3: #16161a;
+    --card: rgba(255,255,255,0.03);
+    --accent: #e63946;
+    --accent-muted: rgba(230,57,70,0.2);
+    --accent-glow: rgba(230,57,70,0.4);
+    --text: #f0f0f0;
+    --muted: #888896;
+    --border: rgba(255,255,255,0.07);
+    --shadow: 0 24px 64px rgba(0,0,0,0.6);
+    --radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    transition: opacity 0.5s ease;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--border);
+    border-top: 3px solid var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent);
+    z-index: 9999;
+    transition: width 0.1s ease;
+}
+
+.urgency-banner {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: var(--accent-muted);
+    border-bottom: 1px solid var(--accent-muted);
+    text-align: center;
+    padding: 8px 0;
+    font-size: 12px;
+    color: var(--text);
+    z-index: 1000;
+    transition: transform 0.3s ease;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+    transition: all 0.3s ease;
+    transform: translateY(-100px);
+}
+
+.header.scrolled {
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(20px);
+    transform: translateY(30px);
+}
+
+.header-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+}
+
+.header-cta {
+    background: var(--accent);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.header-cta:hover {
+    transform: translateY(-2px);
+}
+
+.hero {
+    height: 100dvh;
+    background-image: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('sav-mor-auto-clinic-inc-photo-1.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.hero-glow {
+    position: absolute;
+    width: 800px;
+    height: 400px;
+    background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    padding: 0 24px;
+}
+
+.hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 10vw, 120px);
+    line-height: 0.9;
+    letter-spacing: 0.04em;
+    margin-bottom: 24px;
+}
+
+.hero-title-line1 {
+    color: var(--text);
+    display: block;
+}
+
+.hero-title-line2 {
+    color: var(--accent);
+    display: block;
+}
+
+.hero-subtitle {
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+}
+
+.hero-ctas {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.6s;
+}
+
+.cta-primary, .cta-secondary {
+    padding: 16px 32px;
+    min-height: 44px;
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cta-primary {
+    background: var(--accent);
+    color: white;
+    border: none;
+}
+
+.cta-secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+}
+
+.cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.cta-secondary:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.section {
+    padding: 120px 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-bg2 {
+    background: var(--bg2);
+}
+
+.section-bg3 {
+    background: var(--bg3);
+}
+
+.section-label {
+    font-size: 12px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+.section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 96px);
+    color: var(--text);
+    margin-bottom: 60px;
+    letter-spacing: 0.02em;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 32px;
+}
+
+.service-card {
+    background: var(--card);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 32px;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    border-left-color: var(--accent);
+}
+
+.service-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--text);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+}
+
+.service-description {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.gallery {
+    background: var(--bg);
+    padding: 120px 24px;
+    clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+    margin-top: -100px;
+    padding-top: 200px;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:first-child img {
+    height: 600px;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.03);
+    filter: brightness(1.1);
+}
+
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: var(--text);
+    padding: 40px 24px 24px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-caption {
+    transform: translateY(0);
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: var(--text);
+    padding: 12px 16px;
+    cursor: pointer;
+    border-radius: var(--radius);
+}
+
+.lightbox-prev {
+    left: 24px;
+}
+
+.lightbox-next {
+    right: 24px;
+}
+
+.quote-section {
+    background: var(--bg3);
+    background-image: 
+        radial-gradient(circle at 25% 25%, rgba(255,255,255,0.02) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(255,255,255,0.02) 0%, transparent 50%);
+    padding: 120px 24px;
+    text-align: center;
+    position: relative;
+}
+
+.quote-mark {
+    font-size: 200px;
+    color: var(--accent);
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.3;
+    font-family: serif;
+    line-height: 1;
+}
+
+.quote-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 5vw, 64px);
+    color: var(--text);
+    max-width: 900px;
+    margin: 0 auto 24px;
+    position: relative;
+    z-index: 2;
+    line-height: 1.1;
+}
+
+.quote-author {
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+}
+
+.reviews {
+    background: var(--bg2);
+    padding: 120px 24px;
+}
+
+.rating-badge {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.rating-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 12vw, 120px);
+    color: var(--accent);
+    line-height: 1;
+}
+
+.rating-stars {
+    color: var(--accent);
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.rating-count {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.review-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    padding: 32px;
+}
+
+.review-stars {
+    color: var(--accent);
+    margin-bottom: 16px;
+}
+
+.review-text {
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.review-author {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.about {
+    background: var(--bg);
+    padding: 120px 24px;
+    clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+    margin-top: -100px;
+    padding-top: 200px;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.about-photo {
+    border-radius: var(--radius);
+    width: 100%;
+    box-shadow: 0 0 40px var(--accent-glow);
+}
+
+.about-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 80px);
+    color: var(--text);
+    margin-bottom: 32px;
+    line-height: 1.1;
+}
+
+.about-text {
+    color: var(--muted);
+    margin-bottom: 40px;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.trust-signals {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.trust-item {
+    color: var(--text);
+    font-size: 14px;
+}
+
+.trust-item strong {
+    color: var(--accent);
+}
+
+.map-section {
+    background: var(--bg2);
+    padding: 80px 24px;
+    text-align: center;
+}
+
+.map-container {
+    max-width: 800px;
+    margin: 0 auto;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+}
+
+.contact {
+    background: var(--bg2);
+    padding: 120px 24px;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-phone {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(32px, 5vw, 56px);
+    color: var(--accent);
+    text-decoration: none;
+    margin-bottom: 16px;
+    display: block;
+}
+
+.contact-phone:hover {
+    opacity: 0.8;
+}
+
+.contact-subtitle {
+    color: var(--muted);
+    margin-bottom: 40px;
+}
+
+.contact-info {
+    margin-bottom: 40px;
+}
+
+.contact-address {
+    color: var(--text);
+    margin-bottom: 32px;
+}
+
+.hours-list {
+    list-style: none;
+}
+
+.hours-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+}
+
+.hours-item.today {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    color: var(--text);
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-input, .form-textarea {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.form-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-submit {
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--radius);
+    padding: 16px 32px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.form-submit:hover {
+    transform: translateY(-2px);
+}
+
+.footer {
+    background: #050505;
+    padding: 40px 24px;
+    text-align: center;
+    border-top: 1px solid var(--accent);
+}
+
+.footer-name {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--accent);
+    font-size: 24px;
+    margin-bottom: 16px;
+}
+
+.footer-info {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.lead-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+}
+
+.lead-button {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 50px;
+    padding: 12px 20px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: pulse 2s infinite;
+    transition: all 0.3s ease;
+}
+
+.lead-button:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+}
+
+.lead-logo {
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@media (max-width: 768px) {
+    .hero-ctas {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-primary, .cta-secondary {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery-item:first-child {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+    
+    .gallery-item:first-child img {
+        height: 300px;
+    }
+    
+    .about-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .trust-signals {
+        grid-template-columns: 1fr;
+    }
+    
+    .urgency-banner {
+        font-size: 10px;
+        padding: 6px 0;
+    }
+    
+    .header {
+        padding: 12px 16px;
+    }
+    
+    .header-cta {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="scroll-progress"></div>
+
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+
+    <header class="header">
+        <a href="#" class="header-logo">Sav-Mor Auto</a>
+        <a href="tel:(801) 224-2221" class="header-cta">Call Now</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="hero-title-line1">Sav-Mor</span>
+                <span class="hero-title-line2">Auto Clinic Inc</span>
+            </h1>
+            <p class="hero-subtitle">Orem's most trusted mechanics fixing what others can't since day one</p>
+            <div class="hero-ctas">
+                <a href="tel:(801) 224-2221" class="cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-bg2">
+        <div class="section-label">What We Do</div>
+        <h2 class="section-title">Built for Orem</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <span class="service-icon">🔧</span>
+                <h3 class="service-name">Engine Diagnostics</h3>
+                <p class="service-description">Advanced computer diagnostics and traditional troubleshooting to pinpoint exactly what's wrong. No guesswork, no unnecessary repairs.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🛞</span>
+                <h3 class="service-name">Brake Service</h3>
+                <p class="service-description">Complete brake system service from pads and rotors to fluid flushes. Your safety is our priority, every single time.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🔋</span>
+                <h3 class="service-name">Electrical Systems</h3>
+                <p class="service-description">From dead batteries to complex wiring issues, we handle all electrical problems. Modern cars, classic rides, we've got you covered.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">⚙️</span>
+                <h3 class="service-name">Transmission Service</h3>
+                <p class="service-description">Transmission repairs, rebuilds, and maintenance to keep you moving forward. We work on manual, automatic, and CVT systems.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">❄️</span>
+                <h3 class="service-name">AC & Heating</h3>
+                <p class="service-description">Stay comfortable year-round with our climate control services. Utah summers and winters demand a system that works perfectly.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🛠️</span>
+                <h3 class="service-name">Preventive Maintenance</h3>
+                <p class="service-description">Oil changes, tune-ups, and scheduled maintenance to prevent problems before they start. Keep your warranty intact and your car reliable.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <h2 class="section-title">Our Work</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" onclick="openLightbox(0)">
+                <img src="sav-mor-auto-clinic-inc-photo-1.jpg" alt="Professional auto repair">
+                <div class="gallery-caption">
+                    <p>Complete engine overhaul on 2018 Honda Accord - restored to factory performance</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(1)">
+                <img src="sav-mor-auto-clinic-inc-photo-2.jpg" alt="Brake system repair">
+                <div class="gallery-caption">
+                    <p>Brake system rebuild ensuring maximum safety and stopping power</p>
+                </div>
+            </div>
+            <div class="gallery-item" onclick="openLightbox(2)">
+                <img src="sav-mor-auto-clinic-inc-photo-3.jpg" alt="Diagnostic work">
+                <div class="gallery-caption">
+                    <p>Advanced diagnostic equipment identifying complex electrical issues</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+        <button class="lightbox-nav lightbox-prev" onclick="prevImage()">&larr;</button>
+        <img id="lightbox-img" src="" alt="">
+        <button class="lightbox-nav lightbox-next" onclick="nextImage()">&rarr;</button>
+    </div>
+
+    <section class="quote-section">
+        <div class="quote-mark">"</div>
+        <p class="quote-text">I have always trusted Sav-Mor Auto Clinic</p>
+        <p class="quote-author">Michael Patterson</p>
+    </section>
+
+    <section class="section section-bg2 reviews">
+        <div class="rating-badge">
+            <div class="rating-number" id="rating-counter">0</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count">512 Google reviews</div>
+        </div>
+        
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"I have always trusted Sav-Mor Auto Clinic and recently when my Old vehicle was loosing gas mileage I asked if they could help. They suggested and perform an air induction cleaning. It worked!"</p>
+                <p class="review-author">Michael Patterson</p>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"I found Sav-Mor while searching on Google Maps with a 4.9 rating and almost 500 reviews. Very impressive. I spoke with John spoke for 37 min."</p>
+                <p class="review-author">Alan Brandt</p>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"SavMor always takes such good care of us! They keep us informed every step of the way and we really appreciate that. They have great communication and customer service."</p>
+                <p class="review-author">Alicia Facer</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about">
+        <div class="about-content">
+            <div>
+                <img src="sav-mor-auto-clinic-inc-photo-2.jpg" alt="Our auto shop" class="about-photo">
+            </div>
+            <div>
+                <h2 class="about-title">Orem's Most Trusted Mechanic Crew</h2>
+                <p class="about-text">We've been keeping Orem drivers on the road for over a decade, building our reputation one honest repair at a time. Our ASE-certified technicians use the latest diagnostic equipment combined with old-school mechanical know-how to fix what others can't. When we tell you what's wrong with your car, you can bank on it being accurate. No overselling, no unnecessary work, just straight talk and quality repairs that last.</p>
+                
+                <div class="trust-signals">
+                    <div class="trust-item"><strong>12+</strong> Years serving Orem</div>
+                    <div class="trust-item"><strong>512</strong> Google reviews</div>
+                    <div class="trust-item"><strong>Licensed</strong> and insured</div>
+                    <div class="trust-item"><strong>Serving</strong> Orem and surrounding areas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <h2 class="section-title">Find Us</h2>
+        <div class="map-container">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3048.8362282071376!2d-111.72745492346!3d40.30724297160284!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x874d90e4e4a4c4e9%3A0x1234567890123456!2s780%20N%20400%20W%20St%2C%20Orem%2C%20UT%2084057!5e0!3m2!1sen!2sus!4v1234567890123"
+                loading="lazy">
+            </iframe>
+        </div>
+    </section>
+
+    <section class="section section-bg2 contact">
+        <div class="contact-grid">
+            <div>
+                <a href="tel:(801) 224-2221" class="contact-phone">(801) 224-2221</a>
+                <p class="contact-subtitle">Call or text anytime</p>
+                
+                <div class="contact-info">
+                    <div class="contact-address">📍 780 N 400 W St, Orem, UT 84057, USA</div>
+                    
+                    <ul class="hours-list">
+                        <li class="hours-item" data-day="monday"><span>Monday</span><span>7:30 AM - 5:30 PM</span></li>
+                        <li class="hours-item" data-day="tuesday"><span>Tuesday</span><span>7:30 AM - 5:30 PM</span></li>
+                        <li class="hours-item" data-day="wednesday"><span>Wednesday</span><span>7:30 AM - 5:30 PM</span></li>
+                        <li class="hours-item" data-day="thursday"><span>Thursday</span><span>7:30 AM - 5:30 PM</span></li>
+                        <li class="hours-item" data-day="friday"><span>Friday</span><span>7:30 AM - 5:30 PM</span></li>
+                        <li class="hours-item" data-day="saturday"><span>Saturday</span><span>Closed</span></li>
+                        <li class="hours-item" data-day="sunday"><span>Sunday</span><span>Closed</span></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <form class="contact-form" data-netlify="true" name="contact" action="/thank-you">
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" name="name" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea name="message" class="form-textarea" required></textarea>
+                </div>
+                <button type="submit" class="form-submit">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-name">Sav-Mor Auto Clinic Inc</div>
+        <div class="footer-info">
+            (801) 224-2221 • 780 N 400 W St, Orem, UT 84057, USA<br>
+            © <span id="current-year"></span> Sav-Mor Auto Clinic Inc. All rights reserved.
+        </div>
+    </footer>
+
+    <div class="lead-widget">
+        <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Sav-Mor Auto Clinic Inc" class="lead-button">
+            <span class="lead-logo">A</span>
+            Built by Aurigen
+        </a>
+    </div>
+
+    <script>
+        // Generate favicon
+        const favicon = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23${getComputedStyle(document.documentElement).getPropertyValue('--bg').slice(1)}"/><text y="70" x="50" text-anchor="middle" font-family="Arial" font-size="60" font-weight="bold" fill="%23${getComputedStyle(document.documentElement).getPropertyValue('--accent').slice(1)}">S</text></svg>`;
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = favicon;
+        document.head.appendChild(link);
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.querySelector('.loader').style.display = 'none';
+                }, 500);
+            }, 800);
+        });
+
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.scroll-progress').style.width = scrolled + '%';
+        });
+
+        // Sticky header
+        let lastScroll = 0;
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+            const header = document.querySelector('.header');
+            const banner = document.querySelector('.urgency-banner');
+            
+            if (currentScroll > 100) {
+                header.classList.add('scrolled');
+                banner.style.transform = 'translateY(-100%)';
+            } else {
+                header.classList.remove('scrolled');
+                banner.style.transform = 'translateY(0)';
+            }
+            lastScroll = currentScroll;
+        });
+
+        // Animate hero title letters
+        function animateTitle() {
+            const line1 = document.querySelector('.hero-title-line1');
+            const line2 = document.querySelector('.hero-title-line2');
+            
+            [line1, line2].forEach((line, lineIndex) => {
+                const text = line.textContent;
+                line.innerHTML = '';
+                
+                [...text].forEach((char, i) => {
+                    const span = document.createElement('span');
+                    span.textContent = char === ' ' ? '\u00A0' : char;
+                    span.style.opacity = '0';
+                    span.style.transform = 'translateY(30px)';
+                    span.style.transition = `all 0.3s ease ${(lineIndex * text.length + i) * 30}ms`;
+                    line.appendChild(span);
+                    
+                    setTimeout(() => {
+                        span.style.opacity = '1';
+                        span.style.transform = 'translateY(0)';
+                    }, 100);
+                });
+            });
+        }
+
+        // Rating counter animation
+        const ratingObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = document.getElementById('rating-counter');
+                    let current = 0;
+                    const target = 4.9;
+                    const increment = target / 30;
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        counter.textContent = current.toFixed(1);
+                    }, 50);
+                }
+            });
+        });
+        
+        ratingObserver.observe(document.querySelector('.reviews'));
+
+        // Lightbox functionality
+        const images = [
+            'sav-mor-auto-clinic-inc-photo-1.jpg',
+            'sav-mor-auto-clinic-inc-photo-2.jpg',
+            'sav-mor-auto-clinic-inc-photo-3.jpg'
+        ];
+        let currentImageIndex = 0;
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            document.getElementById('lightbox-img').src = images[index];
+            document.getElementById('lightbox').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('lightbox-img').src = images[currentImageIndex];
+        }
+
+        function prevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('lightbox-img').src = images[currentImageIndex];
+        }
+
+        // Keyboard navigation for lightbox
+        document.addEventListener('keydown', (e) => {
+            if (document.getElementById('lightbox').style.display === 'flex') {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'ArrowLeft') prevImage();
+            }
+        });
+
+        // Close lightbox on outside click
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') closeLightbox();
+        });
+
+        // Highlight current day
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const today = days[new Date().getDay()];
+        document.querySelector(`[data-day="${today}"]`)?.classList.add('today');
+
+        // Set current year
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize animations
+        setTimeout(animateTitle, 200);
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.section, .service-card, .review-card, .gallery-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s cubic-bezier(0.4,0,0.2,1)';
+            observer.observe(el);
+        });
+
+        // Stagger service cards animation
+        document.querySelectorAll('.service-card').forEach((card, index) => {
+            card.style.transitionDelay = `${index * 100}ms`;
+        });
+    </script>
+</body>
+</html>

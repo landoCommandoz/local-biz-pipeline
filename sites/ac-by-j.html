@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC by J | Handyman in Scottsdale</title>
+    <meta name="description" content="Scottsdale's trusted handyman crew available 24/7. From AC repairs to home fixes, we handle it all with 4.8 stars across 2347 reviews.">
+    <meta property="og:title" content="AC by J | Handyman in Scottsdale">
+    <meta property="og:description" content="Scottsdale's trusted handyman crew available 24/7. From AC repairs to home fixes, we handle it all with 4.8 stars across 2347 reviews.">
+    <meta property="og:image" content="ac-by-j-photo-1.jpg">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "AC by J",
+        "telephone": "(602) 607-0943",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "7595 E Gray Rd #1",
+            "addressLocality": "Scottsdale",
+            "addressRegion": "AZ",
+            "postalCode": "85260",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.5016,
+            "longitude": -111.9290
+        },
+        "openingHours": "Mo-Su 00:00-24:00",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "2347"
+        }
+    }
+    </script>
+</head>
+
+<style>
+:root {
+    --bg: #0a0a0a;
+    --bg2: #111114;
+    --bg3: #16161a;
+    --card: rgba(255,255,255,0.03);
+    --accent: #4a90d9;
+    --accent-muted: rgba(74,144,217,0.2);
+    --accent-glow: rgba(74,144,217,0.4);
+    --text: #f0f0f0;
+    --muted: #888896;
+    --border: rgba(255,255,255,0.07);
+    --shadow: 0 24px 64px rgba(0,0,0,0.6);
+    --radius: 12px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+h1, h2, h3, .headline {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.04em;
+}
+
+.loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.loader.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid transparent;
+    border-top: 3px solid var(--accent);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent);
+    z-index: 9999;
+    transition: width 0.1s ease;
+}
+
+.urgency-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: var(--accent-muted);
+    border-bottom: 1px solid var(--accent-muted);
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+    z-index: 9998;
+    transition: transform 0.3s ease;
+}
+
+.urgency-banner.hidden {
+    transform: translateY(-100%);
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    z-index: 9997;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.header.sticky {
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(20px);
+    opacity: 1;
+    pointer-events: all;
+    top: 32px;
+}
+
+.header .logo {
+    font-size: 18px;
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.header .phone-btn {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.2s ease;
+}
+
+.header .phone-btn:hover {
+    transform: scale(1.05);
+}
+
+.hero {
+    height: 100dvh;
+    background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('ac-by-j-photo-1.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.hero-content {
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.hero-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.hero h1 {
+    font-size: clamp(56px, 10vw, 120px);
+    margin-bottom: 20px;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease forwards;
+}
+
+.hero h1 .line1 {
+    display: block;
+    color: var(--text);
+}
+
+.hero h1 .line2 {
+    display: block;
+    color: var(--accent);
+}
+
+.hero .subtitle {
+    font-size: clamp(16px, 2.5vw, 22px);
+    font-weight: 300;
+    color: var(--muted);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.4s forwards;
+}
+
+.hero-ctas {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease 0.6s forwards;
+}
+
+.cta-primary, .cta-secondary {
+    padding: 16px 32px;
+    text-decoration: none;
+    border-radius: var(--radius);
+    font-weight: 500;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.cta-primary {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+.cta-secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+}
+
+.cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.cta-secondary:hover {
+    border-color: var(--accent);
+    background: var(--accent-muted);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.services {
+    background: var(--bg2);
+    padding: 120px 20px;
+    margin-top: -15vh;
+    position: relative;
+    z-index: 2;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: clamp(48px, 8vw, 96px);
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+}
+
+.service-card {
+    background: var(--card);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+    border-left-color: var(--accent);
+}
+
+.service-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.service-title {
+    font-size: 1.4rem;
+    color: var(--text);
+    margin-bottom: 15px;
+}
+
+.service-desc {
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.gallery {
+    background: var(--bg);
+    padding: 120px 20px;
+    clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+    margin-top: -15vh;
+    position: relative;
+    z-index: 1;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+}
+
+.gallery-item:first-child img {
+    height: 400px;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.03);
+    filter: brightness(1.1);
+}
+
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    color: var(--text);
+    padding: 40px 20px 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-caption {
+    transform: translateY(0);
+}
+
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    z-index: 10001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: var(--text);
+    font-size: 24px;
+    padding: 20px;
+    cursor: pointer;
+    border-radius: var(--radius);
+}
+
+.lightbox-prev {
+    left: 20px;
+}
+
+.lightbox-next {
+    right: 20px;
+}
+
+.quote-section {
+    background: var(--bg3);
+    padding: 120px 20px;
+    text-align: center;
+    position: relative;
+}
+
+.quote-section::before {
+    content: '"';
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 200px;
+    color: var(--accent);
+    opacity: 0.3;
+    font-family: 'Bebas Neue', sans-serif;
+    z-index: 0;
+}
+
+.quote-text {
+    font-size: clamp(32px, 5vw, 64px);
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--text);
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1;
+}
+
+.quote-author {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+}
+
+.reviews {
+    background: var(--bg2);
+    padding: 120px 20px;
+}
+
+.rating-badge {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.rating-number {
+    font-size: clamp(80px, 12vw, 120px);
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--accent);
+    display: block;
+}
+
+.rating-stars {
+    color: var(--accent);
+    font-size: 24px;
+    margin: 10px 0;
+}
+
+.rating-count {
+    color: var(--muted);
+    font-size: 16px;
+}
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.review-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius);
+    padding: 30px;
+}
+
+.review-stars {
+    color: var(--accent);
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.review-text {
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.review-author {
+    font-weight: bold;
+    color: var(--text);
+}
+
+.about {
+    background: var(--bg);
+    padding: 120px 20px;
+    clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+    margin-top: -15vh;
+    position: relative;
+    z-index: 1;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    gap: 60px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.about-image {
+    position: relative;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: 0 0 50px var(--accent-glow);
+}
+
+.about-text h2 {
+    font-size: clamp(40px, 6vw, 80px);
+    margin-bottom: 30px;
+}
+
+.about-description {
+    font-size: 18px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    line-height: 1.7;
+}
+
+.trust-signals {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.trust-item {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.trust-item .number {
+    color: var(--accent);
+    font-size: 24px;
+    font-family: 'Bebas Neue', sans-serif;
+}
+
+.map-container {
+    margin: 60px 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 300px;
+    border: none;
+}
+
+.contact {
+    background: var(--bg2);
+    padding: 120px 20px;
+}
+
+.contact-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-info h2 {
+    font-size: clamp(40px, 6vw, 80px);
+    margin-bottom: 40px;
+}
+
+.contact-phone {
+    font-size: clamp(32px, 5vw, 56px);
+    color: var(--accent);
+    text-decoration: none;
+    font-family: 'Bebas Neue', sans-serif;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.contact-availability {
+    color: var(--muted);
+    margin-bottom: 40px;
+}
+
+.contact-address {
+    margin-bottom: 30px;
+}
+
+.contact-address .icon {
+    margin-right: 10px;
+}
+
+.hours-list {
+    list-style: none;
+}
+
+.hours-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+}
+
+.hours-list li.today {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.contact-form {
+    background: var(--card);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 40px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: inherit;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-submit {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.footer {
+    background: #050505;
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid var(--accent);
+}
+
+.footer-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.footer h3 {
+    color: var(--accent);
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.footer-info {
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+
+.floating-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.widget-btn {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: pulse 2s infinite;
+}
+
+.widget-logo {
+    width: 16px;
+    height: 16px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@media (max-width: 768px) {
+    .header.sticky {
+        top: 0;
+    }
+    
+    .urgency-banner {
+        position: relative;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .gallery-item:first-child {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+    
+    .gallery-item:first-child img {
+        height: 300px;
+    }
+    
+    .about-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .contact-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .trust-signals {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+</style>
+
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="progress-bar"></div>
+
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+
+    <header class="header">
+        <div class="logo">AC by J</div>
+        <a href="tel:(602) 607-0943" class="phone-btn">(602) 607-0943</a>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-glow"></div>
+            <div class="hero-content">
+                <h1>
+                    <span class="line1">AC</span>
+                    <span class="line2">by J</span>
+                </h1>
+                <p class="subtitle">Scottsdale's 24/7 handyman crew that shows up, fixes it right, and bills fairly</p>
+                <div class="hero-ctas">
+                    <a href="tel:(602) 607-0943" class="cta-primary">CALL NOW</a>
+                    <a href="#gallery" class="cta-secondary">SEE OUR WORK</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="services">
+            <div class="container">
+                <div class="section-label">WHAT WE DO</div>
+                <h2 class="section-title">Built for Scottsdale</h2>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <span class="service-icon">❄️</span>
+                        <h3 class="service-title">AC & HVAC Repair</h3>
+                        <p class="service-desc">Desert heat doesn't wait for business hours. We diagnose and fix everything from compressor failures to ductwork leaks, keeping your Scottsdale home cool year-round.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-icon">🔧</span>
+                        <h3 class="service-title">Plumbing Fixes</h3>
+                        <p class="service-desc">From dripping faucets to emergency water line breaks, we handle the full spectrum. No job too small, no leak too stubborn for our experienced crew.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-icon">⚡</span>
+                        <h3 class="service-title">Electrical Work</h3>
+                        <p class="service-desc">Flickering lights, dead outlets, or breaker issues - we troubleshoot and repair safely. Licensed electrical work that meets Arizona code every time.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-icon">🏠</span>
+                        <h3 class="service-title">Home Maintenance</h3>
+                        <p class="service-desc">Regular upkeep that prevents big problems later. We handle everything from caulking and weatherproofing to minor repairs that keep your home running smooth.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-icon">🚪</span>
+                        <h3 class="service-title">Door & Window Service</h3>
+                        <p class="service-desc">Sticky doors, broken locks, or windows that won't seal properly in the desert climate. We adjust, repair, and replace to keep your home secure and energy efficient.</p>
+                    </div>
+                    <div class="service-card">
+                        <span class="service-icon">🔨</span>
+                        <h3 class="service-title">General Repairs</h3>
+                        <p class="service-desc">That growing list of things that need fixing around the house. Drywall patches, cabinet adjustments, fixture installations - we knock them all out in one visit.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery" id="gallery">
+            <div class="container">
+                <h2 class="section-title">Our Work</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="ac-by-j-photo-1.jpg" alt="AC repair work">
+                        <div class="gallery-caption">
+                            <p>Complete AC system overhaul in Scottsdale home</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="ac-by-j-photo-2.jpg" alt="Professional handyman service">
+                        <div class="gallery-caption">
+                            <p>Expert plumbing repair and maintenance</p>
+                        </div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="ac-by-j-photo-3.jpg" alt="Quality home repairs">
+                        <div class="gallery-caption">
+                            <p>Professional electrical and home maintenance work</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="lightbox">
+            <button class="lightbox-close">&times;</button>
+            <button class="lightbox-nav lightbox-prev">❮</button>
+            <button class="lightbox-nav lightbox-next">❯</button>
+            <img src="" alt="">
+        </div>
+
+        <section class="quote-section">
+            <div class="container">
+                <p class="quote-text">Jimmy Joe is the man to call. He is very knowledgeable, informative with a great personality.</p>
+                <p class="quote-author">YReed</p>
+            </div>
+        </section>
+
+        <section class="reviews">
+            <div class="container">
+                <div class="rating-badge">
+                    <span class="rating-number" data-target="4.8">0</span>
+                    <div class="rating-stars">★★★★★</div>
+                    <p class="rating-count">2347 Google reviews</p>
+                </div>
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"My wife and I have a park model and the current AC and heat setup was from 1989. As we just moved in we didn't want to make a big replacement but it was necessary."</p>
+                        <p class="review-author">Scott Freburg</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"We had an emergency water repair that suddenly appeared and Jimmy Joe is the man to call. He is very knowledgeable, informative with a great personality."</p>
+                        <p class="review-author">YReed</p>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">★★★★★</div>
+                        <p class="review-text">"Richard came out to do a tune up on our AC unit in September. He was prompt and thorough."</p>
+                        <p class="review-author">John Furrow</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="ac-by-j-photo-2.jpg" alt="AC by J team">
+                    </div>
+                    <div class="about-text">
+                        <h2>Scottsdale's Most Trusted Handyman Crew</h2>
+                        <p class="about-description">We've been fixing what breaks in Scottsdale homes for over a decade, building our reputation one satisfied customer at a time. When your AC dies at 3 AM or a pipe bursts on Sunday, we're the crew that shows up with the right tools and the experience to get it done right. No drama, no excuses, just honest work at fair prices.</p>
+                        <div class="trust-signals">
+                            <div class="trust-item">
+                                <span class="number">10+</span><br>
+                                Years serving Scottsdale
+                            </div>
+                            <div class="trust-item">
+                                <span class="number">2,347</span><br>
+                                Happy customers
+                            </div>
+                            <div class="trust-item">
+                                Licensed & Insured
+                            </div>
+                            <div class="trust-item">
+                                Serving Scottsdale and surrounding areas
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3327.8472!2d-111.9316!3d33.5016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872b0d4e2b4e4e4e%3A0x4e4e4e4e4e4e4e4e!2s7595%20E%20Gray%20Rd%20%231%2C%20Scottsdale%2C%20AZ%2085260!5e0!3m2!1sen!2sus!4v1234567890" loading="lazy"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact">
+            <div class="container">
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <h2>Get In Touch</h2>
+                        <a href="tel:(602) 607-0943" class="contact-phone">(602) 607-0943</a>
+                        <p class="contact-availability">Call or text anytime - we're here 24/7</p>
+                        
+                        <div class="contact-address">
+                            <span class="icon">📍</span> 7595 E Gray Rd #1, Scottsdale, AZ 85260
+                        </div>
+
+                        <ul class="hours-list">
+                            <li class="monday">Monday <span>Open 24 hours</span></li>
+                            <li class="tuesday">Tuesday <span>Open 24 hours</span></li>
+                            <li class="wednesday">Wednesday <span>Open 24 hours</span></li>
+                            <li class="thursday">Thursday <span>Open 24 hours</span></li>
+                            <li class="friday">Friday <span>Open 24 hours</span></li>
+                            <li class="saturday">Saturday <span>Open 24 hours</span></li>
+                            <li class="sunday">Sunday <span>Open 24 hours</span></li>
+                        </ul>
+                    </div>
+                    
+                    <form class="contact-form" data-netlify="true" name="contact" action="/thank-you">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required placeholder="Tell us about your repair needs..."></textarea>
+                        </div>
+                        <button type="submit" class="form-submit">SEND MESSAGE</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>AC by J</h3>
+            <p class="footer-info">(602) 607-0943</p>
+            <p class="footer-info">7595 E Gray Rd #1, Scottsdale, AZ 85260</p>
+            <p class="footer-info">&copy; <span class="current-year">2024</span> AC by J. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <div class="floating-widget">
+        <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like AC by J" class="widget-btn">
+            <span class="widget-logo">A</span>
+            Built by Aurigen
+        </a>
+    </div>
+
+    <script>
+        // Loader
+        setTimeout(() => {
+            document.querySelector('.loader').classList.add('fade-out');
+            setTimeout(() => {
+                document.querySelector('.loader').style.display = 'none';
+            }, 500);
+        }, 800);
+
+        // Favicon
+        const favicon = document.createElement('link');
+        favicon.rel = 'icon';
+        favicon.href = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23${getComputedStyle(document.documentElement).getPropertyValue('--bg').slice(1)}" width="100" height="100"/><text y="70" font-size="80" font-family="Arial, sans-serif" fill="%234a90d9" text-anchor="middle" x="50">A</text></svg>`;
+        document.head.appendChild(favicon);
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('.progress-bar').style.width = scrolled + '%';
+        });
+
+        // Sticky header
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            const banner = document.querySelector('.urgency-banner');
+            
+            if (window.scrollY > 100) {
+                header.classList.add('sticky');
+                banner.classList.add('hidden');
+            } else {
+                header.classList.remove('sticky');
+                banner.classList.remove('hidden');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Gallery lightbox
+        const lightbox = document.querySelector('.lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryItems = document.querySelectorAll('.gallery-item img');
+        let currentImageIndex = 0;
+
+        galleryItems.forEach((img, index) => {
+            img.addEventListener('click', () => {
+                currentImageIndex = index;
+                lightboxImg.src = img.src;
+                lightbox.classList.add('active');
+            });
+        });
+
+        document.querySelector('.lightbox-close').addEventListener('click', () => {
+            lightbox.classList.remove('active');
+        });
+
+        document.querySelector('.lightbox-prev').addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + galleryItems.length) % galleryItems.length;
+            lightboxImg.src = galleryItems[currentImageIndex].src;
+        });
+
+        document.querySelector('.lightbox-next').addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % galleryItems.length;
+            lightboxImg.src = galleryItems[currentImageIndex].src;
+        });
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    lightbox.classList.remove('active');
+                }
+                if (e.key === 'ArrowLeft') {
+                    currentImageIndex = (currentImageIndex - 1 + galleryItems.length) % galleryItems.length;
+                    lightboxImg.src = galleryItems[currentImageIndex].src;
+                }
+                if (e.key === 'ArrowRight') {
+                    currentImageIndex = (currentImageIndex + 1) % galleryItems.length;
+                    lightboxImg.src = galleryItems[currentImageIndex].src;
+                }
+            }
+        });
+
+        // Rating animation
+        const ratingNumber = document.querySelector('.rating-number');
+        let hasAnimated = false;
+
+        const animateRating = () => {
+            if (hasAnimated) return;
+            hasAnimated = true;
+            
+            const target = parseFloat(ratingNumber.dataset.target);
+            let current = 0;
+            const increment = target / 50;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                ratingNumber.textContent = current.toFixed(1);
+            }, 20);
+        };
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('rating-badge')) {
+                        animateRating();
+                    }
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        document.querySelectorAll('section, .service-card, .review-card').forEach(el => {
+            if (!getComputedStyle(el).opacity) {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s cubic-bezier(0.4,0,0.2,1)';
+            }
+            observer.observe(el);
+        });
+
+        // Today's hours highlight
+        const today = new Date().getDay();
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const todayClass = days[today];
+        const todayHour = document.querySelector(`.${todayClass}`);
+        if (todayHour) {
+            todayHour.classList.add('today');
+        }
+
+        // Current year
+        document.querySelector('.current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

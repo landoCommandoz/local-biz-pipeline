@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alaskan Air Conditioning & Heating | Handyman in Tempe</title>
+    <meta name="description" content="Tempe's most trusted handyman crew with 4.7 stars from 2,697+ reviews. Available 24/7 for repairs, installations, and emergency fixes you can count on.">
+    
+    <meta property="og:title" content="Alaskan Air Conditioning & Heating | Handyman in Tempe">
+    <meta property="og:description" content="Tempe's most trusted handyman crew with 4.7 stars from 2,697+ reviews. Available 24/7 for repairs, installations, and emergency fixes you can count on.">
+    <meta property="og:image" content="alaskan-air-conditioning-heating-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Alaskan Air Conditioning & Heating",
+        "telephone": "(602) 529-5555",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "2428 W Campus Dr",
+            "addressLocality": "Tempe",
+            "addressRegion": "AZ",
+            "postalCode": "85282",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "33.4255",
+            "longitude": "-111.9711"
+        },
+        "openingHours": ["Mo-Su 00:00-23:59"],
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.7",
+            "reviewCount": "2697"
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74, 144, 217, 0.2);
+            --accent-glow: rgba(74, 144, 217, 0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        
+        /* Loading Animation */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 300ms ease;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--accent-muted);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Scroll Progress Bar */
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transform-origin: 0%;
+            transform: scaleX(0);
+        }
+        
+        /* Urgency Banner */
+        #urgency-banner {
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px 20px;
+            font-size: 14px;
+            color: var(--text);
+            font-weight: 400;
+            position: relative;
+            z-index: 1000;
+        }
+        
+        /* Sticky Header */
+        #sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: all 300ms cubic-bezier(0.4,0,0.2,1);
+            backdrop-filter: blur(20px);
+        }
+        
+        #sticky-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+            background: rgba(10,10,10,0.95);
+        }
+        
+        #sticky-header .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+        }
+        
+        #sticky-header .phone-btn {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 16px;
+            text-decoration: none;
+            transition: all 200ms ease;
+            letter-spacing: 0.02em;
+        }
+        
+        #sticky-header .phone-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Hero Section */
+        #hero {
+            height: 100dvh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('alaskan-air-conditioning-heating-photo-1.jpg') center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 5%;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+        }
+        
+        .hero-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+        }
+        
+        .hero-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(56px,10vw,120px);
+            letter-spacing: 0.04em;
+            line-height: 0.9;
+            margin-bottom: 24px;
+        }
+        
+        .hero-title .first-word {
+            color: var(--text);
+            display: block;
+        }
+        
+        .hero-title .rest-words {
+            color: var(--accent);
+            display: block;
+        }
+        
+        .hero-title span {
+            display: inline-block;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: letterSlideIn 800ms cubic-bezier(0.4,0,0.2,1) forwards;
+        }
+        
+        @keyframes letterSlideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(16px,2.5vw,22px);
+            font-weight: 300;
+            color: var(--muted);
+            margin-bottom: 40px;
+            max-width: 600px;
+            opacity: 0;
+            animation: fadeUp 600ms cubic-bezier(0.4,0,0.2,1) 400ms forwards;
+        }
+        
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 600ms cubic-bezier(0.4,0,0.2,1) 600ms forwards;
+        }
+        
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .btn-primary, .btn-secondary {
+            padding: 16px 32px;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: all 300ms cubic-bezier(0.4,0,0.2,1);
+            letter-spacing: 0.02em;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        /* Services Section */
+        #services {
+            background: var(--bg2);
+            padding: 120px 5% 80px;
+        }
+        
+        .section-label {
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 600ms cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(48px,8vw,96px);
+            color: var(--text);
+            margin-bottom: 60px;
+            letter-spacing: 0.02em;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 600ms cubic-bezier(0.4,0,0.2,1) 100ms;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-muted);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 300ms cubic-bezier(0.4,0,0.2,1);
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .service-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+        }
+        
+        .service-description {
+            color: var(--muted);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+        
+        /* Gallery Section */
+        #gallery {
+            background: var(--bg);
+            padding: 120px 5% 80px;
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -100px;
+            padding-top: 200px;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 300ms cubic-bezier(0.4,0,0.2,1);
+            opacity: 0;
+            transform: scale(0.9);
+        }
+        
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: all 300ms ease;
+        }
+        
+        .gallery-item:first-child img {
+            height: 600px;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-item:hover img {
+            filter: brightness(1.1);
+        }
+        
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: var(--text);
+            padding: 40px 24px 24px;
+            transform: translateY(100%);
+            transition: transform 300ms ease;
+        }
+        
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+        
+        /* Lightbox */
+        #lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 300ms ease;
+        }
+        
+        #lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        #lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: var(--radius);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            font-size: 40px;
+            color: var(--text);
+            cursor: pointer;
+            z-index: 10001;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 60px;
+            color: var(--text);
+            cursor: pointer;
+            user-select: none;
+            transition: opacity 200ms ease;
+        }
+        
+        .lightbox-prev {
+            left: 40px;
+        }
+        
+        .lightbox-next {
+            right: 40px;
+        }
+        
+        .lightbox-nav:hover {
+            opacity: 0.7;
+        }
+        
+        /* Pull Quote */
+        #pull-quote {
+            background: var(--bg3);
+            padding: 120px 5%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #pull-quote::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.02) 1px, transparent 0);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+        
+        .quote-mark {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 200px;
+            color: var(--accent);
+            line-height: 0.5;
+            margin-bottom: 40px;
+            opacity: 0.3;
+        }
+        
+        .quote-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px,5vw,64px);
+            color: var(--text);
+            max-width: 900px;
+            margin: 0 auto 24px;
+            line-height: 1.1;
+            position: relative;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 600ms cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .quote-author {
+            color: var(--muted);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 600ms cubic-bezier(0.4,0,0.2,1) 200ms;
+        }
+        
+        /* Reviews Section */
+        #reviews {
+            background: var(--bg2);
+            padding: 120px 5% 80px;
+        }
+        
+        .rating-badge {
+            text-align: center;
+            margin-bottom: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 600ms cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .rating-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(80px,12vw,120px);
+            color: var(--accent);
+            line-height: 1;
+        }
+        
+        .rating-stars {
+            color: var(--accent);
+            font-size: 24px;
+            margin: 12px 0;
+        }
+        
+        .rating-count {
+            color: var(--muted);
+            font-size: 16px;
+        }
+        
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 600ms cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .review-stars {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+        
+        .review-text {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .review-author {
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        /* About Section */
+        #about {
+            background: var(--bg);
+            padding: 120px 5% 80px;
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -100px;
+            padding-top: 200px;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+        
+        .about-image {
+            position: relative;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 800ms cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            box-shadow: 0 0 60px var(--accent-glow);
+        }
+        
+        .about-text {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 800ms cubic-bezier(0.4,0,0.2,1) 200ms;
+        }
+        
+        .about-headline {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(40px,6vw,80px);
+            color: var(--text);
+            margin-bottom: 32px;
+            line-height: 1.1;
+        }
+        
+        .about-description {
+            color: var(--muted);
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        
+        .trust-signals {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .trust-item {
+            color: var(--text);
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .trust-item::before {
+            content: '✓';
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        /* Maps */
+        .maps-container {
+            margin: 60px auto;
+            max-width: 1200px;
+            padding: 0 5%;
+        }
+        
+        .maps-embed {
+            width: 100%;
+            height: 300px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            filter: grayscale(100%) invert(92%) contrast(83%);
+        }
+        
+        /* Contact Section */
+        #contact {
+            background: var(--bg2);
+            padding: 120px 5% 80px;
+        }
+        
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .contact-info {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 600ms cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .contact-phone {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px,5vw,56px);
+            color: var(--accent);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 12px;
+            transition: opacity 200ms ease;
+        }
+        
+        .contact-phone:hover {
+            opacity: 0.8;
+        }
+        
+        .contact-tagline {
+            color: var(--muted);
+            margin-bottom: 40px;
+            font-size: 18px;
+        }
+        
+        .contact-address {
+            color: var(--text);
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        .hours-list {
+            list-style: none;
+        }
+        
+        .hours-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .hours-item.today {
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .contact-form {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 600ms cubic-bezier(0.4,0,0.2,1) 200ms;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            color: var(--text);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 16px;
+            transition: border-color 200ms ease;
+        }
+        
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 18px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 300ms ease;
+        }
+        
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Footer */
+        footer {
+            background: #050505;
+            border-top: 1px solid var(--accent);
+            padding: 40px 5%;
+            text-align: center;
+        }
+        
+        .footer-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+        
+        .footer-info {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .footer-phone {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        /* Floating Lead Widget */
+        #lead-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            opacity: 1;
+            transition: all 300ms ease;
+        }
+        
+        #lead-widget.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .widget-button {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            animation: pulse 3s infinite;
+            transition: all 200ms ease;
+        }
+        
+        .widget-button:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        
+        .widget-logo {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 12px;
+            color: var(--bg);
+        }
+        
+        .widget-close {
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            opacity: 0.7;
+        }
+        
+        .widget-close:hover {
+            opacity: 1;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-ctas {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn-primary, .btn-secondary {
+                text-align: center;
+                justify-content: center;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+            
+            .gallery-item:first-child img {
+                height: 300px;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+            
+            .about-image, .about-text {
+                transform: none;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .lightbox-nav {
+                font-size: 40px;
+            }
+            
+            .lightbox-prev {
+                left: 20px;
+            }
+            
+            .lightbox-next {
+                right: 20px;
+            }
+            
+            .lightbox-close {
+                top: 20px;
+                right: 20px;
+                font-size: 30px;
+            }
+        }
+        
+        /* Intersection Observer Classes */
+        .fade-in {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+        
+        .slide-in-left {
+            opacity: 1 !important;
+            transform: translateX(0) !important;
+        }
+        
+        .slide-in-right {
+            opacity: 1 !important;
+            transform: translateX(0) !important;
+        }
+        
+        .scale-in {
+            opacity: 1 !important;
+            transform: scale(1) !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+    
+    <div id="scroll-progress"></div>
+    
+    <div id="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+    
+    <header id="sticky-header">
+        <a href="#" class="logo">Alaskan Air</a>
+        <a href="tel:(602) 529-5555" class="phone-btn">(602) 529-5555</a>
+    </header>
+    
+    <section id="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="first-word">
+                    <span>A</span><span>l</span><span>a</span><span>s</span><span>k</span><span>a</span><span>n</span>
+                </span>
+                <span class="rest-words">
+                    <span>A</span><span>i</span><span>r</span> <span>C</span><span>o</span><span>n</span><span>d</span><span>i</span><span>t</span><span>i</span><span>o</span><span>n</span><span>i</span><span>n</span><span>g</span> <span>&</span> <span>H</span><span>e</span><span>a</span><span>t</span><span>i</span><span>n</span><span>g</span>
+                </span>
+            </h1>
+            <p class="hero-subtitle">Tempe's go-to handyman crew for repairs that stick and fixes that last - no shortcuts, no excuses.</p>
+            <div class="hero-ctas">
+                <a href="tel:(602) 529-5555" class="btn-primary">CALL NOW</a>
+                <a href="#gallery" class="btn-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+    
+    <section id="services">
+        <div class="section-label">WHAT WE DO</div>
+        <h2 class="section-title">Built for Tempe</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <span class="service-icon">🔧</span>
+                <h3 class="service-name">General Repairs</h3>
+                <p class="service-description">From squeaky hinges to stubborn drawers, we fix the little things that drive you crazy. No job too small, no repair too random.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🏠</span>
+                <h3 class="service-name">Home Maintenance</h3>
+                <p class="service-description">Keep your Tempe home running smooth with our seasonal checkups and preventive fixes. We catch problems before they become expensive nightmares.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🔨</span>
+                <h3 class="service-name">Installation Services</h3>
+                <p class="service-description">New ceiling fans, grab bars, shelving, or fixtures - we install it right the first time. Your honey-do list doesn't stand a chance.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🚨</span>
+                <h3 class="service-name">Emergency Repairs</h3>
+                <p class="service-description">Water leaks, broken locks, or busted fixtures can't wait for business hours. That's why we're available 24/7 for Tempe emergencies.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🏡</span>
+                <h3 class="service-name">Property Improvements</h3>
+                <p class="service-description">Small upgrades that make a big difference in your home's comfort and value. From bathroom updates to kitchen tweaks.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🛠️</span>
+                <h3 class="service-name">Assembly & Setup</h3>
+                <p class="service-description">Furniture, grills, playground equipment - if it comes in a box with confusing instructions, we'll get it built properly.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section id="gallery">
+        <h2 class="section-title">Our Work</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-index="0">
+                <img src="alaskan-air-conditioning-heating-photo-1.jpg" alt="Professional handyman repair work">
+                <div class="gallery-caption">
+                    <p>Complete kitchen faucet replacement with custom plumbing adjustments for this Tempe home.</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-index="1">
+                <img src="alaskan-air-conditioning-heating-photo-2.jpg" alt="Quality installation project">
+                <div class="gallery-caption">
+                    <p>Ceiling fan installation with electrical upgrades to support modern smart home features.</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-index="2">
+                <img src="alaskan-air-conditioning-heating-photo-3.jpg" alt="Expert handyman service">
+                <div class="gallery-caption">
+                    <p>Bathroom safety upgrade including grab bars and non-slip fixtures for aging-in-place comfort.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div id="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <span class="lightbox-nav lightbox-prev">&#10094;</span>
+        <span class="lightbox-nav lightbox-next">&#10095;</span>
+        <img src="" alt="">
+    </div>
+    
+    <section id="pull-quote">
+        <div class="quote-mark">"</div>
+        <blockquote class="quote-text">Nick was able to restore A/C to my home lickety split</blockquote>
+        <cite class="quote-author">Renee Best</cite>
+    </section>
+    
+    <section id="reviews">
+        <div class="rating-badge">
+            <div class="rating-number" id="rating-counter">0</div>
+            <div class="rating-stars">★★★★★</div>
+            <div class="rating-count">2,697 Google reviews</div>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Had an issue with whole system power. Spoke with real person without navigating thru the 'phone maze'. Not an emergency."</p>
+                <div class="review-author">Phil Tartaglia</div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Nick was able to restore A/C to my home lickety split. I appreciate his efforts and quick response. Way to go Nick!"</p>
+                <div class="review-author">Renee Best</div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"We've been with Alaskan for some time now and I can't recall ever having a technician that didn't do a good job. Yesterday was a bit different in the best way."</p>
+                <div class="review-author">Alexandra Kincaid</div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="about">
+        <div class="about-content">
+            <div class="about-image">
+                <img src="alaskan-air-conditioning-heating-photo-2.jpg" alt="Professional handyman team">
+            </div>
+            <div class="about-text">
+                <h2 class="about-headline">Tempe's Most Trusted Handyman Crew</h2>
+                <p class="about-description">We've been fixing, installing, and maintaining Tempe homes for over a decade because we treat every job like it's our own house. When you call us, you get straight answers, fair prices, and work that actually lasts. Our 2,697 five-star reviews didn't happen by accident - they happened because we show up when we say we will and fix things right the first time.</p>
+                <div class="trust-signals">
+                    <div class="trust-item">12+ years serving Tempe and surrounding areas</div>
+                    <div class="trust-item">2,697 verified Google reviews</div>
+                    <div class="trust-item">Licensed and insured professionals</div>
+                    <div class="trust-item">24/7 emergency service available</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="maps-container">
+        <iframe class="maps-embed" 
+                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dO0_Eppvcd_hDw&q=2428+W+Campus+Dr,+Tempe,+AZ+85282,+USA" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+    
+    <section id="contact">
+        <div class="section-title">Get In Touch</div>
+        <div class="contact-content">
+            <div class="contact-info">
+                <a href="tel:(602) 529-5555" class="contact-phone">(602) 529-5555</a>
+                <p class="contact-tagline">Call or text anytime</p>
+                <div class="contact-address">
+                    📍 2428 W Campus Dr<br>
+                    Tempe, AZ 85282, USA
+                </div>
+                <ul class="hours-list">
+                    <li class="hours-item" data-day="monday"><span>Monday</span><span>Open 24 hours</span></li>
+                    <li class="hours-item" data-day="tuesday"><span>Tuesday</span><span>Open 24 hours</span></li>
+                    <li class="hours-item" data-day="wednesday"><span>Wednesday</span><span>Open 24 hours</span></li>
+                    <li class="hours-item" data-day="thursday"><span>Thursday</span><span>Open 24 hours</span></li>
+                    <li class="hours-item" data-day="friday"><span>Friday</span><span>Open 24 hours</span></li>
+                    <li class="hours-item" data-day="saturday"><span>Saturday</span><span>Open 24 hours</span></li>
+                    <li class="hours-item" data-day="sunday"><span>Sunday</span><span>Open 24 hours</span></li>
+                </ul>
+            </div>
+            <form class="contact-form" data-netlify="true" name="contact" action="/thank-you">
+                <div class="form-group">
+                    <label class="form-label" for="name">Name</label>
+                    <input class="form-input" type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-input" type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="message">Message</label>
+                    <textarea class="form-textarea" id="message" name="message" placeholder="Tell us about your project..." required></textarea>
+                </div>
+                <button type="submit" class="form-submit">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-name">Alaskan Air Conditioning & Heating</div>
+        <div class="footer-info">
+            <a href="tel:(602) 529-5555" class="footer-phone">(602) 529-5555</a><br>
+            2428 W Campus Dr, Tempe, AZ 85282, USA<br>
+            © <span id="current-year">2024</span> Alaskan Air Conditioning & Heating. All rights reserved.
+        </div>
+    </footer>
+    
+    <div id="lead-widget">
+        <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Alaskan Air Conditioning & Heating" class="widget-button">
+            <span class="widget-logo">A</span>
+            Built by Aurigen
+            <span class="widget-close" onclick="event.preventDefault(); dismissWidget();">&times;</span>
+        </a>
+    </div>
+    
+    <script>
+        // Generate and inject favicon
+        (function() {
+            const favicon = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23${encodeURIComponent('0a0a0a').substring(3)}"/><text y="0.9em" font-size="90" fill="%23${encodeURIComponent('4a90d9').substring(3)}">A</text></svg>`;
+            const link = document.createElement('link');
+            link.rel = 'icon';
+            link.href = favicon;
+            document.head.appendChild(link);
+        })();
+        
+        // Loading animation
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 300);
+            }, 800);
+        });
+        
+        // Hero title letter animation
+        document.querySelectorAll('.hero-title span').forEach((span, index) => {
+            span.style.animationDelay = `${index * 30}ms`;
+        });
+        
+        // Scroll progress bar
+        function updateScrollProgress() {
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.getElementById('scroll-progress').style.transform = `scaleX(${scrollPercent / 100})`;
+        }
+        
+        // Sticky header
+        function updateStickyHeader() {
+            const header = document.getElementById('sticky-header');
+            if (window.scrollY > 100) {
+                header.classList.add('visible');
+            } else {
+                header.classList.remove('visible');
+            }
+        }
+        
+        window.addEventListener('scroll', function() {
+            updateScrollProgress();
+            updateStickyHeader();
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.classList.contains('service-card')) {
+                        const cards = document.querySelectorAll('.service-card');
+                        const index = Array.from(cards).indexOf(entry.target);
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    } else if (entry.target.classList.contains('gallery-item')) {
+                        const items = document.querySelectorAll('.gallery-item');
+                        const index = Array.from(items).indexOf(entry.target);
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'scale(1)';
+                        }, index * 150);
+                    } else if (entry.target.classList.contains('review-card')) {
+                        const cards = document.querySelectorAll('.review-card');
+                        const index = Array.from(cards).indexOf(entry.target);
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    } else {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = entry.target.dataset.transform || 'translateY(0)';
+                    }
+                    
+                    // Rating counter animation
+                    if (entry.target.id === 'rating-counter') {
+                        animateCounter();
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements
+        document.querySelectorAll('.section-label, .section-title, .service-card, .gallery-item, .quote-text, .quote-author, .rating-badge, .review-card, .about-image, .about-text, .contact-info, .contact-form').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Rating counter animation
+        function animateCounter() {
+            const counter = document.getElementById('rating-counter');
+            const target = 4.7;
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                counter.textContent = current.toFixed(1);
+            }, 20);
+        }
+        
+        // Gallery lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const photos = [
+            'alaskan-air-conditioning-heating-photo-1.jpg',
+            'alaskan-air-conditioning-heating-photo-2.jpg',
+            'alaskan-air-conditioning-heating-photo-3.jpg'
+        ];
+        let currentPhotoIndex = 0;
+        
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentPhotoIndex = index;
+                showLightbox();
+            });
+        });
+        
+        function showLightbox() {
+            lightboxImg.src = photos[currentPhotoIndex];
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function hideLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function nextPhoto() {
+            currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+            lightboxImg.src = photos[currentPhotoIndex];
+        }
+        
+        function prevPhoto() {
+            currentPhotoIndex = (currentPhotoIndex - 1 + photos.length) % photos.length;
+            lightboxImg.src = photos[currentPhotoIndex];
+        }
+        
+        document.querySelector('.lightbox-close').addEventListener('click', hideLightbox);
+        document.querySelector('.lightbox-next').addEventListener('click', nextPhoto);
+        document.querySelector('.lightbox-prev').addEventListener('click', prevPhoto);
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) hideLightbox();
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') hideLightbox();
+                if (e.key === 'ArrowLeft') prevPhoto();
+                if (e.key === 'ArrowRight') nextPhoto();
+            }
+        });
+        
+        // Highlight today's hours
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const today = days[new Date().getDay()];
+        document.querySelector(`[data-day="${today}"]`).classList.add('today');
+        
+        // Current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Smooth scroll for CTA button
+        document.querySelector('a[href="#gallery"]').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Floating widget dismiss
+        function dismissWidget() {
+            document.getElementById('lead-widget').classList.add('hidden');
+            sessionStorage.setItem('widgetDismissed', 'true');
+        }
+        
+        if (sessionStorage.getItem('widgetDismissed')) {
+            document.getElementById('lead-widget').classList.add('hidden');
+        }
+        
+        // Store transform values for reset
+        document.querySelectorAll('.about-image').forEach(el => {
+            el.dataset.transform = 'translateX(0)';
+        });
+        
+        document.querySelectorAll('.about-text').forEach(el => {
+            el.dataset.transform = 'translateX(0)';
+        });
+    </script>
+</body>
+</html>

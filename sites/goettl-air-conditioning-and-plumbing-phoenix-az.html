@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goettl Air Conditioning and Plumbing - Phoenix AZ | Handyman in Phoenix</title>
+    <meta name="description" content="Phoenix's most trusted handyman crew with 4.7 stars from 13,804 reviews. From AC repairs to plumbing fixes, we handle it all 24/7 across the Valley.">
+    <meta property="og:title" content="Goettl Air Conditioning and Plumbing - Phoenix AZ | Handyman in Phoenix">
+    <meta property="og:description" content="Phoenix's most trusted handyman crew with 4.7 stars from 13,804 reviews. From AC repairs to plumbing fixes, we handle it all 24/7 across the Valley.">
+    <meta property="og:image" content="goettl-air-conditioning-and-plumbing-phoenix-az-photo-1.png">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74,144,217,0.2);
+            --accent-glow: rgba(74,144,217,0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            transition: opacity 0.5s ease;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--accent-muted);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        .urgency-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            text-align: center;
+            padding: 8px;
+            font-size: 14px;
+            color: var(--text);
+            z-index: 9998;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .urgency-banner.hidden {
+            transform: translateY(-100%);
+        }
+
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 24px;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9997;
+            opacity: 0;
+            transform: translateY(-100%);
+            transition: all 0.3s ease;
+        }
+
+        .sticky-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 20px;
+            color: var(--accent);
+            letter-spacing: 0.02em;
+        }
+
+        .sticky-header .phone-btn {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 16px;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .sticky-header .phone-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .hero {
+            height: 100dvh;
+            background-image: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('goettl-air-conditioning-and-plumbing-phoenix-az-photo-1.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 0 24px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(56px, 10vw, 120px);
+            letter-spacing: 0.04em;
+            line-height: 0.9;
+            margin-bottom: 24px;
+        }
+
+        .hero h1 .first-word {
+            color: var(--text);
+            display: block;
+        }
+
+        .hero h1 .rest {
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero h1 span {
+            display: inline-block;
+            opacity: 0;
+            animation: letterIn 0.6s ease forwards;
+        }
+
+        @keyframes letterIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) rotateX(-90deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: var(--muted);
+            margin-bottom: 40px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.4s forwards;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 24px;
+            opacity: 0;
+            animation: fadeUp 0.6s ease 0.6s forwards;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-primary, .cta-secondary {
+            padding: 16px 32px;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cta-primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .cta-primary:hover, .cta-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: var(--bg2);
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+        }
+
+        section {
+            padding: 120px 24px;
+            opacity: 0;
+            transform: translateY(60px);
+            transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        section.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .services {
+            background: var(--bg2);
+            position: relative;
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(48px, 8vw, 96px);
+            text-align: center;
+            margin-bottom: 80px;
+            color: var(--text);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .service-card.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+
+        .service-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .gallery {
+            background: var(--bg);
+            position: relative;
+        }
+
+        .gallery::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: var(--bg2);
+            clip-path: polygon(0 0, 100% 100%, 100% 0);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 60px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 4/3;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        .gallery-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            color: var(--text);
+        }
+
+        .gallery-item:hover .caption {
+            transform: translateY(0);
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: var(--radius);
+        }
+
+        .lightbox .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .lightbox .nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .lightbox .prev {
+            left: 20px;
+        }
+
+        .lightbox .next {
+            right: 20px;
+        }
+
+        .pull-quote {
+            background: var(--bg3);
+            background-image: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.01) 0%, transparent 50%);
+            padding: 120px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .pull-quote::before {
+            content: '"';
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 200px;
+            color: var(--accent);
+            font-family: 'Bebas Neue', cursive;
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .pull-quote blockquote {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            position: relative;
+            z-index: 2;
+            margin-bottom: 24px;
+        }
+
+        .pull-quote cite {
+            font-size: 14px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-style: normal;
+        }
+
+        .reviews {
+            background: var(--bg2);
+            text-align: center;
+        }
+
+        .rating-badge {
+            margin-bottom: 60px;
+        }
+
+        .rating-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            display: block;
+        }
+
+        .rating-stars {
+            color: var(--accent);
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .rating-count {
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.6s ease;
+        }
+
+        .review-card.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .review-card .stars {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .review-card .text {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .review-card .author {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .about {
+            background: var(--bg);
+            position: relative;
+        }
+
+        .about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: var(--bg2);
+            clip-path: polygon(0 0, 100% 100%, 100% 0);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 80px;
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        .about-photo {
+            position: relative;
+        }
+
+        .about-photo img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: 0 0 60px var(--accent-glow);
+        }
+
+        .about-text h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(40px, 6vw, 80px);
+            color: var(--text);
+            margin-bottom: 32px;
+            line-height: 1.1;
+        }
+
+        .about-text p {
+            font-size: 18px;
+            color: var(--muted);
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .trust-item {
+            padding: 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            text-align: center;
+        }
+
+        .trust-item .number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: var(--accent);
+        }
+
+        .trust-item .label {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .map-section {
+            padding: 0;
+            margin: 80px 24px;
+        }
+
+        .map-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .map-embed {
+            width: 100%;
+            height: 300px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            filter: grayscale(1) invert(1) contrast(1.2);
+        }
+
+        .contact {
+            background: var(--bg2);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+
+        .contact-info h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(36px, 6vw, 56px);
+            color: var(--text);
+            margin-bottom: 32px;
+        }
+
+        .phone-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .phone-number:hover {
+            color: var(--text);
+        }
+
+        .phone-subtitle {
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+
+        .address {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 40px;
+            color: var(--muted);
+        }
+
+        .hours-list {
+            list-style: none;
+        }
+
+        .hours-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            color: var(--muted);
+        }
+
+        .hours-list li.today {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .contact-form {
+            background: var(--card);
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        footer {
+            background: #050505;
+            padding: 60px 24px 40px;
+            text-align: center;
+            border-top: 1px solid var(--accent);
+        }
+
+        footer .business-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        footer .contact-info {
+            color: var(--muted);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        footer .copyright {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .floating-widget {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 14px;
+            color: var(--text);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .floating-widget:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .floating-widget .logo-mark {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 12px;
+            color: var(--bg);
+        }
+
+        .floating-widget.hidden {
+            display: none;
+        }
+
+        .widget-close {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-primary, .cta-secondary {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Goettl Air Conditioning and Plumbing - Phoenix AZ",
+        "telephone": "(602) 517-0039",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "4611 E Baseline Rd",
+            "addressLocality": "Phoenix",
+            "addressRegion": "AZ",
+            "postalCode": "85042",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.3783,
+            "longitude": -111.9784
+        },
+        "openingHours": "Mo-Su 00:00-23:59",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.7",
+            "reviewCount": "13804"
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div class="loader" id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <div class="urgency-banner" id="urgencyBanner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+
+    <header class="sticky-header" id="stickyHeader">
+        <div class="logo">Goettl</div>
+        <a href="tel:(602) 517-0039" class="phone-btn">(602) 517-0039</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="first-word">
+                    <span style="animation-delay: 0ms;">G</span><span style="animation-delay: 30ms;">o</span><span style="animation-delay: 60ms;">e</span><span style="animation-delay: 90ms;">t</span><span style="animation-delay: 120ms;">t</span><span style="animation-delay: 150ms;">l</span>
+                </span>
+                <span class="rest">
+                    <span style="animation-delay: 180ms;">A</span><span style="animation-delay: 210ms;">i</span><span style="animation-delay: 240ms;">r</span> <span style="animation-delay: 270ms;">C</span><span style="animation-delay: 300ms;">o</span><span style="animation-delay: 330ms;">n</span><span style="animation-delay: 360ms;">d</span><span style="animation-delay: 390ms;">i</span><span style="animation-delay: 420ms;">t</span><span style="animation-delay: 450ms;">i</span><span style="animation-delay: 480ms;">o</span><span style="animation-delay: 510ms;">n</span><span style="animation-delay: 540ms;">i</span><span style="animation-delay: 570ms;">n</span><span style="animation-delay: 600ms;">g</span> <span style="animation-delay: 630ms;">&</span> <span style="animation-delay: 660ms;">P</span><span style="animation-delay: 690ms;">l</span><span style="animation-delay: 720ms;">u</span><span style="animation-delay: 750ms;">m</span><span style="animation-delay: 780ms;">b</span><span style="animation-delay: 810ms;">i</span><span style="animation-delay: 840ms;">n</span><span style="animation-delay: 870ms;">g</span>
+                </span>
+            </h1>
+            <p>Phoenix's most trusted handyman crew. From emergency AC repairs to stubborn plumbing fixes, we handle what others can't.</p>
+            <div class="hero-ctas">
+                <a href="tel:(602) 517-0039" class="cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-label">WHAT WE DO</div>
+            <h2 class="section-title">Built for Phoenix Heat</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="icon">❄️</span>
+                    <h3>AC Repair & Maintenance</h3>
+                    <p>Your AC dies in July, we're there in hours. We stock parts for every major brand and know exactly what breaks down in Phoenix's brutal heat.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">🔧</span>
+                    <h3>Plumbing Repairs</h3>
+                    <p>Leaky pipes, clogged drains, water heater failures. We fix it right the first time so you don't have to deal with the same problem twice.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">⚡</span>
+                    <h3>Electrical Troubleshooting</h3>
+                    <p>Outlets not working, breakers tripping, weird electrical issues that make no sense. We track down the problem and get your power back on.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">🏠</span>
+                    <h3>Home Repairs</h3>
+                    <p>Drywall patches, door adjustments, cabinet fixes, tile repairs. The kind of stuff that's too small for contractors but too big to ignore.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">🚿</span>
+                    <h3>Bathroom Fixes</h3>
+                    <p>Running toilets, dripping faucets, shower heads that don't work right. We make your bathroom work like it should without the drama.</p>
+                </div>
+                <div class="service-card">
+                    <span class="icon">🔨</span>
+                    <h3>Emergency Service</h3>
+                    <p>Water everywhere, no AC in summer, electrical problems that can't wait until morning. We answer the phone and show up when you need us.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Our Work</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-index="0">
+                    <img src="goettl-air-conditioning-and-plumbing-phoenix-az-photo-1.png" alt="Professional AC repair in Phoenix">
+                    <div class="caption">Emergency AC repair completed in scorching Phoenix heat</div>
+                </div>
+                <div class="gallery-item" data-index="1">
+                    <img src="goettl-air-conditioning-and-plumbing-phoenix-az-photo-2.jpg" alt="Plumbing repair service">
+                    <div class="caption">Complex plumbing issue resolved with precision</div>
+                </div>
+                <div class="gallery-item" data-index="2">
+                    <img src="goettl-air-conditioning-and-plumbing-phoenix-az-photo-3.jpg" alt="Professional handyman service">
+                    <div class="caption">Complete home repair project finished on time</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pull-quote">
+        <div class="container">
+            <blockquote>Frank KNOCKED IT OUT OF THE PARK</blockquote>
+            <cite>R Vail</cite>
+        </div>
+    </section>
+
+    <section class="reviews" id="reviews">
+        <div class="container">
+            <div class="rating-badge">
+                <span class="rating-number" id="ratingNumber">0</span>
+                <div class="rating-stars">★★★★★</div>
+                <div class="rating-count">13,804 Google Reviews</div>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <div class="text">"Had it Air Condition serviced Goettl. Our service was done my Frank Monroig. Totally professional in every way."</div>
+                    <div class="author">Sam Emilio Contreras</div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <div class="text">"This was the first time we have used Goettl Services and Frank KNOCKED IT OUT OF THE PARK. He was extremely friendly, knowledgeable and explained everything in detail."</div>
+                    <div class="author">R Vail</div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <div class="text">"Parker came out for my preventative maintenance this time. I've been using Goettl a long time and they've always been good to me."</div>
+                    <div class="author">Robert B</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-photo">
+                    <img src="goettl-air-conditioning-and-plumbing-phoenix-az-photo-2.jpg" alt="Goettl team member at work">
+                </div>
+                <div class="about-text">
+                    <h2>Phoenix's Most Trusted Handyman Crew</h2>
+                    <p>We've been fixing what breaks in Phoenix homes for over two decades. While other companies come and go, we stick around because we know this city and we know how the desert heat destroys everything. Our trucks are stocked with the parts that fail most often, our techs know the shortcuts that work, and we answer our phones when you call.</p>
+                    <div class="trust-signals">
+                        <div class="trust-item">
+                            <div class="number">20+</div>
+                            <div class="label">Years Serving Phoenix</div>
+                        </div>
+                        <div class="trust-item">
+                            <div class="number">13,804</div>
+                            <div class="label">Google Reviews</div>
+                        </div>
+                        <div class="trust-item">
+                            <div class="number">Licensed</div>
+                            <div class="label">& Insured</div>
+                        </div>
+                        <div class="trust-item">
+                            <div class="number">24/7</div>
+                            <div class="label">Emergency Service</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="map-section">
+        <div class="container">
+            <div class="map-container">
+                <iframe 
+                    class="map-embed" 
+                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBFw0Qbyq9zTFTd-tUY6dOWTgHz-y90h_I&q=4611+E+Baseline+Rd,+Phoenix,+AZ+85042,+USA"
+                    allowfullscreen
+                    loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </div>
+
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>Get In Touch</h2>
+                    <a href="tel:(602) 517-0039" class="phone-number">(602) 517-0039</a>
+                    <p class="phone-subtitle">Call or text anytime</p>
+                    
+                    <div class="address">
+                        <span>📍</span>
+                        <div>4611 E Baseline Rd<br>Phoenix, AZ 85042</div>
+                    </div>
+
+                    <h3 style="color: var(--text); margin-bottom: 16px; font-family: 'Bebas Neue', cursive;">Hours</h3>
+                    <ul class="hours-list">
+                        <li id="monday"><span>Monday</span><span>Open 24 hours</span></li>
+                        <li id="tuesday"><span>Tuesday</span><span>Open 24 hours</span></li>
+                        <li id="wednesday"><span>Wednesday</span><span>Open 24 hours</span></li>
+                        <li id="thursday"><span>Thursday</span><span>Open 24 hours</span></li>
+                        <li id="friday"><span>Friday</span><span>Open 24 hours</span></li>
+                        <li id="saturday"><span>Saturday</span><span>Open 24 hours</span></li>
+                        <li id="sunday"><span>Sunday</span><span>Open 24 hours</span></li>
+                    </ul>
+                </div>
+
+                <form class="contact-form" data-netlify="true" name="contact" action="/thank-you" method="POST">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required placeholder="Tell us about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">SEND MESSAGE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="business-name">Goettl Air Conditioning and Plumbing</div>
+            <div class="contact-info">
+                <div>(602) 517-0039</div>
+                <div>4611 E Baseline Rd, Phoenix, AZ 85042</div>
+            </div>
+            <div class="copyright">© <span id="currentYear"></span> Goettl Air Conditioning and Plumbing. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <div class="lightbox" id="lightbox">
+        <button class="close" onclick="closeLightbox()">×</button>
+        <button class="nav prev" onclick="previousImage()">‹</button>
+        <img id="lightboxImage" src="" alt="">
+        <button class="nav next" onclick="nextImage()">›</button>
+    </div>
+
+    <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Goettl Air Conditioning and Plumbing - Phoenix AZ" class="floating-widget" id="floatingWidget">
+        <span class="logo-mark">A</span>
+        <span>Built by Aurigen</span>
+        <button class="widget-close" onclick="hideWidget()">&times;</button>
+    </a>
+
+    <script>
+        // Favicon generation
+        const faviconSVG = `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                <rect width="32" height="32" fill="#0a0a0a"/>
+                <text x="16" y="24" text-anchor="middle" fill="#4a90d9" font-family="Arial" font-weight="bold" font-size="20">G</text>
+            </svg>
+        `;
+        const faviconURL = 'data:image/svg+xml;base64,' + btoa(faviconSVG);
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = faviconURL;
+        document.head.appendChild(link);
+
+        // Current year
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loader').style.display = 'none';
+                }, 500);
+            }, 800);
+        });
+
+        // Scroll progress bar
+        function updateScrollProgress() {
+            const scrolled = window.pageYOffset;
+            const maxScroll = document.body.scrollHeight - window.innerHeight;
+            const progress = (scrolled / maxScroll) * 100;
+            document.getElementById('scrollProgress').style.width = progress + '%';
+        }
+
+        // Sticky header
+        function updateStickyHeader() {
+            const header = document.getElementById('stickyHeader');
+            const banner = document.getElementById('urgencyBanner');
+            
+            if (window.pageYOffset > 100) {
+                header.classList.add('visible');
+                banner.classList.add('hidden');
+            } else {
+                header.classList.remove('visible');
+                banner.classList.remove('hidden');
+            }
+        }
+
+        // Today's hours highlight
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const today = new Date().getDay();
+        const todayElement = document.getElementById(days[today]);
+        if (todayElement) {
+            todayElement.classList.add('today');
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    
+                    // Stagger child elements
+                    const children = entry.target.querySelectorAll('.service-card, .review-card');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.classList.add('in-view');
+                        }, index * 100);
+                    });
+
+                    // Rating counter animation
+                    if (entry.target.id === 'reviews') {
+                        animateRating();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Rating animation
+        function animateRating() {
+            const ratingElement = document.getElementById('ratingNumber');
+            let currentRating = 0;
+            const targetRating = 4.7;
+            const duration = 2000;
+            const increment = targetRating / (duration / 16);
+
+            const animate = () => {
+                currentRating += increment;
+                if (currentRating >= targetRating) {
+                    ratingElement.textContent = targetRating.toFixed(1);
+                } else {
+                    ratingElement.textContent = currentRating.toFixed(1);
+                    requestAnimationFrame(animate);
+                }
+            };
+
+            animate();
+        }
+
+        // Gallery lightbox
+        let currentImageIndex = 0;
+        const images = [
+            'goettl-air-conditioning-and-plumbing-phoenix-az-photo-1.png',
+            'goettl-air-conditioning-and-plumbing-phoenix-az-photo-2.jpg',
+            'goettl-air-conditioning-and-plumbing-phoenix-az-photo-3.jpg'
+        ];
+
+        document.querySelectorAll('.gallery-item').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                openLightbox();
+            });
+        });
+
+        function openLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightboxImage');
+            lightboxImage.src = images[currentImageIndex];
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        function previousImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            document.getElementById('lightboxImage').src = images[currentImageIndex];
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            document.getElementById('lightboxImage').src = images[currentImageIndex];
+        }
+
+        // Close lightbox on escape or outside click
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+
+        // Floating widget
+        function hideWidget() {
+            document.getElementById('floatingWidget').classList.add('hidden');
+            sessionStorage.setItem('widgetHidden', 'true');
+        }
+
+        if (sessionStorage.getItem('widgetHidden')) {
+            document.getElementById('floatingWidget').classList.add('hidden');
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll event listeners
+        window.addEventListener('scroll', () => {
+            updateScrollProgress();
+            updateStickyHeader();
+        });
+
+        // Initial calls
+        updateScrollProgress();
+        updateStickyHeader();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scottsdale Air Heating & Cooling | Handyman in Phoenix</title>
+    <meta name="description" content="Phoenix's most trusted handyman crew for home repairs, maintenance, and installations. Expert craftsmanship with 4.9 stars from 406+ local customers.">
+    <meta property="og:title" content="Scottsdale Air Heating & Cooling | Handyman in Phoenix">
+    <meta property="og:description" content="Phoenix's most trusted handyman crew for home repairs, maintenance, and installations. Expert craftsmanship with 4.9 stars from 406+ local customers.">
+    <meta property="og:image" content="scottsdale-air-heating-cooling-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Scottsdale Air Heating & Cooling",
+        "telephone": "(602) 834-2160",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "4747 E Thomas Rd STE F",
+            "addressLocality": "Phoenix",
+            "addressRegion": "AZ",
+            "postalCode": "85018"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": "33.4804",
+            "longitude": "-112.0162"
+        },
+        "openingHours": "Mo-Su 07:30-20:00",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "406"
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74, 144, 217, 0.2);
+            --accent-glow: rgba(74, 144, 217, 0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(74, 144, 217, 0.3);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+
+        .urgency-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            padding: 8px 0;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text);
+            z-index: 9998;
+            transition: transform 0.3s ease;
+        }
+
+        .urgency-banner.hidden {
+            transform: translateY(-100%);
+        }
+
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 9997;
+            transition: all 0.3s ease;
+            transform: translateY(-100%);
+            opacity: 0;
+        }
+
+        .sticky-header.show {
+            transform: translateY(32px);
+            opacity: 1;
+            background: rgba(10,10,10,0.95);
+            backdrop-filter: blur(20px);
+        }
+
+        .sticky-header .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+
+        .sticky-header .phone-btn {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .sticky-header .phone-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            height: 100dvh;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%), url('scottsdale-air-heating-cooling-photo-1.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(56px, 10vw, 120px);
+            line-height: 0.9;
+            letter-spacing: 0.04em;
+            margin-bottom: 20px;
+        }
+
+        .hero .first-word {
+            color: var(--text);
+            display: block;
+        }
+
+        .hero .rest-words {
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero .letter {
+            display: inline-block;
+            opacity: 0;
+            animation: letterIn 0.6s ease forwards;
+        }
+
+        @keyframes letterIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) rotateX(-90deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: var(--muted);
+            font-weight: 300;
+            margin-bottom: 40px;
+            max-width: 600px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+
+        .cta-primary, .cta-secondary {
+            padding: 16px 32px;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .cta-primary {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .cta-secondary:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            padding: 120px 5%;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        .section.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .services {
+            background: var(--bg2);
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 180px;
+        }
+
+        .section-label {
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(48px, 8vw, 96px);
+            color: var(--text);
+            margin-bottom: 60px;
+            letter-spacing: 0.02em;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-muted);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.02em;
+        }
+
+        .service-description {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .gallery {
+            background: var(--bg);
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 180px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            min-height: 250px;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item:hover img {
+            brightness: 1.1;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: var(--text);
+            padding: 40px 20px 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .pull-quote {
+            background: var(--bg3);
+            padding: 120px 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .pull-quote::before {
+            content: '"';
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 200px;
+            color: var(--accent);
+            opacity: 0.3;
+            font-family: 'Bebas Neue', sans-serif;
+            z-index: 1;
+        }
+
+        .pull-quote blockquote {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto 30px;
+            position: relative;
+            z-index: 2;
+            line-height: 1.1;
+            letter-spacing: 0.02em;
+        }
+
+        .pull-quote cite {
+            font-size: 14px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-style: normal;
+        }
+
+        .reviews {
+            background: var(--bg2);
+            text-align: center;
+        }
+
+        .rating-badge {
+            margin-bottom: 60px;
+        }
+
+        .rating-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            display: block;
+            line-height: 1;
+        }
+
+        .stars {
+            color: var(--accent);
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .review-count {
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: left;
+        }
+
+        .review-stars {
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .review-text {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .reviewer-name {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .about {
+            background: var(--bg);
+            clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
+            padding-top: 180px;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .about-photo img {
+            width: 100%;
+            border-radius: var(--radius);
+            box-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .about-text h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 6vw, 80px);
+            color: var(--text);
+            margin-bottom: 30px;
+            line-height: 1.1;
+            letter-spacing: 0.02em;
+        }
+
+        .about-text p {
+            color: var(--muted);
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .trust-item {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .trust-item .accent {
+            color: var(--accent);
+        }
+
+        .map-container {
+            margin: 80px auto 0;
+            max-width: 1200px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+        }
+
+        .contact {
+            background: var(--bg2);
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            margin-bottom: 10px;
+            letter-spacing: 0.02em;
+        }
+
+        .contact-info .phone {
+            display: block;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: inherit;
+        }
+
+        .contact-subtitle {
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+
+        .contact-detail {
+            margin-bottom: 30px;
+        }
+
+        .contact-detail h4 {
+            color: var(--text);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .contact-detail p {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .hours-list {
+            list-style: none;
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hours-list li.today {
+            color: var(--accent);
+        }
+
+        .contact-form {
+            background: var(--card);
+            padding: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 16px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 16px;
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 16px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .footer {
+            background: #050505;
+            padding: 60px 5% 40px;
+            text-align: center;
+            border-top: 1px solid var(--accent);
+        }
+
+        .footer .logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            letter-spacing: 0.04em;
+        }
+
+        .footer .contact-info {
+            color: var(--muted);
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .footer .phone {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .footer .copyright {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .floating-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9996;
+        }
+
+        .widget-btn {
+            background: var(--accent);
+            color: var(--bg);
+            padding: 12px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+            animation: pulse 2s infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .widget-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .widget-logo {
+            width: 20px;
+            height: 20px;
+            background: var(--bg);
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 12px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+        }
+
+        .lightbox.show {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: var(--radius);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--text);
+            font-size: 24px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .lightbox-prev {
+            left: 30px;
+        }
+
+        .lightbox-next {
+            right: 30px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 1024px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+
+            .sticky-header .phone-btn {
+                padding: 10px 16px;
+                font-size: 14px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="scroll-progress"></div>
+
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+
+    <header class="sticky-header">
+        <div class="logo">Scottsdale Air</div>
+        <a href="tel:(602) 834-2160" class="phone-btn">
+            📞 (602) 834-2160
+        </a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>
+                <span class="first-word">SCOTTSDALE</span>
+                <span class="rest-words">AIR HEATING & COOLING</span>
+            </h1>
+            <p>Phoenix's most trusted handyman crew. When your home needs fixing, we show up ready to work.</p>
+            <div class="hero-ctas">
+                <a href="tel:(602) 834-2160" class="cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section services" id="services">
+        <div class="section-label">WHAT WE DO</div>
+        <h2 class="section-title">Built for Phoenix</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <span class="service-icon">🔧</span>
+                <h3 class="service-title">Home Repairs</h3>
+                <p class="service-description">From leaky faucets to squeaky doors, we fix the little things that drive you crazy. No job too small for our Phoenix handyman team.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🛠️</span>
+                <h3 class="service-title">Fixture Installation</h3>
+                <p class="service-description">Ceiling fans, light fixtures, bathroom vanities - we install it right the first time. Professional work that passes inspection every time.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🏠</span>
+                <h3 class="service-title">Drywall & Painting</h3>
+                <p class="service-description">Patch holes, texture matching, full room repaints. We make your Phoenix home look fresh and move-in ready again.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🚪</span>
+                <h3 class="service-title">Door & Window Service</h3>
+                <p class="service-description">Sticky doors, broken window screens, weatherstripping replacement. Keep your home secure and energy efficient in the desert heat.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">⚡</span>
+                <h3 class="service-title">Electrical & Plumbing</h3>
+                <p class="service-description">Outlet installation, switch replacement, toilet repairs, garbage disposal fixes. Licensed for minor electrical and plumbing work.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🔨</span>
+                <h3 class="service-title">Assembly & Mounting</h3>
+                <p class="service-description">TV mounting, furniture assembly, shelving installation. We bring the tools and know-how to get your space organized.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section gallery" id="gallery">
+        <h2 class="section-title">Our Work</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-src="scottsdale-air-heating-cooling-photo-1.jpg">
+                <img src="scottsdale-air-heating-cooling-photo-1.jpg" alt="HVAC Installation Phoenix">
+                <div class="gallery-caption">
+                    <p>Complete HVAC system installation in Scottsdale home</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-src="scottsdale-air-heating-cooling-photo-2.jpg">
+                <img src="scottsdale-air-heating-cooling-photo-2.jpg" alt="AC Repair Phoenix">
+                <div class="gallery-caption">
+                    <p>Emergency AC repair completed same day</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-src="scottsdale-air-heating-cooling-photo-3.jpg">
+                <img src="scottsdale-air-heating-cooling-photo-3.jpg" alt="Home Repair Phoenix">
+                <div class="gallery-caption">
+                    <p>Bathroom fixture installation and tile repair</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pull-quote">
+        <blockquote>Patrick came out today to service our air conditioner and did an outstanding job</blockquote>
+        <cite>Eric Heetland</cite>
+    </section>
+
+    <section class="section reviews" id="reviews">
+        <div class="rating-badge">
+            <span class="rating-number" data-rating="4.9">0</span>
+            <div class="stars">★★★★★</div>
+            <div class="review-count">406 Google Reviews</div>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Patrick came out today to service our air conditioner and did an outstanding job. He showed up on time, was professional and respectful of our home, and took the time to explain exactly what he was..."</p>
+                <div class="reviewer-name">Eric Heetland</div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Today I had both Thomas Harwood and Jerry come out for my annual maintenance for my heat pump. They were so friendly, efficient and professional."</p>
+                <div class="reviewer-name">Bruce Silber</div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">"Have to replace whole unit so some questions /answers don't apply to my situation. Cole is a  professional, such an agreeable young man and it has been a pleasure to have him at my home."</p>
+                <div class="reviewer-name">Kay Roney</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section about" id="about">
+        <div class="about-content">
+            <div class="about-photo">
+                <img src="scottsdale-air-heating-cooling-photo-2.jpg" alt="Scottsdale Air Team">
+            </div>
+            <div class="about-text">
+                <h2>Phoenix's Most Trusted Handyman Crew</h2>
+                <p>We've been fixing Phoenix homes for over a decade, one satisfied customer at a time. Our team shows up when we say we will, works clean, and stands behind every job. Whether it's a quick repair or a complete home refresh, we treat your place like our own family lives there.</p>
+                <div class="trust-signals">
+                    <div class="trust-item">
+                        <span class="accent">12+</span> Years Serving Phoenix
+                    </div>
+                    <div class="trust-item">
+                        <span class="accent">406</span> Google Reviews
+                    </div>
+                    <div class="trust-item">
+                        Licensed & Insured
+                    </div>
+                    <div class="trust-item">
+                        Same Day Service Available
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3329.8!2d-112.0162!3d33.4804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872b0d3f3e4b5a5b%3A0x1234567890123456!2s4747%20E%20Thomas%20Rd%20STE%20F%2C%20Phoenix%2C%20AZ%2085018!5e0!3m2!1sen!2sus!4v1234567890123" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </section>
+
+    <section class="section contact" id="contact">
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3><a href="tel:(602) 834-2160" class="phone">(602) 834-2160</a></h3>
+                <p class="contact-subtitle">Call or text anytime</p>
+                
+                <div class="contact-detail">
+                    <h4>📍 Location</h4>
+                    <p>4747 E Thomas Rd STE F<br>Phoenix, AZ 85018</p>
+                </div>
+
+                <div class="contact-detail">
+                    <h4>🕒 Hours</h4>
+                    <ul class="hours-list">
+                        <li><span>Monday</span><span>7:30 AM – 8:00 PM</span></li>
+                        <li><span>Tuesday</span><span>7:30 AM – 8:00 PM</span></li>
+                        <li><span>Wednesday</span><span>7:30 AM – 8:00 PM</span></li>
+                        <li><span>Thursday</span><span>7:30 AM – 8:00 PM</span></li>
+                        <li><span>Friday</span><span>7:30 AM – 8:00 PM</span></li>
+                        <li><span>Saturday</span><span>7:30 AM – 8:00 PM</span></li>
+                        <li><span>Sunday</span><span>7:30 AM – 8:00 PM</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <form class="contact-form" data-netlify="true" name="contact" action="/thank-you">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us about your project..." required></textarea>
+                </div>
+                <button type="submit" class="form-submit">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="logo">SCOTTSDALE AIR</div>
+        <div class="contact-info">
+            <a href="tel:(602) 834-2160" class="phone">(602) 834-2160</a><br>
+            4747 E Thomas Rd STE F, Phoenix, AZ 85018
+        </div>
+        <div class="copyright">
+            © <span id="currentYear"></span> Scottsdale Air Heating & Cooling. All rights reserved.
+        </div>
+    </footer>
+
+    <div class="floating-widget">
+        <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Scottsdale Air Heating & Cooling" class="widget-btn">
+            <span class="widget-logo">A</span>
+            Built by Aurigen
+        </a>
+    </div>
+
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#8249;</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext">&#8250;</button>
+        <img src="" alt="" id="lightboxImg">
+    </div>
+
+    <script>
+        // Generate favicon
+        const favicon = `data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23${encodeURIComponent('0a0a0a')}"/><text y="75" x="50" text-anchor="middle" font-size="60" font-family="Arial,sans-serif" fill="%23${encodeURIComponent('4a90d9')}">S</text></svg>`;
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = favicon;
+        document.head.appendChild(link);
+
+        // Loading animation
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hide');
+            }, 800);
+        });
+
+        // Animate hero headline letters
+        const headline = document.querySelector('.hero h1');
+        const words = headline.innerHTML.split(' ');
+        headline.innerHTML = words.map(word => {
+            return word.split('').map(letter => {
+                return letter === ' ' ? ' ' : `<span class="letter">${letter}</span>`;
+            }).join('');
+        }).join(' ');
+
+        const letters = document.querySelectorAll('.letter');
+        letters.forEach((letter, i) => {
+            letter.style.animationDelay = `${i * 30}ms`;
+        });
+
+        // Scroll progress bar
+        function updateScrollProgress() {
+            const scroll = window.pageYOffset;
+            const height = document.body.scrollHeight - window.innerHeight;
+            const progress = (scroll / height) * 100;
+            document.querySelector('.scroll-progress').style.width = `${progress}%`;
+        }
+
+        // Sticky header
+        function updateStickyHeader() {
+            const header = document.querySelector('.sticky-header');
+            const banner = document.querySelector('.urgency-banner');
+            const scroll = window.pageYOffset;
+            
+            if (scroll > 100) {
+                header.classList.add('show');
+                banner.classList.add('hidden');
+            } else {
+                header.classList.remove('show');
+                banner.classList.remove('hidden');
+            }
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    
+                    // Animate rating number
+                    if (entry.target.classList.contains('reviews')) {
+                        animateRating();
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Animate rating number
+        function animateRating() {
+            const ratingElement = document.querySelector('.rating-number');
+            const targetRating = parseFloat(ratingElement.dataset.rating);
+            let currentRating = 0;
+            const increment = targetRating / 60;
+            
+            const timer = setInterval(() => {
+                currentRating += increment;
+                if (currentRating >= targetRating) {
+                    currentRating = targetRating;
+                    clearInterval(timer);
+                }
+                ratingElement.textContent = currentRating.toFixed(1);
+            }, 16);
+        }
+
+        // Highlight today's hours
+        const today = new Date().getDay();
+        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const todayName = dayNames[today];
+        
+        document.querySelectorAll('.hours-list li').forEach((item, index) => {
+            const dayName = item.textContent.toLowerCase().split(' ')[0];
+            if (dayName.includes(todayName)) {
+                item.classList.add('today');
+            }
+        });
+
+        // Gallery lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+        
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        let currentImageIndex = 0;
+        const images = Array.from(galleryItems).map(item => item.dataset.src);
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                lightboxImg.src = item.dataset.src;
+                lightbox.classList.add('show');
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        lightboxPrev.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        });
+
+        lightboxNext.addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('show');
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('show')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') lightboxPrev.click();
+                if (e.key === 'ArrowRight') lightboxNext.click();
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Current year for footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Scroll event listeners
+        window.addEventListener('scroll', () => {
+            updateScrollProgress();
+            updateStickyHeader();
+        });
+
+        // Initial calls
+        updateScrollProgress();
+        updateStickyHeader();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maricopa Air Conditioning and Heating | Handyman in Scottsdale</title>
+    <meta name="description" content="Scottsdale's most trusted handyman crew for over 20 years. Expert repairs, installations, and maintenance with 24/7 emergency service.">
+    
+    <meta property="og:title" content="Maricopa Air Conditioning and Heating | Handyman in Scottsdale">
+    <meta property="og:description" content="Scottsdale's most trusted handyman crew for over 20 years. Expert repairs, installations, and maintenance with 24/7 emergency service.">
+    <meta property="og:image" content="maricopa-air-conditioning-and-heating-photo-1.jpg">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Maricopa Air Conditioning and Heating",
+        "telephone": "(480) 941-3945",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "3011 N 73rd St Suite 111",
+            "addressLocality": "Scottsdale",
+            "addressRegion": "AZ",
+            "postalCode": "85251",
+            "addressCountry": "US"
+        },
+        "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 33.4734,
+            "longitude": -111.9011
+        },
+        "openingHours": "Mo-Su 00:00-24:00",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "5",
+            "reviewCount": "4"
+        }
+    }
+    </script>
+
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --bg2: #111114;
+            --bg3: #16161a;
+            --card: rgba(255,255,255,0.03);
+            --accent: #4a90d9;
+            --accent-muted: rgba(74, 144, 217, 0.2);
+            --accent-glow: rgba(74, 144, 217, 0.4);
+            --text: #f0f0f0;
+            --muted: #888896;
+            --border: rgba(255,255,255,0.07);
+            --shadow: 0 24px 64px rgba(0,0,0,0.6);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(74, 144, 217, 0.2);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--accent);
+            z-index: 9999;
+            width: 0%;
+            transition: width 0.2s ease;
+        }
+
+        .urgency-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--accent-muted);
+            border-bottom: 1px solid var(--accent-muted);
+            padding: 8px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text);
+            z-index: 9998;
+            transform: translateY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .urgency-banner.hidden {
+            transform: translateY(-100%);
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: transparent;
+            backdrop-filter: none;
+            z-index: 9000;
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .header.sticky {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .header.with-banner {
+            top: 32px;
+        }
+
+        .header .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 20px;
+            color: var(--accent);
+            text-decoration: none;
+            letter-spacing: 0.04em;
+        }
+
+        .header .phone {
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+
+        .header .phone:hover {
+            background: rgba(74, 144, 217, 0.8);
+        }
+
+        .hero {
+            height: 100dvh;
+            background: url('maricopa-air-conditioning-and-heating-photo-1.jpg') center/cover;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8vw), 0 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 0 20px;
+        }
+
+        .hero-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(56px, 10vw, 120px);
+            letter-spacing: 0.04em;
+            line-height: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .first-word {
+            color: var(--text);
+            display: block;
+        }
+
+        .hero h1 .rest {
+            color: var(--accent);
+            display: block;
+        }
+
+        .hero h1 span {
+            display: inline-block;
+            opacity: 0;
+            animation: letterSlide 0.6s ease forwards;
+        }
+
+        @keyframes letterSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero p {
+            font-size: clamp(16px, 2.5vw, 22px);
+            color: var(--muted);
+            margin-bottom: 40px;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.6s forwards;
+        }
+
+        .cta {
+            padding: 16px 32px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .cta-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .cta-primary:hover {
+            background: rgba(74, 144, 217, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .cta-secondary {
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .cta-secondary:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            padding: 120px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .services {
+            background: var(--bg2);
+            padding: 120px 20px;
+            position: relative;
+            clip-path: polygon(0 8vw, 100% 0, 100% 100%, 0 100%);
+            margin-top: -8vw;
+        }
+
+        .section-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--accent);
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(48px, 8vw, 96px);
+            letter-spacing: 0.04em;
+            margin-bottom: 60px;
+            color: var(--text);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: var(--card);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--accent-muted);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+            border-left-color: var(--accent);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.4rem;
+            color: var(--text);
+            margin-bottom: 12px;
+            letter-spacing: 0.04em;
+        }
+
+        .service-card p {
+            color: var(--muted);
+            font-weight: 300;
+        }
+
+        .gallery {
+            background: var(--bg);
+            padding: 120px 20px;
+            position: relative;
+            clip-path: polygon(0 8vw, 100% 0, 100% calc(100% - 8vw), 0 100%);
+            margin-top: -8vw;
+            margin-bottom: -8vw;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            height: 250px;
+        }
+
+        .gallery-item:first-child {
+            grid-column: span 2;
+            grid-row: span 2;
+            height: 520px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            padding: 20px;
+            user-select: none;
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        .quote {
+            background: var(--bg3);
+            padding: 120px 20px;
+            text-align: center;
+            position: relative;
+            margin-top: 8vw;
+            margin-bottom: 8vw;
+        }
+
+        .quote::before {
+            content: '"';
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 200px;
+            color: var(--accent);
+            opacity: 0.3;
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .quote-text {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 64px);
+            color: var(--text);
+            letter-spacing: 0.04em;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quote-author {
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .reviews {
+            background: var(--bg2);
+            padding: 120px 20px;
+            text-align: center;
+        }
+
+        .rating-badge {
+            margin-bottom: 60px;
+        }
+
+        .rating-number {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(80px, 12vw, 120px);
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .rating-stars {
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .rating-count {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .review-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px;
+            text-align: left;
+        }
+
+        .review-stars {
+            color: var(--accent);
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .review-text {
+            color: var(--muted);
+            font-style: italic;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .review-author {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .about {
+            background: var(--bg);
+            padding: 120px 20px;
+            position: relative;
+            clip-path: polygon(0 8vw, 100% 0, 100% 100%, 0 100%);
+            margin-top: -8vw;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 45% 55%;
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        .about-photo {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 0 60px var(--accent-glow);
+        }
+
+        .about-photo img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        .about-text h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(40px, 6vw, 80px);
+            letter-spacing: 0.04em;
+            margin-bottom: 30px;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .about-text p {
+            color: var(--muted);
+            margin-bottom: 30px;
+            font-weight: 300;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .trust-signals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .trust-signal {
+            color: var(--text);
+            font-weight: 500;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .trust-signal::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .maps {
+            padding: 60px 20px;
+            background: var(--bg2);
+            text-align: center;
+        }
+
+        .maps iframe {
+            width: 100%;
+            max-width: 800px;
+            height: 300px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .contact {
+            background: var(--bg2);
+            padding: 120px 20px;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .contact-info h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(32px, 5vw, 56px);
+            color: var(--accent);
+            margin-bottom: 8px;
+            letter-spacing: 0.04em;
+        }
+
+        .contact-info h3 a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .contact-subtitle {
+            color: var(--muted);
+            margin-bottom: 40px;
+        }
+
+        .contact-details {
+            margin-bottom: 40px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            color: var(--text);
+        }
+
+        .contact-detail span {
+            margin-right: 12px;
+        }
+
+        .hours-list {
+            list-style: none;
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--muted);
+        }
+
+        .hours-list li.today {
+            color: var(--accent);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: var(--radius);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 16px;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: rgba(74, 144, 217, 0.8);
+        }
+
+        .footer {
+            background: #050505;
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid var(--accent);
+        }
+
+        .footer-logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 24px;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+            margin-bottom: 16px;
+        }
+
+        .footer-info {
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+
+        .footer-copyright {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .floating-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            padding: 8px 16px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 12px;
+            z-index: 9000;
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .floating-widget:hover {
+            transform: translateY(-2px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .floating-widget .logo-mark {
+            color: var(--accent);
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        .widget-close {
+            margin-left: 8px;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: clamp(40px, 12vw, 80px);
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-item:first-child {
+                grid-column: span 1;
+                grid-row: span 1;
+                height: 250px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-signals {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="progress-bar"></div>
+
+    <div class="urgency-banner">
+        Preview site, expires in 7 days. Reply to keep it live.
+    </div>
+
+    <header class="header">
+        <a href="#" class="logo">Maricopa Air</a>
+        <a href="tel:(480) 941-3945" class="phone">(480) 941-3945</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-glow"></div>
+        <div class="hero-content">
+            <h1>
+                <span class="first-word">
+                    <span>M</span><span>a</span><span>r</span><span>i</span><span>c</span><span>o</span><span>p</span><span>a</span>
+                </span>
+                <span class="rest">
+                    <span>H</span><span>a</span><span>n</span><span>d</span><span>y</span><span>m</span><span>a</span><span>n</span>
+                </span>
+            </h1>
+            <p>Two decades of fixing what breaks in Scottsdale homes</p>
+            <div class="hero-ctas">
+                <a href="tel:(480) 941-3945" class="cta cta-primary">CALL NOW</a>
+                <a href="#gallery" class="cta cta-secondary">SEE OUR WORK</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="services">
+        <div class="section">
+            <div class="section-label">WHAT WE DO</div>
+            <h2 class="section-title">Built for Scottsdale</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">🔧</span>
+                    <h3>Plumbing Repairs</h3>
+                    <p>From leaky faucets to burst pipes, we handle all your plumbing emergencies. No job too small, response time that matters when water damage is on the line.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">⚡</span>
+                    <h3>Electrical Work</h3>
+                    <p>Outlet installations, ceiling fans, light fixtures, and electrical troubleshooting. Licensed work that passes inspection every time in Scottsdale.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🎨</span>
+                    <h3>Interior Painting</h3>
+                    <p>Professional paint jobs that transform rooms and protect your investment. Clean lines, quality materials, finished on schedule.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🚪</span>
+                    <h3>Door & Window Repair</h3>
+                    <p>Sticking doors, broken locks, window screens, weather stripping. Keep your home secure and energy efficient in the Arizona heat.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🏠</span>
+                    <h3>Drywall & Patching</h3>
+                    <p>Hole repairs, texture matching, full drywall installation. Seamless repairs that disappear into your existing walls.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">🛠️</span>
+                    <h3>General Maintenance</h3>
+                    <p>Honey-do lists, preventive maintenance, odd jobs around the house. One call handles everything your home needs attention on.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="gallery" id="gallery">
+        <div class="section">
+            <h2 class="section-title">Our Work</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-image="maricopa-air-conditioning-and-heating-photo-1.jpg">
+                    <img src="maricopa-air-conditioning-and-heating-photo-1.jpg" alt="Professional handyman work">
+                    <div class="gallery-caption">Complete bathroom renovation with custom tile work</div>
+                </div>
+                <div class="gallery-item" data-image="maricopa-air-conditioning-and-heating-photo-2.jpg">
+                    <img src="maricopa-air-conditioning-and-heating-photo-2.jpg" alt="Quality repair work">
+                    <div class="gallery-caption">Kitchen cabinet installation and electrical updates</div>
+                </div>
+                <div class="gallery-item" data-image="maricopa-air-conditioning-and-heating-photo-3.jpg">
+                    <img src="maricopa-air-conditioning-and-heating-photo-3.jpg" alt="Home improvement project">
+                    <div class="gallery-caption">Exterior door replacement with weather sealing</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="quote">
+        <div class="quote-text">Never been so impressed with a guy's knowledge and expertise</div>
+        <div class="quote-author">Frederick Simms</div>
+    </section>
+
+    <section class="reviews">
+        <div class="section">
+            <div class="rating-badge">
+                <div class="rating-number" id="rating-counter">0</div>
+                <div class="rating-stars">★★★★★</div>
+                <div class="rating-count">4 Google reviews</div>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">Been using Maricopa AC for over 20 years, highly recommend.</div>
+                    <div class="review-author">Chuck Wasson</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">Maricopa A/C is always on it! They just tooled up my Air conditioning for the summer!</div>
+                    <div class="review-author">George Frasher</div>
+                </div>
+                <div class="review-card">
+                    <div class="review-stars">★★★★★</div>
+                    <div class="review-text">I was able to get on roof and watch tech Lonnie do his thing. I never been so impressed with a guy's knowledge and expertise.</div>
+                    <div class="review-author">Frederick Simms</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about">
+        <div class="about-content">
+            <div class="about-photo">
+                <img src="maricopa-air-conditioning-and-heating-photo-2.jpg" alt="Professional handyman team">
+            </div>
+            <div class="about-text">
+                <h2>Scottsdale's Most Trusted Handyman Crew</h2>
+                <p>For over two decades, we've been the crew Scottsdale homeowners call when things break, wear out, or need upgrading. We show up on time, work clean, and fix it right the first time.</p>
+                <p>From emergency repairs to planned improvements, we treat your home like our own. Licensed, insured, and local - we know Scottsdale homes inside and out.</p>
+                <div class="trust-signals">
+                    <div class="trust-signal">20+ years serving Scottsdale</div>
+                    <div class="trust-signal">4 five-star Google reviews</div>
+                    <div class="trust-signal">Licensed and insured</div>
+                    <div class="trust-signal">Serving Scottsdale and surrounding areas</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="maps">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.7829845!2d-111.9033!3d33.4734!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x872b0d4f4c4c4c4c%3A0x4c4c4c4c4c4c4c4c!2s3011+N+73rd+St+Suite+111%2C+Scottsdale%2C+AZ+85251!5e0!3m2!1sen!2sus!4v1234567890" loading="lazy"></iframe>
+    </section>
+
+    <section class="contact">
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3><a href="tel:(480) 941-3945">(480) 941-3945</a></h3>
+                <p class="contact-subtitle">Call or text anytime</p>
+                <div class="contact-details">
+                    <div class="contact-detail">
+                        <span>📍</span>
+                        <div>3011 N 73rd St Suite 111<br>Scottsdale, AZ 85251</div>
+                    </div>
+                </div>
+                <ul class="hours-list">
+                    <li id="monday"><span>Monday</span><span>Open 24 hours</span></li>
+                    <li id="tuesday"><span>Tuesday</span><span>Open 24 hours</span></li>
+                    <li id="wednesday"><span>Wednesday</span><span>Open 24 hours</span></li>
+                    <li id="thursday"><span>Thursday</span><span>Open 24 hours</span></li>
+                    <li id="friday"><span>Friday</span><span>Open 24 hours</span></li>
+                    <li id="saturday"><span>Saturday</span><span>Open 24 hours</span></li>
+                    <li id="sunday"><span>Sunday</span><span>Open 24 hours</span></li>
+                </ul>
+            </div>
+            <form class="contact-form" data-netlify="true" name="contact" action="/thank-you">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">SEND MESSAGE</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-logo">Maricopa Air Conditioning and Heating</div>
+        <div class="footer-info">(480) 941-3945</div>
+        <div class="footer-info">3011 N 73rd St Suite 111, Scottsdale, AZ 85251</div>
+        <div class="footer-copyright">© <span id="year"></span> Maricopa Air Conditioning and Heating. All rights reserved.</div>
+    </footer>
+
+    <div class="lightbox" id="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <span class="lightbox-nav lightbox-prev">&#10094;</span>
+        <span class="lightbox-nav lightbox-next">&#10095;</span>
+        <img src="" alt="Gallery image">
+    </div>
+
+    <a href="mailto:Landonbrewington12@gmail.com?subject=I want a site like Maricopa Air Conditioning and Heating" class="floating-widget" id="widget">
+        <span class="logo-mark">A</span>Built by Aurigen
+        <span class="widget-close" onclick="event.preventDefault(); event.stopPropagation(); document.getElementById('widget').style.display = 'none'; sessionStorage.setItem('widget-dismissed', 'true');">&times;</span>
+    </a>
+
+    <script>
+        // Generate favicon
+        const favicon = document.createElement('link');
+        favicon.rel = 'icon';
+        favicon.href = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="%23111114"/><text y="24" font-size="20" fill="%234a90d9" font-family="Arial,sans-serif" text-anchor="middle" x="16">M</text></svg>';
+        document.head.appendChild(favicon);
+
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelector('.loader').classList.add('hidden');
+            }, 800);
+        });
+
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('.progress-bar').style.width = scrolled + '%';
+        });
+
+        // Sticky header
+        let lastScrollY = 0;
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            const banner = document.querySelector('.urgency-banner');
+            
+            if (window.scrollY > 100) {
+                header.classList.add('sticky');
+                banner.classList.add('hidden');
+            } else {
+                header.classList.remove('sticky');
+                banner.classList.remove('hidden');
+            }
+
+            if (window.scrollY > 50) {
+                header.classList.add('with-banner');
+            } else {
+                header.classList.remove('with-banner');
+            }
+        });
+
+        // Animate headline letters
+        document.querySelectorAll('.hero h1 span span').forEach((letter, index) => {
+            letter.style.animationDelay = (index * 30) + 'ms';
+        });
+
+        // Smooth scroll for CTA
+        document.querySelector('.cta-secondary').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.querySelector('#gallery').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Gallery lightbox
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = lightbox.querySelector('img');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        let currentImageIndex = 0;
+        const images = ['maricopa-air-conditioning-and-heating-photo-1.jpg', 'maricopa-air-conditioning-and-heating-photo-2.jpg', 'maricopa-air-conditioning-and-heating-photo-3.jpg'];
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                lightboxImg.src = images[index];
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        lightbox.querySelector('.lightbox-prev').addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        });
+
+        lightbox.querySelector('.lightbox-next').addEventListener('click', () => {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowLeft') {
+                    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+                    lightboxImg.src = images[currentImageIndex];
+                }
+                if (e.key === 'ArrowRight') {
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                    lightboxImg.src = images[currentImageIndex];
+                }
+            }
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Rating counter animation
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = document.getElementById('rating-counter');
+                    let count = 0;
+                    const target = 5;
+                    const increment = target / 30;
+                    
+                    const timer = setInterval(() => {
+                        count += increment;
+                        counter.textContent = Math.floor(count);
+                        
+                        if (count >= target) {
+                            counter.textContent = target;
+                            clearInterval(timer);
+                        }
+                    }, 50);
+                    
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(document.querySelector('.rating-badge'));
+
+        // Highlight today in hours
+        const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const today = new Date().getDay();
+        document.getElementById(days[today]).classList.add('today');
+
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Hide widget if previously dismissed
+        if (sessionStorage.getItem('widget-dismissed')) {
+            document.getElementById('widget').style.display = 'none';
+        }
+
+        // Intersection Observer for animations
+        const animationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Animate sections on scroll
+        document.querySelectorAll('.service-card, .review-card, .about-content > *').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            animationObserver.observe(el);
+        });
+    </script>
+</body>
+</html>
