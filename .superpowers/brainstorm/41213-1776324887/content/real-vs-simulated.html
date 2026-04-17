@@ -1,0 +1,31 @@
+<h2>How do we handle honesty in the scan?</h2>
+<p class="subtitle">You said it: if they don't need us, we tell them. That changes everything.</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Build the real backend first</h3>
+      <p>Before we touch the Hero, we build a serverless function that calls Google Places API + PageSpeed API when they enter their URL. Real star rating. Real page speed. Real review count. Real competitor data. If their site is great, the report says so. No faking anything.</p>
+      <p style="color:rgba(255,107,53,0.6);font-size:12px;margin-top:8px">Takes longer. Pauses the rating loop. But the feature ships honest from day one.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Ship the UX now, wire real data later</h3>
+      <p>Build the scan flow in the Hero now, but instead of showing fake scores, the scan captures their URL and tells them: "Your full report is being generated. Check your email within 24 hours." You manually run the real audit and send them personalized results. Phase 2 automates it.</p>
+      <p style="color:rgba(0,212,170,0.6);font-size:12px;margin-top:8px">Ships fast. Still honest. You do the real work behind the scenes until the API is built.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Skip the scan feature entirely for now</h3>
+      <p>Keep the Hero as-is (GOLD). Focus on getting all 13 sections to GOLD first. Come back to the scanner as a separate project after the site ships. The site is already strong without it.</p>
+      <p style="color:rgba(255,255,255,0.3);font-size:12px;margin-top:8px">Fastest path to shipping. Scanner becomes its own project.</p>
+    </div>
+  </div>
+</div>

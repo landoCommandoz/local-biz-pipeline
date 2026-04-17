@@ -1,0 +1,165 @@
+/* ---- FAQ ---- */
+
+.faq{padding:140px 28px;position:relative}
+
+/* Glass container — tighter, more editorial */
+.faq-inner{
+  max-width:760px;margin:0 auto;position:relative;
+  background:linear-gradient(180deg,rgba(255,255,255,0.025) 0%,rgba(0,212,170,0.015) 100%);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.06);border-radius:24px;padding:56px 48px 48px;
+  box-shadow:0 40px 80px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.04);
+  transition:border-color 0.6s ease;
+}
+.faq-inner:hover{
+  border-color:rgba(0,212,170,0.12);
+}
+
+/* Top accent — sharper, left-aligned streak */
+.faq-inner::before{content:'';position:absolute;top:0;left:48px;width:80px;height:2px;border-radius:0 0 2px 2px;
+  background:linear-gradient(90deg,var(--acc),transparent)}
+
+/* No bottom accent — cleaner */
+.faq-inner::after{display:none}
+
+.faq-inner{counter-reset:faq}
+.faq-inner .tl{margin-bottom:12px;display:block;letter-spacing:0.08em;text-transform:uppercase;font-size:0.75rem;color:var(--acc);font-family:var(--mono)}
+
+/* Subline under heading */
+.faq-sub{
+  font-family:var(--sans);font-size:0.95rem;color:var(--dim);
+  line-height:1.7;margin-bottom:52px;max-width:500px;
+}
+
+/* Section header — bolder */
+.faq-inner h2{font-size:clamp(2rem,5vw,3rem);margin-bottom:16px}
+.faq-inner h2 em{
+  color:var(--acc);
+  -webkit-text-fill-color:var(--acc);
+}
+
+/* FAQ items — left border accent on hover/open */
+.faq-item{
+  counter-increment:faq;
+  margin-bottom:0;
+  padding:0;
+  transition:background 0.3s ease;
+  position:relative;
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  border-left:2px solid transparent;
+  margin-left:-2px;
+}
+.faq-item:last-child{border-bottom:none}
+
+/* Hover — left accent appears */
+.faq-item:hover{
+  background:rgba(255,255,255,0.015);
+  border-left-color:rgba(255,255,255,0.08);
+}
+
+/* Open state — accent green border */
+.faq-item.open{
+  background:rgba(0,212,170,0.03);
+  border-left-color:var(--acc);
+}
+
+/* Number counter — mono, accent on open */
+.faq-q::before{
+  content:counter(faq,decimal-leading-zero);
+  font-family:var(--mono);font-size:0.65rem;
+  color:rgba(255,255,255,0.15);
+  font-weight:500;
+  min-width:24px;
+  display:flex;align-items:center;justify-content:center;
+  margin-right:14px;
+  flex-shrink:0;
+  transition:color 0.3s ease;
+  letter-spacing:0.04em;
+}
+.faq-item:hover .faq-q::before{
+  color:rgba(255,255,255,0.3);
+}
+.faq-item.open .faq-q::before{
+  color:var(--acc);
+}
+
+/* Question button */
+.faq-q{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;
+  padding:22px 8px 22px 12px;background:none;border:none;font-family:var(--sans);font-weight:500;
+  font-size:1.02rem;color:var(--white);cursor:pointer;text-align:left;
+  transition:color 0.3s ease;letter-spacing:-0.01em;
+}
+.faq-q:hover{color:rgba(255,255,255,0.85)}
+
+/* Toggle — square, not circle */
+.faq-tog{
+  width:28px;height:28px;flex-shrink:0;border-radius:6px;
+  border:1px solid rgba(255,255,255,0.06);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 0.35s var(--ease), border-color 0.3s ease, background 0.3s ease;
+  position:relative;
+  background:none;
+}
+
+/* Plus icon */
+.faq-tog::before,.faq-tog::after{content:'';position:absolute;transition:background 0.3s ease,transform 0.35s var(--ease)}
+/* Horizontal bar */
+.faq-tog::before{
+  width:10px;height:1.5px;
+  background:rgba(255,255,255,0.3);
+  border-radius:1px;
+}
+/* Vertical bar */
+.faq-tog::after{
+  width:1.5px;height:10px;
+  background:rgba(255,255,255,0.3);
+  border-radius:1px;
+}
+
+/* Hover toggle */
+.faq-item:hover .faq-tog{
+  border-color:rgba(255,255,255,0.12);
+  background:rgba(255,255,255,0.02);
+}
+.faq-item:hover .faq-tog::before,
+.faq-item:hover .faq-tog::after{
+  background:rgba(255,255,255,0.5);
+}
+
+/* Open toggle — vertical bar collapses, becomes minus */
+.faq-item.open .faq-tog{
+  border-color:rgba(0,212,170,0.25);
+  background:rgba(0,212,170,0.06);
+}
+.faq-item.open .faq-tog::before{
+  background:var(--acc);
+}
+.faq-item.open .faq-tog::after{
+  background:var(--acc);
+  transform:rotate(90deg);
+}
+
+/* Answer area — smooth reveal */
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s var(--ease),opacity 0.3s ease}
+.faq-item:not(.open) .faq-a{opacity:0}
+.faq-item.open .faq-a{max-height:320px;opacity:1}
+
+/* Answer inner — indented from number, conversational feel */
+.faq-a-in{
+  padding:4px 8px 28px 50px;
+  font-size:.92rem;color:var(--cream);line-height:1.9;max-width:580px;
+  font-family:var(--sans);
+  letter-spacing:0.005em;
+}
+
+/* Mobile adjustments */
+@media(max-width:640px){
+  .faq-inner{padding:40px 28px 36px;border-radius:20px}
+  .faq-inner::before{left:28px;width:60px}
+  .faq-q{padding:18px 4px 18px 8px;font-size:0.95rem}
+  .faq-q::before{min-width:20px;margin-right:10px;font-size:0.6rem}
+  .faq-a-in{padding:4px 4px 24px 38px;font-size:.88rem}
+  .faq-tog{width:26px;height:26px}
+  .faq-sub{font-size:0.88rem;margin-bottom:40px}
+}

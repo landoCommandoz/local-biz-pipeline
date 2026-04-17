@@ -288,4 +288,37 @@ if (require.main === module) {
   });
 }
 
-module.exports = { slugify, createOrGetSite, deploySite, findSiteAssets };
+async function deployFile(localHtmlPath, businessName) {
+  const filePath = path.resolve(__dirname, localHtmlPath);
+  const siteName = slugify(businessName);
+  const site = await createOrGetSite(siteName, '');
+
+  // HTML-only deploy — photos are already on Netlify from original deploy
+  const htmlContent = fs.readFileSync(filePath);
+  const htmlSha = crypto.createHash('sha1').update(htmlContent).digest('hex');
+
+  const deploy = await netlifyRequest(`/sites/${site.id}/deploys`, {
+    method: 'POST',
+    body: JSON.stringify({ files: { '/index.html': htmlSha } })
+  });
+
+  const uploadRes = await fetch(`${NETLIFY_API}/deploys/${deploy.id}/files/index.html`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${API_KEY}`,
+      'Content-Type': 'application/octet-stream'
+    },
+    body: htmlContent
+  });
+
+  if (!uploadRes.ok) {
+    const body = await uploadRes.text();
+    throw new Error(`HTML upload failed: ${uploadRes.status}: ${body}`);
+  }
+
+  const url = site.ssl_url || `https://${site.name}.netlify.app`;
+  console.log(`  REDEPLOYED: ${url}`);
+  return url;
+}
+
+module.exports = { slugify, createOrGetSite, deploySite, findSiteAssets, deployFile };

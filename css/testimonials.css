@@ -1,0 +1,93 @@
+/* ---- TESTIMONIALS ---- */
+.test-section{padding:140px 28px;text-align:center;position:relative}
+.test-section .tl{margin-bottom:20px;display:block;letter-spacing:.12em;text-transform:uppercase;font-size:.72rem;color:var(--dim)}
+.test-section h2{font-size:clamp(2.2rem,5.5vw,3.8rem);margin-bottom:16px}
+.test-section h2 em{background:linear-gradient(135deg,var(--acc),var(--acc2));
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+filter:drop-shadow(0 0 20px rgba(0,212,170,0.15));font-style:italic}
+.test-section>.th{position:relative;margin-bottom:64px}
+
+/* Grid: featured card spans full width, two supporting below */
+.test-grid{max-width:1060px;margin:0 auto;display:grid;
+grid-template-columns:1fr 1fr;gap:24px;position:relative}
+.test-featured{grid-column:1 / -1}
+
+/* Card base */
+.test-card{
+background:linear-gradient(165deg,rgba(255,255,255,0.035),rgba(255,255,255,0.01));
+border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:32px 28px;
+text-align:left;position:relative;overflow:hidden;
+transition:transform .5s var(--ease),box-shadow .5s var(--ease),border-color .5s ease;
+box-shadow:0 8px 32px rgba(0,0,0,0.25),0 2px 8px rgba(0,0,0,0.15)}
+
+.test-card:hover{
+border-color:rgba(255,255,255,0.12);transform:translateY(-4px);
+box-shadow:0 20px 50px rgba(0,0,0,0.35),0 8px 20px rgba(0,0,0,0.2)}
+
+/* Featured card gets a subtle accent top border */
+.test-featured{border-top:2px solid var(--acc);padding:40px 36px}
+.test-featured::before{content:'';position:absolute;top:0;left:0;right:0;height:80px;
+background:linear-gradient(180deg,rgba(0,212,170,0.04),transparent);pointer-events:none}
+
+/* ---- METRIC BAR (before/after) ---- */
+.test-metric-bar{display:flex;align-items:center;gap:16px;
+margin-bottom:24px;padding:16px 20px;border-radius:12px;
+background:rgba(0,212,170,0.04);border:1px solid rgba(0,212,170,0.08)}
+.test-metric-compact{padding:12px 16px;gap:12px}
+
+.test-metric{display:flex;flex-direction:column;gap:2px}
+.test-metric-label{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;
+text-transform:uppercase;color:var(--dim)}
+.test-metric-num{font-family:var(--mono);font-size:1.6rem;font-weight:700;color:var(--cream)}
+.test-metric-compact .test-metric-num{font-size:1.3rem}
+.test-metric-highlight{color:var(--acc);text-shadow:0 0 20px rgba(0,212,170,0.3)}
+.test-metric-arrow{font-size:1.2rem;color:var(--dim);flex-shrink:0}
+.test-metric-time{margin-left:auto;font-family:var(--mono);font-size:.65rem;
+color:var(--acc);letter-spacing:.05em;text-transform:uppercase;
+padding:4px 10px;border-radius:20px;background:rgba(0,212,170,0.08)}
+
+/* ---- TEXT BUBBLES ---- */
+.test-msg-wrap{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+
+.test-bubble{
+font-size:.88rem;color:rgba(255,255,255,0.72);line-height:1.7;
+font-style:normal;margin:0;
+padding:14px 18px;border-radius:18px 18px 18px 4px;
+background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);
+position:relative;max-width:92%;transition:color .4s ease,background .4s ease}
+
+.test-bubble-follow{border-radius:4px 18px 18px 4px;max-width:88%;
+background:rgba(255,255,255,0.025)}
+
+.test-card:hover .test-bubble{color:rgba(255,255,255,0.82);
+background:rgba(255,255,255,0.055)}
+
+/* Featured card bubbles are slightly larger */
+.test-featured .test-bubble{font-size:.92rem;padding:16px 20px}
+
+/* ---- AUTHOR ---- */
+.test-author{display:flex;align-items:center;gap:14px;padding-top:20px;
+border-top:1px solid rgba(255,255,255,0.05);transition:border-color .4s ease}
+.test-card:hover .test-author{border-top-color:rgba(0,212,170,0.12)}
+
+.test-av{width:40px;height:40px;border-radius:50%;
+background:linear-gradient(135deg,var(--acc),rgba(0,212,170,0.5));
+display:flex;align-items:center;justify-content:center;
+font-size:.6rem;font-weight:700;color:var(--black);flex-shrink:0;
+letter-spacing:.02em}
+
+.test-name{font-weight:600;font-size:.84rem;color:var(--cream);transition:color .4s ease}
+.test-card:hover .test-name{color:#fff}
+.test-role{font-size:.7rem;color:var(--dim);font-family:var(--mono);
+letter-spacing:.02em;transition:color .4s ease}
+.test-card:hover .test-role{color:rgba(255,255,255,0.55)}
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:768px){
+.test-grid{grid-template-columns:1fr;max-width:440px;margin:0 auto}
+.test-featured{grid-column:1}
+.test-card:hover{transform:translateY(-4px)}
+.test-metric-bar{flex-wrap:wrap;gap:10px}
+.test-metric-time{margin-left:0;margin-top:4px;width:100%}
+.test-section{padding:100px 20px}
+}

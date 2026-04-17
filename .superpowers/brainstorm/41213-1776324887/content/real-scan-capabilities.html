@@ -1,0 +1,56 @@
+<h2>What can we actually scan in real-time?</h2>
+<p class="subtitle">If we're going holistic, let's map what's real vs. what needs a follow-up</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:32px 0">
+
+  <div style="padding:24px;border-radius:16px;background:rgba(0,212,170,0.04);border:1px solid rgba(0,212,170,0.15)">
+    <p class="label" style="color:#00d4aa">CAN DO LIVE ON THE PAGE (5-15 seconds)</p>
+    <ul style="color:rgba(255,255,255,0.6);font-size:13px;line-height:2;padding-left:18px">
+      <li><strong>Google Business Profile</strong> — star rating, review count, recent reviews text, response rate to reviews</li>
+      <li><strong>Website speed</strong> — page load time, mobile score via PageSpeed API (free, Google)</li>
+      <li><strong>Meta/SEO basics</strong> — title tag, meta description, H1 present, SSL, mobile viewport</li>
+      <li><strong>Social presence</strong> — Facebook page exists, last post date, follower count</li>
+      <li><strong>Schema markup</strong> — does Google even know what your business is?</li>
+      <li><strong>Competitor snapshot</strong> — top 3 competitors by Google Maps ranking, their review counts</li>
+    </ul>
+  </div>
+
+  <div style="padding:24px;border-radius:16px;background:rgba(255,59,92,0.04);border:1px solid rgba(255,59,92,0.15)">
+    <p class="label" style="color:#ff3b5c">NEEDS BACKEND / FOLLOW-UP EMAIL (24 hours)</p>
+    <ul style="color:rgba(255,255,255,0.6);font-size:13px;line-height:2;padding-left:18px">
+      <li><strong>Deep review sentiment analysis</strong> — what are people actually complaining about, patterns across reviews</li>
+      <li><strong>Full SEO audit</strong> — backlinks, keyword rankings, content gaps</li>
+      <li><strong>Call tracking analysis</strong> — do they have call tracking? Are calls being recorded?</li>
+      <li><strong>Competitor deep dive</strong> — their ad spend, their content strategy, their review velocity</li>
+      <li><strong>Revenue leak model</strong> — personalized estimate based on their industry, location, review data</li>
+      <li><strong>Custom recommendations</strong> — prioritized action plan specific to their gaps</li>
+    </ul>
+  </div>
+</div>
+
+<div style="margin-top:24px;padding:24px;border-radius:16px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06)">
+  <p class="label">THE HOLISTIC PLAY</p>
+  <p style="color:rgba(255,255,255,0.55);font-size:14px;line-height:1.8;margin:8px 0 0">
+    <strong>On-site:</strong> Real scan pulls their actual data. They see their real star rating, their real reviews (including the bad ones), their real page speed, their real competitor gap. Terminal runs the scan → transforms into a visual report card with gauges and scores. Their name is on it. Their numbers are on it. It's not a template — it's THEIR business naked on screen.<br><br>
+    <strong>Follow-up email (24hrs):</strong> Deep audit lands in their inbox. Sentiment analysis of every review. Full SEO teardown. Revenue leak model customized to their trade and market. Prioritized fix list. This is the thing that makes them text you.<br><br>
+    <strong>What this requires:</strong> A lightweight backend (serverless function) that calls Google Places API + PageSpeed API + Firecrawl. Runs when they submit. Returns data to the frontend for the live report. Queues the deep audit for email delivery.
+  </p>
+</div>
+
+<div class="options" style="margin-top:32px">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Go full holistic — real data on-site + deep audit by email</h3>
+      <p>Build the backend. Pull real data. Show them their actual business on screen. Follow up with the deep dive. This is a product, not a landing page trick.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Holistic but staged — simulate on-site now, build real scan as phase 2</h3>
+      <p>Ship the simulated version first (personalized with their URL in the terminal). Build the real API-powered scan as the next project. Get the UX right before adding the backend complexity.</p>
+    </div>
+  </div>
+</div>

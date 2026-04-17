@@ -1,0 +1,68 @@
+/* ---- PROOF BAR ---- */
+/* Scoreboard strip — real numbers, one accent, zero fluff */
+
+.proof{padding:80px 28px 72px;position:relative;overflow:hidden}
+
+/* Subtle top/bottom rule lines to frame the bar */
+.proof::before,.proof::after{content:'';position:absolute;left:50%;transform:translateX(-50%);
+width:min(900px,85%);height:1px;background:linear-gradient(90deg,transparent,var(--acc-g),var(--border-h),var(--acc-g),transparent)}
+.proof::before{top:0}
+.proof::after{bottom:0}
+
+/* ---- Tagline ---- */
+.proof-tagline{text-align:center;margin:0 0 48px;font-family:var(--sans);font-size:.82rem;
+color:var(--dim);letter-spacing:.04em;font-weight:500}
+.proof-tagline::before{content:'';display:inline-block;width:6px;height:6px;
+border-radius:50%;background:var(--acc);margin-right:10px;vertical-align:middle;
+box-shadow:0 0 10px var(--acc),0 0 24px rgba(34,197,94,0.40),0 0 45px rgba(34,197,94,0.16)}
+
+/* ---- Grid ---- */
+.proof-inner{max-width:1060px;margin:0 auto;display:grid;
+grid-template-columns:repeat(4,1fr);gap:1px;
+background:var(--border);border-radius:16px;overflow:hidden}
+
+/* ---- Card ---- */
+.proof-item{display:flex;flex-direction:column;align-items:center;justify-content:center;
+gap:8px;padding:44px 20px 38px;background:var(--deep);
+text-align:center;position:relative;
+transition:background .35s var(--ease)}
+
+.proof-item:hover{background:var(--surface)}
+
+/* ---- Number ---- */
+.proof-num{font-family:var(--sans);font-weight:900;
+font-size:clamp(2.6rem,4.5vw,3.6rem);letter-spacing:-.04em;line-height:1;
+color:var(--acc2);
+text-shadow:0 0 32px rgba(74,222,128,0.32),0 0 80px rgba(34,197,94,0.16);
+transition:text-shadow .4s var(--ease)}
+
+.proof-item:hover .proof-num{
+text-shadow:0 0 40px rgba(74,222,128,0.55),0 0 90px rgba(34,197,94,0.28)}
+
+/* Last item: the "$0" zero — make it hit different */
+.proof-item:last-child .proof-num{
+color:var(--white);font-size:clamp(2rem,3.5vw,2.8rem);letter-spacing:-.02em}
+
+.proof-item:last-child .proof-num::before{content:'$';font-size:.65em;
+opacity:.4;vertical-align:baseline;margin-right:2px}
+
+/* ---- Label ---- */
+.proof-lbl{font-family:var(--mono);font-size:.62rem;line-height:1.55;
+color:var(--dim);text-transform:uppercase;letter-spacing:.1em;
+transition:color .35s var(--ease)}
+
+.proof-item:hover .proof-lbl{color:var(--cream)}
+
+/* Last item label: emphasize the promise */
+.proof-item:last-child .proof-lbl{color:rgba(255,255,255,0.55);letter-spacing:.08em}
+
+/* ---- Responsive ---- */
+@media(max-width:900px){
+.proof-inner{grid-template-columns:repeat(2,1fr);border-radius:12px}
+.proof-item{padding:36px 16px 30px}
+}
+@media(max-width:520px){
+.proof-inner{grid-template-columns:1fr;max-width:360px;border-radius:10px}
+.proof-item{padding:32px 16px 26px}
+.proof-tagline{font-size:.75rem;margin-bottom:36px}
+}

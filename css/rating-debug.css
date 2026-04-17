@@ -1,0 +1,36 @@
+/* ---- RATING DEBUG OVERLAY (remove before ship) ---- */
+
+/* Base: show label + score on every rated section */
+[data-rating]::before{
+  content:attr(data-rating-label) " — " attr(data-score);
+  position:fixed;top:auto;bottom:8px;left:8px;z-index:99999;
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;
+  padding:6px 14px;border-radius:6px;pointer-events:none;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.5);
+  display:none}
+
+/* Only show the label for the section currently in viewport */
+[data-rating].in-view::before{display:block}
+
+/* RED = 8 or below, needs rebuild */
+[data-rating="red"]{outline:2px solid rgba(239,68,68,0.35);outline-offset:-2px}
+[data-rating="red"]::before{border-color:rgba(239,68,68,0.5);color:#ef4444;
+  box-shadow:0 0 20px rgba(239,68,68,0.15)}
+
+/* YELLOW = in progress */
+[data-rating="yellow"]{outline:2px solid rgba(234,179,8,0.3);outline-offset:-2px}
+[data-rating="yellow"]::before{border-color:rgba(234,179,8,0.4);color:#eab308;
+  box-shadow:0 0 20px rgba(234,179,8,0.1)}
+
+/* GREEN = 9/10, one question away */
+[data-rating="green"]{outline:2px solid rgba(34,197,94,0.35);outline-offset:-2px}
+[data-rating="green"]::before{border-color:rgba(34,197,94,0.4);color:#22c55e;
+  box-shadow:0 0 20px rgba(34,197,94,0.1)}
+
+/* GOLD = 10/10, locked, do not touch */
+[data-rating="gold"]{outline:2px solid rgba(201,168,76,0.4);outline-offset:-2px;
+  box-shadow:0 0 30px rgba(201,168,76,0.06)}
+[data-rating="gold"]::before{border-color:rgba(201,168,76,0.5);color:#c9a84c;
+  box-shadow:0 0 20px rgba(201,168,76,0.15)}

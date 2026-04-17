@@ -1,0 +1,39 @@
+{
+  "opened_at": "2026-04-17",
+  "currency": "USD",
+  "businesses": {
+    "scout": {
+      "income_total": 0,
+      "cost_total": 0,
+      "last_tick": null,
+      "last_income_at": null
+    },
+    "builder": {
+      "income_total": 0,
+      "cost_total": 0,
+      "last_tick": null,
+      "last_income_at": null
+    },
+    "foreman": {
+      "income_total": 0,
+      "cost_total": 0,
+      "attributable_income": 0,
+      "last_tick": null,
+      "last_income_at": null
+    },
+    "paymaster": {
+      "income_total": 0,
+      "cost_total": 0,
+      "infra_savings": 0,
+      "ecosystem_tokens_tracked": 0,
+      "last_tick": null,
+      "last_income_at": null
+    }
+  },
+  "overall": {
+    "income_total": 0,
+    "cost_total": 0,
+    "surplus_to_lando": 0,
+    "last_updated": null
+  }
+}

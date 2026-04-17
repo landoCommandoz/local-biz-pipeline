@@ -1,0 +1,26 @@
+{
+  "week_of": "2026-04-17",
+  "rules_version": "0.1",
+  "caps": {
+    "foreman": {
+      "daily": 200000,
+      "notes": "research-heavy hunts"
+    },
+    "scout": {
+      "daily": 30000,
+      "notes": "CSV + listing copy, low frequency"
+    },
+    "builder": {
+      "daily": 80000,
+      "notes": "generator per tick, moderate"
+    },
+    "paymaster": {
+      "daily": 15000,
+      "notes": "digest + monthly research"
+    }
+  },
+  "target_tokens_per_dollar": 250000,
+  "notes": [
+    "Starting caps are charter defaults. Reallocated Sunday 23:00 by reallocate() using tokens-per-dollar-earned from the past 7 days."
+  ]
+}

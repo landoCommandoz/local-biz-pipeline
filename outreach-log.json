@@ -1,0 +1,367 @@
+[
+  {
+    "timestamp": "2026-04-12T11:27:34.254Z",
+    "business": "The HVAC Company",
+    "city": "Mesa",
+    "trade": "HVAC",
+    "rating": "3.4",
+    "email": "service@thehvaccompany.net",
+    "status": "TEST_PREVIEW",
+    "rescrapedAt": "2026-04-15T04:30:39.085Z",
+    "stage": 1,
+    "firstSentAt": "2026-04-15T04:34:26.333Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:27:37.783Z",
+    "business": "Tempe Mechanical",
+    "city": "Tempe",
+    "trade": "HVAC",
+    "rating": "4.1",
+    "email": "info@tempemechanical.net",
+    "status": "SENT",
+    "stage": 2,
+    "lastFollowup": "2026-04-17T00:12:42.637Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:28:23.899Z",
+    "business": "Angels Heating & Cooling LLC",
+    "city": "Tempe",
+    "trade": "HVAC",
+    "rating": "3.7",
+    "email": "maurice@angelsheatingcooling.com",
+    "status": "SENT",
+    "stage": 2,
+    "lastFollowup": "2026-04-17T00:13:28.755Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:29:08.905Z",
+    "business": "Cool Blew, Inc.",
+    "city": "Surprise",
+    "trade": "HVAC",
+    "rating": "4.1",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:29:09.184Z",
+    "business": "Arrowhead Aire LLC",
+    "city": "Surprise",
+    "trade": "HVAC",
+    "rating": "4",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:29:12.279Z",
+    "business": "Alliance Plumbing Service & Repair, LLC",
+    "city": "Phoenix",
+    "trade": "plumbing",
+    "rating": "3.8",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:29:13.584Z",
+    "business": "Scottsdale Plumbing Co",
+    "city": "Scottsdale",
+    "trade": "plumbing",
+    "rating": "4",
+    "email": "info@scottsdaleplumbing.com",
+    "status": "SENT",
+    "stage": 2,
+    "lastFollowup": "2026-04-17T00:14:14.841Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:29:58.596Z",
+    "business": "Emergency Plumbing, LLC",
+    "city": "Scottsdale",
+    "trade": "plumbing",
+    "rating": "3.5",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:29:58.687Z",
+    "business": "J & H Plumbing LLC",
+    "city": "Mesa",
+    "trade": "plumbing",
+    "rating": "3.4",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:30:00.819Z",
+    "business": "TCH Plumbing and Air , LLC",
+    "city": "Mesa",
+    "trade": "plumbing",
+    "rating": "4.2",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:30:02.639Z",
+    "business": "Epic Plumbing",
+    "city": "Gilbert",
+    "trade": "plumbing",
+    "rating": "3.7",
+    "email": "user@domain.com",
+    "status": "SENT",
+    "stage": 2,
+    "lastFollowup": "2026-04-17T00:15:00.920Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:30:47.645Z",
+    "business": "Copper State Plumbing Services LLC",
+    "city": "Surprise",
+    "trade": "plumbing",
+    "rating": "4",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:30:49.497Z",
+    "business": "Ferguson Plumbing Supply",
+    "city": "Surprise",
+    "trade": "plumbing",
+    "rating": "3.6",
+    "email": "support@ferguson.com",
+    "status": "SENT",
+    "stage": 2,
+    "lastFollowup": "2026-04-17T00:15:46.978Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:31:34.502Z",
+    "business": "Super Electric Co",
+    "city": "Phoenix",
+    "trade": "electrical",
+    "rating": "4",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:31:34.502Z",
+    "business": "Glorious Electric",
+    "city": "Phoenix",
+    "trade": "electrical",
+    "rating": "4.2",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:31:34.502Z",
+    "business": "A1 Electric Pros",
+    "city": "Phoenix",
+    "trade": "electrical",
+    "rating": "4.1",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:31:35.812Z",
+    "business": "Apollo Electric LLC",
+    "city": "Scottsdale",
+    "trade": "electrical",
+    "rating": "4.2",
+    "email": "user@domain.com",
+    "status": "SENT",
+    "stage": 2,
+    "lastFollowup": "2026-04-17T00:16:33.013Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:32:20.906Z",
+    "business": "Salt River Project",
+    "city": "Scottsdale",
+    "trade": "electrical",
+    "rating": "3",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:32:23.666Z",
+    "business": "Meade Electrical Services",
+    "city": "Mesa",
+    "trade": "electrical",
+    "rating": "4.2",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:32:23.666Z",
+    "business": "Hybrid Electric Arizona",
+    "city": "Mesa",
+    "trade": "electrical",
+    "rating": "3.7",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:32:25.439Z",
+    "business": "Hawkeye Electric, Inc.",
+    "city": "Chandler",
+    "trade": "electrical",
+    "rating": "3.1",
+    "email": "info@hawkeyeelectric.com",
+    "status": "SENT",
+    "stage": 2,
+    "lastFollowup": "2026-04-17T00:17:19.051Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:33:10.615Z",
+    "business": "WYE Electric, Inc",
+    "city": "Chandler",
+    "trade": "electrical",
+    "rating": "4.2",
+    "email": "wyeoffice@wyeelectric.net",
+    "status": "TEST_PREVIEW",
+    "rescrapedAt": "2026-04-15T04:31:04.797Z",
+    "stage": 1,
+    "firstSentAt": "2026-04-15T04:34:26.334Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:33:20.622Z",
+    "business": "Swain Electric",
+    "city": "Gilbert",
+    "trade": "electrical",
+    "rating": "4.2",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:33:20.622Z",
+    "business": "SEC Electrical Contractor LLC",
+    "city": "Gilbert",
+    "trade": "electrical",
+    "rating": "4.2",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:33:21.841Z",
+    "business": "Switch Electric, a Loenbro Company",
+    "city": "Gilbert",
+    "trade": "electrical",
+    "rating": "3.4",
+    "email": "msanchez@switchelectric.com",
+    "status": "SENT",
+    "stage": 2,
+    "lastFollowup": "2026-04-17T00:18:05.118Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:34:06.912Z",
+    "business": "City Electric Supply Gilbert",
+    "city": "Gilbert",
+    "trade": "electrical",
+    "rating": "4.1",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:34:06.912Z",
+    "business": "Coefficient Electric Co.",
+    "city": "Gilbert",
+    "trade": "electrical",
+    "rating": "3.8",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:34:06.970Z",
+    "business": "City Electric Supply Gilbert South",
+    "city": "Gilbert",
+    "trade": "electrical",
+    "rating": "3.5",
+    "email": "gilbertsouth0293@cityelectricsupply.com",
+    "status": "TEST_PREVIEW",
+    "rescrapedAt": "2026-04-15T04:31:07.183Z",
+    "stage": 1,
+    "firstSentAt": "2026-04-15T04:34:26.334Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:34:07.137Z",
+    "business": "DP Electric Inc",
+    "city": "Tempe",
+    "trade": "electrical",
+    "rating": "4.2",
+    "email": "info@dpelectric.com",
+    "status": "TEST_PREVIEW",
+    "rescrapedAt": "2026-04-15T04:31:08.250Z",
+    "stage": 1,
+    "firstSentAt": "2026-04-15T04:34:26.335Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:34:07.584Z",
+    "business": "Wilson Electric Services Corp.",
+    "city": "Tempe",
+    "trade": "electrical",
+    "rating": "4.1",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:34:08.873Z",
+    "business": "AME Electrical Contracting Inc",
+    "city": "Tempe",
+    "trade": "electrical",
+    "rating": "3.5",
+    "email": "info@ameelectrical.com",
+    "status": "SENT",
+    "stage": 2,
+    "lastFollowup": "2026-04-17T00:18:51.270Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:34:54.224Z",
+    "business": "Canyon State Electric",
+    "city": "Tempe",
+    "trade": "electrical",
+    "rating": "3.5",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:34:55.317Z",
+    "business": "Premier Electrical Staffing",
+    "city": "Tempe",
+    "trade": "electrical",
+    "rating": "4.2",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:34:55.550Z",
+    "business": "Lundell Electrical Services",
+    "city": "Tempe",
+    "trade": "electrical",
+    "rating": "4",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:34:57.886Z",
+    "business": "Tilmann Electric Inc",
+    "city": "Tempe",
+    "trade": "electrical",
+    "rating": "3.7",
+    "email": "rfp@tilmannelectric.com",
+    "status": "SENT",
+    "stage": 2,
+    "lastFollowup": "2026-04-17T00:19:37.315Z"
+  },
+  {
+    "timestamp": "2026-04-12T11:35:42.923Z",
+    "business": "All Perfection Electric LLC",
+    "city": "Surprise",
+    "trade": "electrical",
+    "rating": "4.1",
+    "email": null,
+    "status": "SKIPPED"
+  },
+  {
+    "timestamp": "2026-04-12T11:35:43.607Z",
+    "business": "Arizona Central Electric",
+    "city": "Surprise",
+    "trade": "electrical",
+    "rating": "4.2",
+    "email": null,
+    "status": "SKIPPED"
+  }
+]

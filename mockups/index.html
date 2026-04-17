@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brewington Digital · Hero Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0a0a0a;color:#f5f5f4;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+body{padding:40px 32px 80px}
+
+.head{max-width:1400px;margin:0 auto 36px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.head h1{font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.head h1 em{font-style:normal;color:#a3a3a3;font-weight:400}
+.head .meta{font-family:'JetBrains Mono',monospace;font-size:12px;color:#737373;letter-spacing:.04em;text-transform:uppercase}
+.head .meta b{color:#f5f5f4;font-weight:500}
+
+.grid{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+@media (max-width:1100px){.grid{grid-template-columns:1fr}}
+
+.card{background:#111;border:1px solid #262626;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
+.card:hover{border-color:#525252;transform:translateY(-2px)}
+
+.card-head{padding:18px 20px 14px;border-bottom:1px solid #262626;display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.card-head .tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#a3a3a3;padding:4px 9px;border:1px solid #404040;border-radius:999px;flex-shrink:0}
+.card-head .title{font-size:17px;font-weight:600;letter-spacing:-.01em}
+.card-head .title small{display:block;font-size:12.5px;font-weight:400;color:#a3a3a3;margin-top:3px;line-height:1.4}
+
+.frame-wrap{position:relative;aspect-ratio:16/11;overflow:hidden;background:#0a0a0a;border-bottom:1px solid #262626}
+.frame-wrap iframe{position:absolute;top:0;left:0;width:1440px;height:990px;transform:scale(0.3125);transform-origin:0 0;border:0;pointer-events:none}
+.frame-wrap::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.02)}
+
+.card-body{padding:16px 20px 18px;display:flex;flex-direction:column;gap:12px;flex:1}
+.card-body p{font-size:13.5px;line-height:1.55;color:#d4d4d4}
+.card-actions{display:flex;gap:10px;margin-top:auto}
+.card-actions a{flex:1;text-align:center;text-decoration:none;font-size:13px;font-weight:500;padding:10px 12px;border-radius:7px;transition:background .15s,color .15s,border-color .15s;font-family:'Inter',sans-serif}
+.open{background:#f5f5f4;color:#0a0a0a}
+.open:hover{background:#fff}
+.rate{background:transparent;color:#d4d4d4;border:1px solid #404040}
+.rate:hover{border-color:#737373;color:#fff}
+
+.foot{max-width:1400px;margin:40px auto 0;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#737373;display:flex;gap:24px;flex-wrap:wrap;align-items:center;border-top:1px solid #262626;padding-top:24px}
+.foot span b{color:#d4d4d4;font-weight:500}
+.foot .dot{width:6px;height:6px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.5);animation:p 2s infinite}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.5}}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <div>
+    <h1>Hero Mockups <em>/ HOTR · traffic light done right</em></h1>
+    <div class="meta" style="margin-top:8px">Brewington stays · traffic light <b>kept</b> · three crafted executions below</div>
+  </div>
+  <div class="meta"><span class="dot" style="display:inline-block;vertical-align:middle;margin-right:8px"></span>Port <b>8080</b> · live</div>
+</div>
+
+<div class="grid">
+
+  <article class="card">
+    <div class="card-head">
+      <div>
+        <div class="title">Instrument Cluster<small>Traffic light as a precision dashboard gauge. Machined bezel, real LEDs, tachometer sweeps.</small></div>
+      </div>
+      <span class="tag">A</span>
+    </div>
+    <div class="frame-wrap"><iframe src="hero/concept-a.html" loading="lazy" title="Concept A preview"></iframe></div>
+    <div class="card-body">
+      <p>Traffic light treated as a piece of hardware an enthusiast would respect. Porsche / Pagani dashboard energy. CNC-milled housing, crystal lens, diffused LEDs. Background: knurled machining, redline hash marks.</p>
+      <div class="card-actions">
+        <a class="open" href="hero/concept-a.html" target="_blank">Open full page</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head">
+      <div>
+        <div class="title">Night Highway<small>Cinematic. Traffic light hanging over a rain-slicked intersection at 2am.</small></div>
+      </div>
+      <span class="tag">B</span>
+    </div>
+    <div class="frame-wrap"><iframe src="hero/concept-b.html" loading="lazy" title="Concept B preview"></iframe></div>
+    <div class="card-body">
+      <p>Prestige-film feel. Blade Runner, Drive, Hopper in photo-realism. Wet asphalt reflection, sodium-vapor ambience, traffic light cycles with physically believable LED behavior. The moment you pull over to help.</p>
+      <div class="card-actions">
+        <a class="open" href="hero/concept-b.html" target="_blank">Open full page</a>
+      </div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head">
+      <div>
+        <div class="title">Modern Diagnostic<small>Premium three-state LED panel in a matte chassis. Apple-grade restraint.</small></div>
+      </div>
+      <span class="tag">C</span>
+    </div>
+    <div class="frame-wrap"><iframe src="hero/concept-c.html" loading="lazy" title="Concept C preview"></iframe></div>
+    <div class="card-body">
+      <p>Contemporary tech take. Modern car DIC or OBD-II scanner meets industrial design. Background is a quiet command console with real-looking diagnostic readouts. Product-grade polish, no clutter.</p>
+      <div class="card-actions">
+        <a class="open" href="hero/concept-c.html" target="_blank">Open full page</a>
+      </div>
+    </div>
+  </article>
+
+</div>
+
+<div class="foot">
+  <span><b>Rate each</b> on the 1-10 scale</span>
+  <span>8 or below <b>/ rebuild</b></span>
+  <span>9 <b>/ one question</b></span>
+  <span>10 <b>/ lock it</b></span>
+</div>
+
+</body>
+</html>

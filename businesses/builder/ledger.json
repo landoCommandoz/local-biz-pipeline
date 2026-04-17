@@ -1,0 +1,17 @@
+{
+  "since": "2026-04-17T03:47:34.330Z",
+  "income_total": 0,
+  "expense_total": 0,
+  "net": 0,
+  "sales_count": 0,
+  "expense_count": 0,
+  "last_sale_at": null,
+  "last_expense_at": null,
+  "last_reconciled_at": "2026-04-17T03:47:34.330Z",
+  "month_to_date": {
+    "month_key": "2026-04",
+    "income": 0,
+    "expense": 0,
+    "net": 0
+  }
+}

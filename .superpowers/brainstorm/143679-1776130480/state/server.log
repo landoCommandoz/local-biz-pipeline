@@ -1,0 +1,3 @@
+{"type":"server-started","port":62266,"host":"0.0.0.0","url_host":"localhost","url":"http://localhost:62266","screen_dir":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/143679-1776130480/content","state_dir":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/143679-1776130480/state"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/143679-1776130480/content/logo-concepts.html"}
+{"type":"server-stopped","reason":"idle timeout"}

@@ -1,0 +1,20 @@
+/* Brewington beacon in top-left */
+.beacon{position:absolute;top:50%;left:40px;transform:translateY(-50%);z-index:2;pointer-events:none;width:60px;height:60px}
+@keyframes beaconPulse{0%,100%{transform:scale(1);opacity:.6}50%{transform:scale(1.15);opacity:1}}
+.beacon-core{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.15);
+animation:beaconPulse 3s ease-in-out infinite;
+box-shadow:0 0 40px rgba(0,212,170,0.1)}
+.beacon-core svg{width:24px;height:24px;filter:drop-shadow(0 0 8px rgba(0,212,170,0.4))}
+.beacon-core svg path{stroke:#00d4aa;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round;
+stroke-dasharray:120;animation:logoTrace 4s ease-in-out infinite}
+/* Rings emanating from beacon */
+@keyframes beaconRing{0%{width:60px;height:60px;opacity:.3}100%{width:200px;height:200px;opacity:0}}
+.beacon-ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+border-radius:50%;border:1px solid rgba(0,212,170,0.1);
+animation:beaconRing 4s ease-out infinite;pointer-events:none}
+.beacon-ring:nth-child(2){animation-delay:1.3s}
+.beacon-ring:nth-child(3){animation-delay:2.6s}
+
+@media(max-width:768px){.beacon{left:16px;width:44px;height:44px}
+.beacon-core svg{width:18px;height:18px}}

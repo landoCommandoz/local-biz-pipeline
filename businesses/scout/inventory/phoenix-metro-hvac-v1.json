@@ -1,0 +1,21 @@
+{
+  "sku": "phoenix-metro-hvac-v1",
+  "name": "Phoenix Metro HVAC Lead List v1",
+  "channel": "gumroad",
+  "product_id": "dgJTnimEaE74wTeczXWP3A==",
+  "short_url": "https://brewtonic.gumroad.com/l/yaghag",
+  "price_usd": 49,
+  "cogs_usd": 0,
+  "source_file": "businesses/scout/products/phoenix-metro-hvac-v1.csv",
+  "file_bytes": 676,
+  "row_count": 100,
+  "cover_url": "https://brewington-preview-86636.netlify.app/covers/phoenix-hvac-v1.png",
+  "mirror_file_url": "https://brewington-preview-86636.netlify.app/downloads/phoenix-metro-hvac-v1.csv",
+  "published_at": "2026-04-17T05:01:22.132Z",
+  "vertical": "hvac",
+  "geo": ["phoenix", "mesa", "scottsdale", "gilbert", "tempe", "chandler", "surprise"],
+  "refresh_cadence": "monthly",
+  "next_refresh_due": "2026-05-17",
+  "status": "live",
+  "contract_ref": "businesses/scout/contracts/v1-performance-contract.md"
+}

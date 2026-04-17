@@ -1,0 +1,5 @@
+{"type":"server-started","port":50802,"host":"0.0.0.0","url_host":"localhost","url":"http://localhost:50802","screen_dir":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/5940-1776112475/content","state_dir":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/5940-1776112475/state"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/5940-1776112475/content/concepts.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/5940-1776112475/content/concepts-v2.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/5940-1776112475/content/the-one.html"}
+{"type":"server-stopped","reason":"idle timeout"}

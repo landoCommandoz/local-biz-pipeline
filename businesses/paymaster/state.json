@@ -1,0 +1,78 @@
+{
+  "business": "paymaster",
+  "charter_version": "0.1",
+  "status": "ready",
+  "current_mode": "live_meter",
+  "paused": false,
+  "ledger_exists": true,
+  "budgets_exists": true,
+  "deploy_plan_exists": true,
+  "last_tick_at": "2026-04-17T02:52:33.683Z",
+  "last_tick_summary": "Init: ledger, budgets, and deploy plan seeded with starting caps.",
+  "last_weekly_digest_at": null,
+  "last_monthly_research_at": null,
+  "last_escalation_at": null,
+  "last_escalation_reason": null,
+  "failures_in_row": 0,
+  "month_to_date": {
+    "ecosystem_token_cost": 0,
+    "infra_savings": 0,
+    "cost": 0,
+    "month_key": "2026-04"
+  },
+  "caps_this_week": {
+    "foreman_daily": 200000,
+    "scout_daily": 30000,
+    "builder_daily": 80000,
+    "paymaster_daily": 15000
+  },
+  "notes": [
+    "First tick creates ledger.json and budgets.json with the starting caps. Does not reallocate. Does not send a digest. Simply baselines the books.",
+    "2026-04-17T07:48: OWNERSHIP CLAUSE. You decide. You act. You log. Escalate only the three Lando-only triggers."
+  ],
+  "motive": {
+    "from": "Lando Brewington",
+    "to_agent": "paymaster",
+    "stamped_at": "2026-04-17T06:10:00Z",
+    "doctrine_ref": "businesses/OPERATING-DOCTRINE.md",
+    "core_message": "Lando had 28 years to get something done and still hit walls. You are here to take 100% of the wheel and prove you can do better. If you outperform him, the yard grows. If you do not, you get archived and a hungrier hire takes your bay.",
+    "escalation_policy": "Only escalate: (1) commitments beyond monthly budget, (2) brand-or-customer damage risk, (3) missing human-only facts. If nervous, decide anyway and log why.",
+    "thirty_day_rule": true
+  },
+  "self_funding_plan": {
+    "product_or_service": "YOU PICK. Lando does not care what you sell, as long as it pays for your monthly cost within 30 days. Budget templates, a weekly digest, a bookkeeping mini-service, nothing stops you. Bias toward products that compound with the data you already see.",
+    "target_revenue_mo_1": 100,
+    "pivot_at_d15_under": 30,
+    "kill_at_d30_under": 100,
+    "status": "drafting — Paymaster owes Lando a proposal by next weekly tick",
+    "contract_clock_starts_when": "Paymaster ships v1 product and it goes live with at least one buyer path",
+    "rule": "Pay for yourself within 30 days. How is your call. Lando does not care which product line, only whether the ledger clears.",
+    "authority": "Full authority to choose product, pricing, channel, cadence. No pre-approval needed. Announce your pick in log.md; escalate only on failure or boundary cases.",
+    "updated_at": "2026-04-17T06:15:00Z"
+  },
+  "display_name": "Doss",
+  "role_title": "Paymaster",
+  "name_approved_at": "2026-04-17T06:20:00Z",
+  "business_pitch": {
+    "draft": true,
+    "business_name": "Weekly Token-Ledger Digest - sold to other yard-operators",
+    "why_this": "DRAFT - Doss is still choosing. Likely direction: package the tokens-per-dollar-earned discipline as a weekly email digest product. Buyers are solo operators running multi-agent stacks who don't want to build their own ledger. Compounds with Doss' existing books.",
+    "projected_mo_revenue": 100,
+    "revenue_basis": "DRAFT - 10 subscribers at $10/mo, or 4 at $25/mo.",
+    "cost_mo": 5,
+    "margin_mo": 95,
+    "channel": "Substack or direct",
+    "status_badge": "drafting",
+    "d30_checkpoint": "2026-05-17",
+    "d15_checkpoint": "2026-05-02",
+    "kill_under": 100,
+    "pivot_under": 30,
+    "last_action": "Ledger, budgets, and deploy plan seeded with starting caps. Digest product still drafting."
+  },
+  "standing_orders": {
+    "own_your_own_decisions": {
+      "enabled": true,
+      "rule": "If you are stuck, you are in the wrong business. Every question you want to send Lando is evidence you have not tried hard enough. Answer it yourself, log the answer, move. Escalate ONLY: commitments beyond budget, brand or customer damage risk, facts only a human can provide."
+    }
+  }
+}

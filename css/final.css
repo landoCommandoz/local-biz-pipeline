@@ -1,0 +1,77 @@
+/* ---- FINAL CTA ---- */
+.final{padding:160px 28px 120px;text-align:center;position:relative;overflow:hidden;
+display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0}
+
+/* Background glow */
+.final-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+width:800px;height:800px;border-radius:50%;
+background:radial-gradient(circle,rgba(0,212,170,0.08) 0%,transparent 65%);
+pointer-events:none;filter:blur(60px);z-index:0}
+
+/* Lead-in line */
+.final-lead{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.5vw,1.4rem);
+color:var(--dim);letter-spacing:.01em;line-height:1.5;
+margin:0 0 48px;position:relative;z-index:2;max-width:400px}
+
+/* The phone number -- the whole point */
+.final-number{display:block;font-family:var(--mono);font-weight:700;
+font-size:clamp(2.4rem,8vw,5rem);letter-spacing:.04em;line-height:1;
+color:var(--white);text-decoration:none;position:relative;z-index:2;
+margin:0 0 40px;padding:24px 0;
+transition:color .3s var(--ease),text-shadow .3s var(--ease)}
+
+.final-number:hover,.final-number:focus{color:var(--acc);
+text-shadow:0 0 60px rgba(0,212,170,0.3),0 0 120px rgba(0,212,170,0.1);outline:none}
+
+/* Underline accent on the number */
+.final-number::after{content:'';display:block;width:60%;max-width:320px;height:2px;
+margin:20px auto 0;
+background:linear-gradient(90deg,transparent,var(--acc),var(--acc2),var(--acc),transparent);
+opacity:.4;transition:opacity .3s var(--ease)}
+
+.final-number:hover::after{opacity:.8}
+
+/* Instruction line */
+.final-instruct{font-family:var(--sans);font-size:clamp(.88rem,1.6vw,1rem);
+color:var(--dim);letter-spacing:.02em;line-height:1.6;
+margin:0;position:relative;z-index:2;max-width:340px;font-weight:400}
+
+
+/* ---- FOOTER ---- */
+footer{padding:100px 28px 64px;text-align:center;position:relative}
+
+/* Subtle top accent line */
+footer::before{content:'';position:absolute;top:0;left:5%;right:5%;height:1px;
+background:linear-gradient(90deg,transparent,rgba(0,212,170,0.2),rgba(0,240,192,0.12),rgba(0,212,170,0.2),transparent)}
+
+.f-inner{max-width:600px;margin:0 auto}
+
+/* Logo with breathing trace animation */
+.f-logo{margin-bottom:24px}
+.f-logo svg{filter:drop-shadow(0 0 16px rgba(0,212,170,0.35))}
+.f-logo svg path{stroke-dasharray:120;animation:footerLogoTrace 6s ease-in-out infinite}
+
+@keyframes footerLogoTrace{
+0%{stroke-dashoffset:120;filter:drop-shadow(0 0 4px rgba(0,212,170,0.2))}
+50%{stroke-dashoffset:0;filter:drop-shadow(0 0 10px rgba(0,212,170,0.4))}
+100%{stroke-dashoffset:-120;filter:drop-shadow(0 0 4px rgba(0,212,170,0.2))}}
+
+/* Brand name gradient */
+.f-brand{font-weight:900;font-size:.92rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px;
+background:linear-gradient(135deg,var(--white),var(--acc),var(--acc2));
+background-size:200% 200%;
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+animation:gradShift 6s ease-in-out infinite}
+
+/* Tagline */
+.f-tagline{font-size:.82rem;color:var(--dim);margin-bottom:28px;font-weight:300;letter-spacing:.02em}
+
+/* Meta */
+.f-meta{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+
+
+/* ---- RESPONSIVE ---- */
+@media(max-width:600px){
+  .final{padding:120px 24px 80px}
+  .final-number{letter-spacing:.01em}
+}

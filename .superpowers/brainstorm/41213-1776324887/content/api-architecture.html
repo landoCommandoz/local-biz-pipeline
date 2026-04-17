@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Scanner API Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Satoshi:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--black:#050507;--white:#fafaf9;--acc:#00d4aa;--acc2:#00f0c0;--red:#ff3b5c;--warm:#ff6b35;--dim:rgba(255,255,255,0.35);--sans:'Satoshi',sans-serif;--mono:'JetBrains Mono',monospace;--border:rgba(255,255,255,0.06)}
+body{background:var(--black);color:var(--white);font-family:var(--sans);padding:32px;max-width:900px;margin:0 auto}
+h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.sub{color:var(--dim);font-size:.85rem;margin-bottom:40px}
+h2{font-size:1.1rem;font-weight:700;margin-bottom:16px;color:var(--acc)}
+h3{font-size:.85rem;font-weight:700;margin-bottom:8px}
+
+.api-card{padding:24px;border-radius:16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);margin-bottom:20px}
+.api-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.api-name{font-family:var(--mono);font-size:.8rem;font-weight:700;color:var(--acc)}
+.api-cost{font-family:var(--mono);font-size:.65rem;padding:4px 12px;border-radius:100px;background:rgba(0,212,170,0.08);color:var(--acc);border:1px solid rgba(0,212,170,0.15)}
+.api-cost.paid{background:rgba(255,107,53,0.08);color:var(--warm);border-color:rgba(255,107,53,0.15)}
+.api-returns{list-style:none;padding:0}
+.api-returns li{font-size:.78rem;color:rgba(255,255,255,0.5);line-height:1.8;padding-left:20px;position:relative}
+.api-returns li::before{content:'';position:absolute;left:0;top:10px;width:6px;height:6px;border-radius:50%;background:rgba(0,212,170,0.4)}
+.api-returns li strong{color:rgba(255,255,255,0.7)}
+
+.flow-section{margin:48px 0}
+.flow-step{display:flex;gap:20px;margin-bottom:24px;position:relative}
+.flow-step::before{content:'';position:absolute;left:19px;top:40px;bottom:-24px;width:1px;background:rgba(255,255,255,0.06)}
+.flow-step:last-child::before{display:none}
+.flow-num{width:40px;height:40px;border-radius:50%;background:rgba(0,212,170,0.08);border:1px solid rgba(0,212,170,0.2);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.75rem;color:var(--acc);flex-shrink:0}
+.flow-content{flex:1;padding-top:8px}
+.flow-content p{font-size:.78rem;color:rgba(255,255,255,0.4);line-height:1.7;margin-top:4px}
+.flow-time{font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,0.2);margin-top:6px}
+
+.honesty-box{padding:24px;border-radius:16px;background:rgba(0,212,170,0.03);border:1px solid rgba(0,212,170,0.12);margin:40px 0}
+.honesty-box h3{color:var(--acc);margin-bottom:12px}
+.honesty-box p{font-size:.8rem;color:rgba(255,255,255,0.45);line-height:1.8}
+
+.hosting{padding:24px;border-radius:16px;background:rgba(255,255,255,0.02);border:1px solid var(--border);margin-top:40px}
+.hosting h3{margin-bottom:12px}
+.hosting-options{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.hosting-opt{padding:16px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,0.01)}
+.hosting-opt h4{font-size:.75rem;font-weight:700;margin-bottom:4px}
+.hosting-opt p{font-size:.7rem;color:rgba(255,255,255,0.35);line-height:1.6}
+.hosting-opt .price{font-family:var(--mono);font-size:.65rem;color:var(--acc);margin-top:8px}
+</style>
+</head>
+<body>
+
+<h1>Real Scanner: API Architecture</h1>
+<p class="sub">What we call, what it returns, what it costs, and how it flows.</p>
+
+<h2>Data Sources</h2>
+
+<div class="api-card">
+  <div class="api-card-header">
+    <span class="api-name">Google PageSpeed Insights API</span>
+    <span class="api-cost">Free / no key needed</span>
+  </div>
+  <ul class="api-returns">
+    <li><strong>Performance score</strong> (0-100, real Lighthouse audit)</li>
+    <li><strong>First Contentful Paint</strong> (how fast something shows up)</li>
+    <li><strong>Largest Contentful Paint</strong> (how fast the main content loads)</li>
+    <li><strong>Mobile vs Desktop scores</strong> (separate audits)</li>
+    <li><strong>SEO score</strong> (meta tags, headings, alt text, crawlability)</li>
+    <li><strong>Accessibility score</strong> (contrast, labels, structure)</li>
+    <li><strong>Best practices score</strong> (HTTPS, image formats, JS errors)</li>
+  </ul>
+</div>
+
+<div class="api-card">
+  <div class="api-card-header">
+    <span class="api-name">Google Places API</span>
+    <span class="api-cost paid">$17 per 1,000 lookups</span>
+  </div>
+  <ul class="api-returns">
+    <li><strong>Star rating</strong> (actual Google rating, e.g. 3.2)</li>
+    <li><strong>Total review count</strong></li>
+    <li><strong>Recent reviews with text</strong> (what customers actually said)</li>
+    <li><strong>Business hours</strong> (are they accurate?)</li>
+    <li><strong>Business category</strong> (plumber, HVAC, etc.)</li>
+    <li><strong>Photos count</strong></li>
+    <li><strong>Competitor data</strong> (nearby businesses in same category with their ratings)</li>
+  </ul>
+</div>
+
+<div class="api-card">
+  <div class="api-card-header">
+    <span class="api-name">Direct Website Crawl (fetch + parse)</span>
+    <span class="api-cost">Free / serverless function</span>
+  </div>
+  <ul class="api-returns">
+    <li><strong>SSL certificate</strong> (valid, expired, missing)</li>
+    <li><strong>Title tag and meta description</strong> (present, length, quality)</li>
+    <li><strong>H1 tag</strong> (present, relevant)</li>
+    <li><strong>Mobile viewport meta</strong> (responsive or not)</li>
+    <li><strong>Phone number visible</strong> (can customers find it?)</li>
+    <li><strong>Click-to-call link</strong> (does the phone number work on mobile?)</li>
+    <li><strong>Schema markup</strong> (does Google know what this business is?)</li>
+    <li><strong>Contact form present</strong></li>
+  </ul>
+</div>
+
+<div class="flow-section">
+  <h2>How It Flows (10-15 seconds total)</h2>
+
+  <div class="flow-step">
+    <div class="flow-num">1</div>
+    <div class="flow-content">
+      <h3>Visitor enters URL</h3>
+      <p>Frontend sends their URL to a serverless function (Netlify Function or Cloudflare Worker)</p>
+      <div class="flow-time">instant</div>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-num">2</div>
+    <div class="flow-content">
+      <h3>Serverless function fires 3 requests in parallel</h3>
+      <p>PageSpeed API + Google Places search (find business by URL) + direct fetch of their homepage. All three run simultaneously.</p>
+      <div class="flow-time">3-8 seconds</div>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-num">3</div>
+    <div class="flow-content">
+      <h3>Results stream back to frontend</h3>
+      <p>As each API responds, results populate the terminal line by line. Website crawl results show first (fastest), then PageSpeed, then Places. Each line appears as it arrives.</p>
+      <div class="flow-time">results appear progressively</div>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-num">4</div>
+    <div class="flow-content">
+      <h3>Report card generates from real data</h3>
+      <p>Scores calculated from actual API responses. Grade assigned based on weighted formula. Revenue leak estimated using industry averages multiplied by their actual gaps.</p>
+      <div class="flow-time">instant (client-side math)</div>
+    </div>
+  </div>
+
+  <div class="flow-step">
+    <div class="flow-num">5</div>
+    <div class="flow-content">
+      <h3>Lead captured + email queued</h3>
+      <p>URL + email stored. Full detailed report generated and queued for email delivery (deeper analysis than what shows on screen).</p>
+      <div class="flow-time">background</div>
+    </div>
+  </div>
+</div>
+
+<div class="honesty-box">
+  <h3>The Honesty Engine</h3>
+  <p>
+    If their site scores 80+, we say: "Your website is in good shape. Here are a few areas that could still improve." We show them what's working (green bars) alongside what's not. No scare tactics.<br><br>
+    If their reviews are strong (4.5+ stars, 50+ reviews), we say: "Your reputation is solid. Customers trust you." We highlight it as a strength.<br><br>
+    If they genuinely don't need us, the report says so. And that honesty is the thing that makes them remember us when they DO need help, or when they refer a friend who does.<br><br>
+    The revenue leak estimate only counts real gaps. If their site is fast, we don't add "slow website" to the leak. If they respond to reviews, we don't ding them for it. Real numbers only.
+  </p>
+</div>
+
+<div class="hosting">
+  <h3>Where does the serverless function live?</h3>
+  <div class="hosting-options">
+    <div class="hosting-opt">
+      <h4>Netlify Functions</h4>
+      <p>You already have Netlify plugins installed. Free tier: 125k requests/mo. Perfect fit.</p>
+      <div class="price">$0/mo (free tier)</div>
+    </div>
+    <div class="hosting-opt">
+      <h4>Cloudflare Workers</h4>
+      <p>100k requests/day free. Faster cold starts. Slightly more setup.</p>
+      <div class="price">$0/mo (free tier)</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

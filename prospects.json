@@ -1,0 +1,372 @@
+[
+  {
+    "name": "The HVAC Company",
+    "phone": "(480) 687-8081",
+    "website": "http://www.thehvaccompany.net/",
+    "rating": 3.4,
+    "reviews": 9,
+    "address": "2450 W Broadway Rd #105, Mesa, AZ 85202, USA",
+    "trade": "HVAC",
+    "city": "Mesa"
+  },
+  {
+    "name": "Tempe Mechanical",
+    "phone": "(480) 820-1235",
+    "website": "https://tempemechanical.net/",
+    "rating": 4.1,
+    "reviews": 32,
+    "address": "3385 N Nevada St, Chandler, AZ 85225, USA",
+    "trade": "HVAC",
+    "city": "Tempe"
+  },
+  {
+    "name": "Angels Heating & Cooling LLC",
+    "phone": "(602) 754-4021",
+    "website": "https://angelsheatingcooling.com/",
+    "rating": 3.7,
+    "reviews": 21,
+    "address": "2211 W 1st St, Tempe, AZ 85281, USA",
+    "trade": "HVAC",
+    "city": "Tempe"
+  },
+  {
+    "name": "Cool Blew, Inc.",
+    "phone": "(623) 872-2900",
+    "website": "",
+    "rating": 4.1,
+    "reviews": 69,
+    "address": "15911 N 174th Ave, Surprise, AZ 85388, USA",
+    "trade": "HVAC",
+    "city": "Surprise"
+  },
+  {
+    "name": "Arrowhead Aire LLC",
+    "phone": "(602) 717-1610",
+    "website": "http://www.arrowheadaire.com/",
+    "rating": 4,
+    "reviews": 23,
+    "address": "15021 W Mauna Loa Ln, Surprise, AZ 85379, USA",
+    "trade": "HVAC",
+    "city": "Surprise"
+  },
+  {
+    "name": "Alliance Plumbing Service & Repair, LLC",
+    "phone": "(480) 633-3020",
+    "website": "http://www.allianceplumbingaz.com/",
+    "rating": 3.8,
+    "reviews": 171,
+    "address": "2626 E Elwood St, Phoenix, AZ 85040, USA",
+    "trade": "plumbing",
+    "city": "Phoenix"
+  },
+  {
+    "name": "Scottsdale Plumbing Co",
+    "phone": "(480) 945-9583",
+    "website": "http://www.scottsdaleplumbing.com/?utm_campaign=gmb",
+    "rating": 4,
+    "reviews": 46,
+    "address": "7214 E Granada Rd, Scottsdale, AZ 85257, USA",
+    "trade": "plumbing",
+    "city": "Scottsdale"
+  },
+  {
+    "name": "Emergency Plumbing, LLC",
+    "phone": "(480) 425-8262",
+    "website": "",
+    "rating": 3.5,
+    "reviews": 28,
+    "address": "7735 E Gelding Dr, Scottsdale, AZ 85260, USA",
+    "trade": "plumbing",
+    "city": "Scottsdale"
+  },
+  {
+    "name": "J & H Plumbing LLC",
+    "phone": "(480) 892-6564",
+    "website": "https://jandhplumbing.com/",
+    "rating": 3.4,
+    "reviews": 58,
+    "address": "3015 N Norfolk, Mesa, AZ 85215, USA",
+    "trade": "plumbing",
+    "city": "Mesa"
+  },
+  {
+    "name": "TCH Plumbing and Air , LLC",
+    "phone": "(602) 910-3151",
+    "website": "http://www.tchplumbing.com/",
+    "rating": 4.2,
+    "reviews": 63,
+    "address": "3960 E Palm St Building 6, Mesa, AZ 85215, USA",
+    "trade": "plumbing",
+    "city": "Mesa"
+  },
+  {
+    "name": "Epic Plumbing",
+    "phone": "(480) 834-1466",
+    "website": "http://www.epicplumbingaz.com/",
+    "rating": 3.7,
+    "reviews": 69,
+    "address": "1515 W San Angelo St, Gilbert, AZ 85233, USA",
+    "trade": "plumbing",
+    "city": "Gilbert"
+  },
+  {
+    "name": "Copper State Plumbing Services LLC",
+    "phone": "(602) 561-3391",
+    "website": "",
+    "rating": 4,
+    "reviews": 23,
+    "address": "13444 W Ocotillo Ln, Surprise, AZ 85374, USA",
+    "trade": "plumbing",
+    "city": "Surprise"
+  },
+  {
+    "name": "Ferguson Plumbing Supply",
+    "phone": "(623) 544-5200",
+    "website": "https://www.ferguson.com/store/az/surprise/plumbingpvf-3581?utm_source=google&utm_medium=organic&utm_campaign=rt_lis_listingtraffic&utm_content=listing",
+    "rating": 3.6,
+    "reviews": 26,
+    "address": "10779 N Solar Canyon Way, Surprise, AZ 85379, USA",
+    "trade": "plumbing",
+    "city": "Surprise"
+  },
+  {
+    "name": "Super Electric Co",
+    "phone": "(602) 892-1551",
+    "website": "",
+    "rating": 4,
+    "reviews": 5,
+    "address": "910 S 3rd St, Phoenix, AZ 85004, USA",
+    "trade": "electrical",
+    "city": "Phoenix"
+  },
+  {
+    "name": "Glorious Electric",
+    "phone": "(520) 702-3424",
+    "website": "",
+    "rating": 4.2,
+    "reviews": 10,
+    "address": "116 N 11th Ave, Phoenix, AZ 85007, USA",
+    "trade": "electrical",
+    "city": "Phoenix"
+  },
+  {
+    "name": "A1 Electric Pros",
+    "phone": "(602) 894-4555",
+    "website": "",
+    "rating": 4.1,
+    "reviews": 7,
+    "address": "814 N 1st Ave, Phoenix, AZ 85003, USA",
+    "trade": "electrical",
+    "city": "Phoenix"
+  },
+  {
+    "name": "Apollo Electric LLC",
+    "phone": "(480) 405-7591",
+    "website": "https://www.apolloelectricaz.com/",
+    "rating": 4.2,
+    "reviews": 49,
+    "address": "6910 E Almeria Rd, Scottsdale, AZ 85257, USA",
+    "trade": "electrical",
+    "city": "Scottsdale"
+  },
+  {
+    "name": "Salt River Project",
+    "phone": "(602) 236-8888",
+    "website": "https://www.srpnet.com/",
+    "rating": 3,
+    "reviews": 11,
+    "address": "6504 E Thomas Rd, Scottsdale, AZ 85251, USA",
+    "trade": "electrical",
+    "city": "Scottsdale"
+  },
+  {
+    "name": "Meade Electrical Services",
+    "phone": "",
+    "website": "https://www.mesaazelectricians.com/",
+    "rating": 4.2,
+    "reviews": 23,
+    "address": "5023 Casper Rd, Mesa, AZ 85205, USA",
+    "trade": "electrical",
+    "city": "Mesa"
+  },
+  {
+    "name": "Hybrid Electric Arizona",
+    "phone": "(602) 405-7720",
+    "website": "",
+    "rating": 3.7,
+    "reviews": 6,
+    "address": "1815 W 1st Ave, Mesa, AZ 85202, USA",
+    "trade": "electrical",
+    "city": "Mesa"
+  },
+  {
+    "name": "Hawkeye Electric, Inc.",
+    "phone": "(480) 784-6800",
+    "website": "http://www.hawkeyeelectric.com/?utm_source=local&utm_medium=organic&utm_campaign=gbp",
+    "rating": 3.1,
+    "reviews": 17,
+    "address": "6100 W Erie St, Chandler, AZ 85226, USA",
+    "trade": "electrical",
+    "city": "Chandler"
+  },
+  {
+    "name": "WYE Electric, Inc",
+    "phone": "(480) 525-8613",
+    "website": "http://www.wyeelectric.net/",
+    "rating": 4.2,
+    "reviews": 9,
+    "address": "5 S Roosevelt Ave, Chandler, AZ 85226, USA",
+    "trade": "electrical",
+    "city": "Chandler"
+  },
+  {
+    "name": "Swain Electric",
+    "phone": "(480) 832-3299",
+    "website": "http://www.swainelectric.com/",
+    "rating": 4.2,
+    "reviews": 25,
+    "address": "1416 W San Pedro St #101, Gilbert, AZ 85233, USA",
+    "trade": "electrical",
+    "city": "Gilbert"
+  },
+  {
+    "name": "SEC Electrical Contractor LLC",
+    "phone": "(480) 214-3994",
+    "website": "",
+    "rating": 4.2,
+    "reviews": 5,
+    "address": "1350 W Melody Ave #104, Gilbert, AZ 85233, USA",
+    "trade": "electrical",
+    "city": "Gilbert"
+  },
+  {
+    "name": "Switch Electric, a Loenbro Company",
+    "phone": "(602) 368-1455",
+    "website": "https://switchelectric.com/contact/",
+    "rating": 3.4,
+    "reviews": 5,
+    "address": "51 W Vaughn Ave, Gilbert, AZ 85233, USA",
+    "trade": "electrical",
+    "city": "Gilbert"
+  },
+  {
+    "name": "City Electric Supply Gilbert",
+    "phone": "(480) 900-2120",
+    "website": "https://www.cityelectricsupply.com/branches/az/mesa/gilbert",
+    "rating": 4.1,
+    "reviews": 12,
+    "address": "422 E Baseline Rd, Mesa, AZ 85204, USA",
+    "trade": "electrical",
+    "city": "Gilbert"
+  },
+  {
+    "name": "Coefficient Electric Co.",
+    "phone": "(520) 337-8027",
+    "website": "",
+    "rating": 3.8,
+    "reviews": 18,
+    "address": "771 N Abalone Ct., Gilbert, AZ 85233, USA",
+    "trade": "electrical",
+    "city": "Gilbert"
+  },
+  {
+    "name": "City Electric Supply Gilbert South",
+    "phone": "(480) 608-0403",
+    "website": "https://www.cityelectricsupply.com/branches/az/gilbert/gilbert-south",
+    "rating": 3.5,
+    "reviews": 8,
+    "address": "560 E Germann Rd Ste 101, Gilbert, AZ 85297, USA",
+    "trade": "electrical",
+    "city": "Gilbert"
+  },
+  {
+    "name": "DP Electric Inc",
+    "phone": "(480) 858-9070",
+    "website": "http://www.dpelectric.com/",
+    "rating": 4.2,
+    "reviews": 94,
+    "address": "2210 S Roosevelt St, Tempe, AZ 85282, USA",
+    "trade": "electrical",
+    "city": "Tempe"
+  },
+  {
+    "name": "Wilson Electric Services Corp.",
+    "phone": "(480) 505-6600",
+    "website": "http://www.wilsonelectric.net/",
+    "rating": 4.1,
+    "reviews": 72,
+    "address": "600 E Gilbert Dr, Tempe, AZ 85288, USA",
+    "trade": "electrical",
+    "city": "Tempe"
+  },
+  {
+    "name": "AME Electrical Contracting Inc",
+    "phone": "(602) 437-7222",
+    "website": "http://www.ameelectrical.com/",
+    "rating": 3.5,
+    "reviews": 24,
+    "address": "7120 S Priest Dr, Tempe, AZ 85283, USA",
+    "trade": "electrical",
+    "city": "Tempe"
+  },
+  {
+    "name": "Canyon State Electric",
+    "phone": "(602) 437-3088",
+    "website": "https://canyonstateelectric.com/",
+    "rating": 3.5,
+    "reviews": 36,
+    "address": "1618 S Priest Dr #101, Tempe, AZ 85281, USA",
+    "trade": "electrical",
+    "city": "Tempe"
+  },
+  {
+    "name": "Premier Electrical Staffing",
+    "phone": "(480) 292-9152",
+    "website": "http://www.premierelectricalstaffing.com/",
+    "rating": 4.2,
+    "reviews": 10,
+    "address": "250 W Baseline Rd Suite 106, Tempe, AZ 85283, USA",
+    "trade": "electrical",
+    "city": "Tempe"
+  },
+  {
+    "name": "Lundell Electrical Services",
+    "phone": "(480) 654-6400",
+    "website": "http://www.lundellelectric.com/",
+    "rating": 4,
+    "reviews": 8,
+    "address": "1868 E 6th St, Tempe, AZ 85288, USA",
+    "trade": "electrical",
+    "city": "Tempe"
+  },
+  {
+    "name": "Tilmann Electric Inc",
+    "phone": "(480) 807-5350",
+    "website": "http://www.tilmannelectric.com/",
+    "rating": 3.7,
+    "reviews": 6,
+    "address": "331 S River Dr suite 9, Tempe, AZ 85288, USA",
+    "trade": "electrical",
+    "city": "Tempe"
+  },
+  {
+    "name": "All Perfection Electric LLC",
+    "phone": "(602) 748-7008",
+    "website": "",
+    "rating": 4.1,
+    "reviews": 14,
+    "address": "15405 W Paradise Ln, Surprise, AZ 85374, USA",
+    "trade": "electrical",
+    "city": "Surprise"
+  },
+  {
+    "name": "Arizona Central Electric",
+    "phone": "(623) 748-8150",
+    "website": "http://azcentralelectric.com/",
+    "rating": 4.2,
+    "reviews": 5,
+    "address": "14716 N 181st Ave, Surprise, AZ 85388, USA",
+    "trade": "electrical",
+    "city": "Surprise"
+  }
+]

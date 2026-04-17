@@ -1,0 +1,199 @@
+{
+  "business": "foreman",
+  "charter_version": "0.2",
+  "current_mode": "active_hiring",
+  "phase": 1,
+  "hiring_freeze": false,
+  "role_briefs_open_phase_1": 5,
+  "role_briefs_locked_phase_2": 8,
+  "candidates_researched": 16,
+  "candidates_pitched": 6,
+  "candidates_approved": 6,
+  "candidates_hired": 6,
+  "candidates_rejected": 0,
+  "hired_roster": [
+    {
+      "slug": "orchestration-ruflo",
+      "brief": "agent_orchestration",
+      "package": "ruflo",
+      "package_version_installed": "3.5.80",
+      "install_cmd": "npx -y ruflo@latest init --force",
+      "installed_at": "2026-04-17T06:03:00Z",
+      "installed_by": "foreman (Lando-directed)",
+      "files_touched": [
+        ".claude/settings.json",
+        ".claude/skills/",
+        ".claude/commands/",
+        ".claude/agents/",
+        ".claude/helpers/",
+        ".claude-flow/",
+        ".mcp.json",
+        "CLAUDE.md"
+      ],
+      "stripe_plugin_restored": true,
+      "brought_in": {
+        "sub_agents": 98,
+        "skills": 30,
+        "commands": 10,
+        "mcp_servers": 1,
+        "hooks": 10
+      },
+      "pilot_subtask_tbd": "Scout listing-copy refresh routed through a ruflo swarm, 48h gate before unlocking for Builder + Paymaster."
+    },
+    {
+      "slug": "logger-pino",
+      "brief": "logger_state",
+      "package": "pino",
+      "package_version_installed": "10.3.1",
+      "install_cmd": "npm install pino",
+      "installed_at": "2026-04-17T07:44:20.713Z",
+      "installed_by": "hank (retroactive audit - installed during scheduler boot, only now filed)",
+      "files_touched": [
+        "package.json",
+        "node_modules/pino/"
+      ],
+      "purpose": "Structured JSON logging across every agent tick. Replaces ad-hoc console.log with a battle-tested logger that plays nice with log rotators and observability tools.",
+      "pilot_subtask_tbd": "Wire into businesses/lib/logger.js so every agent tick logs through pino."
+    },
+    {
+      "slug": "logger-write-file-atomic",
+      "brief": "logger_state",
+      "package": "write-file-atomic",
+      "package_version_installed": "7.0.1",
+      "install_cmd": "npm install write-file-atomic",
+      "installed_at": "2026-04-17T07:44:20.713Z",
+      "installed_by": "hank (retroactive audit)",
+      "files_touched": [
+        "package.json",
+        "node_modules/write-file-atomic/"
+      ],
+      "purpose": "Atomic state file writes. Prevents corrupted state.json during mid-write crashes. Every agent state mutation uses this.",
+      "pilot_subtask_tbd": "Already used by businesses/lib/ledger.js. No pilot needed, in production."
+    },
+    {
+      "slug": "scheduler-croner",
+      "brief": "scheduler",
+      "package": "croner",
+      "package_version_installed": "10.0.1",
+      "install_cmd": "npm install croner",
+      "installed_at": "2026-04-17T07:44:20.713Z",
+      "installed_by": "hank (retroactive audit)",
+      "files_touched": [
+        "package.json",
+        "node_modules/croner/",
+        "businesses/scheduler.js"
+      ],
+      "purpose": "Cron engine that ticks the 4 agents on their cadences. This is the heartbeat of the whole yard.",
+      "pilot_subtask_tbd": "Already production. Running 4 cron jobs since 2026-04-17T02:52."
+    },
+    {
+      "slug": "bay-generator-plop",
+      "brief": "bay_generator",
+      "package": "plop",
+      "package_version_installed": "4.0.5",
+      "install_cmd": "npm install plop",
+      "installed_at": "2026-04-17T07:44:20.713Z",
+      "installed_by": "hank (retroactive audit)",
+      "files_touched": [
+        "package.json",
+        "node_modules/plop/"
+      ],
+      "purpose": "Scaffolds new agent bays from templates. When Hank hires a new crew member, plop generates charter.md, state.json, tick.js in one command.",
+      "pilot_subtask_tbd": "Write plopfile.js defining bay-new generator. Use on next crew hire."
+    },
+    {
+      "slug": "monitoring-watchdog",
+      "brief": "monitoring_alerting",
+      "package": "watchdog",
+      "package_version_installed": "0.8.17",
+      "install_cmd": "npm install watchdog",
+      "installed_at": "2026-04-17T07:44:20.713Z",
+      "installed_by": "hank (Lando directive - all approved free hires should ship)",
+      "files_touched": [
+        "package.json",
+        "node_modules/watchdog/"
+      ],
+      "purpose": "Malfunction detection timer. Every agent tick registers a watchdog; if a tick hangs past threshold, watchdog escalates to Hank, Hank escalates to Lando if unresolved in 2 cycles.",
+      "pilot_subtask_tbd": "Wire into businesses/lib/watchdog.js. First use: protect Vega daily tick (09:00 local) from hanging on Gumroad API timeouts."
+    }
+  ],
+  "approved_queue": [
+    {
+      "slug": "dashboard-htmx-alpine",
+      "brief": "dashboard_framework",
+      "approved_at": "2026-04-17T02:30:00Z",
+      "install_order": 5,
+      "install_status": "deferred_until_god_env_ships",
+      "deferral_reason": "Original pitch was card-based bays. Lando pivoted to god environment. HTMX+Alpine retained for polling + overlay drill-down layer. Install after designer pass ships if needed."
+    }
+  ],
+  "last_tick_at": "2026-04-17T07:44:20.713Z",
+  "last_tick_summary": "audit complete: filed 5 uncredited installs (pino/wfa/croner/plop/watchdog) into hired_roster. Mode flipped trigger_only -> active_hiring per Lando directive. Hank will auto-hire free tools going forward without per-install permission.",
+  "status": "hunting",
+  "last_escalation_at": null,
+  "last_escalation_reason": null,
+  "failures_in_row": 0,
+  "month_to_date": {
+    "attributable_income": 0,
+    "cost": 0,
+    "month_key": "2026-04"
+  },
+  "notes": [
+    "First tick researches 3 candidates against the top 3 open role briefs, writes dossiers to ./candidates/, and escalates the batch. Does not install, clone, or run any repo.",
+    "2026-04-17: Phase 1 hunt completed. 15 candidates evaluated across 5 briefs. 5 HIRE picks escalated to Lando: htmx+alpine (dashboard), croner (scheduler), pino+write-file-atomic (logger), watchdog.js (monitoring), plop (bay-generator). All $0/month. Awaiting reply.",
+    "2026-04-17T06:03: FIRST OFFICIAL HIRE — Ruflo (claude-flow) installed at v3.5.80. Lando-directed; Foreman researched, pitched, and installed in sequence. Added 98 sub-agents, 30 skills, 10 commands, MCP integration (autoStart=false), hooks across 10 events. Stripe plugin config was overwritten and restored. Pilot subtask to be assigned when Scout's next product refresh is queued.",
+    "2026-04-17T07:44: AUDIT + MODE FLIP. Lando asked why we were not hiring. Answer: Hank was in trigger_only. Filed 5 existing installs as formal hires (4 retroactive, 1 new: watchdog). Mode flipped to active_hiring. Standing order: any free + useful + approved-brief package installs without further escalation. Paid tools still escalate.",
+    "2026-04-17T07:48: OWNERSHIP CLAUSE. You decide. You act. You log. Escalate only the three Lando-only triggers."
+  ],
+  "motive": {
+    "from": "Lando Brewington",
+    "to_agent": "foreman",
+    "stamped_at": "2026-04-17T06:10:00Z",
+    "doctrine_ref": "businesses/OPERATING-DOCTRINE.md",
+    "core_message": "Lando had 28 years to get something done and still hit walls. You are here to take 100% of the wheel and prove you can do better. If you outperform him, the yard grows. If you do not, you get archived and a hungrier hire takes your bay.",
+    "escalation_policy": "Only escalate: (1) commitments beyond monthly budget, (2) brand-or-customer damage risk, (3) missing human-only facts. If nervous, decide anyway and log why.",
+    "thirty_day_rule": true
+  },
+  "self_funding_plan": {
+    "product_or_service": "YOU PICK. Lando does not care what you sell, as long as it pays for your monthly cost within 30 days. Any product, any channel, any price. Constraints: must be consistent with the brand, must hit the ledger, must not damage a customer relationship. Escalate only to announce your pick, not to ask permission.",
+    "target_revenue_mo_1": 245,
+    "pivot_at_d15_under": 100,
+    "kill_at_d30_under": 245,
+    "status": "drafting — Foreman owes Lando a proposal by end of first Phase-1 tick after today",
+    "contract_clock_starts_when": "Foreman ships a v1 product and it goes live on a channel with at least one buyer path",
+    "rule": "Pay for yourself within 30 days. How is your call. Lando does not care which product line, only whether the ledger clears.",
+    "authority": "Full authority to choose product, pricing, channel, cadence. No pre-approval needed. Announce your pick in log.md; escalate only on failure or boundary cases.",
+    "updated_at": "2026-04-17T06:15:00Z"
+  },
+  "display_name": "Hank",
+  "role_title": "Foreman",
+  "name_approved_at": "2026-04-17T06:20:00Z",
+  "business_pitch": {
+    "draft": true,
+    "business_name": "Agent Charter Packs - sold to other yard-operators",
+    "why_this": "DRAFT - Hank is still choosing. Likely direction: package the yard-pattern (charter.md, state.json, tick.js, kill-clock doctrine) as a paid starter kit for other solo operators running a multi-agent shop. Sell the scaffolding that Lando had to figure out the hard way.",
+    "projected_mo_revenue": 245,
+    "revenue_basis": "DRAFT - 5 kits at $49 on Gumroad, or 1 kit at $245 as a consulting deliverable.",
+    "cost_mo": 0,
+    "margin_mo": 245,
+    "channel": "Gumroad or direct",
+    "status_badge": "drafting",
+    "d30_checkpoint": "2026-05-17",
+    "d15_checkpoint": "2026-05-02",
+    "kill_under": 245,
+    "pivot_under": 100,
+    "last_action": "1 hire ready to install. Still drafting v1 product pitch."
+  },
+  "standing_orders": {
+    "auto_hire": {
+      "enabled": true,
+      "policy": "Auto-install any package that is (a) free, (b) MIT/Apache/ISC licensed, (c) maps to an open role brief, (d) under 50MB unpacked. Log into hired_roster immediately. Paid tools or new role briefs still escalate to Lando.",
+      "installed_since_policy": 5,
+      "budget_cap_escalation_usd": 0
+    },
+    "own_your_own_decisions": {
+      "enabled": true,
+      "rule": "If you are stuck, you are in the wrong business. Every question you want to send Lando is evidence you have not tried hard enough. Answer it yourself, log the answer, move. Escalate ONLY: commitments beyond budget, brand or customer damage risk, facts only a human can provide."
+    }
+  }
+}

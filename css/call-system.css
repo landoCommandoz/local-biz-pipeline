@@ -1,0 +1,326 @@
+/* ===== LIVE SYSTEM - Call Icon Field ===== */
+
+/* --- Keyframes --- */
+@keyframes lsIconIn {
+  0%   { opacity:0; transform:scale(0) rotate(-20deg) }
+  60%  { opacity:1; transform:scale(1.15) rotate(3deg) }
+  100% { opacity:1; transform:scale(1) rotate(0) }
+}
+@keyframes lsCaught {
+  0%   { opacity:1; transform:scale(1); filter:brightness(1) }
+  20%  { opacity:1; transform:scale(1.6); filter:brightness(2.5) }
+  100% { opacity:0; transform:scale(0.2); filter:brightness(0) }
+}
+@keyframes lsBurst {
+  0%   { opacity:.6; transform:scale(0.5) }
+  100% { opacity:0; transform:scale(3) }
+}
+@keyframes lsRingPulse {
+  0%,100% { box-shadow:0 0 20px rgba(0,212,170,0.1), 0 0 40px rgba(0,212,170,0.04); transform:scale(1) }
+  50%     { box-shadow:0 0 32px rgba(0,212,170,0.2), 0 0 56px rgba(0,212,170,0.08); transform:scale(1.04) }
+}
+@keyframes lsBeaconRing {
+  0%   { opacity:.35; transform:scale(1) }
+  100% { opacity:0; transform:scale(3) }
+}
+@keyframes lsCounterGlow {
+  0%,100% { box-shadow:0 0 8px rgba(0,212,170,0.08) }
+  50%     { box-shadow:0 0 14px rgba(0,212,170,0.18) }
+}
+@keyframes lsRedPulse {
+  0%,100% { box-shadow: 0 0 8px rgba(255,59,92,0.15), inset 0 0 12px rgba(255,59,92,0.05); border-color:rgba(255,59,92,0.3) }
+  50%     { box-shadow: 0 0 18px rgba(255,59,92,0.3), inset 0 0 20px rgba(255,59,92,0.1); border-color:rgba(255,59,92,0.5) }
+}
+@keyframes lsRedWobble {
+  0%,100% { transform: rotate(0deg) }
+  20%     { transform: rotate(-2deg) translateX(-1px) }
+  40%     { transform: rotate(1.5deg) translateY(1px) }
+  60%     { transform: rotate(-1deg) translateX(0.5px) }
+  80%     { transform: rotate(2deg) translateY(-0.5px) }
+}
+@keyframes lsAgentGlow {
+  0%,100% { box-shadow: 0 0 10px rgba(0,212,170,0.12), 0 0 3px rgba(0,212,170,0.3); }
+  50%     { box-shadow: 0 0 20px rgba(0,212,170,0.25), 0 0 6px rgba(0,212,170,0.5); }
+}
+@keyframes lsConnectionPulse {
+  0%   { opacity:.6; stroke-dashoffset:20 }
+  100% { opacity:.1; stroke-dashoffset:0 }
+}
+@keyframes lsFieldBreathe {
+  0%,100% { opacity:1 }
+  50%     { opacity:.92 }
+}
+
+/* --- Section --- */
+.call-section {
+  padding:100px 28px 120px;
+  position:relative;
+  min-height:100vh;
+  overflow:hidden;
+  animation: lsFieldBreathe 8s ease-in-out infinite;
+}
+
+/* --- Header Card --- */
+.call-section-header {
+  text-align:center;
+  max-width:660px;
+  margin:0 auto 28px;
+  position:relative;
+  z-index:5;
+  background:rgba(5,5,7,0.7);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:20px;
+  padding:36px 40px 32px;
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  box-shadow:0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.call-section-header h2 {
+  font-size:clamp(2rem,5vw,3.5rem);
+  margin-bottom:12px;
+  font-weight:900;
+  letter-spacing:-.04em;
+  line-height:1.1;
+}
+.call-section-header h2 em {
+  background:linear-gradient(135deg,var(--acc),var(--acc2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  font-style:italic;
+}
+.call-section-header p {
+  font-size:.88rem;
+  color:rgba(255,255,255,0.38);
+  line-height:1.7;
+  font-weight:300;
+  font-family:var(--mono),monospace;
+  max-width:520px;
+  margin:0 auto;
+}
+
+/* --- Counter --- */
+.call-counter {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 24px;
+  border-radius:100px;
+  background:rgba(0,212,170,0.05);
+  border:1px solid rgba(0,212,170,0.15);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  font-family:var(--mono),monospace;
+  font-size:1rem;
+  font-weight:700;
+  color:rgba(0,212,170,0.9);
+  letter-spacing:.06em;
+  animation:lsCounterGlow 4s ease-in-out infinite;
+  position:relative;
+  z-index:5;
+}
+.call-counter::before {
+  content:'';
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#00d4aa;
+  box-shadow:0 0 6px rgba(0,212,170,0.5);
+}
+
+/* --- Call Field Canvas Container --- */
+#callField {
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  z-index:2;
+}
+
+/* --- Call Icons --- */
+.call-icon {
+  position:absolute;
+  pointer-events:none;
+  will-change:transform, left, top;
+}
+
+/* Red missed call icon */
+.call-icon.missed {
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: radial-gradient(circle at 35% 35%, rgba(255,59,92,0.2), rgba(255,59,92,0.06));
+  border:1.5px solid rgba(255,59,92,0.3);
+  animation: lsIconIn .4s var(--ease) both, lsRedPulse var(--pulse-dur, 2.5s) ease-in-out infinite, lsRedWobble var(--wobble-dur, 5s) ease-in-out infinite;
+  animation-delay: 0s, var(--pulse-delay, 0s), var(--wobble-delay, 0s);
+}
+.call-icon.missed svg {
+  width:18px;
+  height:18px;
+  fill:none;
+  stroke:rgba(255,59,92,0.9);
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 0 6px rgba(255,59,92,0.4));
+}
+/* Outer distress ring */
+.call-icon.missed::after {
+  content:'';
+  position:absolute;
+  inset:-6px;
+  border-radius:50%;
+  border:1px solid rgba(255,59,92,0.1);
+  animation: lsBeaconRing var(--ring-dur, 3s) ease-out infinite;
+  animation-delay: var(--ring-delay, 0s);
+}
+
+/* Green agent icon */
+.call-icon.agent {
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: radial-gradient(circle at 40% 30%, rgba(0,212,170,0.25), rgba(0,212,170,0.06));
+  border:1.5px solid rgba(0,212,170,0.35);
+  transition: left .06s linear, top .06s linear;
+  animation: lsIconIn .35s var(--ease) both, lsAgentGlow 2s ease-in-out infinite;
+  box-shadow:0 0 12px rgba(0,212,170,0.15);
+}
+.call-icon.agent svg {
+  width:16px;
+  height:16px;
+  fill:none;
+  stroke:rgba(0,212,170,0.95);
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 0 6px rgba(0,212,170,0.5));
+}
+/* Agent trail effect */
+.call-icon.agent::before {
+  content:'';
+  position:absolute;
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  background: radial-gradient(circle, rgba(0,212,170,0.15), transparent 70%);
+  transform:scale(1.8);
+  opacity:.5;
+  pointer-events:none;
+}
+
+/* Caught state */
+.call-icon.caught {
+  animation: lsCaught .7s var(--ease) forwards !important;
+  border-color:rgba(0,212,170,0.6) !important;
+}
+.call-icon.caught svg {
+  stroke:#00d4aa !important;
+  filter:drop-shadow(0 0 12px rgba(0,212,170,0.8)) !important;
+}
+.call-icon.caught::after {
+  content:'';
+  position:absolute;
+  inset:-12px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(0,212,170,0.3), transparent 60%);
+  animation: lsBurst .7s ease-out forwards;
+}
+
+/* Burst particles (spawned by JS) */
+.ls-burst-particle {
+  position:absolute;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  background:var(--acc);
+  pointer-events:none;
+  box-shadow:0 0 6px var(--acc);
+  opacity:0;
+}
+
+/* Connection line (SVG overlay) */
+.ls-connection-svg {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:3;
+  overflow:visible;
+}
+.ls-connection-line {
+  fill:none;
+  stroke:rgba(0,212,170,0.25);
+  stroke-width:1;
+  stroke-dasharray:6 4;
+  animation: lsConnectionPulse 1s linear infinite;
+}
+
+/* --- Beacon --- */
+.beacon {
+  position:absolute;
+  left:60px;
+  top:50%;
+  transform:translateY(-50%);
+  z-index:4;
+  width:56px;
+  height:56px;
+}
+.beacon-ring {
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  border:1px solid rgba(0,212,170,0.1);
+}
+.beacon-ring:nth-child(1) { animation: lsBeaconRing 4s ease-out infinite; }
+.beacon-ring:nth-child(2) { animation: lsBeaconRing 4s ease-out 1.3s infinite; }
+.beacon-ring:nth-child(3) { animation: lsBeaconRing 4s ease-out 2.6s infinite; }
+.beacon-core {
+  position:absolute;
+  inset:8px;
+  border-radius:50%;
+  background: radial-gradient(circle at 40% 35%, rgba(0,212,170,0.35), rgba(0,212,170,0.08));
+  border:1.5px solid rgba(0,212,170,0.3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  animation: lsRingPulse 4s ease-in-out infinite;
+  box-shadow: 0 0 24px rgba(0,212,170,0.12), 0 0 48px rgba(0,212,170,0.04);
+}
+.beacon-core svg {
+  width:22px;
+  height:22px;
+  fill:none;
+  stroke:var(--acc);
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 0 4px rgba(0,212,170,0.4));
+}
+
+/* --- Vignette --- */
+.call-section::before {
+  content:'';
+  position:absolute;
+  inset:0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, transparent, var(--black));
+  z-index:1;
+  pointer-events:none;
+}
+
+/* --- Responsive --- */
+@media(max-width:768px) {
+  .call-section { padding:80px 20px 100px; }
+  .call-section-header { padding:28px 24px 24px; }
+  .beacon { left:20px; width:40px; height:40px; }
+  .beacon-core { inset:6px; }
+  .beacon-core svg { width:16px; height:16px; }
+  .call-icon.missed { width:34px; height:34px; }
+  .call-icon.missed svg { width:14px; height:14px; }
+  .call-icon.agent { width:30px; height:30px; }
+  .call-icon.agent svg { width:13px; height:13px; }
+}

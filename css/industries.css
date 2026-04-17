@@ -1,0 +1,85 @@
+/* ---- INDUSTRIES ---- */
+.ind-section{padding:140px 28px;text-align:center;position:relative}
+
+/* Subtle vertical line accent */
+.ind-section::before{content:'';position:absolute;top:80px;left:50%;width:1px;height:60px;
+background:linear-gradient(to bottom,transparent,rgba(0,212,170,0.3),transparent);pointer-events:none}
+
+.ind-section .tl{margin-bottom:20px;display:block}
+.ind-section h2{font-size:clamp(2.2rem,5.5vw,3.8rem);margin-bottom:16px}
+
+/* Header accent - single brand green, no rainbow */
+.ind-section h2 em{color:var(--acc);font-style:italic;
+filter:drop-shadow(0 0 20px rgba(0,212,170,0.2))}
+
+.ind-section>.tb{max-width:540px;margin:0 auto 72px;text-align:center}
+
+/* Two-column grid with breathing room */
+.ind-grid{max-width:860px;margin:0 auto;display:grid;
+grid-template-columns:repeat(2,1fr);gap:20px}
+
+/* Card - tall, left-aligned, personal */
+.ind-card{background:rgba(255,255,255,0.02);backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);
+border-radius:20px;padding:36px 32px;text-align:left;
+transition:all .5s var(--ease);cursor:default;position:relative;overflow:hidden;
+display:flex;flex-direction:column;gap:12px;
+box-shadow:0 2px 16px rgba(0,0,0,0.15)}
+
+/* Left accent bar */
+.ind-card::before{content:'';position:absolute;top:24px;left:0;width:3px;height:0;
+background:var(--acc);border-radius:0 2px 2px 0;
+transition:height .5s var(--ease);opacity:0.6}
+.ind-card:hover::before{height:calc(100% - 48px);opacity:1}
+
+/* Hover */
+.ind-card:hover{background:rgba(255,255,255,0.04);
+transform:translateY(-6px);
+border-color:rgba(0,212,170,0.15);
+box-shadow:0 20px 40px rgba(0,0,0,0.25),0 0 30px rgba(0,212,170,0.04)}
+
+/* Icon */
+.ind-icon{display:flex;align-items:center;justify-content:center;
+width:44px;height:44px;border-radius:12px;
+background:rgba(0,212,170,0.08);color:var(--acc);
+transition:all .4s var(--ease);flex-shrink:0}
+.ind-card:hover .ind-icon{background:rgba(0,212,170,0.14);
+box-shadow:0 4px 16px rgba(0,212,170,0.12);transform:scale(1.05)}
+
+/* Trade name */
+.ind-card h3{font-family:var(--sans);font-weight:700;font-size:.9rem;
+letter-spacing:.06em;text-transform:uppercase;margin:0;
+color:var(--white);transition:color .4s ease}
+.ind-card:hover h3{color:var(--acc)}
+
+/* One-liner that makes them feel seen */
+.ind-card .ind-line{font-family:var(--serif);font-size:1.05rem;line-height:1.5;
+color:var(--dim);margin:0;transition:color .4s ease}
+.ind-card:hover .ind-line{color:var(--cream)}
+
+/* === Catchall callout below the grid === */
+.ind-catchall{max-width:860px;margin:48px auto 0;padding:40px 36px;
+border-radius:20px;text-align:center;position:relative;
+border:1px dashed rgba(0,212,170,0.2);
+background:rgba(0,212,170,0.02)}
+
+.ind-catchall p{font-family:var(--serif);font-size:clamp(1.15rem,2.5vw,1.45rem);
+line-height:1.55;color:var(--cream);margin:0;max-width:600px;margin:0 auto}
+
+.ind-catchall .ind-catchall-sub{font-family:var(--sans);font-size:.85rem;
+color:var(--dim);margin-top:12px;letter-spacing:.02em}
+
+/* Responsive */
+@media(max-width:700px){
+  .ind-grid{grid-template-columns:1fr;gap:16px}
+  .ind-card{padding:28px 24px}
+  .ind-catchall{padding:32px 24px}
+}
+
+@media(min-width:1000px){
+  .ind-grid{grid-template-columns:repeat(2,1fr);gap:24px}
+}
+
+/* Animations */
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.05);opacity:.8}}
+@keyframes breatheSlow{0%,100%{opacity:.3}50%{opacity:.7}}

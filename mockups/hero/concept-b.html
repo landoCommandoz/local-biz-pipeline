@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brewington Digital | Smart Automation for Local Service Businesses</title>
+<meta name="description" content="Brewington Digital builds automated phone answering, booking, and follow-up systems for local service businesses. Text 602-609-4756.">
+<meta name="theme-color" content="#070a12">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* CONCEPT B. NIGHT HIGHWAY. 2am, wet asphalt, a suspended traffic light. */
+
+  :root {
+    --asphalt-0: #04060b;          /* deepest shadow under the frame */
+    --asphalt-1: #080c15;          /* ambient night */
+    --asphalt-2: #0d121f;          /* mid sky, cool cast */
+    --asphalt-3: #141a2a;          /* horizon haze */
+    --sodium:    #f0b070;          /* sodium-vapor ambient */
+    --sodium-dim:#a27045;
+    --bone:      #f4ecd8;          /* warm off-bone for text */
+    --bone-dim:  rgba(244,236,216,0.70);
+    --bone-mute: rgba(244,236,216,0.45);
+    --bone-faint:rgba(244,236,216,0.18);
+
+    --sig-red:    #ff3a2d;
+    --sig-red-hot:#ff7066;
+    --sig-yellow: #ffb21a;
+    --sig-yellow-hot: #ffd566;
+    --sig-green:  #2dd67a;
+    --sig-green-hot: #7cf0ad;
+
+    --rule:        rgba(244,236,216,0.10);
+    --rule-strong: rgba(244,236,216,0.22);
+
+    --display: "Fraunces", Georgia, serif;
+    --sans:    "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    --mono:    "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+    --col: 1360px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--asphalt-0);
+    color: var(--bone);
+    font-family: var(--sans);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+  body { min-height: 100vh; position: relative; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+  input { font: inherit; color: inherit; background: none; border: none; outline: none; }
+
+  /* STAGE. Layered night scene, all pinned to .scene. */
+
+  .scene {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+    /* slow camera breath */
+    animation: camBreath 22s ease-in-out infinite;
+  }
+  @keyframes camBreath {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1.000); }
+    50%      { transform: translate3d(-6px, 3px, 0) scale(1.012); }
+  }
+
+  /* Layer 1. sky gradient: deepest overhead, warmer near horizon */
+  .scene__sky {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(
+        to bottom,
+        var(--asphalt-0) 0%,
+        var(--asphalt-1) 30%,
+        var(--asphalt-2) 52%,
+        var(--asphalt-3) 60%,
+        #1a1e2c 62%,
+        var(--asphalt-2) 64%
+      );
+  }
+
+  /* Layer 2. sodium-vapor horizon haze, warm streetlamp glow far away */
+  .scene__haze {
+    position: absolute;
+    left: -10%; right: -10%;
+    top: 48%; height: 22%;
+    background:
+      radial-gradient(ellipse 60% 100% at 50% 100%,
+        rgba(240,176,112,0.14) 0%,
+        rgba(240,176,112,0.06) 35%,
+        transparent 65%);
+    filter: blur(2px);
+  }
+
+  /* Layer 3. the horizon line at ~60vh, and the road plane below it */
+  .scene__horizon {
+    position: absolute;
+    left: 0; right: 0;
+    top: 60vh;
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(244,236,216,0.10) 20%,
+      rgba(240,176,112,0.22) 50%,
+      rgba(244,236,216,0.10) 80%,
+      transparent 100%);
+  }
+
+  /* Layer 4. wet asphalt: darker slab with a faint perspective gradient */
+  .scene__road {
+    position: absolute;
+    left: 0; right: 0;
+    top: 60vh; bottom: 0;
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(4,6,11,0.30) 0%,
+        rgba(4,6,11,0.75) 30%,
+        rgba(2,3,6,0.95) 100%
+      );
+  }
+
+  /* Layer 5. perspective lane hints (subtle, barely there) */
+  .scene__lanes {
+    position: absolute;
+    left: 50%; top: 60vh; bottom: 0;
+    width: 200%; transform: translateX(-50%);
+    background-image:
+      linear-gradient(90deg, transparent 49.7%, rgba(244,236,216,0.06) 49.85%, rgba(244,236,216,0.06) 50.15%, transparent 50.3%);
+    mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 100%);
+    opacity: 0.6;
+  }
+
+  /* Layer 6. wet-asphalt vertical reflections of the signal */
+  .scene__reflect {
+    position: absolute;
+    left: 50%; transform: translateX(-50%);
+    top: 60vh;
+    width: 520px; height: 40vh;
+    pointer-events: none;
+    opacity: 0.55;
+    mix-blend-mode: screen;
+    background:
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(255,58,45,0.10) 4%,
+        rgba(255,178,26,0.08) 14%,
+        rgba(45,214,122,0.08) 24%,
+        transparent 46%
+      );
+    filter: blur(14px);
+  }
+
+  /* Layer 7. thin HUD grid, barely there */
+  .scene__grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(244,236,216,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(244,236,216,0.035) 1px, transparent 1px);
+    background-size: 96px 96px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 45%, black 10%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 45%, black 10%, transparent 70%);
+    opacity: 0.5;
+  }
+
+  /* Layer 8. long-exposure streak hints, very subtle */
+  .scene__streak {
+    position: absolute;
+    left: 0; right: 0;
+    top: 62vh;
+    height: 1px;
+    background: linear-gradient(to right, transparent 0%, rgba(240,176,112,0.35) 30%, rgba(255,58,45,0.25) 60%, transparent 85%);
+    filter: blur(1.2px);
+    opacity: 0.5;
+    animation: streakDrift 14s linear infinite;
+  }
+  .scene__streak--2 {
+    top: 64vh;
+    background: linear-gradient(to right, transparent 10%, rgba(240,176,112,0.22) 50%, transparent 90%);
+    animation-duration: 19s;
+    animation-delay: -6s;
+    opacity: 0.35;
+  }
+  @keyframes streakDrift {
+    0%   { transform: translateX(-6%); opacity: 0; }
+    20%  { opacity: 0.6; }
+    80%  { opacity: 0.3; }
+    100% { transform: translateX(6%); opacity: 0; }
+  }
+
+  /* Layer 9. fine film grain */
+  .scene__grain {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0.12;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.95  0 0 0 0 0.85  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* Layer 10. vignette to draw eye to the signal */
+  .scene__vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 90% 70% at 50% 42%, transparent 48%, rgba(2,3,6,0.85) 100%);
+  }
+
+  /* TRAFFIC LIGHT. Housing, visors, cable. Hanging into the frame. */
+
+  .signal-stage {
+    position: absolute;
+    left: 50%;
+    top: -10px;
+    transform: translateX(-50%);
+    width: 260px;
+    pointer-events: none;
+    z-index: 2;
+    /* subtle sway, physically light */
+    animation: sway 11s ease-in-out infinite;
+    transform-origin: 50% 0;
+  }
+  @keyframes sway {
+    0%, 100% { transform: translateX(-50%) rotate(-0.35deg); }
+    50%      { transform: translateX(-50%) rotate(0.35deg); }
+  }
+
+  .signal-svg { display: block; width: 100%; height: auto; }
+
+  /* Light behavior: quick on, slow falloff. */
+  .lamp {
+    transition: filter 0.9s ease-out, opacity 0.9s ease-out;
+    opacity: 0.12;
+    filter: brightness(0.35);
+  }
+  .lamp--red    { fill: var(--sig-red); }
+  .lamp--yellow { fill: var(--sig-yellow); }
+  .lamp--green  { fill: var(--sig-green); }
+
+  .signal-stage[data-state="red"]    .lamp--red,
+  .signal-stage[data-state="yellow"] .lamp--yellow,
+  .signal-stage[data-state="green"]  .lamp--green {
+    opacity: 1;
+    filter: brightness(1.45);
+    transition: filter 0.05s ease-out, opacity 0.05s ease-out;
+  }
+
+  /* Halo (the bleeding light onto the housing + air). Driven by state. */
+  .signal-halo {
+    position: absolute;
+    left: 50%;
+    top: 60px;
+    width: 700px; height: 700px;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.9s ease-out, background 0.9s ease-out;
+    mix-blend-mode: screen;
+    filter: blur(40px);
+  }
+  .signal-stage[data-state="red"]    ~ .signal-halo { background: radial-gradient(circle, rgba(255,58,45,0.55) 0%, rgba(255,58,45,0.20) 30%, transparent 60%); opacity: 1; top: 90px; transition: opacity 0.08s ease-out; }
+  .signal-stage[data-state="yellow"] ~ .signal-halo { background: radial-gradient(circle, rgba(255,178,26,0.55) 0%, rgba(255,178,26,0.20) 30%, transparent 60%); opacity: 1; top: 160px; transition: opacity 0.08s ease-out; }
+  .signal-stage[data-state="green"]  ~ .signal-halo { background: radial-gradient(circle, rgba(45,214,122,0.55) 0%, rgba(45,214,122,0.20) 30%, transparent 60%); opacity: 1; top: 230px; transition: opacity 0.08s ease-out; }
+
+  /* Scene-wide color cast. The whole frame picks up the lamp color. */
+  .scene__cast {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.9s ease-out, background 0.9s ease-out;
+    mix-blend-mode: screen;
+  }
+  body[data-signal="red"]    .scene__cast { opacity: 0.35; background: radial-gradient(ellipse 60% 40% at 50% 30%, rgba(255,58,45,0.25), transparent 70%); transition: opacity 0.1s ease-out; }
+  body[data-signal="yellow"] .scene__cast { opacity: 0.30; background: radial-gradient(ellipse 60% 40% at 50% 30%, rgba(255,178,26,0.22), transparent 70%); transition: opacity 0.1s ease-out; }
+  body[data-signal="green"]  .scene__cast { opacity: 0.32; background: radial-gradient(ellipse 60% 40% at 50% 30%, rgba(45,214,122,0.22), transparent 70%); transition: opacity 0.1s ease-out; }
+
+  /* Pavement reflection keyed to signal state */
+  body[data-signal="red"]    .scene__reflect { background: linear-gradient(to bottom, transparent 0%, rgba(255,58,45,0.30) 6%, rgba(255,58,45,0.12) 28%, transparent 50%); }
+  body[data-signal="yellow"] .scene__reflect { background: linear-gradient(to bottom, transparent 0%, rgba(255,178,26,0.28) 6%, rgba(255,178,26,0.10) 28%, transparent 50%); }
+  body[data-signal="green"]  .scene__reflect { background: linear-gradient(to bottom, transparent 0%, rgba(45,214,122,0.28) 6%, rgba(45,214,122,0.10) 28%, transparent 50%); }
+
+  /* Occasional flicker. Applied via JS, not on every cycle. */
+  @keyframes lampFlicker {
+    0%,100% { opacity: 1; filter: brightness(1.45); }
+    12%     { opacity: 0.55; filter: brightness(0.7); }
+    22%     { opacity: 1; filter: brightness(1.5); }
+    36%     { opacity: 0.75; filter: brightness(0.9); }
+    100%    { opacity: 1; filter: brightness(1.45); }
+  }
+  .lamp.is-flicker { animation: lampFlicker 0.9s ease-out; }
+
+  /* NAV */
+
+  .nav {
+    position: relative;
+    z-index: 10;
+    padding: 22px 40px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    max-width: var(--col); margin: 0 auto;
+  }
+  .nav__brand {
+    display: flex; align-items: center; gap: 12px;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    color: var(--bone);
+  }
+  .nav__brand-mark { width: 14px; height: 34px; display: block; }
+  .nav__brand-mark-housing { fill: rgba(20,26,42,0.9); stroke: rgba(244,236,216,0.22); stroke-width: 1; }
+  .nav__brand-mark-r { fill: var(--sig-red); opacity: 0.25; }
+  .nav__brand-mark-y { fill: var(--sig-yellow); opacity: 0.25; }
+  .nav__brand-mark-g { fill: var(--sig-green); opacity: 0.25; }
+  body[data-signal="red"]    .nav__brand-mark-r { opacity: 1; filter: drop-shadow(0 0 3px var(--sig-red)); }
+  body[data-signal="yellow"] .nav__brand-mark-y { opacity: 1; filter: drop-shadow(0 0 3px var(--sig-yellow)); }
+  body[data-signal="green"]  .nav__brand-mark-g { opacity: 1; filter: drop-shadow(0 0 3px var(--sig-green)); }
+
+  .nav__brand-name { font-style: italic; font-weight: 400; letter-spacing: 0.01em; }
+
+  .nav__links {
+    display: flex; gap: 28px;
+    font-size: 13px;
+    color: var(--bone-dim);
+    letter-spacing: 0.02em;
+  }
+  .nav__links a { transition: color 0.2s ease; }
+  .nav__links a:hover { color: var(--bone); }
+
+  .nav__right {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .nav__phone {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--bone-dim);
+    letter-spacing: 0.02em;
+  }
+  .nav__cta {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--bone);
+    padding: 10px 16px;
+    border: 1px solid var(--rule-strong);
+    background: rgba(13,18,31,0.5);
+    backdrop-filter: blur(8px);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .nav__cta:hover {
+    border-color: var(--sig-green);
+    background: rgba(45,214,122,0.08);
+  }
+
+  /* HERO */
+
+  .hero {
+    position: relative;
+    z-index: 5;
+    min-height: calc(100vh - 70px);
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    max-width: var(--col);
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+  }
+
+  .hero__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 80px;
+    align-items: end;
+  }
+
+  .hero__left { max-width: 620px; }
+
+  .hero__eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone-mute);
+    margin-bottom: 34px;
+  }
+  .hero__eyebrow-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--sig-red);
+    box-shadow: 0 0 8px var(--sig-red);
+    animation: pulseDot 2.2s ease-in-out infinite;
+  }
+  @keyframes pulseDot {
+    0%,100% { opacity: 0.6; transform: scale(1); }
+    50%     { opacity: 1; transform: scale(1.15); }
+  }
+
+  .hero__headline {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(42px, 6.5vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--bone);
+    margin-bottom: 28px;
+    font-variation-settings: "opsz" 144;
+  }
+  .hero__headline em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--sig-yellow-hot);
+    text-shadow:
+      0 0 40px rgba(255,178,26,0.35),
+      0 0 2px rgba(255,178,26,0.5);
+  }
+  .hero__headline-tick {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.28em;
+    vertical-align: super;
+    color: var(--sig-red);
+    margin-left: 0.25em;
+    letter-spacing: 0;
+    animation: pulseDot 1.3s ease-in-out infinite;
+  }
+
+  .hero__sub {
+    font-family: var(--sans);
+    font-weight: 300;
+    font-size: clamp(15px, 1.15vw, 17px);
+    line-height: 1.55;
+    color: var(--bone-dim);
+    max-width: 500px;
+    margin-bottom: 44px;
+  }
+
+  /* --- Scan form: "show me what is broken on my site" --- */
+  .scan {
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+    margin-bottom: 36px;
+  }
+  .scan__label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--bone-mute);
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .scan__label::before {
+    content: ""; width: 16px; height: 1px; background: var(--bone-mute); display: inline-block;
+  }
+  .scan__row {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--rule-strong);
+    background: rgba(8,12,21,0.55);
+    backdrop-filter: blur(10px);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .scan__row:focus-within {
+    border-color: var(--sig-green);
+    box-shadow: 0 0 0 1px rgba(45,214,122,0.30), 0 0 28px rgba(45,214,122,0.15);
+  }
+  .scan__prefix {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--bone-mute);
+    padding: 16px 0 16px 18px;
+    user-select: none;
+  }
+  .scan__input {
+    flex: 1;
+    padding: 16px 14px;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--bone);
+    letter-spacing: 0.01em;
+  }
+  .scan__input::placeholder { color: var(--bone-faint); }
+  .scan__submit {
+    padding: 0 22px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--asphalt-0);
+    background: var(--bone);
+    border-left: 1px solid var(--rule-strong);
+    display: flex; align-items: center; gap: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+  }
+  .scan__submit:hover {
+    background: var(--sig-green-hot);
+    color: var(--asphalt-0);
+  }
+  .scan__submit-arrow { font-size: 14px; }
+  .scan__note {
+    margin-top: 14px;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--bone-mute);
+    letter-spacing: 0.01em;
+    display: flex; gap: 8px; align-items: center;
+  }
+  .scan__note-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--sig-green); box-shadow: 0 0 6px var(--sig-green); }
+
+  /* --- Primary actions row --- */
+  .hero__actions {
+    display: flex; gap: 22px; align-items: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--bone-dim);
+  }
+  .hero__actions a { transition: color 0.2s ease; border-bottom: 1px solid var(--rule); padding-bottom: 3px; }
+  .hero__actions a:hover { color: var(--bone); border-color: var(--bone-mute); }
+  .hero__actions-sep { color: var(--bone-faint); }
+
+  /* --- Diagnostic card, right column --- */
+  .diag {
+    position: relative;
+    padding: 26px;
+    border: 1px solid var(--rule-strong);
+    background: linear-gradient(180deg, rgba(13,18,31,0.72), rgba(8,12,21,0.55));
+    backdrop-filter: blur(12px);
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--bone-dim);
+    letter-spacing: 0.01em;
+    overflow: hidden;
+  }
+  .diag::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(244,236,216,0.04), transparent 40%);
+    pointer-events: none;
+  }
+  .diag__head {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 16px;
+  }
+  .diag__head-title {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--bone-mute);
+  }
+  .diag__head-status {
+    display: flex; gap: 8px; align-items: center;
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--sig-green);
+  }
+  .diag__head-status::before {
+    content: "";
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--sig-green);
+    box-shadow: 0 0 8px var(--sig-green);
+    animation: pulseDot 1.6s ease-in-out infinite;
+  }
+  .diag__row {
+    display: grid;
+    grid-template-columns: 14px 1fr auto;
+    gap: 12px; align-items: baseline;
+    padding: 7px 0;
+    font-size: 12.5px;
+    line-height: 1.4;
+  }
+  .diag__row + .diag__row { border-top: 1px dashed var(--rule); }
+  .diag__row-mark { font-weight: 500; }
+  .diag__row--red    .diag__row-mark { color: var(--sig-red); }
+  .diag__row--red    .diag__row-val  { color: var(--sig-red-hot); }
+  .diag__row--yellow .diag__row-mark { color: var(--sig-yellow); }
+  .diag__row--yellow .diag__row-val  { color: var(--sig-yellow-hot); }
+  .diag__row--green  .diag__row-mark { color: var(--sig-green); }
+  .diag__row--green  .diag__row-val  { color: var(--sig-green-hot); }
+  .diag__row-val { font-weight: 500; letter-spacing: 0.02em; }
+
+  .diag__leak {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule-strong);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .diag__leak-lbl {
+    font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bone-mute);
+  }
+  .diag__leak-val {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 24px;
+    color: var(--sig-red-hot);
+    letter-spacing: -0.01em;
+  }
+
+  /* PLACEHOLDER STRIP */
+
+  .rest {
+    position: relative;
+    z-index: 5;
+    padding: 22px 40px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bone-mute);
+    text-align: center;
+    background: rgba(4,6,11,0.6);
+    backdrop-filter: blur(6px);
+  }
+
+  /* MOBILE */
+
+  @media (max-width: 860px) {
+    .nav { padding: 16px 22px 10px; }
+    .nav__links { display: none; }
+    .nav__phone { display: none; }
+
+    .hero { padding: 32px 22px 80px; min-height: auto; }
+    .hero__inner {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .hero__headline { font-size: 46px; }
+    .hero__sub { font-size: 15px; }
+
+    .signal-stage { width: 180px; }
+    .signal-halo { width: 500px; height: 500px; }
+
+    .scan__row { flex-wrap: wrap; }
+    .scan__prefix { padding: 14px 10px 14px 14px; }
+    .scan__input { padding: 14px 10px; min-width: 0; flex-basis: 50%; }
+    .scan__submit { flex-basis: 100%; padding: 14px 18px; justify-content: center; border-left: none; border-top: 1px solid var(--rule-strong); }
+
+    .diag { padding: 18px; }
+    .diag__leak-val { font-size: 20px; }
+  }
+
+  /* Respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .scene, .signal-stage, .scene__streak, .hero__eyebrow-dot, .diag__head-status::before {
+      animation: none !important;
+    }
+  }
+</style>
+</head>
+<body data-signal="red">
+
+<!-- STAGE -->
+<div class="scene" aria-hidden="true">
+  <div class="scene__sky"></div>
+  <div class="scene__haze"></div>
+  <div class="scene__horizon"></div>
+  <div class="scene__road"></div>
+  <div class="scene__lanes"></div>
+  <div class="scene__reflect"></div>
+  <div class="scene__grid"></div>
+  <div class="scene__streak"></div>
+  <div class="scene__streak scene__streak--2"></div>
+  <div class="scene__cast"></div>
+
+  <!-- Traffic light hanging from above -->
+  <div class="signal-stage" id="signal" data-state="red">
+    <svg class="signal-svg" viewBox="0 0 260 340" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="housingGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%"  stop-color="#1c2330"/>
+          <stop offset="55%" stop-color="#111622"/>
+          <stop offset="100%" stop-color="#070a12"/>
+        </linearGradient>
+        <linearGradient id="sideGrad" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stop-color="#0b0f18"/>
+          <stop offset="50%" stop-color="#1a2030"/>
+          <stop offset="100%" stop-color="#0b0f18"/>
+        </linearGradient>
+        <linearGradient id="cableGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#0a0d14"/>
+          <stop offset="100%" stop-color="#1a2030"/>
+        </linearGradient>
+        <radialGradient id="lampGradR" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="#ffb4a8"/>
+          <stop offset="25%" stop-color="#ff3a2d"/>
+          <stop offset="70%" stop-color="#9a1a12"/>
+          <stop offset="100%" stop-color="#3a0a08"/>
+        </radialGradient>
+        <radialGradient id="lampGradY" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="#fff1c0"/>
+          <stop offset="25%" stop-color="#ffb21a"/>
+          <stop offset="70%" stop-color="#8a5a0a"/>
+          <stop offset="100%" stop-color="#302004"/>
+        </radialGradient>
+        <radialGradient id="lampGradG" cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0%" stop-color="#caf5dc"/>
+          <stop offset="25%" stop-color="#2dd67a"/>
+          <stop offset="70%" stop-color="#0f6a3a"/>
+          <stop offset="100%" stop-color="#04200f"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Suspension cable from top -->
+      <line x1="130" y1="0" x2="130" y2="26" stroke="url(#cableGrad)" stroke-width="1.6"/>
+      <!-- Cable clamp -->
+      <rect x="122" y="24" width="16" height="6" fill="#1a2030" stroke="#2a3247" stroke-width="0.6"/>
+
+      <!-- Mounting yoke -->
+      <path d="M115 30 L115 38 L145 38 L145 30 Z" fill="#111622" stroke="#2a3247" stroke-width="0.6"/>
+
+      <!-- Main housing (slight perspective, a touch of tilt) -->
+      <g transform="translate(60, 38)">
+        <!-- Back/side panel, a hint of dimension -->
+        <rect x="-4" y="4" width="148" height="264" rx="8" fill="url(#sideGrad)" opacity="0.5"/>
+        <!-- Front housing -->
+        <rect x="0" y="0" width="140" height="264" rx="9" fill="url(#housingGrad)" stroke="#2a3247" stroke-width="1"/>
+        <!-- Inner bezel lines, three sections -->
+        <line x1="10" y1="86" x2="130" y2="86" stroke="#060912" stroke-width="1"/>
+        <line x1="10" y1="174" x2="130" y2="174" stroke="#060912" stroke-width="1"/>
+
+        <!-- RED lamp + visor -->
+        <!-- visor hood -->
+        <path d="M10 22 Q10 6 24 4 L116 4 Q130 6 130 22 L130 30 L124 30 Q124 18 116 14 L24 14 Q16 18 16 30 L10 30 Z"
+              fill="#080b13" stroke="#1c2330" stroke-width="0.8"/>
+        <!-- lamp well (recessed) -->
+        <circle cx="70" cy="48" r="30" fill="#06080e" stroke="#1a2030" stroke-width="1"/>
+        <!-- lamp itself -->
+        <circle class="lamp lamp--red" id="lampRed" cx="70" cy="48" r="25" fill="url(#lampGradR)"/>
+        <!-- subtle highlight crescent -->
+        <path d="M52 38 Q60 30 78 32" stroke="rgba(255,255,255,0.12)" stroke-width="1" fill="none"/>
+
+        <!-- YELLOW lamp + visor -->
+        <path d="M10 110 Q10 94 24 92 L116 92 Q130 94 130 110 L130 118 L124 118 Q124 106 116 102 L24 102 Q16 106 16 118 L10 118 Z"
+              fill="#080b13" stroke="#1c2330" stroke-width="0.8"/>
+        <circle cx="70" cy="136" r="30" fill="#06080e" stroke="#1a2030" stroke-width="1"/>
+        <circle class="lamp lamp--yellow" id="lampYellow" cx="70" cy="136" r="25" fill="url(#lampGradY)"/>
+        <path d="M52 126 Q60 118 78 120" stroke="rgba(255,255,255,0.12)" stroke-width="1" fill="none"/>
+
+        <!-- GREEN lamp + visor -->
+        <path d="M10 198 Q10 182 24 180 L116 180 Q130 182 130 198 L130 206 L124 206 Q124 194 116 190 L24 190 Q16 194 16 206 L10 206 Z"
+              fill="#080b13" stroke="#1c2330" stroke-width="0.8"/>
+        <circle cx="70" cy="224" r="30" fill="#06080e" stroke="#1a2030" stroke-width="1"/>
+        <circle class="lamp lamp--green" id="lampGreen" cx="70" cy="224" r="25" fill="url(#lampGradG)"/>
+        <path d="M52 214 Q60 206 78 208" stroke="rgba(255,255,255,0.12)" stroke-width="1" fill="none"/>
+
+        <!-- Bolts / rivets -->
+        <circle cx="8"   cy="8"   r="1.4" fill="#2a3247"/>
+        <circle cx="132" cy="8"   r="1.4" fill="#2a3247"/>
+        <circle cx="8"   cy="256" r="1.4" fill="#2a3247"/>
+        <circle cx="132" cy="256" r="1.4" fill="#2a3247"/>
+      </g>
+
+      <!-- Bottom drip of wire -->
+      <line x1="130" y1="305" x2="130" y2="322" stroke="#151a28" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="signal-halo"></div>
+
+  <div class="scene__grain"></div>
+  <div class="scene__vignette"></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#" class="nav__brand" aria-label="Brewington home">
+    <svg class="nav__brand-mark" viewBox="0 0 14 34" aria-hidden="true">
+      <rect class="nav__brand-mark-housing" x="1" y="1" width="12" height="32" rx="3"/>
+      <circle class="nav__brand-mark-r" cx="7" cy="8"  r="3"/>
+      <circle class="nav__brand-mark-y" cx="7" cy="17" r="3"/>
+      <circle class="nav__brand-mark-g" cx="7" cy="26" r="3"/>
+    </svg>
+    <span class="nav__brand-name">Brewington</span>
+  </a>
+
+  <div class="nav__links">
+    <a href="#diagnostic">Diagnostic</a>
+    <a href="#how">How it works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#founder">Founder</a>
+  </div>
+
+  <div class="nav__right">
+    <span class="nav__phone">602-609-4756</span>
+    <a href="sms:6026094756" class="nav__cta">Text me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero__inner">
+
+    <div class="hero__left">
+      <div class="hero__eyebrow">
+        <span class="hero__eyebrow-dot"></span>
+        Right now, while you read this
+      </div>
+
+      <h1 class="hero__headline">
+        Your business<br>
+        is leaking revenue<br>
+        <em>while you sleep.<span class="hero__headline-tick">REC</span></em>
+      </h1>
+
+      <p class="hero__sub">
+        Missed calls, dead forms, reviews you never answered, a website that loads like it is 2011. Every hour of it costs you a job. We pull over, figure out what is broken, and get you rolling again.
+      </p>
+
+      <div class="scan" id="diagnostic">
+        <div class="scan__label">Show me what is broken on my site</div>
+        <form class="scan__row" onsubmit="event.preventDefault(); document.getElementById('scanInput').blur();">
+          <span class="scan__prefix">https://</span>
+          <input
+            id="scanInput"
+            class="scan__input"
+            type="text"
+            placeholder="yourbusiness.com"
+            autocomplete="off"
+            autocapitalize="none"
+            spellcheck="false"
+            aria-label="Your website URL"
+          >
+          <button type="submit" class="scan__submit">
+            <span>Pull it up</span>
+            <span class="scan__submit-arrow">&rarr;</span>
+          </button>
+        </form>
+        <p class="scan__note">
+          <span class="scan__note-dot"></span>
+          30 second scan. No email. No sales call. You get the full report.
+        </p>
+      </div>
+
+      <div class="hero__actions">
+        <a href="sms:6026094756">Text 602-609-4756</a>
+        <span class="hero__actions-sep">/</span>
+        <a href="mailto:digitalbrewington@gmail.com">digitalbrewington@gmail.com</a>
+      </div>
+    </div>
+
+    <div class="hero__right">
+      <div class="diag" aria-label="Sample business diagnostic">
+        <div class="diag__head">
+          <span class="diag__head-title">Business Diagnostic / Sample</span>
+          <span class="diag__head-status">Live</span>
+        </div>
+
+        <div class="diag__row diag__row--red">
+          <span class="diag__row-mark">&#9679;</span>
+          <span>Missed call, 9:14 PM Tuesday, no voicemail</span>
+          <span class="diag__row-val">&minus;$1,400</span>
+        </div>
+        <div class="diag__row diag__row--red">
+          <span class="diag__row-mark">&#9679;</span>
+          <span>Form submission Monday, never replied</span>
+          <span class="diag__row-val">&minus;$820</span>
+        </div>
+        <div class="diag__row diag__row--yellow">
+          <span class="diag__row-mark">&#9679;</span>
+          <span>Google hours wrong, 3 reviews this year</span>
+          <span class="diag__row-val">&minus;$1,900</span>
+        </div>
+        <div class="diag__row diag__row--yellow">
+          <span class="diag__row-mark">&#9679;</span>
+          <span>Page load 6.2s, mobile broken</span>
+          <span class="diag__row-val">&minus;$2,800</span>
+        </div>
+        <div class="diag__row diag__row--green">
+          <span class="diag__row-mark">&#9679;</span>
+          <span>Fixable in 48 hours. Zero up front.</span>
+          <span class="diag__row-val">ready</span>
+        </div>
+
+        <div class="diag__leak">
+          <span class="diag__leak-lbl">Est. monthly leak</span>
+          <span class="diag__leak-val">&minus;$11,800</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PLACEHOLDER -->
+<div class="rest">rest of page continues &darr;</div>
+
+<script>
+  /* Signal cycle: red (long) -> yellow (short) -> green (medium) -> red.
+     LEDs snap on, fall off slow via CSS transition. Body gets data-signal
+     so the whole scene picks up the color. */
+  (function () {
+    var signal = document.getElementById('signal');
+    var body   = document.body;
+    var lamps  = { red: document.getElementById('lampRed'), yellow: document.getElementById('lampYellow'), green: document.getElementById('lampGreen') };
+    var cycle = [ ['red', 5200], ['yellow', 1400], ['green', 4200] ];
+    var i = 0;
+    function flicker(state) {
+      if (Math.random() > 0.75) {
+        var el = lamps[state]; if (!el) return;
+        el.classList.add('is-flicker');
+        setTimeout(function () { el.classList.remove('is-flicker'); }, 900);
+      }
+    }
+    function step() {
+      var entry = cycle[i], state = entry[0];
+      signal.setAttribute('data-state', state);
+      body.setAttribute('data-signal', state);
+      flicker(state);
+      i = (i + 1) % cycle.length;
+      setTimeout(step, entry[1]);
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      signal.setAttribute('data-state', 'green');
+      body.setAttribute('data-signal', 'green');
+    } else { step(); }
+  })();
+</script>
+
+</body>
+</html>

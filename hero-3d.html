@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brewington Digital | Website designer for local service shops</title>
+<meta name="description" content="Websites and follow-up systems for HVAC, plumbing, electrical, roofing. Scan your site. See what is broken. Decide from there.">
+<meta name="theme-color" content="#05060a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a;
+  --bg-2:#0a0c12;
+  --ink:#eae2d4;
+  --ink-dim:#a29a8c;
+  --ink-mute:#6b655c;
+  --gold:#c9a84c;
+  --gold-hi:#e8c674;
+  --teal:#2dd4c0;
+  --teal-hi:#6fe8d8;
+  --amber:#ffb020;
+  --brass:#b89968;
+  --sep:rgba(234,226,212,.12);
+  --sep-strong:rgba(234,226,212,.22);
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --serif:"Space Grotesk","Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#02020480;color:var(--ink);font-family:var(--serif);overflow:hidden;height:100%;-webkit-font-smoothing:antialiased}
+
+/* STAGE */
+#stage{position:fixed;inset:0;z-index:1}
+#stage canvas{display:block;width:100%;height:100%}
+
+/* cabin background: warm leather rake above, deep shadow below.
+   This lives behind the GL canvas and supports the driver-POV illusion
+   before WebGL is ready. */
+.cabin{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 55% 42% at 50% 44%, rgba(36,28,18,.55) 0%, transparent 62%),
+    radial-gradient(ellipse 120% 60% at 50% 108%, #0a0906 0%, #05040680 60%, transparent 100%),
+    radial-gradient(ellipse 80% 70% at 50% -8%, rgba(18,16,14,.9) 0%, transparent 65%),
+    linear-gradient(180deg, #090810 0%, #05040680 55%, #030205 100%);
+}
+/* subtle horizon haze through the windshield: a faint amber band far away */
+.cabin::after{
+  content:"";position:absolute;left:0;right:0;top:26%;height:1px;
+  background:linear-gradient(90deg, transparent 5%, rgba(201,168,76,.12) 35%, rgba(45,212,192,.1) 65%, transparent 95%);
+  filter:blur(1.2px);
+}
+
+/* paper grain for filmic feel */
+.grain{
+  position:fixed;inset:0;z-index:6;pointer-events:none;opacity:.045;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.85'/></svg>");
+}
+
+/* letterbox bars, a quiet cinematic frame */
+.bar{position:fixed;left:0;right:0;z-index:8;pointer-events:none;height:38px}
+.bar.top{top:0;background:linear-gradient(180deg, rgba(2,3,5,1) 0%, rgba(2,3,5,.5) 60%, transparent 100%)}
+.bar.bot{bottom:0;background:linear-gradient(0deg, rgba(2,3,5,1) 0%, rgba(2,3,5,.5) 60%, transparent 100%)}
+
+/* catalog-plate corner ticks and measurements */
+.tick{position:fixed;z-index:7;pointer-events:none;width:22px;height:22px}
+.tick::before,.tick::after{content:"";position:absolute;background:rgba(234,226,212,.32)}
+.tick::before{width:18px;height:1px}
+.tick::after{width:1px;height:18px}
+.tick.tl{top:72px;left:36px}
+.tick.tl::before{top:0;left:0}.tick.tl::after{top:0;left:0}
+.tick.tr{top:72px;right:36px}
+.tick.tr::before{top:0;right:0}.tick.tr::after{top:0;right:0}
+.tick.bl{bottom:136px;left:36px}
+.tick.bl::before{bottom:0;left:0}.tick.bl::after{bottom:0;left:0}
+.tick.br{bottom:136px;right:36px}
+.tick.br::before{bottom:0;right:0}.tick.br::after{bottom:0;right:0}
+@media(max-width:820px){.tick{display:none}}
+
+.measure{
+  position:fixed;z-index:7;pointer-events:none;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;
+  color:var(--ink-mute);text-transform:uppercase;
+}
+.measure.tl{top:78px;left:46px}
+.measure.tr{top:78px;right:46px;text-align:right}
+.measure .k{color:var(--brass)}
+.measure .v{color:var(--ink)}
+.measure .row{margin-top:4px}
+.measure .sep{color:var(--ink-mute);opacity:.5;margin:0 6px}
+@media(max-width:820px){.measure{display:none}}
+
+/* OVERLAY CHROME */
+.overlay{
+  position:fixed;inset:0;z-index:10;pointer-events:none;
+  display:grid;grid-template-rows:auto 1fr auto;
+  padding:28px 46px 26px;
+}
+.overlay *{pointer-events:auto}
+
+.top{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px}
+.brand-tl{width:18px;height:42px;flex:none}
+.brand-name{font-weight:600;letter-spacing:.14em;font-size:12px;text-transform:uppercase;color:var(--ink)}
+.brand-sub{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.24em;color:var(--ink-mute);margin-top:3px;text-transform:uppercase}
+
+.top-right{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.24em;color:var(--ink-mute);text-transform:uppercase}
+.top-right .tag{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--sep);border-radius:2px;background:rgba(10,12,16,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.top-right .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px rgba(45,212,192,.7);animation:pulseDot 2.4s ease-in-out infinite}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.55;transform:scale(.85)}}
+
+.mid{position:relative}
+
+.bot{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:end}
+@media(max-width:960px){.bot{grid-template-columns:1fr;gap:20px}}
+
+.kicker{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.28em;
+  color:var(--gold);text-transform:uppercase;
+  padding:6px 12px;border:1px solid rgba(201,168,76,.28);border-radius:2px;
+  background:rgba(10,12,16,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  margin-bottom:18px;
+}
+.kicker .led{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(201,168,76,.8);animation:blink 2.4s steps(1,end) infinite}
+@keyframes blink{0%,60%{opacity:1}61%,72%{opacity:.3}73%,100%{opacity:1}}
+
+h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(34px, 4.8vw, 64px);
+  line-height:1.02;letter-spacing:-.025em;
+  color:var(--ink);max-width:760px;
+  text-shadow:0 2px 40px rgba(0,0,0,.85);
+}
+h1 .red{
+  background:linear-gradient(180deg, #ffdcd0 0%, #ff4a38 90%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  font-weight:500;
+}
+.sub{
+  margin-top:14px;max-width:580px;
+  font-size:15.5px;line-height:1.55;color:var(--ink-dim);
+  text-shadow:0 1px 24px rgba(0,0,0,.9);
+}
+.sub b{color:var(--ink);font-weight:500}
+
+.cta-col{display:flex;flex-direction:column;gap:12px;align-items:flex-end;padding-bottom:4px}
+@media(max-width:960px){.cta-col{align-items:flex-start}}
+
+.cta-primary{
+  display:inline-flex;align-items:center;gap:12px;
+  padding:16px 24px;
+  font-family:var(--serif);font-weight:600;font-size:14.5px;letter-spacing:.04em;
+  color:#17140e;
+  background:linear-gradient(180deg, var(--gold-hi) 0%, var(--gold) 55%, #7d6328 100%);
+  border-radius:3px;
+  box-shadow:
+    0 1px 0 rgba(255,255,255,.35) inset,
+    0 -1px 0 rgba(0,0,0,.35) inset,
+    0 10px 30px -8px rgba(201,168,76,.5),
+    0 2px 8px rgba(0,0,0,.5);
+  transition:transform .12s ease, filter .2s ease;
+}
+.cta-primary:hover{transform:translateY(-1px);filter:brightness(1.08)}
+.cta-primary:active{transform:translateY(0)}
+.cta-primary svg{width:16px;height:16px}
+.cta-primary .ch{
+  font-family:var(--mono);font-size:10px;letter-spacing:.22em;
+  color:rgba(23,20,14,.65);text-transform:uppercase;
+  margin-left:6px;border-left:1px solid rgba(23,20,14,.3);padding-left:10px;
+}
+
+.cta-phone{
+  display:inline-flex;align-items:center;gap:10px;padding:13px 18px;
+  font-family:var(--mono);font-size:13px;letter-spacing:.1em;color:var(--ink);
+  background:rgba(10,12,16,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid var(--sep);border-radius:3px;
+  transition:border-color .2s, color .2s;
+}
+.cta-phone:hover{border-color:var(--gold);color:var(--gold)}
+.cta-phone .ph{color:var(--teal)}
+
+.readout{
+  position:fixed;left:46px;bottom:200px;z-index:10;
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.22em;
+  color:var(--ink-mute);text-transform:uppercase;
+  padding:7px 11px;border:1px solid var(--sep);border-radius:2px;
+  background:rgba(10,12,16,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:opacity .3s;
+}
+.readout .state{color:var(--ink)}
+.readout .sq{width:7px;height:7px;border-radius:50%;background:#ff4a38;box-shadow:0 0 8px rgba(255,74,56,.7);transition:background .4s, box-shadow .4s}
+.readout[data-state="amber"] .sq{background:#ffb020;box-shadow:0 0 8px rgba(255,176,32,.7)}
+.readout[data-state="green"] .sq{background:#21d66a;box-shadow:0 0 8px rgba(33,214,106,.7)}
+@media(max-width:820px){.readout{left:22px;bottom:180px}}
+@media(max-width:560px){.readout{display:none}}
+
+.stamp{
+  position:fixed;right:46px;bottom:200px;z-index:10;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.26em;
+  color:var(--brass);opacity:.85;text-transform:uppercase;
+  padding:7px 11px;border:1px solid rgba(184,153,104,.3);border-radius:2px;
+  background:rgba(10,12,16,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+@media(max-width:820px){.stamp{right:22px;bottom:180px}}
+@media(max-width:560px){.stamp{display:none}}
+
+@media(max-width:720px){
+  .overlay{padding:22px 20px 20px}
+  .top-right{font-size:10px}
+  .top-right .tag .only-lg{display:none}
+  h1{font-size:clamp(28px,8vw,40px)}
+  .cta-primary{padding:14px 20px;font-size:14px}
+}
+
+.loading{
+  position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;
+  background:#020305;color:var(--ink-mute);font-family:var(--mono);font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+  transition:opacity .5s ease;
+}
+.loading.hide{opacity:0;pointer-events:none}
+.loading .ring{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(201,168,76,.15);border-top-color:var(--gold);margin-right:16px;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="cabin" aria-hidden="true"></div>
+<div id="stage"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="bar top" aria-hidden="true"></div>
+<div class="bar bot" aria-hidden="true"></div>
+
+<span class="tick tl" aria-hidden="true"></span>
+<span class="tick tr" aria-hidden="true"></span>
+<span class="tick bl" aria-hidden="true"></span>
+<span class="tick br" aria-hidden="true"></span>
+
+<div class="measure tl" aria-hidden="true">
+  <div><span class="k">Cabin</span><span class="sep">/</span><span class="v">Driver POV</span></div>
+  <div class="row"><span class="k">Rev</span><span class="sep">/</span><span class="v">26.04.16</span></div>
+</div>
+<div class="measure tr" aria-hidden="true">
+  <div><span class="v">MESA</span><span class="sep">&middot;</span><span class="v">SCOTTSDALE</span><span class="sep">&middot;</span><span class="v">GILBERT AZ</span></div>
+  <div class="row"><span class="k">Made</span><span class="sep">/</span><span class="v">HOMIES ON THE ROAD</span></div>
+</div>
+
+<div class="readout" id="readout" data-state="red">
+  <span class="sq" aria-hidden="true"></span>
+  <span>Signal</span>
+  <span class="state" id="readoutState">Red</span>
+</div>
+<div class="stamp" aria-hidden="true">DASH CLUSTER &middot; 1:1 MECH SIM</div>
+
+<div class="overlay">
+
+  <div class="top">
+    <a class="brand" href="#" aria-label="Brewington Digital">
+      <svg class="brand-tl" viewBox="0 0 18 42" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="bN" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#3c3a35"/>
+            <stop offset="48%" stop-color="#c8c5bd"/>
+            <stop offset="52%" stop-color="#c8c5bd"/>
+            <stop offset="100%" stop-color="#15161a"/>
+          </linearGradient>
+        </defs>
+        <rect x=".5" y=".5" width="17" height="41" rx="3" fill="url(#bN)"/>
+        <rect x="1.8" y="1.8" width="14.4" height="38.4" rx="2.2" fill="#0a0c10"/>
+        <circle cx="9" cy="8.5" r="3.2" fill="#ff4a38"/>
+        <circle cx="8.5" cy="8" r=".8" fill="rgba(255,255,255,.5)"/>
+        <circle cx="9" cy="21" r="3.2" fill="#2a1f0a"/>
+        <circle cx="9" cy="33.5" r="3.2" fill="#0a1f11"/>
+      </svg>
+      <span>
+        <span class="brand-name">Brewington Digital</span>
+        <span class="brand-sub">Website designer, local service shops</span>
+      </span>
+    </a>
+
+    <div class="top-right">
+      <span class="tag"><span class="dot"></span><span>Scanner live</span></span>
+      <span class="tag"><span class="only-lg">Ignition on</span></span>
+    </div>
+  </div>
+
+  <div class="mid"></div>
+
+  <div class="bot">
+    <div>
+      <span class="kicker"><span class="led"></span>Website designer for local shops</span>
+      <h1>
+        Your website is <span class="red">losing jobs</span> you already paid for.
+      </h1>
+      <p class="sub">
+        HVAC, plumbing, electric, roofing. I build the site, the phone answering, the booking, the follow-up. Then we read the signal together. <b>Red, amber, green. That is the whole pitch.</b>
+      </p>
+    </div>
+
+    <div class="cta-col">
+      <a class="cta-primary" href="sms:6026094756?body=Hey%20-%20scan%20my%20website">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span>Scan my website</span>
+        <span class="ch">Text 30s</span>
+      </a>
+      <a class="cta-phone" href="tel:6026094756">
+        <span class="ph">&#9679;</span>
+        <span>602.609.4756</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="loading" class="loading"><span class="ring"></span>Warming the cabin</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.162.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.162.0/examples/jsm/"
+  }
+}
+</script>
+
+<script type="module">
+import * as THREE from 'three';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+// ------------------------------------------------------------------
+// v4: DASHBOARD CLUSTER (LANE B).
+//
+// First-person view from the driver's seat of a night-parked car.
+// The camera sits where your head would be. In front: a full
+// instrument cluster. Tachometer on the left. Speedometer on the
+// right. A central "diagnostic" traffic-light cluster that IS the
+// website health readout. Warm amber backlight, hashed needles with
+// gentle physics, faint windshield reflection, a distant road-horizon
+// implied only by bloom.
+//
+// HOTR payoff: you are literally inside the car that pulls over for
+// the limping shop. The central cluster replaces the check-engine
+// light, so the "website designer for local shops" reading lands
+// because the tach/speed units are labelled CALLS / JOBS and the
+// center reads SITE HEALTH with RED/AMB/GRN cycling.
+//
+// Differs from v1 (no floating icosahedron), v2 (no exterior scene,
+// no rain, no road surface, no skyline), v3 (no product-on-turntable,
+// no holographic UI card, no laser beam).
+// ------------------------------------------------------------------
+
+const stage   = document.getElementById('stage');
+const loading = document.getElementById('loading');
+const readout = document.getElementById('readout');
+const readoutState = document.getElementById('readoutState');
+
+const isMobile = matchMedia('(max-width: 720px)').matches;
+const isSmall  = matchMedia('(max-width: 480px)').matches;
+const prefersReduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---------- RENDERER ----------
+const renderer = new THREE.WebGLRenderer({ antialias: !isMobile, alpha: false, powerPreference: 'high-performance' });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.08;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.shadowMap.enabled = false;
+stage.appendChild(renderer.domElement);
+
+// ---------- SCENE ----------
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#03040a');
+// faint distance fog so the far road haze reads as depth, not wall
+scene.fog = new THREE.FogExp2('#04050a', 0.045);
+
+// studio PBR environment for anodized surfaces
+const pmremGen = new THREE.PMREMGenerator(renderer);
+scene.environment = pmremGen.fromScene(new RoomEnvironment(), 0.05).texture;
+
+// ---------- CAMERA ----------
+// camera is inside the car, looking forward. Dash cluster at roughly
+// z = -3.5, we sit at z = 0 with eye height just above the wheel.
+const camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.05, 60);
+camera.position.set(0, 0.15, 1.8);
+camera.lookAt(0, -0.1, -4);
+
+// ---------- MATERIALS ----------
+// anodized dash plastic, soft-touch, slightly warm
+const matDash = new THREE.MeshPhysicalMaterial({
+  color: '#11100f',
+  metalness: 0.2,
+  roughness: 0.78,
+  clearcoat: 0.15,
+  clearcoatRoughness: 0.6,
+  envMapIntensity: 0.6,
+});
+
+// gauge bezel, brushed aluminum
+const matBezel = new THREE.MeshPhysicalMaterial({
+  color: '#c4c0b6',
+  metalness: 1.0,
+  roughness: 0.32,
+  clearcoat: 0.25,
+  clearcoatRoughness: 0.3,
+  envMapIntensity: 1.2,
+});
+
+// dark satin inside rim of a gauge well
+const matGaugeInner = new THREE.MeshPhysicalMaterial({
+  color: '#0b0c10',
+  metalness: 0.1,
+  roughness: 0.85,
+  envMapIntensity: 0.4,
+});
+
+// gauge face paint, very dark graphite
+const matGaugeFace = new THREE.MeshStandardMaterial({
+  color: '#07080c',
+  metalness: 0.0,
+  roughness: 0.95,
+});
+
+// steel needle base (brushed hub)
+const matNeedleHub = new THREE.MeshPhysicalMaterial({
+  color: '#2a2926',
+  metalness: 0.9,
+  roughness: 0.28,
+  envMapIntensity: 1.1,
+});
+
+// wheel material: warm leather
+const matLeather = new THREE.MeshPhysicalMaterial({
+  color: '#221a14',
+  metalness: 0.0,
+  roughness: 0.88,
+  clearcoat: 0.2,
+  clearcoatRoughness: 0.6,
+  envMapIntensity: 0.6,
+});
+
+// wheel spoke: brushed metal
+const matSpoke = new THREE.MeshPhysicalMaterial({
+  color: '#8a867e',
+  metalness: 1.0,
+  roughness: 0.3,
+  envMapIntensity: 1.15,
+});
+
+// brass accent plate (serial)
+const matBrass = new THREE.MeshPhysicalMaterial({
+  color: '#c3a26a',
+  metalness: 0.95,
+  roughness: 0.28,
+  clearcoat: 0.45,
+  clearcoatRoughness: 0.3,
+  envMapIntensity: 1.1,
+});
+
+// stitching thread color
+const matStitch = new THREE.MeshBasicMaterial({ color: '#c9a84c', transparent: true, opacity: 0.55 });
+
+// ---------- COLOR CONSTANTS ----------
+const COL_RED   = new THREE.Color('#ff3a24');
+const COL_AMB   = new THREE.Color('#ffab1a');
+const COL_GRN   = new THREE.Color('#1ee37a');
+const COL_AMBER = new THREE.Color('#ffb040');   // backlight warmth
+
+// ---------- CANVAS TEXTURE HELPERS ----------
+// A dial face texture generator. Draws ticks, numbers, a colored arc
+// (green->amber->red), the unit label, and a brand caption.
+function makeDialTexture({
+  label      = 'CALLS PER HOUR',
+  unit       = 'x1',
+  brand      = 'BRWNGTN',
+  max        = 8,
+  startDeg   = -225,    // where the sweep begins (counter clockwise from up)
+  endDeg     = 45,
+  redlineStart = 0.7,   // fraction of sweep where red band starts
+  amberStart   = 0.45,  // fraction of sweep where amber band starts
+  size = 1024,
+} = {}) {
+  const c = document.createElement('canvas');
+  c.width = size; c.height = size;
+  const g = c.getContext('2d');
+  g.clearRect(0, 0, size, size);
+
+  const cx = size / 2, cy = size / 2;
+  const rOuter = size * 0.46;
+  const rInner = size * 0.42;
+  const rText  = size * 0.34;
+  const rMinor = size * 0.44;
+  const rMajor = size * 0.41;
+
+  // deep face wash
+  const wash = g.createRadialGradient(cx, cy * 0.85, size * 0.05, cx, cy, size * 0.5);
+  wash.addColorStop(0, '#0d0e13');
+  wash.addColorStop(0.7, '#07080c');
+  wash.addColorStop(1, '#020307');
+  g.fillStyle = wash;
+  g.beginPath(); g.arc(cx, cy, size * 0.48, 0, Math.PI * 2); g.fill();
+
+  // outer hairline ring
+  g.strokeStyle = 'rgba(234,226,212,.08)';
+  g.lineWidth = 1.4;
+  g.beginPath(); g.arc(cx, cy, size * 0.455, 0, Math.PI * 2); g.stroke();
+
+  // subtle radial flake, feels like a dial
+  g.save();
+  g.translate(cx, cy);
+  for (let i = 0; i < 360; i += 4) {
+    g.rotate((4 * Math.PI) / 180);
+    g.strokeStyle = 'rgba(234,226,212,.015)';
+    g.lineWidth = 1;
+    g.beginPath();
+    g.moveTo(0, -size * 0.46);
+    g.lineTo(0, -size * 0.3);
+    g.stroke();
+  }
+  g.restore();
+
+  // colored arc segments: green (start) -> amber -> red
+  const toRad = (d) => (d * Math.PI) / 180;
+  const arcStart = toRad(startDeg + 90);
+  const arcEnd   = toRad(endDeg + 90);
+  const arcSpan  = arcEnd - arcStart;
+  const amberArc = arcStart + arcSpan * amberStart;
+  const redArc   = arcStart + arcSpan * redlineStart;
+
+  g.lineCap = 'butt';
+
+  // green band
+  g.strokeStyle = 'rgba(30,227,122,.55)';
+  g.lineWidth = 10;
+  g.beginPath(); g.arc(cx, cy, size * 0.40, arcStart, amberArc); g.stroke();
+  // amber band
+  g.strokeStyle = 'rgba(255,171,26,.65)';
+  g.beginPath(); g.arc(cx, cy, size * 0.40, amberArc, redArc); g.stroke();
+  // red band
+  g.strokeStyle = 'rgba(255,58,36,.85)';
+  g.beginPath(); g.arc(cx, cy, size * 0.40, redArc, arcEnd); g.stroke();
+
+  // major and minor ticks
+  const totalTicks = max * 5; // 5 minor per major
+  for (let i = 0; i <= totalTicks; i++) {
+    const frac = i / totalTicks;
+    const ang  = arcStart + arcSpan * frac;
+    const isMajor = i % 5 === 0;
+    g.save();
+    g.translate(cx, cy);
+    g.rotate(ang - Math.PI / 2);
+    g.strokeStyle = isMajor ? 'rgba(234,226,212,.85)' : 'rgba(234,226,212,.45)';
+    g.lineWidth = isMajor ? 3 : 1.5;
+    g.beginPath();
+    g.moveTo(0, -rOuter);
+    g.lineTo(0, -(isMajor ? rMajor : rMinor));
+    g.stroke();
+    g.restore();
+
+    // major numerals
+    if (isMajor) {
+      const n = Math.round(max * frac);
+      g.save();
+      g.translate(cx + Math.cos(ang - Math.PI / 2) * rText, cy + Math.sin(ang - Math.PI / 2) * rText);
+      g.fillStyle = 'rgba(234,226,212,.85)';
+      g.font = `600 ${Math.round(size * 0.055)}px "Space Grotesk", system-ui`;
+      g.textAlign = 'center';
+      g.textBaseline = 'middle';
+      g.fillText(String(n), 0, 0);
+      g.restore();
+    }
+  }
+
+  // unit label under the upper bezel
+  g.fillStyle = 'rgba(234,226,212,.55)';
+  g.textAlign = 'center';
+  g.textBaseline = 'middle';
+  g.font = `500 ${Math.round(size * 0.028)}px "JetBrains Mono", monospace`;
+  g.fillText(label, cx, cy - size * 0.15);
+
+  g.font = `500 ${Math.round(size * 0.022)}px "JetBrains Mono", monospace`;
+  g.fillStyle = 'rgba(234,226,212,.35)';
+  g.fillText(unit, cx, cy - size * 0.11);
+
+  // brand caption at bottom
+  g.font = `500 ${Math.round(size * 0.022)}px "JetBrains Mono", monospace`;
+  g.fillStyle = 'rgba(201,168,76,.75)';
+  g.fillText(brand, cx, cy + size * 0.22);
+
+  // tiny dot matrix below brand, like a hallmark
+  g.fillStyle = 'rgba(201,168,76,.5)';
+  for (let i = 0; i < 5; i++) {
+    g.beginPath();
+    g.arc(cx - 14 + i * 7, cy + size * 0.25, 1.2, 0, Math.PI * 2);
+    g.fill();
+  }
+
+  // center hub shadow well
+  const hub = g.createRadialGradient(cx, cy, 0, cx, cy, size * 0.12);
+  hub.addColorStop(0, 'rgba(0,0,0,.55)');
+  hub.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = hub;
+  g.beginPath(); g.arc(cx, cy, size * 0.12, 0, Math.PI * 2); g.fill();
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return tex;
+}
+
+// center cluster: SITE HEALTH. A small LCD-style readout with the
+// current state word (RED/AMBER/GREEN), a big dot, and three stacked
+// metric rows. This sits between the two gauges.
+function makeCenterClusterTexture(state, data, t) {
+  const w = 1024, h = 640;
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const g = c.getContext('2d');
+  g.clearRect(0, 0, w, h);
+
+  // plate ground, warm dark
+  const ground = g.createLinearGradient(0, 0, 0, h);
+  ground.addColorStop(0, '#0d0f13');
+  ground.addColorStop(1, '#05070b');
+  g.fillStyle = ground;
+  roundRect(g, 20, 20, w - 40, h - 40, 28);
+  g.fill();
+
+  // inner bezel
+  g.strokeStyle = 'rgba(234,226,212,.1)';
+  g.lineWidth = 2;
+  roundRect(g, 20, 20, w - 40, h - 40, 28);
+  g.stroke();
+
+  // fine scan lines, faint amber
+  g.fillStyle = 'rgba(255,176,64,.03)';
+  for (let y = 34; y < h - 34; y += 4) g.fillRect(34, y, w - 68, 1);
+
+  // header bar
+  g.fillStyle = 'rgba(201,168,76,.12)';
+  g.fillRect(40, 40, w - 80, 56);
+  g.font = `600 26px "JetBrains Mono", monospace`;
+  g.fillStyle = '#c9a84c';
+  g.textBaseline = 'middle';
+  g.textAlign = 'left';
+  g.fillText('SITE HEALTH', 60, 68);
+
+  g.font = `500 18px "JetBrains Mono", monospace`;
+  g.fillStyle = 'rgba(234,226,212,.55)';
+  g.textAlign = 'right';
+  // blinking live dot
+  const blinkOn = (Math.floor(t * 2) % 2) === 0;
+  g.fillText('LIVE', w - 78, 68);
+  g.beginPath();
+  g.fillStyle = blinkOn ? '#c9a84c' : 'rgba(201,168,76,.25)';
+  g.arc(w - 56, 68, 5, 0, Math.PI * 2);
+  g.fill();
+
+  // state color
+  const col = state === 'red' ? '#ff4a38' : state === 'amber' ? '#ffb020' : '#21d66a';
+  const tint = state === 'red' ? 'rgba(255,74,56,.14)'
+             : state === 'amber' ? 'rgba(255,176,32,.14)'
+             : 'rgba(33,214,106,.14)';
+
+  // big state word + dot
+  g.fillStyle = tint;
+  g.fillRect(40, 110, w - 80, 150);
+  g.strokeStyle = col;
+  g.lineWidth = 2;
+  g.strokeRect(40, 110, w - 80, 150);
+
+  const pulse = 0.5 + 0.5 * Math.sin(t * 4);
+
+  g.save();
+  g.translate(140, 185);
+  // outer ring
+  g.strokeStyle = col;
+  g.lineWidth = 4;
+  g.beginPath(); g.arc(0, 0, 52, 0, Math.PI * 2); g.stroke();
+  // pulsing inner dot
+  g.fillStyle = col;
+  g.globalAlpha = 0.75 + pulse * 0.25;
+  g.beginPath(); g.arc(0, 0, 32 + pulse * 4, 0, Math.PI * 2); g.fill();
+  g.globalAlpha = 1;
+  g.restore();
+
+  g.font = `700 62px "Space Grotesk", system-ui`;
+  g.fillStyle = col;
+  g.textAlign = 'left';
+  g.textBaseline = 'middle';
+  g.fillText(state === 'red' ? 'RED' : state === 'amber' ? 'AMBER' : 'GREEN', 220, 175);
+
+  g.font = `500 18px "JetBrains Mono", monospace`;
+  g.fillStyle = 'rgba(234,226,212,.55)';
+  g.fillText(
+    state === 'red' ? 'BUSINESS LOSING JOBS'
+    : state === 'amber' ? 'LEAKING LEADS'
+    : 'SYSTEMS ROLLING',
+    220, 214
+  );
+
+  // url line (small, dims to aesthetic)
+  g.font = `500 18px "JetBrains Mono", monospace`;
+  g.fillStyle = 'rgba(234,226,212,.45)';
+  g.textAlign = 'left';
+  g.fillText('URL / ' + data.url, 60, 300);
+
+  // divider
+  g.strokeStyle = 'rgba(234,226,212,.1)';
+  g.lineWidth = 1;
+  g.beginPath(); g.moveTo(60, 318); g.lineTo(w - 60, 318); g.stroke();
+
+  // three rows, each with a mini bar
+  const rows = [
+    ['LOAD',    data.load,    data.loadFrac,    data.loadCol],
+    ['MOBILE',  data.mobile,  data.mobileFrac,  data.mobileCol],
+    ['REVIEWS', data.reviews, data.reviewsFrac, data.reviewsCol],
+  ];
+
+  let y = 358;
+  rows.forEach(([k, v, frac, c1]) => {
+    g.font = `500 20px "JetBrains Mono", monospace`;
+    g.textAlign = 'left';
+    g.fillStyle = 'rgba(234,226,212,.55)';
+    g.fillText(k, 60, y);
+
+    g.textAlign = 'right';
+    g.fillStyle = c1;
+    g.fillText(v, w - 60, y);
+
+    // bar beneath
+    g.fillStyle = 'rgba(234,226,212,.08)';
+    g.fillRect(60, y + 12, w - 120, 8);
+    g.fillStyle = c1;
+    g.fillRect(60, y + 12, (w - 120) * frac, 8);
+    y += 62;
+  });
+
+  // footer, small
+  g.font = `500 14px "JetBrains Mono", monospace`;
+  g.fillStyle = 'rgba(201,168,76,.55)';
+  g.textAlign = 'left';
+  g.fillText('BRWNGTN \u00B7 HOMIES ON THE ROAD', 60, h - 40);
+  g.textAlign = 'right';
+  g.fillStyle = 'rgba(234,226,212,.35)';
+  g.fillText('DIAG 01 \u00B7 AZ 2026', w - 60, h - 40);
+
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return tex;
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+// ---------- DASH BODY ----------
+// The dash is a long horizontal rounded box, tilted back slightly
+// toward the camera. A binnacle hood arcs over the top front.
+const dashGroup = new THREE.Group();
+scene.add(dashGroup);
+dashGroup.position.set(0, -0.6, -3.2);
+dashGroup.rotation.x = -0.16;
+
+// main dash slab
+(() => {
+  const body = new THREE.Mesh(
+    new RoundedBoxGeometry(6.4, 1.6, 2.6, 6, 0.2),
+    matDash
+  );
+  body.position.set(0, 0, -0.8);
+  dashGroup.add(body);
+
+  // lower stitched leather panel, faces camera
+  const panel = new THREE.Mesh(
+    new RoundedBoxGeometry(6.2, 0.9, 0.12, 4, 0.08),
+    matLeather
+  );
+  panel.position.set(0, -0.6, 0.35);
+  panel.rotation.x = -0.12;
+  dashGroup.add(panel);
+
+  // decorative brushed strip across the face of the dash
+  const strip = new THREE.Mesh(
+    new RoundedBoxGeometry(5.4, 0.06, 0.025, 2, 0.02),
+    matBezel
+  );
+  strip.position.set(0, -0.2, 0.5);
+  strip.rotation.x = -0.12;
+  dashGroup.add(strip);
+
+  // brass nameplate on the strip, left of center
+  const plate = new THREE.Mesh(
+    new RoundedBoxGeometry(1.1, 0.14, 0.02, 2, 0.02),
+    matBrass
+  );
+  plate.position.set(-1.9, -0.2, 0.52);
+  plate.rotation.x = -0.12;
+  dashGroup.add(plate);
+
+  // plate text
+  const plateTex = (() => {
+    const c = document.createElement('canvas');
+    c.width = 512; c.height = 64;
+    const g = c.getContext('2d');
+    const grad = g.createLinearGradient(0, 0, 0, 64);
+    grad.addColorStop(0, '#d8b873');
+    grad.addColorStop(0.5, '#b89968');
+    grad.addColorStop(1, '#7f6640');
+    g.fillStyle = grad; g.fillRect(0, 0, 512, 64);
+    g.fillStyle = '#1a1308';
+    g.font = '600 24px "JetBrains Mono", monospace';
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText('HOMIES ON THE ROAD', 256, 34);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    return t;
+  })();
+  const plateFace = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.08, 0.12),
+    new THREE.MeshStandardMaterial({ map: plateTex, metalness: 0.9, roughness: 0.3 })
+  );
+  plateFace.position.copy(plate.position);
+  plateFace.position.z += 0.012;
+  plateFace.rotation.x = -0.12;
+  dashGroup.add(plateFace);
+
+  // stitching rows along the leather panel
+  const stitchRow = (y) => {
+    const group = new THREE.Group();
+    const step = 0.08;
+    for (let x = -2.9; x <= 2.9; x += step) {
+      const s = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.03, 0.008),
+        matStitch
+      );
+      s.position.set(x, y, 0.46);
+      s.rotation.x = -0.12;
+      group.add(s);
+    }
+    dashGroup.add(group);
+  };
+  stitchRow(-0.32);
+  stitchRow(-0.88);
+})();
+
+// ---------- BINNACLE HOOD ----------
+// A partial cylinder arching over the gauges to cast a visor shadow.
+(() => {
+  const hoodGeo = new THREE.CylinderGeometry(1.6, 1.6, 5.8, 80, 1, true, Math.PI * 1.0, Math.PI * 0.48);
+  const hood = new THREE.Mesh(hoodGeo, matDash);
+  hood.rotation.z = Math.PI / 2;
+  hood.position.set(0, 0.75, -0.35);
+  dashGroup.add(hood);
+
+  // rim under the hood, brushed
+  const rim = new THREE.Mesh(
+    new THREE.TorusGeometry(1.58, 0.012, 6, 90, Math.PI * 0.48),
+    matBezel
+  );
+  rim.rotation.z = Math.PI / 2;
+  rim.rotation.y = 0;
+  rim.position.set(0, 0.75, -0.35);
+  // approximate lip by scaling out a bit
+  // (we'll leave the subtle look; small visual nicety)
+  dashGroup.add(rim);
+})();
+
+// ---------- GAUGE FACTORY ----------
+function makeGauge({
+  x, y, z,
+  radius = 0.78,
+  depth  = 0.18,
+  dialTex,
+  sweepDeg = 270,
+  startDeg = -225,
+}) {
+  const g = new THREE.Group();
+  g.position.set(x, y, z);
+  dashGroup.add(g);
+
+  // outer bezel, brushed torus
+  const bezel = new THREE.Mesh(
+    new THREE.TorusGeometry(radius, radius * 0.08, 18, 80),
+    matBezel
+  );
+  bezel.position.z = depth * 0.5;
+  g.add(bezel);
+
+  // inside well (tube)
+  const well = new THREE.Mesh(
+    new THREE.CylinderGeometry(radius * 0.92, radius * 0.92, depth, 64, 1, true),
+    matGaugeInner
+  );
+  well.rotation.x = Math.PI / 2;
+  well.position.z = 0;
+  g.add(well);
+
+  // back wall of the gauge (receives amber backlight)
+  const back = new THREE.Mesh(
+    new THREE.CircleGeometry(radius * 0.92, 64),
+    matGaugeFace
+  );
+  back.position.z = -depth * 0.5 + 0.002;
+  g.add(back);
+
+  // dial face plane with the painted texture
+  const dialMat = new THREE.MeshStandardMaterial({
+    map: dialTex,
+    transparent: true,
+    metalness: 0.0,
+    roughness: 0.9,
+    emissive: COL_AMBER.clone(),
+    emissiveMap: dialTex,
+    emissiveIntensity: 0.22,
+  });
+  const dial = new THREE.Mesh(
+    new THREE.CircleGeometry(radius * 0.9, 80),
+    dialMat
+  );
+  dial.position.z = -depth * 0.25;
+  g.add(dial);
+
+  // glass cover (slight transmission)
+  const glass = new THREE.Mesh(
+    new THREE.CircleGeometry(radius * 0.93, 64),
+    new THREE.MeshPhysicalMaterial({
+      color: '#0c0e11',
+      metalness: 0.0,
+      roughness: 0.06,
+      transmission: 0.25,
+      thickness: 0.08,
+      ior: 1.45,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.04,
+      transparent: true,
+      opacity: 0.35,
+    })
+  );
+  glass.position.z = depth * 0.55;
+  g.add(glass);
+
+  // needle (pivot at center, swings)
+  const needlePivot = new THREE.Group();
+  needlePivot.position.z = depth * 0.36;
+  g.add(needlePivot);
+
+  // needle body: long thin triangle from hub outward
+  const needleShape = new THREE.Shape();
+  needleShape.moveTo(-0.04, 0);
+  needleShape.lineTo(0.04, 0);
+  needleShape.lineTo(0.02, radius * 0.78);
+  needleShape.lineTo(-0.02, radius * 0.78);
+  needleShape.closePath();
+  const needleGeo = new THREE.ExtrudeGeometry(needleShape, { depth: 0.012, bevelEnabled: false });
+  const needleMat = new THREE.MeshStandardMaterial({
+    color: '#e9d58a',
+    emissive: '#ff5a2a',
+    emissiveIntensity: 0.3,
+    metalness: 0.2,
+    roughness: 0.5,
+  });
+  const needle = new THREE.Mesh(needleGeo, needleMat);
+  needlePivot.add(needle);
+
+  // needle counter-weight (small stub opposite direction)
+  const tail = new THREE.Mesh(
+    new THREE.BoxGeometry(0.06, 0.18, 0.015),
+    matNeedleHub
+  );
+  tail.position.set(0, -0.08, 0);
+  needlePivot.add(tail);
+
+  // hub cap
+  const hub = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.08, 0.1, 0.04, 24),
+    matNeedleHub
+  );
+  hub.rotation.x = Math.PI / 2;
+  hub.position.z = depth * 0.5;
+  g.add(hub);
+
+  // small bolt on hub
+  const bolt = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.02, 0.02, 0.03, 16),
+    matBezel
+  );
+  bolt.rotation.x = Math.PI / 2;
+  bolt.position.z = depth * 0.55;
+  g.add(bolt);
+
+  // warm amber glow disc behind the dial, sells backlit feel
+  const backglow = new THREE.Mesh(
+    new THREE.CircleGeometry(radius * 0.9, 48),
+    new THREE.MeshBasicMaterial({
+      color: COL_AMBER.clone(),
+      transparent: true,
+      opacity: 0.06,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+  );
+  backglow.position.z = -depth * 0.2;
+  g.add(backglow);
+
+  return {
+    group: g,
+    needlePivot,
+    dialMat,
+    needleMat,
+    sweepDeg,
+    startDeg,
+    radius,
+  };
+}
+
+// ---------- BUILD TACH (LEFT) AND SPEEDO (RIGHT) ----------
+const tachDialTex = makeDialTexture({
+  label: 'CALLS PER HOUR',
+  unit: 'LEADS LIVE',
+  brand: 'BRWNGTN TACH',
+  max: 8,
+  startDeg: -225,
+  endDeg: 45,
+  redlineStart: 0.72,
+  amberStart: 0.48,
+});
+const speedDialTex = makeDialTexture({
+  label: 'JOBS PER WEEK',
+  unit: 'PAID VISITS',
+  brand: 'BRWNGTN SPD',
+  max: 12,
+  startDeg: -225,
+  endDeg: 45,
+  redlineStart: 0.82,
+  amberStart: 0.55,
+});
+
+const tach = makeGauge({
+  x: -1.7, y: 0.15, z: 0.25,
+  radius: 0.82, depth: 0.2,
+  dialTex: tachDialTex,
+});
+const speedo = makeGauge({
+  x: 1.7, y: 0.15, z: 0.25,
+  radius: 0.82, depth: 0.2,
+  dialTex: speedDialTex,
+});
+
+// ---------- CENTER DIAGNOSTIC CLUSTER ----------
+// Plate with a live canvas texture. This is the heart of the piece:
+// it reads SITE HEALTH with a RED/AMBER/GREEN dot and three rows.
+// Flanked by three traffic-light lenses below, which light in sync
+// with the state. This is the HOTR payoff: the check-engine light
+// replaced by a traffic light.
+const centerCluster = new THREE.Group();
+centerCluster.position.set(0, 0.15, 0.22);
+dashGroup.add(centerCluster);
+
+// plate frame
+(() => {
+  const frame = new THREE.Mesh(
+    new RoundedBoxGeometry(1.65, 1.0, 0.06, 3, 0.05),
+    matBezel
+  );
+  frame.position.z = 0;
+  centerCluster.add(frame);
+
+  const inner = new THREE.Mesh(
+    new RoundedBoxGeometry(1.55, 0.92, 0.03, 2, 0.045),
+    matGaugeFace
+  );
+  inner.position.z = 0.035;
+  centerCluster.add(inner);
+})();
+
+// live canvas for center cluster
+const centerCanvas = document.createElement('canvas');
+centerCanvas.width = 1024;
+centerCanvas.height = 640;
+const centerCtx = centerCanvas.getContext('2d');
+const centerTex = new THREE.CanvasTexture(centerCanvas);
+centerTex.colorSpace = THREE.SRGBColorSpace;
+centerTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
+const centerPanel = new THREE.Mesh(
+  new THREE.PlaneGeometry(1.5, 0.88),
+  new THREE.MeshStandardMaterial({
+    map: centerTex,
+    emissive: 0xffffff,
+    emissiveMap: centerTex,
+    emissiveIntensity: 0.85,
+    transparent: true,
+    metalness: 0.0,
+    roughness: 0.8,
+  })
+);
+centerPanel.position.z = 0.06;
+centerCluster.add(centerPanel);
+
+// glass cover
+(() => {
+  const glass = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.52, 0.9),
+    new THREE.MeshPhysicalMaterial({
+      color: '#0c0e11',
+      transparent: true,
+      opacity: 0.22,
+      roughness: 0.06,
+      metalness: 0.0,
+      transmission: 0.15,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.04,
+    })
+  );
+  glass.position.z = 0.08;
+  centerCluster.add(glass);
+})();
+
+// three traffic-light lenses below the cluster: red, amber, green
+const tlLenses = [];
+const tlLights = [];
+const tlHalos  = [];
+const TL_CFG = [
+  { name: 'red',   x: -0.38, color: COL_RED },
+  { name: 'amber', x:  0.00, color: COL_AMB },
+  { name: 'green', x:  0.38, color: COL_GRN },
+];
+
+TL_CFG.forEach(cfg => {
+  const lg = new THREE.Group();
+  lg.position.set(cfg.x, -0.62, 0.04);
+  centerCluster.add(lg);
+
+  // bezel
+  const bz = new THREE.Mesh(
+    new THREE.TorusGeometry(0.14, 0.018, 12, 36),
+    matBezel
+  );
+  bz.position.z = 0.01;
+  lg.add(bz);
+
+  // gasket
+  const gk = new THREE.Mesh(
+    new THREE.TorusGeometry(0.125, 0.01, 10, 28),
+    new THREE.MeshStandardMaterial({ color: '#08090b', roughness: 0.95, metalness: 0.05 })
+  );
+  gk.position.z = 0.014;
+  lg.add(gk);
+
+  // lens disc
+  const discMat = new THREE.MeshStandardMaterial({
+    color: cfg.color.clone(),
+    emissive: cfg.color.clone(),
+    emissiveIntensity: 0,
+    roughness: 0.22,
+  });
+  const disc = new THREE.Mesh(
+    new THREE.CircleGeometry(0.11, 40),
+    discMat
+  );
+  disc.position.z = 0.018;
+  lg.add(disc);
+
+  // raised dome
+  const domeMat = new THREE.MeshPhysicalMaterial({
+    color: cfg.color.clone(),
+    emissive: cfg.color.clone(),
+    emissiveIntensity: 0,
+    metalness: 0.0,
+    roughness: 0.08,
+    transmission: 0.55,
+    thickness: 0.05,
+    ior: 1.45,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.04,
+  });
+  const dome = new THREE.Mesh(
+    new THREE.SphereGeometry(0.115, 24, 16, 0, Math.PI * 2, 0, Math.PI * 0.48),
+    domeMat
+  );
+  dome.rotation.x = -Math.PI / 2;
+  dome.position.z = 0.022;
+  lg.add(dome);
+
+  // halo billboard
+  const haloMat = new THREE.MeshBasicMaterial({
+    color: cfg.color.clone(),
+    transparent: true,
+    opacity: 0,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+  const halo = new THREE.Mesh(new THREE.CircleGeometry(0.42, 32), haloMat);
+  halo.position.z = 0;
+  lg.add(halo);
+
+  // point light contribution
+  const pl = new THREE.PointLight(cfg.color.clone(), 0, 4, 1.8);
+  pl.position.z = 0.3;
+  lg.add(pl);
+
+  tlLenses.push({ group: lg, discMat, domeMat, haloMat, pl, name: cfg.name, color: cfg.color });
+  tlLights.push(pl);
+  tlHalos.push(haloMat);
+});
+
+// small etched label under each lens
+const labels = ['RED', 'AMB', 'GRN'];
+TL_CFG.forEach((cfg, i) => {
+  const tex = (() => {
+    const c = document.createElement('canvas');
+    c.width = 128; c.height = 48;
+    const g = c.getContext('2d');
+    g.clearRect(0, 0, 128, 48);
+    g.fillStyle = 'rgba(201,168,76,.7)';
+    g.font = '600 22px "JetBrains Mono", monospace';
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(labels[i], 64, 24);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  })();
+  const plane = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.2, 0.06),
+    new THREE.MeshBasicMaterial({ map: tex, transparent: true, depthWrite: false })
+  );
+  plane.position.set(cfg.x, -0.8, 0.05);
+  centerCluster.add(plane);
+});
+
+// ---------- STEERING WHEEL (bottom-foreground, partial) ----------
+// We only show the top arc of the wheel, slightly off-center, to
+// reinforce driver POV without covering the cluster.
+(() => {
+  const wheelGroup = new THREE.Group();
+  wheelGroup.position.set(0.1, -1.55, 1.0);
+  wheelGroup.rotation.x = -0.6;
+  scene.add(wheelGroup);
+
+  // outer rim
+  const rim = new THREE.Mesh(
+    new THREE.TorusGeometry(1.3, 0.09, 18, 64),
+    matLeather
+  );
+  wheelGroup.add(rim);
+
+  // inner brushed liner
+  const liner = new THREE.Mesh(
+    new THREE.TorusGeometry(1.3, 0.02, 10, 64),
+    matSpoke
+  );
+  liner.position.z = 0.045;
+  wheelGroup.add(liner);
+
+  // stitching ring, tiny gold highlights
+  (() => {
+    const count = 80;
+    for (let i = 0; i < count; i++) {
+      const ang = (i / count) * Math.PI * 2;
+      const s = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.02, 0.012),
+        matStitch
+      );
+      s.position.set(Math.cos(ang) * 1.3, Math.sin(ang) * 1.3, 0.05);
+      s.rotation.z = ang + Math.PI / 2;
+      wheelGroup.add(s);
+    }
+  })();
+
+  // three spokes: left, right, bottom
+  const spokeGeo = new RoundedBoxGeometry(0.22, 1.1, 0.08, 2, 0.04);
+  [-1, 0, 1].forEach(dir => {
+    if (dir === 0) return; // bottom spoke is separate
+    const spoke = new THREE.Mesh(spokeGeo, matSpoke);
+    spoke.position.set(dir * 0.6, 0.0, -0.02);
+    spoke.rotation.z = dir * 0.6;
+    wheelGroup.add(spoke);
+  });
+  const bottomSpoke = new THREE.Mesh(
+    new RoundedBoxGeometry(0.22, 1.0, 0.08, 2, 0.04),
+    matSpoke
+  );
+  bottomSpoke.position.set(0, -0.6, -0.02);
+  wheelGroup.add(bottomSpoke);
+
+  // center hub
+  const hubBase = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.42, 0.45, 0.1, 48),
+    matDash
+  );
+  hubBase.rotation.x = Math.PI / 2;
+  hubBase.position.z = -0.02;
+  wheelGroup.add(hubBase);
+
+  const hubFace = new THREE.Mesh(
+    new THREE.CircleGeometry(0.4, 48),
+    matLeather
+  );
+  hubFace.position.z = 0.04;
+  wheelGroup.add(hubFace);
+
+  // brass brand disc in center of hub
+  const disc = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.22, 0.22, 0.02, 48),
+    matBrass
+  );
+  disc.rotation.x = Math.PI / 2;
+  disc.position.z = 0.06;
+  wheelGroup.add(disc);
+
+  // brand mini traffic light engraved on disc
+  const brandTex = (() => {
+    const c = document.createElement('canvas');
+    c.width = 256; c.height = 256;
+    const g = c.getContext('2d');
+    g.clearRect(0, 0, 256, 256);
+
+    // radial base
+    const grad = g.createRadialGradient(128, 128, 30, 128, 128, 128);
+    grad.addColorStop(0, '#e0c074');
+    grad.addColorStop(1, '#8f7240');
+    g.fillStyle = grad;
+    g.beginPath(); g.arc(128, 128, 118, 0, Math.PI * 2); g.fill();
+
+    // mini traffic-light silhouette
+    g.fillStyle = '#1a1308';
+    roundRect(g, 102, 58, 52, 140, 10);
+    g.fill();
+    // 3 lenses
+    g.fillStyle = '#ff4a38';
+    g.beginPath(); g.arc(128, 82, 13, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#ffb020';
+    g.beginPath(); g.arc(128, 128, 13, 0, Math.PI * 2); g.fill();
+    g.fillStyle = '#21d66a';
+    g.beginPath(); g.arc(128, 174, 13, 0, Math.PI * 2); g.fill();
+
+    // circular text
+    const text = 'BREWINGTON \u00B7 DIGITAL \u00B7 ';
+    g.save();
+    g.translate(128, 128);
+    g.fillStyle = '#1a1308';
+    g.font = '600 16px "JetBrains Mono", monospace';
+    g.textAlign = 'center'; g.textBaseline = 'middle';
+    const r = 100;
+    for (let i = 0; i < text.length; i++) {
+      const a = (i / text.length) * Math.PI * 2 - Math.PI / 2;
+      g.save();
+      g.rotate(a + Math.PI / 2);
+      g.translate(0, -r);
+      g.fillText(text[i], 0, 0);
+      g.restore();
+    }
+    g.restore();
+
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    return t;
+  })();
+  const discFace = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.42, 0.42),
+    new THREE.MeshStandardMaterial({ map: brandTex, metalness: 0.9, roughness: 0.3 })
+  );
+  discFace.position.z = 0.072;
+  wheelGroup.add(discFace);
+})();
+
+// ---------- LIGHTING ----------
+// warm amber dash backlight (spilling from gauges), fill and rim
+const amberKey = new THREE.SpotLight('#ffc77a', 3.2, 10, Math.PI * 0.5, 0.5, 1.4);
+amberKey.position.set(0, 0.4, 0.4);
+amberKey.target.position.set(0, -0.3, -3.0);
+scene.add(amberKey);
+scene.add(amberKey.target);
+
+// low ambient so deep shadows stay moody
+scene.add(new THREE.AmbientLight('#0a0d14', 0.35));
+
+// cool teal rim from the right (an implied far streetlight)
+const rimRight = new THREE.DirectionalLight('#5fd0c0', 0.45);
+rimRight.position.set(3, 2, 2);
+scene.add(rimRight);
+
+// warm kick from below (implied footwell LED)
+const kick = new THREE.PointLight('#ffb050', 0.7, 5, 1.6);
+kick.position.set(0, -1.6, 0.8);
+scene.add(kick);
+
+// ---------- FAR HORIZON HAZE ----------
+// A subtle plane with a gradient, far beyond the dash, suggesting a
+// road horizon at the edge of the cabin, no scene shown.
+(() => {
+  const c = document.createElement('canvas');
+  c.width = 1024; c.height = 256;
+  const g = c.getContext('2d');
+  g.clearRect(0, 0, 1024, 256);
+  const grad = g.createLinearGradient(0, 0, 0, 256);
+  grad.addColorStop(0, 'rgba(0,0,0,0)');
+  grad.addColorStop(0.45, 'rgba(201,168,76,.05)');
+  grad.addColorStop(0.7, 'rgba(45,212,192,.04)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = grad;
+  g.fillRect(0, 0, 1024, 256);
+  // faint distant pinpoints
+  for (let i = 0; i < 40; i++) {
+    g.fillStyle = `rgba(255,200,120,${0.15 + Math.random() * 0.25})`;
+    g.beginPath();
+    g.arc(Math.random() * 1024, 100 + Math.random() * 60, Math.random() * 1.4 + 0.3, 0, Math.PI * 2);
+    g.fill();
+  }
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const plane = new THREE.Mesh(
+    new THREE.PlaneGeometry(14, 3.5),
+    new THREE.MeshBasicMaterial({
+      map: tex,
+      transparent: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    })
+  );
+  plane.position.set(0, 0.6, -10);
+  scene.add(plane);
+})();
+
+// ---------- WINDSHIELD REFLECTION VEIL ----------
+// A faint, camera-facing plane with a slow-moving gradient to fake
+// the glass reflection over the scene.
+(() => {
+  const c = document.createElement('canvas');
+  c.width = 256; c.height = 512;
+  const g = c.getContext('2d');
+  const grad = g.createLinearGradient(0, 0, 0, 512);
+  grad.addColorStop(0, 'rgba(234,226,212,.06)');
+  grad.addColorStop(0.3, 'rgba(234,226,212,.02)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  g.fillStyle = grad; g.fillRect(0, 0, 256, 512);
+  const tex = new THREE.CanvasTexture(c);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  const plane = new THREE.Mesh(
+    new THREE.PlaneGeometry(10, 5),
+    new THREE.MeshBasicMaterial({
+      map: tex,
+      transparent: true,
+      depthWrite: false,
+      opacity: 0.7,
+      blending: THREE.AdditiveBlending,
+    })
+  );
+  plane.position.set(0, 0.9, -0.5);
+  scene.add(plane);
+})();
+
+// ---------- DUST MOTES ----------
+// Only a few, in the light path.
+const dust = (() => {
+  const count = isMobile ? 50 : 110;
+  const positions = new Float32Array(count * 3);
+  for (let i = 0; i < count; i++) {
+    positions[i * 3]     = (Math.random() - 0.5) * 6;
+    positions[i * 3 + 1] = (Math.random() - 0.2) * 2.5 - 0.5;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 3 + 0.2;
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const mat = new THREE.PointsMaterial({
+    color: '#f2d89c',
+    size: 0.02,
+    sizeAttenuation: true,
+    transparent: true,
+    opacity: 0.35,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+  });
+  const points = new THREE.Points(geo, mat);
+  scene.add(points);
+  return { points, geo, count };
+})();
+
+// ---------- POST PROCESSING ----------
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloomStrength = isMobile ? 0.5 : 0.85;
+const bloomPass = new UnrealBloomPass(
+  new THREE.Vector2(window.innerWidth, window.innerHeight),
+  bloomStrength, 0.35, 0.18
+);
+if (!isSmall) composer.addPass(bloomPass);
+composer.addPass(new OutputPass());
+
+// ---------- SIGNAL CYCLE + GAUGE TARGETS ----------
+// Red/amber/green cycle controls BOTH the center cluster state AND
+// the positions the tach/speedo needles sweep to.
+const CYCLE = [
+  { name: 'red',   dur: 4800,
+    tachFrac: 0.10, speedFrac: 0.12, url: 'summit-hvac-phoenix.com',
+    load: '6.2s', loadFrac: 0.22, loadCol: '#ff4a38',
+    mobile: 'BROKEN', mobileFrac: 0.25, mobileCol: '#ff4a38',
+    reviews: 'STALE 14MO', reviewsFrac: 0.18, reviewsCol: '#ff4a38',
+  },
+  { name: 'amber', dur: 1800,
+    tachFrac: 0.45, speedFrac: 0.5,  url: 'summit-hvac-phoenix.com',
+    load: '3.8s', loadFrac: 0.55, loadCol: '#ffb020',
+    mobile: 'FIXED', mobileFrac: 0.65, mobileCol: '#ffb020',
+    reviews: 'FRESH 2MO', reviewsFrac: 0.55, reviewsCol: '#ffb020',
+  },
+  { name: 'green', dur: 4400,
+    tachFrac: 0.86, speedFrac: 0.84, url: 'summit-hvac-phoenix.com',
+    load: '1.1s', loadFrac: 0.92, loadCol: '#21d66a',
+    mobile: 'CLEAN', mobileFrac: 0.96, mobileCol: '#21d66a',
+    reviews: 'FRESH 2D', reviewsFrac: 0.94, reviewsCol: '#21d66a',
+  },
+];
+let cycleIdx = 0;
+let cycleStart = performance.now();
+
+function applyCycle(i) {
+  const c = CYCLE[i];
+  readout.dataset.state = c.name;
+  readoutState.textContent =
+    c.name === 'red' ? 'Red' : c.name === 'amber' ? 'Amber' : 'Green';
+
+  // target fractions for needle swing
+  tach.targetFrac   = c.tachFrac;
+  speedo.targetFrac = c.speedFrac;
+
+  // traffic-light lens targets
+  tlLenses.forEach(l => {
+    const on = l.name === c.name;
+    l.targetOn = on ? 1 : 0;
+  });
+}
+
+// current needle physics
+tach.currentFrac = 0;
+tach.vel = 0;
+speedo.currentFrac = 0;
+speedo.vel = 0;
+
+tlLenses.forEach(l => { l.currentOn = 0; l.targetOn = 0; });
+
+applyCycle(0);
+
+// render center cluster immediately
+renderCenterNow();
+
+function renderCenterNow() {
+  const c = CYCLE[cycleIdx];
+  drawCenter(c.name, {
+    url: c.url,
+    load: c.load, loadFrac: c.loadFrac, loadCol: c.loadCol,
+    mobile: c.mobile, mobileFrac: c.mobileFrac, mobileCol: c.mobileCol,
+    reviews: c.reviews, reviewsFrac: c.reviewsFrac, reviewsCol: c.reviewsCol,
+  }, 0);
+}
+
+function drawCenter(state, data, t) {
+  // We re-draw into the existing canvas + flip the centerTex update flag.
+  const w = centerCanvas.width, h = centerCanvas.height;
+  const g = centerCtx;
+  g.clearRect(0, 0, w, h);
+
+  // background
+  const ground = g.createLinearGradient(0, 0, 0, h);
+  ground.addColorStop(0, '#0d0f13');
+  ground.addColorStop(1, '#05070b');
+  g.fillStyle = ground;
+  roundRect(g, 20, 20, w - 40, h - 40, 28);
+  g.fill();
+
+  g.strokeStyle = 'rgba(234,226,212,.1)';
+  g.lineWidth = 2;
+  roundRect(g, 20, 20, w - 40, h - 40, 28);
+  g.stroke();
+
+  g.fillStyle = 'rgba(255,176,64,.03)';
+  for (let y = 34; y < h - 34; y += 4) g.fillRect(34, y, w - 68, 1);
+
+  g.fillStyle = 'rgba(201,168,76,.12)';
+  g.fillRect(40, 40, w - 80, 56);
+  g.font = `600 26px "JetBrains Mono", monospace`;
+  g.fillStyle = '#c9a84c';
+  g.textBaseline = 'middle';
+  g.textAlign = 'left';
+  g.fillText('SITE HEALTH', 60, 68);
+
+  g.font = `500 18px "JetBrains Mono", monospace`;
+  g.fillStyle = 'rgba(234,226,212,.55)';
+  g.textAlign = 'right';
+  g.fillText('LIVE', w - 78, 68);
+  const blinkOn = (Math.floor(t * 2) % 2) === 0;
+  g.beginPath();
+  g.fillStyle = blinkOn ? '#c9a84c' : 'rgba(201,168,76,.25)';
+  g.arc(w - 56, 68, 5, 0, Math.PI * 2);
+  g.fill();
+
+  const col = state === 'red' ? '#ff4a38' : state === 'amber' ? '#ffb020' : '#21d66a';
+  const tint = state === 'red' ? 'rgba(255,74,56,.14)'
+             : state === 'amber' ? 'rgba(255,176,32,.14)'
+             : 'rgba(33,214,106,.14)';
+  g.fillStyle = tint;
+  g.fillRect(40, 110, w - 80, 150);
+  g.strokeStyle = col;
+  g.lineWidth = 2;
+  g.strokeRect(40, 110, w - 80, 150);
+
+  const pulse = 0.5 + 0.5 * Math.sin(t * 4);
+
+  g.save();
+  g.translate(140, 185);
+  g.strokeStyle = col;
+  g.lineWidth = 4;
+  g.beginPath(); g.arc(0, 0, 52, 0, Math.PI * 2); g.stroke();
+  g.fillStyle = col;
+  g.globalAlpha = 0.75 + pulse * 0.25;
+  g.beginPath(); g.arc(0, 0, 32 + pulse * 4, 0, Math.PI * 2); g.fill();
+  g.globalAlpha = 1;
+  g.restore();
+
+  g.font = `700 62px "Space Grotesk", system-ui`;
+  g.fillStyle = col;
+  g.textAlign = 'left';
+  g.textBaseline = 'middle';
+  g.fillText(state === 'red' ? 'RED' : state === 'amber' ? 'AMBER' : 'GREEN', 220, 175);
+
+  g.font = `500 18px "JetBrains Mono", monospace`;
+  g.fillStyle = 'rgba(234,226,212,.55)';
+  g.fillText(
+    state === 'red' ? 'BUSINESS LOSING JOBS'
+    : state === 'amber' ? 'LEAKING LEADS'
+    : 'SYSTEMS ROLLING',
+    220, 214
+  );
+
+  g.font = `500 18px "JetBrains Mono", monospace`;
+  g.fillStyle = 'rgba(234,226,212,.45)';
+  g.textAlign = 'left';
+  g.fillText('URL / ' + data.url, 60, 300);
+
+  g.strokeStyle = 'rgba(234,226,212,.1)';
+  g.lineWidth = 1;
+  g.beginPath(); g.moveTo(60, 318); g.lineTo(w - 60, 318); g.stroke();
+
+  const rows = [
+    ['LOAD',    data.load,    data.loadFrac,    data.loadCol],
+    ['MOBILE',  data.mobile,  data.mobileFrac,  data.mobileCol],
+    ['REVIEWS', data.reviews, data.reviewsFrac, data.reviewsCol],
+  ];
+  let y = 358;
+  rows.forEach(([k, v, frac, c1]) => {
+    g.font = `500 20px "JetBrains Mono", monospace`;
+    g.textAlign = 'left';
+    g.fillStyle = 'rgba(234,226,212,.55)';
+    g.fillText(k, 60, y);
+
+    g.textAlign = 'right';
+    g.fillStyle = c1;
+    g.fillText(v, w - 60, y);
+
+    g.fillStyle = 'rgba(234,226,212,.08)';
+    g.fillRect(60, y + 12, w - 120, 8);
+    g.fillStyle = c1;
+    g.fillRect(60, y + 12, (w - 120) * frac, 8);
+    y += 62;
+  });
+
+  g.font = `500 14px "JetBrains Mono", monospace`;
+  g.fillStyle = 'rgba(201,168,76,.55)';
+  g.textAlign = 'left';
+  g.fillText('BRWNGTN / HOMIES ON THE ROAD', 60, h - 40);
+  g.textAlign = 'right';
+  g.fillStyle = 'rgba(234,226,212,.35)';
+  g.fillText('DIAG 01 / AZ 2026', w - 60, h - 40);
+
+  centerTex.needsUpdate = true;
+}
+
+// ---------- MOUSE PARALLAX ----------
+const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
+window.addEventListener('mousemove', (e) => {
+  mouse.tx = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.ty = (e.clientY / window.innerHeight) * 2 - 1;
+});
+window.addEventListener('touchmove', (e) => {
+  if (!e.touches[0]) return;
+  mouse.tx = (e.touches[0].clientX / window.innerWidth) * 2 - 1;
+  mouse.ty = (e.touches[0].clientY / window.innerHeight) * 2 - 1;
+}, { passive: true });
+
+// ---------- RESIZE ----------
+window.addEventListener('resize', () => {
+  const w = window.innerWidth, h = window.innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h);
+  composer.setSize(w, h);
+  bloomPass.setSize(w, h);
+});
+
+// ---------- ANIMATE ----------
+const clock = new THREE.Clock();
+let last = performance.now();
+let lastCenterFrame = 0;
+
+// frac 0..1 -> needle rotation.z in radians. The dial texture draws
+// its first tick at canvas angle (startDeg+90), which after the
+// texture-to-plane Y flip appears at world angle -(startDeg+90)
+// measured from +Y counter-clockwise. Our needle starts pointing +Y,
+// and three.js rotation.z is counter-clockwise positive. So to align
+// the needle tip with the painted tick at fraction f we need:
+//   rot = -(startDeg + 90 + sweepDeg * f)
+// That puts frac=0 at lower-left and frac=1 at lower-right for a
+// classic -225 -> +45 sweep.
+function fracToAngle(frac, startDeg = -225, sweepDeg = 270) {
+  const deg = -(startDeg + 90 + sweepDeg * frac);
+  return (deg * Math.PI) / 180;
+}
+
+function animate() {
+  const now = performance.now();
+  const dt = Math.min(0.05, (now - last) / 1000);
+  last = now;
+  const t = clock.getElapsedTime();
+
+  // advance cycle
+  const elapsed = now - cycleStart;
+  if (elapsed > CYCLE[cycleIdx].dur) {
+    cycleIdx = (cycleIdx + 1) % CYCLE.length;
+    cycleStart = now;
+    applyCycle(cycleIdx);
+  }
+
+  // needle physics: spring toward target fraction with light damping
+  const springNeedle = (gauge) => {
+    // small live jitter on top of the target so needle feels analog
+    const jitter = Math.sin(t * 3 + gauge.radius * 17) * 0.008;
+    const target = gauge.targetFrac + jitter;
+    const k = 4.6;    // spring
+    const c = 2.0;    // damping
+    const accel = (target - gauge.currentFrac) * k - gauge.vel * c;
+    gauge.vel += accel * dt;
+    gauge.currentFrac += gauge.vel * dt;
+
+    const ang = fracToAngle(gauge.currentFrac, gauge.startDeg, gauge.sweepDeg);
+    // in our needle geometry, 0 rad points up. startDeg -225 puts it down-left.
+    gauge.needlePivot.rotation.z = ang;
+
+    // needle emissive throbs slightly, warmer when nearer redline
+    const emis = 0.18 + Math.max(0, gauge.currentFrac - 0.5) * 1.2;
+    gauge.needleMat.emissiveIntensity = emis;
+
+    // dial backlight pulse with cycle state (ambient warmth)
+    gauge.dialMat.emissiveIntensity = 0.22 + Math.sin(t * 0.8) * 0.02;
+  };
+  springNeedle(tach);
+  springNeedle(speedo);
+
+  // traffic light lens ease
+  const flicker = 0.95 + Math.sin(t * 22) * 0.015 + (Math.random() - 0.5) * 0.02;
+  tlLenses.forEach(l => {
+    const target = l.targetOn;
+    l.currentOn += (target - l.currentOn) * 0.16;
+    const onWithFlicker = l.currentOn * (target > 0.5 ? flicker : 1);
+    l.discMat.emissiveIntensity = onWithFlicker * 2.2;
+    l.domeMat.emissiveIntensity = onWithFlicker * 1.2;
+    l.haloMat.opacity = onWithFlicker * 0.65;
+    l.pl.intensity = onWithFlicker * 1.8;
+  });
+
+  // mouse parallax: subtle camera shift (like leaning your head)
+  mouse.x += (mouse.tx - mouse.x) * 0.05;
+  mouse.y += (mouse.ty - mouse.y) * 0.05;
+
+  if (!prefersReduce) {
+    camera.position.x = mouse.x * 0.18;
+    camera.position.y = 0.15 + mouse.y * -0.1;
+    // tiny breathing bob
+    camera.position.z = 1.8 + Math.sin(t * 0.5) * 0.02;
+  }
+  camera.lookAt(mouse.x * 0.35, -0.1 + mouse.y * -0.08, -4);
+
+  // dust drift
+  const dpos = dust.geo.attributes.position.array;
+  for (let i = 0; i < dust.count; i++) {
+    dpos[i * 3 + 1] += Math.sin(t * 0.35 + i) * 0.0006;
+    dpos[i * 3]     += Math.cos(t * 0.3 + i * 1.3) * 0.0008;
+  }
+  dust.geo.attributes.position.needsUpdate = true;
+
+  // Re-render the center cluster canvas a few times per second
+  if (now - lastCenterFrame > 120) {
+    const c = CYCLE[cycleIdx];
+    drawCenter(c.name, {
+      url: c.url,
+      load: c.load, loadFrac: c.loadFrac, loadCol: c.loadCol,
+      mobile: c.mobile, mobileFrac: c.mobileFrac, mobileCol: c.mobileCol,
+      reviews: c.reviews, reviewsFrac: c.reviewsFrac, reviewsCol: c.reviewsCol,
+    }, t);
+    lastCenterFrame = now;
+  }
+
+  composer.render();
+  requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(() => {
+  composer.render();
+  setTimeout(() => loading.classList.add('hide'), 280);
+  animate();
+});
+</script>
+
+</body>
+</html>

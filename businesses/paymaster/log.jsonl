@@ -1,0 +1,5 @@
+{"level":30,"time":1776394353678,"agent":"paymaster","opts":{"mode":"init"},"msg":"tick start"}
+{"level":30,"time":1776394353679,"agent":"paymaster","msg":"init tick: seeding ledger and budgets"}
+{"level":30,"time":1776394353682,"agent":"paymaster","path":"/workspaces/local-biz-pipeline/businesses/paymaster/ledger.json","msg":"ledger seeded"}
+{"level":30,"time":1776394353682,"agent":"paymaster","path":"/workspaces/local-biz-pipeline/businesses/paymaster/budgets.json","msg":"budgets seeded"}
+{"level":30,"time":1776394353683,"agent":"paymaster","path":"/workspaces/local-biz-pipeline/businesses/paymaster/24-7-deploy-plan.md","msg":"deploy plan seeded"}

@@ -1,0 +1,6 @@
+{"level":30,"time":1776394354145,"agent":"scout","msg":"tick start"}
+{"level":30,"time":1776394354146,"agent":"scout","msg":"first tick dry run: generating HVAC Phoenix-metro sample"}
+{"level":30,"time":1776394354152,"agent":"scout","total_rows":37,"hvac_count":5,"msg":"filtered hvac prospects"}
+{"level":30,"time":1776394354153,"agent":"scout","path":"/workspaces/local-biz-pipeline/businesses/scout/products/phoenix-metro-hvac-v1.csv","rows":5,"msg":"wrote product csv"}
+{"level":30,"time":1776394354153,"agent":"scout","path":"/workspaces/local-biz-pipeline/businesses/scout/products/phoenix-metro-hvac-listing-v1.md","msg":"wrote listing copy"}
+{"level":30,"time":1776394354707,"agent":"scout","msg":"escalation sent"}

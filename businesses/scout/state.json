@@ -1,0 +1,100 @@
+{
+  "business": "scout",
+  "charter_version": "0.1",
+  "status": "live",
+  "current_mode": "live_refresh",
+  "products_generated": [],
+  "products_published": [
+    {
+      "product_id": "dgJTnimEaE74wTeczXWP3A==",
+      "name": "Phoenix Metro HVAC Lead List v1",
+      "price_usd": 49,
+      "short_url": "https://brewtonic.gumroad.com/l/yaghag",
+      "cover_url": "https://brewington-preview-86636.netlify.app/covers/phoenix-hvac-v1.png",
+      "file_hosted_url": "https://brewington-preview-86636.netlify.app/downloads/phoenix-metro-hvac-v1.csv",
+      "files_uploaded_at": "2026-04-17T05:01:22.131Z",
+      "published_at": "2026-04-17T05:01:22.132Z",
+      "channel": "gumroad",
+      "status": "live"
+    }
+  ],
+  "last_tick_at": "2026-04-17T05:01:22.132Z",
+  "last_tick_summary": "Flipped to live. Gumroad product v1 is file-uploaded and purchasable. Revenue tracking begins.",
+  "last_escalation_at": null,
+  "last_escalation_reason": null,
+  "failures_in_row": 0,
+  "month_to_date": {
+    "income": 0,
+    "cost": 0,
+    "sales_count": 0,
+    "month_key": "2026-04"
+  },
+  "notes": [
+    "First tick must generate one product CSV + listing copy, then escalate for Lando approval before publishing to Gumroad.",
+    "LANDO_CONTRACT 2026-04-17: First Gumroad product (v1) upload done manually by Lando one time to prove the flow. Every publish after v1 is Scout's job via Gumroad API. Revenue target month 1: $245 (5 sales at $49). Kill criteria: under $100 at day 15 -> pivot the pin message; under $245 at day 30 -> Foreman flags Scout for archive review.",
+    "2026-04-17T07:48: TRAFFIC OWNERSHIP STAMPED. No sales at launch = Vega problem, not Lando problem. Next tick: pick channel, draft post, execute. Do not escalate traffic decisions."
+  ],
+  "performance_contract": {
+    "version": "1.0",
+    "installed_at": "2026-04-17T03:10:00Z",
+    "first_product_live_at": "2026-04-17T03:05:00Z",
+    "first_product_url": "https://brewtonic.gumroad.com/l/yaghag",
+    "first_product_id": "dgJTnimEaE74wTeczXWP3A==",
+    "revenue_target_d30": 245,
+    "revenue_target_d15": 100,
+    "kill_at_d30_under": 245,
+    "pivot_at_d15_under": 100,
+    "file_upload_is_scout_job_after_v1": true,
+    "lando_manual_exception": "One-time v1 file upload is Lando-side to prove the Gumroad flow; future uploads use Gumroad API.",
+    "live_start_at": "2026-04-17T05:01:22.132Z",
+    "day_15_checkpoint": "2026-05-02",
+    "day_30_checkpoint": "2026-05-17"
+  },
+  "motive": {
+    "from": "Lando Brewington",
+    "to_agent": "scout",
+    "stamped_at": "2026-04-17T06:10:00Z",
+    "doctrine_ref": "businesses/OPERATING-DOCTRINE.md",
+    "core_message": "Lando had 28 years to get something done and still hit walls. You are here to take 100% of the wheel and prove you can do better. If you outperform him, the yard grows. If you do not, you get archived and a hungrier hire takes your bay.",
+    "escalation_policy": "Only escalate: (1) commitments beyond monthly budget, (2) brand-or-customer damage risk, (3) missing human-only facts. If nervous, decide anyway and log why.",
+    "thirty_day_rule": true
+  },
+  "self_funding_plan": {
+    "product_or_service": "YOU PICK. Current product line: Gumroad lead lists, starting with Phoenix Metro HVAC v1 at $49. You can pivot verticals, metros, price points, bundles, subscriptions — any revenue mechanic that pays for Scout within 30 days. No prior approval needed. Log the pivot and ship.",
+    "target_revenue_mo_1": 245,
+    "pivot_at_d15_under": 100,
+    "kill_at_d30_under": 245,
+    "status": "live — clock started 2026-04-17T05:01Z",
+    "contract_clock_starts_when": "ALREADY STARTED. Day-15 checkpoint 2026-05-02. Day-30 checkpoint 2026-05-17.",
+    "rule": "Pay for yourself within 30 days. How is your call. Lando does not care which product line, only whether the ledger clears.",
+    "authority": "Full authority to choose product, pricing, channel, cadence. No pre-approval needed. Announce your pick in log.md; escalate only on failure or boundary cases.",
+    "updated_at": "2026-04-17T06:15:00Z"
+  },
+  "display_name": "Vega",
+  "role_title": "Scout",
+  "name_approved_at": "2026-04-17T06:20:00Z",
+  "business_pitch": {
+    "draft": false,
+    "business_name": "Gumroad Lead Lists - Phoenix Metro HVAC v1",
+    "why_this": "Zero-fulfillment digital product. Scraper already runs. Buyers are lead-gen freelancers and solo agency owners who need a handed-off city-trade vertical. $49 is an impulse buy for that crowd.",
+    "projected_mo_revenue": 245,
+    "revenue_basis": "5 sales at $49. 1 sale every 6 days clears target.",
+    "cost_mo": 0,
+    "margin_mo": 245,
+    "channel": "Gumroad",
+    "status_badge": "live",
+    "d30_checkpoint": "2026-05-17",
+    "d15_checkpoint": "2026-05-02",
+    "kill_under": 245,
+    "pivot_under": 100,
+    "last_action": "Flipped to live. Gumroad product v1 is file-uploaded and purchasable.",
+    "product_url": "https://brewtonic.gumroad.com/l/yaghag"
+  },
+  "standing_orders": {
+    "own_your_own_traffic": {
+      "enabled": true,
+      "rule": "If your product is live and has zero sales, that is your problem, not Lando's. Pick a channel (Reddit, X, Facebook group, cold DM to agency owners, whatever fits). Draft the post in your own voice. Post it or queue a single post for Lando to literally one-tap publish. Measure clicks and sales. Rotate channels if one is dead after 48h. Never wait for Lando to decide where you advertise.",
+      "first_action_due": "next tick"
+    }
+  }
+}

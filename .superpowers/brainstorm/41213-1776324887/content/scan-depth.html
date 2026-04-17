@@ -1,0 +1,44 @@
+<h2>How deep does the on-site scan feel?</h2>
+<p class="subtitle">The scan is simulated but needs to feel real. How far do we take it?</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Terminal Only (current style, personalized)</h3>
+      <p>The diagnostic terminal runs like it does now, but uses their URL in the command line: <code>$ brewington --scan joesplumbing.com</code>. Same categories (missed calls, online presence, website, revenue leak), but their business name appears in the results. Everything else is templated.</p>
+      <p style="color:rgba(0,212,170,0.6);font-size:13px;margin-top:8px">Fast to build. Keeps Hero structure. Feels personalized enough.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Terminal + Visual Report Card</h3>
+      <p>Terminal runs the scan, then the right side TRANSFORMS into a visual report card. Animated gauges, color-coded scores (red/yellow/green), review analysis section, revenue leak breakdown with their name on it. Like going from CLI to dashboard.</p>
+      <p style="color:rgba(0,212,170,0.6);font-size:13px;margin-top:8px">More impressive. The transformation moment is dramatic. More to build.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Full Page Takeover</h3>
+      <p>After the scan, the ENTIRE page below the nav becomes their report. Sections scroll through: Review Analysis → Website Score → Missed Call Estimate → Competitor Comparison → "Here's how we fix it" → CTA. The normal site content is hidden until they dismiss the report.</p>
+      <p style="color:rgba(0,212,170,0.6);font-size:13px;margin-top:8px">Maximum impact. Feels like a real product. Most complex to build.</p>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:32px;padding:20px;border-radius:12px;background:rgba(255,59,92,0.04);border:1px solid rgba(255,59,92,0.15)">
+  <p class="label" style="color:#ff3b5c">REVIEW ANALYSIS (included in B and C)</p>
+  <p style="color:rgba(255,255,255,0.5);font-size:14px;margin:4px 0">The review section would show:</p>
+  <ul style="color:rgba(255,255,255,0.4);font-size:13px;line-height:1.8;padding-left:20px">
+    <li>"Your Google rating: ★★★☆☆ (3.2)" with gauge</li>
+    <li>"12 total reviews — 4 are below 3 stars"</li>
+    <li>Simulated bad review quote: <em>"Called twice, nobody answered. Went with someone else."</em></li>
+    <li>Revenue impact: <em>"Each 1-star review costs ~$750/year in lost business"</em></li>
+    <li>Competitor comparison: <em>"Top competitor: 4.8 stars, 89 reviews"</em></li>
+  </ul>
+  <p style="color:rgba(255,255,255,0.35);font-size:12px;margin-top:12px">Note: On-site version uses smart templates. The real data comes in the follow-up email audit.</p>
+</div>

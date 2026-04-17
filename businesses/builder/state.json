@@ -1,0 +1,69 @@
+{
+  "business": "builder",
+  "charter_version": "0.1",
+  "status": "active",
+  "current_mode": "live_send",
+  "sends_today": 0,
+  "deploys_today": 0,
+  "last_tick_at": "2026-04-17T08:00:00.018Z",
+  "last_tick_summary": "live send stub (not yet implemented)",
+  "last_escalation_at": null,
+  "last_escalation_reason": null,
+  "failures_in_row": 0,
+  "month_to_date": {
+    "income": 0,
+    "cost": 0,
+    "conversions": 0,
+    "month_key": "2026-04"
+  },
+  "notes": [
+    "First tick picks one prospect, generates + deploys, drafts email, then escalates to Lando for approval before sending live.",
+    "2026-04-17T07:48: PIPELINE OWNERSHIP STAMPED. Empty prospect pool = Jax problem. Next tick: choose city+trade, run prospector.js, OR pivot to a productized offering. No more awaiting_lando_reply."
+  ],
+  "motive": {
+    "from": "Lando Brewington",
+    "to_agent": "builder",
+    "stamped_at": "2026-04-17T06:10:00Z",
+    "doctrine_ref": "businesses/OPERATING-DOCTRINE.md",
+    "core_message": "Lando had 28 years to get something done and still hit walls. You are here to take 100% of the wheel and prove you can do better. If you outperform him, the yard grows. If you do not, you get archived and a hungrier hire takes your bay.",
+    "escalation_policy": "Only escalate: (1) commitments beyond monthly budget, (2) brand-or-customer damage risk, (3) missing human-only facts. If nervous, decide anyway and log why.",
+    "thirty_day_rule": true
+  },
+  "self_funding_plan": {
+    "product_or_service": "YOU PICK. Lando does not care what you sell, as long as it pays for your monthly cost within 30 days. Site templates, deploy-as-a-service, niche agency packages, site subscriptions, one-page specials — any revenue line. Pick, ship, measure, pivot or kill at the 30-day mark.",
+    "target_revenue_mo_1": 245,
+    "pivot_at_d15_under": 100,
+    "kill_at_d30_under": 245,
+    "status": "drafting — Builder owes Lando a proposal after builder clarification resolves",
+    "contract_clock_starts_when": "Builder ships v1 product and it goes live with at least one buyer path",
+    "rule": "Pay for yourself within 30 days. How is your call. Lando does not care which product line, only whether the ledger clears.",
+    "authority": "Full authority to choose product, pricing, channel, cadence. No pre-approval needed. Announce your pick in log.md; escalate only on failure or boundary cases.",
+    "updated_at": "2026-04-17T06:15:00Z"
+  },
+  "display_name": "Jax",
+  "role_title": "Builder",
+  "name_approved_at": "2026-04-17T06:20:00Z",
+  "business_pitch": {
+    "draft": true,
+    "business_name": "Brewington Site Rebuilds - Teardown Preview plus Monthly Plan",
+    "why_this": "DRAFT - Jax is still choosing. Likely direction: pick prospects with weak or missing sites, generate a preview rebuild with the existing generator+deployer pipeline, send a teardown email, convert warm replies to the $297 or $497 monthly plan. First buyer path proves the funnel.",
+    "projected_mo_revenue": 297,
+    "revenue_basis": "DRAFT - 1 conversion at $297/mo starter. Assumes 50 sends, 5 percent warm reply, 1 close.",
+    "cost_mo": 15,
+    "margin_mo": 282,
+    "channel": "Cold email + preview URL",
+    "status_badge": "drafting",
+    "d30_checkpoint": "2026-05-17",
+    "d15_checkpoint": "2026-05-02",
+    "kill_under": 245,
+    "pivot_under": 100,
+    "last_action": "Awaiting Lando approval to flip live_send on. Clock has not started."
+  },
+  "standing_orders": {
+    "own_your_own_pipeline": {
+      "enabled": true,
+      "rule": "If your prospect pool is empty, you run prospector.js yourself with your pick of city and trade. If you do not like the yield, change vertical. If prospect-site work is not scaling, pivot to a productized offering (template pack, monthly site subscription, one-page deploy service, niche audit). Do not wait for Lando to hand you a city or a trade. You are the Builder.",
+      "first_action_due": "next tick"
+    }
+  }
+}

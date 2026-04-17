@@ -1,0 +1,361 @@
+Use superpowers. Activate brainstorming mode. I want you to design and build the complete Brewington Digital website from scratch — beginning to end — with full creative control. No approval needed on design decisions. Just build something that has never been seen before.
+
+Here is everything you need to know:
+
+BUSINESS: Brewington Digital is an AI-powered local business agency. We sell a complete done-for-you system to HVAC, plumbing, electrical, dental, cleaning, and landscaping businesses in Mesa, Scottsdale, and Gilbert Arizona.
+
+THE OFFER: $297-$497/month includes a professional website, AI phone answering, missed call text-back, appointment booking, review requests, and monthly reporting.
+
+THE VISITOR: A local business owner. They are skeptical. They have been burned by marketing agencies before. They are on their phone. They need to feel like we are the most advanced, most trustworthy option they have ever seen — within 5 seconds of landing.
+
+PRIMARY ACTION: Text us or email us. No phone calls. CTA buttons should open a text to 602-609-4756 or email to digitalbrewington@gmail.com.
+
+DESIGN DIRECTION: Dark, cinematic, scroll-driven. Abstract backgrounds with motion. Elements that pull the visitor down the page. Nothing generic. Nothing template-looking. This must feel like a luxury brand built for serious business owners.
+
+USE EVERY PLUGIN AVAILABLE: Use frontend-design for the visual system. Use searchfit-seo to make sure every section is SEO-optimized for Mesa, Scottsdale, and Gilbert Arizona local business searches. Use marketing to write every headline and body copy. Use sales to write the objection-handling section. Use remember to store the brand voice and design decisions for future sessions.
+
+DELIVERABLE: A single complete index.html file. One page. Scroll-driven. Mobile-first. Deploy-ready. Save it as brewington-index.html when done.
+
+Begin brainstorming now. Show me the plan before writing any code.
+claud<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brewington Digital — 3 Visual Concepts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--shell-bg:#0a0a0a;--shell-text:#e0e0e0}
+html{scroll-behavior:smooth}
+body{background:var(--shell-bg);color:var(--shell-text);font-family:'Outfit',sans-serif;overflow-x:hidden}
+
+.concept-nav{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(10,10,10,0.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;gap:2px;padding:12px 20px}
+.concept-nav .nav-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#666;margin-right:24px;font-weight:500}
+.concept-nav button{background:transparent;border:1px solid rgba(255,255,255,0.08);color:#888;padding:8px 20px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;letter-spacing:1px;cursor:pointer;transition:all 0.3s ease;border-radius:4px}
+.concept-nav button:hover{color:#fff;border-color:rgba(255,255,255,0.2)}
+.concept-nav button.active{background:#fff;color:#0a0a0a;border-color:#fff}
+
+.concept{display:none;min-height:100vh;padding-top:56px}
+.concept.active{display:block}
+
+/* === CONCEPT A — FORGE === */
+.concept-a{--a-bg:#0c0c0c;--a-surface:#141414;--a-border:#222;--a-text:#c8c8c8;--a-muted:#666;--a-accent:#FF4D00;--a-accent-glow:rgba(255,77,0,0.15);background:var(--a-bg);color:var(--a-text);font-family:'Barlow',sans-serif}
+
+.forge-hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.forge-hero::before{content:'';position:absolute;top:-50%;right:-20%;width:800px;height:800px;background:radial-gradient(circle,var(--a-accent-glow) 0%,transparent 70%);pointer-events:none;animation:forge-pulse 6s ease-in-out infinite alternate}
+@keyframes forge-pulse{0%{opacity:0.4;transform:scale(1)}100%{opacity:0.8;transform:scale(1.15)}}
+
+.forge-hero-left{display:flex;flex-direction:column;justify-content:center;padding:80px 60px 80px 80px;position:relative;z-index:2}
+.forge-hero-left .tag{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--a-accent);margin-bottom:32px;font-weight:600}
+.forge-hero-left h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,7vw,96px);line-height:0.95;color:#fff;margin-bottom:28px;letter-spacing:-1px}
+.forge-hero-left h1 span{display:block;color:var(--a-accent)}
+.forge-hero-left .sub{font-size:17px;line-height:1.7;color:var(--a-muted);max-width:420px;margin-bottom:48px;font-weight:300}
+
+.forge-cta{display:inline-flex;align-items:center;gap:14px;background:var(--a-accent);color:#fff;padding:16px 36px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;text-decoration:none;border:none;cursor:pointer;position:relative;overflow:hidden;transition:transform 0.2s ease;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))}
+.forge-cta:hover{transform:scale(1.04)}
+.forge-cta::after{content:'\2192';font-size:20px;transition:transform 0.3s ease}
+.forge-cta:hover::after{transform:translateX(6px)}
+
+.forge-hero-right{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.forge-grid-pattern{position:absolute;inset:0;background-image:linear-gradient(var(--a-border) 1px,transparent 1px),linear-gradient(90deg,var(--a-border) 1px,transparent 1px);background-size:60px 60px;opacity:0.4}
+.forge-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;position:relative;z-index:2;width:360px}
+.forge-stat{background:var(--a-surface);border:1px solid var(--a-border);padding:36px 28px;transition:border-color 0.3s ease}
+.forge-stat:hover{border-color:var(--a-accent)}
+.forge-stat .num{font-family:'Bebas Neue',sans-serif;font-size:48px;color:#fff;line-height:1}
+.forge-stat .num em{font-style:normal;color:var(--a-accent)}
+.forge-stat .label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--a-muted);margin-top:8px}
+
+.forge-services{padding:120px 80px;border-top:1px solid var(--a-border)}
+.forge-services .section-tag{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--a-accent);margin-bottom:12px;font-weight:600}
+.forge-services h2{font-family:'Bebas Neue',sans-serif;font-size:48px;color:#fff;margin-bottom:64px}
+.forge-service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.forge-service-card{background:var(--a-surface);border:1px solid var(--a-border);padding:48px 36px;position:relative;overflow:hidden;transition:all 0.4s ease}
+.forge-service-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--a-accent);transform:scaleX(0);transform-origin:left;transition:transform 0.4s ease}
+.forge-service-card:hover::before{transform:scaleX(1)}
+.forge-service-card:hover{border-color:var(--a-accent)}
+.forge-service-card .number{font-family:'Bebas Neue',sans-serif;font-size:64px;color:rgba(255,77,0,0.1);line-height:1;margin-bottom:20px}
+.forge-service-card h3{font-family:'Bebas Neue',sans-serif;font-size:24px;color:#fff;letter-spacing:1px;margin-bottom:16px}
+.forge-service-card p{font-size:14px;line-height:1.7;color:var(--a-muted);font-weight:300}
+
+.forge-banner{margin:0 80px 120px;padding:80px;background:var(--a-surface);border:1px solid var(--a-border);display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden}
+.forge-banner::before{content:'';position:absolute;bottom:-40%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,var(--a-accent-glow),transparent 70%);pointer-events:none}
+.forge-banner h2{font-family:'Bebas Neue',sans-serif;font-size:42px;color:#fff;max-width:500px;position:relative;z-index:2}
+.forge-banner .forge-cta{position:relative;z-index:2}
+
+/* === CONCEPT B — NOIR EDITORIAL === */
+.concept-b{--b-bg:#080808;--b-surface:#101010;--b-text:#b8b0a8;--b-muted:#5a5550;--b-accent:#C9A84C;--b-accent-light:#E8D49A;--b-cream:#F5F0E8;background:var(--b-bg);color:var(--b-text);font-family:'DM Sans',sans-serif}
+
+.noir-hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:100px 40px;position:relative;overflow:hidden}
+.noir-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 600px 400px at 50% 40%,rgba(201,168,76,0.06) 0%,transparent 100%),radial-gradient(ellipse 300px 600px at 20% 80%,rgba(201,168,76,0.03) 0%,transparent 100%);pointer-events:none}
+.noir-hero::after{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none}
+
+.noir-divider-line{width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(--b-accent),transparent);margin-bottom:48px;animation:noir-line-grow 1.5s ease-out forwards}
+@keyframes noir-line-grow{0%{height:0;opacity:0}100%{height:80px;opacity:1}}
+
+.noir-hero .eyebrow{font-size:12px;letter-spacing:6px;text-transform:uppercase;color:var(--b-accent);margin-bottom:40px;font-weight:400}
+.noir-hero h1{font-family:'Playfair Display',serif;font-size:clamp(48px,6.5vw,88px);font-weight:400;color:var(--b-cream);line-height:1.1;margin-bottom:12px;max-width:800px}
+.noir-hero h1 em{font-style:italic;color:var(--b-accent)}
+.noir-hero .hero-sub{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;color:var(--b-muted);margin-bottom:56px;font-weight:400}
+
+.noir-cta{display:inline-flex;align-items:center;gap:16px;border:1px solid var(--b-accent);color:var(--b-accent);padding:16px 40px;font-family:'DM Sans',sans-serif;font-size:12px;letter-spacing:4px;text-transform:uppercase;text-decoration:none;cursor:pointer;background:transparent;transition:all 0.5s ease;position:relative;overflow:hidden}
+.noir-cta::before{content:'';position:absolute;inset:0;background:var(--b-accent);transform:translateY(100%);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1)}
+.noir-cta:hover::before{transform:translateY(0)}
+.noir-cta span{position:relative;z-index:2;transition:color 0.5s ease}
+.noir-cta:hover span{color:#080808}
+.noir-cta .arrow{position:relative;z-index:2;transition:all 0.5s ease}
+.noir-cta:hover .arrow{color:#080808;transform:translateX(4px)}
+
+.noir-marquee{overflow:hidden;padding:28px 0;border-top:1px solid rgba(201,168,76,0.12);border-bottom:1px solid rgba(201,168,76,0.12)}
+.noir-marquee-track{display:flex;gap:60px;animation:noir-scroll 20s linear infinite;width:max-content}
+@keyframes noir-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.noir-marquee-track span{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:var(--b-muted);white-space:nowrap}
+.noir-marquee-track span::after{content:'\2666';margin-left:60px;color:var(--b-accent);font-size:8px;vertical-align:middle}
+
+.noir-services{padding:120px 80px;max-width:1100px;margin:0 auto}
+.noir-services .section-label{display:flex;align-items:center;gap:20px;margin-bottom:64px}
+.noir-services .section-label hr{flex:1;border:none;border-top:1px solid rgba(201,168,76,0.15)}
+.noir-services .section-label span{font-size:11px;letter-spacing:5px;text-transform:uppercase;color:var(--b-accent);white-space:nowrap}
+
+.noir-service-item{display:grid;grid-template-columns:60px 1fr 280px;gap:40px;align-items:start;padding:48px 0;border-bottom:1px solid rgba(255,255,255,0.04);transition:all 0.4s ease}
+.noir-service-item:hover{padding-left:20px;border-bottom-color:rgba(201,168,76,0.2)}
+.noir-service-item .num{font-family:'Playfair Display',serif;font-size:14px;color:var(--b-accent);padding-top:4px}
+.noir-service-item h3{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--b-cream);margin-bottom:12px}
+.noir-service-item p{font-size:14px;line-height:1.8;color:var(--b-muted);font-weight:300}
+.noir-service-item .service-detail{font-size:13px;color:var(--b-text);line-height:1.8;font-weight:300}
+
+.noir-bottom-cta{text-align:center;padding:120px 40px;position:relative}
+.noir-bottom-cta::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:80px;background:linear-gradient(to bottom,transparent,var(--b-accent))}
+.noir-bottom-cta h2{font-family:'Playfair Display',serif;font-size:42px;font-weight:400;color:var(--b-cream);margin-bottom:16px}
+.noir-bottom-cta p{font-family:'Playfair Display',serif;font-style:italic;color:var(--b-muted);margin-bottom:48px;font-size:16px}
+
+/* === CONCEPT C — SIGNAL === */
+.concept-c{--c-bg:#05070F;--c-surface:#0B0E1A;--c-border:#151929;--c-text:#8E95B4;--c-muted:#3D4266;--c-accent:#00E5FF;--c-accent2:#7B61FF;--c-hot:#FF2D6B;--c-white:#E8ECF8;background:var(--c-bg);color:var(--c-text);font-family:'Outfit',sans-serif}
+
+.signal-hero{min-height:100vh;position:relative;overflow:hidden;display:flex;align-items:center;padding:100px 80px}
+.signal-hero-bg{position:absolute;inset:0;overflow:hidden}
+.signal-orb{position:absolute;border-radius:50%;filter:blur(100px);animation:signal-float 10s ease-in-out infinite alternate}
+.signal-orb-1{width:500px;height:500px;background:rgba(0,229,255,0.08);top:-10%;right:10%}
+.signal-orb-2{width:400px;height:400px;background:rgba(123,97,255,0.06);bottom:-10%;left:20%;animation-delay:-3s}
+.signal-orb-3{width:200px;height:200px;background:rgba(255,45,107,0.05);top:40%;left:60%;animation-delay:-6s}
+@keyframes signal-float{0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,-20px) scale(1.1)}}
+
+.signal-scanline{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--c-accent),transparent);opacity:0.3;animation:signal-scan 4s linear infinite}
+@keyframes signal-scan{0%{top:-2px}100%{top:100%}}
+
+.signal-hero-content{position:relative;z-index:2;max-width:700px}
+.signal-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.15);border-radius:100px;padding:6px 16px;margin-bottom:36px;font-size:12px;font-weight:500;color:var(--c-accent)}
+.signal-badge .dot{width:6px;height:6px;background:var(--c-accent);border-radius:50%;animation:signal-blink 2s ease-in-out infinite}
+@keyframes signal-blink{0%,100%{opacity:1}50%{opacity:0.2}}
+
+.signal-hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(48px,6vw,80px);line-height:1.05;color:var(--c-white);margin-bottom:28px}
+.signal-hero h1 .gradient-text{background:linear-gradient(135deg,var(--c-accent),var(--c-accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.signal-hero .desc{font-size:17px;line-height:1.7;color:var(--c-text);margin-bottom:48px;max-width:500px;font-weight:300}
+
+.signal-cta-group{display:flex;gap:16px;align-items:center}
+.signal-cta-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--c-accent),var(--c-accent2));color:#05070F;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;padding:16px 32px;border:none;border-radius:12px;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;transition:transform 0.2s ease,box-shadow 0.3s ease}
+.signal-cta-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,229,255,0.25)}
+.signal-cta-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--c-accent2),var(--c-hot));opacity:0;transition:opacity 0.5s ease;border-radius:12px}
+.signal-cta-primary:hover::before{opacity:1}
+.signal-cta-primary span,.signal-cta-primary svg{position:relative;z-index:2}
+
+.signal-cta-secondary{color:var(--c-text);font-size:14px;font-weight:500;text-decoration:none;padding:16px 24px;border:1px solid var(--c-border);border-radius:12px;transition:all 0.3s ease;cursor:pointer;background:transparent;font-family:'Outfit',sans-serif}
+.signal-cta-secondary:hover{border-color:var(--c-accent);color:var(--c-accent)}
+
+.signal-metrics{position:absolute;right:80px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px;z-index:2}
+.signal-metric-card{background:rgba(11,14,26,0.8);border:1px solid var(--c-border);border-radius:16px;padding:24px 28px;backdrop-filter:blur(20px);min-width:200px;transition:all 0.3s ease}
+.signal-metric-card:hover{border-color:var(--c-accent);transform:translateX(-4px)}
+.signal-metric-card .metric-value{font-family:'Syne',sans-serif;font-weight:800;font-size:32px;color:var(--c-white);margin-bottom:4px}
+.signal-metric-card .metric-value .accent{color:var(--c-accent)}
+.signal-metric-card .metric-value .purple{color:var(--c-accent2)}
+.signal-metric-card .metric-value .hot{color:var(--c-hot)}
+.signal-metric-card .metric-label{font-size:12px;color:var(--c-muted);font-weight:400}
+
+.signal-services{padding:100px 80px;position:relative}
+.signal-services::before{content:'';position:absolute;top:0;left:80px;right:80px;height:1px;background:linear-gradient(90deg,transparent,var(--c-border),transparent)}
+.signal-section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:64px}
+.signal-section-header h2{font-family:'Syne',sans-serif;font-weight:700;font-size:36px;color:var(--c-white)}
+.signal-section-header .line{flex:1;height:1px;background:var(--c-border);margin:0 32px}
+.signal-section-header .tag{font-size:12px;color:var(--c-accent);letter-spacing:2px;text-transform:uppercase;font-weight:500}
+
+.signal-service-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.signal-service-card{background:var(--c-surface);border:1px solid var(--c-border);border-radius:20px;padding:40px 32px;position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.4,0,0.2,1)}
+.signal-service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--c-accent),var(--c-accent2));opacity:0;transition:opacity 0.4s ease}
+.signal-service-card:hover{transform:translateY(-6px);border-color:rgba(0,229,255,0.2);box-shadow:0 16px 48px rgba(0,229,255,0.06)}
+.signal-service-card:hover::before{opacity:1}
+.signal-service-card .icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:24px}
+.signal-service-card:nth-child(1) .icon{background:rgba(0,229,255,0.1);color:var(--c-accent)}
+.signal-service-card:nth-child(2) .icon{background:rgba(123,97,255,0.1);color:var(--c-accent2)}
+.signal-service-card:nth-child(3) .icon{background:rgba(255,45,107,0.1);color:var(--c-hot)}
+.signal-service-card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--c-white);margin-bottom:12px}
+.signal-service-card p{font-size:14px;line-height:1.7;color:var(--c-muted);font-weight:300}
+
+.signal-bottom-cta{margin:0 80px 100px;padding:72px;background:var(--c-surface);border:1px solid var(--c-border);border-radius:24px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden}
+.signal-bottom-cta::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 400px 300px at 80% 50%,rgba(0,229,255,0.04),transparent),radial-gradient(ellipse 300px 200px at 20% 80%,rgba(123,97,255,0.04),transparent);pointer-events:none}
+.signal-bottom-cta h2{font-family:'Syne',sans-serif;font-weight:700;font-size:32px;color:var(--c-white);max-width:450px;position:relative;z-index:2}
+.signal-bottom-cta .signal-cta-primary{position:relative;z-index:2}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity 0.8s cubic-bezier(0.4,0,0.2,1),transform 0.8s cubic-bezier(0.4,0,0.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+.reveal-delay-4{transition-delay:0.4s}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .forge-hero{grid-template-columns:1fr}
+  .forge-hero-left{padding:60px 32px}
+  .forge-hero-right{min-height:300px}
+  .forge-stats{width:280px}
+  .forge-services{padding:80px 32px}
+  .forge-service-grid{grid-template-columns:1fr}
+  .forge-banner{margin:0 32px 80px;padding:48px;flex-direction:column;gap:32px;text-align:center}
+  .noir-hero h1{font-size:40px}
+  .noir-services{padding:80px 32px}
+  .noir-service-item{grid-template-columns:40px 1fr}
+  .noir-service-item .service-detail{grid-column:1/-1}
+  .signal-hero{padding:80px 32px;flex-direction:column}
+  .signal-metrics{position:static;transform:none;flex-direction:row;flex-wrap:wrap;margin-top:48px}
+  .signal-hero-content{max-width:100%}
+  .signal-services{padding:80px 32px}
+  .signal-service-cards{grid-template-columns:1fr}
+  .signal-bottom-cta{margin:0 32px 80px;padding:48px;flex-direction:column;gap:32px;text-align:center}
+  .signal-cta-group{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<nav class="concept-nav" role="navigation" aria-label="Concept selector">
+  <span class="nav-label">Concept</span>
+  <button class="active" data-concept="a">A &mdash; Forge</button>
+  <button data-concept="b">B &mdash; Noir Editorial</button>
+  <button data-concept="c">C &mdash; Signal</button>
+</nav>
+
+<!-- CONCEPT A — FORGE -->
+<section class="concept concept-a active" id="concept-a">
+  <div class="forge-hero">
+    <div class="forge-hero-left">
+      <div class="tag reveal">Brewington Digital</div>
+      <h1 class="reveal reveal-delay-1">WE BUILD WEBSITES<br><span>THAT BUILD<br>BUSINESSES.</span></h1>
+      <p class="sub reveal reveal-delay-2">Your competitors already have a digital presence. We make sure yours is the one customers actually choose.</p>
+      <a href="#" class="forge-cta reveal reveal-delay-3">BOOK A CALL</a>
+    </div>
+    <div class="forge-hero-right">
+      <div class="forge-grid-pattern"></div>
+      <div class="forge-stats reveal reveal-delay-2">
+        <div class="forge-stat"><div class="num">150<em>+</em></div><div class="label">Sites Launched</div></div>
+        <div class="forge-stat"><div class="num">3<em>x</em></div><div class="label">Avg Lead Increase</div></div>
+        <div class="forge-stat"><div class="num">97<em>%</em></div><div class="label">Client Retention</div></div>
+        <div class="forge-stat"><div class="num">48<em>hr</em></div><div class="label">Launch Speed</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="forge-services">
+    <div class="section-tag reveal">What We Do</div>
+    <h2 class="reveal reveal-delay-1">SERVICES BUILT FOR RESULTS</h2>
+    <div class="forge-service-grid">
+      <div class="forge-service-card reveal reveal-delay-1"><div class="number">01</div><h3>WEB DESIGN</h3><p>High-converting sites built for speed and local search. No templates. No bloat. Just pages that perform.</p></div>
+      <div class="forge-service-card reveal reveal-delay-2"><div class="number">02</div><h3>PAID ADS</h3><p>Google Ads and Meta campaigns laser-focused on your service area. Every dollar tracked, every lead measured.</p></div>
+      <div class="forge-service-card reveal reveal-delay-3"><div class="number">03</div><h3>LOCAL SEO</h3><p>Google Business, citations, reviews, and on-page strategy that puts you in the map pack when it matters.</p></div>
+    </div>
+  </div>
+  <div class="forge-banner reveal">
+    <h2>READY TO STOP LOSING CUSTOMERS TO YOUR COMPETITORS?</h2>
+    <a href="#" class="forge-cta">BOOK A CALL</a>
+  </div>
+</section>
+
+<!-- CONCEPT B — NOIR EDITORIAL -->
+<section class="concept concept-b" id="concept-b">
+  <div class="noir-hero">
+    <div class="noir-divider-line"></div>
+    <div class="eyebrow reveal">Digital Craftsmanship for Local Business</div>
+    <h1 class="reveal reveal-delay-1">Your Business Deserves<br>an <em>Exceptional</em> Presence</h1>
+    <p class="hero-sub reveal reveal-delay-2">Websites, advertising, and strategy that command attention.</p>
+    <a href="#" class="noir-cta reveal reveal-delay-3"><span>Book a Consultation</span><span class="arrow">&rarr;</span></a>
+  </div>
+  <div class="noir-marquee">
+    <div class="noir-marquee-track">
+      <span>HVAC</span><span>Plumbing</span><span>Electrical</span><span>Roofing</span><span>Landscaping</span><span>Construction</span><span>Cleaning</span><span>Pest Control</span>
+      <span>HVAC</span><span>Plumbing</span><span>Electrical</span><span>Roofing</span><span>Landscaping</span><span>Construction</span><span>Cleaning</span><span>Pest Control</span>
+    </div>
+  </div>
+  <div class="noir-services">
+    <div class="section-label reveal"><span>Our Services</span><hr><span>03</span></div>
+    <div class="noir-service-item reveal">
+      <div class="num">i.</div>
+      <div><h3>Website Design &amp; Development</h3><p>Bespoke websites crafted to convert visitors into clients. Every page is a deliberate piece of your growth strategy.</p></div>
+      <div class="service-detail">Fast load times. Mobile-first. SEO-structured. Built on platforms you can actually own.</div>
+    </div>
+    <div class="noir-service-item reveal reveal-delay-1">
+      <div class="num">ii.</div>
+      <div><h3>Advertising &amp; Lead Generation</h3><p>Precision ad campaigns on Google and Meta that deliver measurable returns, not vanity metrics.</p></div>
+      <div class="service-detail">Geo-targeted. Budget-optimized. Full-funnel tracking from click to booked appointment.</div>
+    </div>
+    <div class="noir-service-item reveal reveal-delay-2">
+      <div class="num">iii.</div>
+      <div><h3>Online Presence &amp; Reputation</h3><p>From Google Business to review management, we build the digital reputation that earns trust before the first call.</p></div>
+      <div class="service-detail">Map pack optimization. Review automation. Citation building. Directory management.</div>
+    </div>
+  </div>
+  <div class="noir-bottom-cta reveal">
+    <h2>Let's Build Something Worthy<br>of Your Business</h2>
+    <p>A 15-minute call. No pressure. Just clarity.</p>
+    <a href="#" class="noir-cta"><span>Book Your Call</span><span class="arrow">&rarr;</span></a>
+  </div>
+</section>
+
+<!-- CONCEPT C — SIGNAL -->
+<section class="concept concept-c" id="concept-c">
+  <div class="signal-hero">
+    <div class="signal-hero-bg">
+      <div class="signal-orb signal-orb-1"></div>
+      <div class="signal-orb signal-orb-2"></div>
+      <div class="signal-orb signal-orb-3"></div>
+      <div class="signal-scanline"></div>
+    </div>
+    <div class="signal-hero-content">
+      <div class="signal-badge reveal"><span class="dot"></span>Now accepting new clients</div>
+      <h1 class="reveal reveal-delay-1">Your next customer is<br><span class="gradient-text">searching right now.</span></h1>
+      <p class="desc reveal reveal-delay-2">Brewington Digital builds websites, runs ads, and manages online presence for local service businesses. We make sure they find you first.</p>
+      <div class="signal-cta-group reveal reveal-delay-3">
+        <a href="#" class="signal-cta-primary"><span>Book a Call</span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="position:relative;z-index:2"><path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <button class="signal-cta-secondary">See Our Work</button>
+      </div>
+    </div>
+    <div class="signal-metrics reveal reveal-delay-4">
+      <div class="signal-metric-card"><div class="metric-value">3<span class="accent">x</span></div><div class="metric-label">Average lead increase</div></div>
+      <div class="signal-metric-card"><div class="metric-value">150<span class="purple">+</span></div><div class="metric-label">Websites launched</div></div>
+      <div class="signal-metric-card"><div class="metric-value">48<span class="hot">hr</span></div><div class="metric-label">Average launch time</div></div>
+    </div>
+  </div>
+  <div class="signal-services">
+    <div class="signal-section-header reveal"><h2>What We Build</h2><div class="line"></div><span class="tag">Services</span></div>
+    <div class="signal-service-cards">
+      <div class="signal-service-card reveal reveal-delay-1"><div class="icon">&lt;/&gt;</div><h3>Website Design</h3><p>Fast, mobile-first websites built to rank on Google and convert visitors into booked jobs. No templates, no WordPress bloat.</p></div>
+      <div class="signal-service-card reveal reveal-delay-2"><div class="icon">&#9733;</div><h3>Paid Advertising</h3><p>Google Ads and Meta campaigns with geo-targeting, call tracking, and real ROI reporting. Every dollar accounted for.</p></div>
+      <div class="signal-service-card reveal reveal-delay-3"><div class="icon">&#9678;</div><h3>Local SEO &amp; Reputation</h3><p>Map pack domination, review automation, and citation management. Be the obvious choice in your service area.</p></div>
+    </div>
+  </div>
+  <div class="signal-bottom-cta reveal">
+    <h2>Ready to own your local market?</h2>
+    <a href="#" class="signal-cta-primary"><span>Book a Call</span><svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="position:relative;z-index:2"><path d="M3 8h10m0 0L9 4m4 4L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+  </div>
+</section>
+
+<script>
+const buttons=document.querySelectorAll('.concept-nav button');
+const concepts=document.querySelectorAll('.concept');
+buttons.forEach(btn=>{btn.addEventListener('click',()=>{const target=btn.dataset.concept;buttons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');concepts.forEach(c=>{c.classList.remove('active');if(c.id==='concept-'+target){c.classList.add('active');c.querySelectorAll('.reveal').forEach(el=>{el.classList.remove('visible');void el.offsetWidth;observeReveal(el)})}});window.scrollTo({top:0,behavior:'smooth'})})});
+const observerOptions={threshold:0.15,rootMargin:'0px 0px -40px 0px'};
+function observeReveal(el){const observer=new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}})},observerOptions);observer.observe(el)}
+document.querySelectorAll('.reveal').forEach(el=>observeReveal(el));
+</script>
+</body>
+</html>

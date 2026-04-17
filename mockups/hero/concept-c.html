@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brewington | Diagnostic</title>
+<meta name="theme-color" content="#0A0B0D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* neutral graphite chassis */
+  --c-0:#07080A;
+  --c-1:#0A0B0D;
+  --c-2:#101215;
+  --c-3:#171A1E;
+  --c-4:#1F2328;
+  --c-5:#2A2F35;
+  --line:rgba(178,196,216,0.06);
+  --line-s:rgba(178,196,216,0.12);
+  --line-h:rgba(178,196,216,0.22);
+  /* off-bone typography */
+  --bone:#E8ECEF;
+  --bone-d:rgba(232,236,239,0.64);
+  --bone-f:rgba(232,236,239,0.38);
+  --bone-g:rgba(232,236,239,0.18);
+  /* modern automotive UI */
+  --red:#E24646;
+  --red-deep:#8C1E1E;
+  --red-glow:rgba(226,70,70,0.55);
+  --amb:#E8A84A;
+  --amb-deep:#8A5E1C;
+  --amb-glow:rgba(232,168,74,0.55);
+  --grn:#3FCF8E;
+  --grn-deep:#1E6A48;
+  --grn-glow:rgba(63,207,142,0.55);
+  /* cool steel accent */
+  --steel:#86A2B8;
+  --steel-d:rgba(134,162,184,0.55);
+  --sans:'Space Grotesk',ui-sans-serif,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--c-0);color:var(--bone);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{min-height:100vh;position:relative;letter-spacing:-0.01em}
+::selection{background:var(--amb-glow);color:var(--bone)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+
+/* =================== AMBIENT CONSOLE BACKGROUND =================== */
+.console{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+  background:radial-gradient(ellipse 70% 50% at 52% 38%, #12151A 0%, #0B0D10 48%, #07080A 100%);
+}
+/* grid */
+.console::before{content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--line) 1px,transparent 1px),
+    linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:64px 64px,64px 64px;
+  mask-image:radial-gradient(ellipse 75% 65% at 50% 40%,#000 40%,transparent 92%);
+  -webkit-mask-image:radial-gradient(ellipse 75% 65% at 50% 40%,#000 40%,transparent 92%);
+}
+/* horizontal scan-line band */
+.console::after{content:"";position:absolute;left:0;right:0;top:58%;height:1px;
+  background:linear-gradient(90deg,transparent 0%,var(--line-h) 18%,rgba(232,168,74,0.18) 50%,var(--line-h) 82%,transparent 100%);
+  box-shadow:0 0 42px rgba(232,168,74,0.08);
+}
+/* left vertical diagnostic readout column */
+.console-left-rail{position:absolute;top:0;bottom:0;left:0;width:220px;padding:120px 22px 40px 24px;
+  font-family:var(--mono);font-size:10.5px;line-height:1.85;color:var(--bone-f);
+  border-right:1px solid var(--line);
+  mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 88%,transparent 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 88%,transparent 100%);
+}
+.rail-hd{color:var(--steel-d);font-size:10px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:12px}
+.rail-row{display:flex;justify-content:space-between;gap:8px;padding:2px 0;border-bottom:1px dashed var(--line)}
+.rail-row b{font-weight:500;color:var(--bone-d)}
+.rail-row span{color:var(--bone-f)}
+.rail-row.r-ok span{color:var(--grn)}
+.rail-row.r-amb span{color:var(--amb)}
+.rail-row.r-red span{color:var(--red)}
+.rail-sep{height:18px}
+/* right vertical diagnostic readout column */
+.console-right-rail{position:absolute;top:0;bottom:0;right:0;width:240px;padding:120px 24px 40px 22px;
+  font-family:var(--mono);font-size:10.5px;line-height:1.85;color:var(--bone-f);
+  border-left:1px solid var(--line);
+  mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 88%,transparent 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 88%,transparent 100%);
+}
+.rail-bar{height:3px;background:var(--c-3);border-radius:2px;overflow:hidden;margin:6px 0 10px}
+.rail-bar-fill{height:100%;background:linear-gradient(90deg,var(--amb),#F6C071);border-radius:2px;animation:railBar 6s ease-in-out infinite}
+@keyframes railBar{0%,100%{width:22%}50%{width:74%}}
+.rail-stream{margin-top:14px}
+.rail-stream .rs{opacity:0;animation:rsIn .4s forwards}
+.rail-stream .rs:nth-child(1){animation-delay:.2s}.rail-stream .rs:nth-child(2){animation-delay:.6s}
+.rail-stream .rs:nth-child(3){animation-delay:1.0s}.rail-stream .rs:nth-child(4){animation-delay:1.4s}
+.rail-stream .rs:nth-child(5){animation-delay:1.8s}.rail-stream .rs:nth-child(6){animation-delay:2.2s}
+.rail-stream .rs:nth-child(7){animation-delay:2.6s}.rail-stream .rs:nth-child(8){animation-delay:3.0s}
+@keyframes rsIn{from{opacity:0;transform:translateX(4px)}to{opacity:.7;transform:none}}
+@media(max-width:1180px){.console-left-rail,.console-right-rail{display:none}}
+
+/* =================== NAV =================== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:18px 28px;
+  background:linear-gradient(180deg,rgba(7,8,10,0.88) 0%,rgba(7,8,10,0.56) 72%,transparent 100%);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{max-width:1440px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-logo{width:28px;height:34px;position:relative;border-radius:6px;
+  background:linear-gradient(180deg,#1A1E23,#0E1013);
+  border:1px solid var(--line-h);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,0.04),0 1px 2px rgba(0,0,0,0.6);
+  display:flex;flex-direction:column;align-items:center;justify-content:space-around;padding:4px 0;
+}
+.brand-logo .d{width:7px;height:7px;border-radius:50%;background:#080A0C;box-shadow:inset 0 1px 1px rgba(0,0,0,0.8),inset 0 0 0 0.5px rgba(255,255,255,0.04)}
+.brand-logo .d.on-r{background:radial-gradient(circle at 35% 30%,#FF9494 0%,var(--red) 45%,#4A0D0D 100%);box-shadow:inset 0 0 2px rgba(255,220,220,0.4),0 0 4px var(--red-glow)}
+.brand-logo .d.on-a{background:radial-gradient(circle at 35% 30%,#FFE0A0 0%,var(--amb) 45%,#4A2E0D 100%);box-shadow:inset 0 0 2px rgba(255,240,200,0.4),0 0 4px var(--amb-glow)}
+.brand-logo .d.on-g{background:radial-gradient(circle at 35% 30%,#A0F5C8 0%,var(--grn) 45%,#0D3A24 100%);box-shadow:inset 0 0 2px rgba(200,255,230,0.4),0 0 4px var(--grn-glow)}
+.brand-name{font-weight:600;font-size:17px;letter-spacing:-0.015em}
+.brand-name em{font-style:normal;color:var(--bone-d);font-weight:400}
+
+.nav-links{display:flex;gap:34px;font-size:13.5px;color:var(--bone-d)}
+.nav-links a{transition:color .2s;position:relative}
+.nav-links a:hover{color:var(--bone)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-phone{font-family:var(--mono);font-size:12.5px;color:var(--bone-d);display:flex;align-items:center;gap:8px}
+.nav-phone .p-dot{width:6px;height:6px;border-radius:50%;background:var(--grn);box-shadow:0 0 6px var(--grn-glow);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.nav-cta{padding:9px 16px;border:1px solid var(--line-h);border-radius:8px;background:linear-gradient(180deg,var(--c-3),var(--c-2));font-size:13px;font-weight:500;letter-spacing:-0.01em;transition:all .2s;color:var(--bone)}
+.nav-cta:hover{border-color:var(--amb);background:linear-gradient(180deg,#2A2318,#1C1810);color:var(--amb)}
+.nav-burger{display:none;width:34px;height:34px;border:1px solid var(--line-h);border-radius:7px;background:var(--c-2);align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.nav-burger span{display:block;width:14px;height:1.2px;background:var(--bone-d)}
+@media(max-width:860px){
+  .nav{padding:14px 18px}
+  .nav-links{display:none}
+  .nav-phone{display:none}
+  .nav-burger{display:flex}
+}
+
+/* =================== HERO =================== */
+.hero{position:relative;z-index:1;padding:140px 28px 80px;min-height:100vh;display:flex;align-items:center}
+.hero-in{max-width:1160px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.25fr 1fr;gap:72px;align-items:center}
+@media(max-width:960px){.hero{padding:120px 20px 60px}.hero-in{grid-template-columns:1fr;gap:48px}}
+
+/* status badge */
+.status-bar{display:inline-flex;align-items:center;gap:10px;padding:7px 12px 7px 10px;
+  border:1px solid var(--line-h);border-radius:100px;background:rgba(16,18,21,0.7);
+  font-family:var(--mono);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--bone-d);
+  backdrop-filter:blur(8px);
+}
+.status-bar .sb-dot{width:7px;height:7px;border-radius:50%;background:var(--grn);box-shadow:0 0 8px var(--grn-glow);animation:pulse 2s ease-in-out infinite}
+.status-bar .sb-div{width:1px;height:10px;background:var(--line-s)}
+.status-bar .sb-id{color:var(--steel)}
+
+/* headline */
+.hero-h1{margin-top:24px;font-family:var(--sans);font-weight:600;letter-spacing:-0.035em;line-height:1.02;
+  font-size:clamp(38px,6vw,76px);color:var(--bone);
+}
+.hero-h1 .h-leak{color:var(--amb);position:relative;white-space:nowrap}
+.hero-h1 .h-leak::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--amb) 50%,transparent);opacity:.5}
+.hero-h1 .h-dim{color:var(--bone-d);font-weight:400}
+
+.hero-sub{margin-top:22px;font-size:17px;line-height:1.55;color:var(--bone-d);max-width:540px;font-weight:400}
+.hero-sub b{color:var(--bone);font-weight:500}
+
+/* diagnostic input */
+.diag{margin-top:34px;max-width:520px}
+.diag-label{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--bone-f);margin-bottom:10px}
+.diag-label .dl-id{color:var(--steel)}
+.diag-label .dl-sep{color:var(--bone-g)}
+
+.diag-form{display:flex;align-items:stretch;height:56px;border:1px solid var(--line-h);border-radius:12px;
+  background:linear-gradient(180deg,rgba(16,19,23,0.9),rgba(10,12,14,0.9));
+  box-shadow:0 8px 28px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.02);
+  overflow:hidden;transition:border-color .2s,box-shadow .2s;
+}
+.diag-form:focus-within{border-color:var(--amb);box-shadow:0 8px 28px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.03),0 0 0 3px rgba(232,168,74,0.12)}
+.diag-prefix{display:flex;align-items:center;padding:0 14px 0 16px;font-family:var(--mono);font-size:13px;color:var(--bone-f);border-right:1px solid var(--line);background:rgba(7,8,10,0.5)}
+.diag-input{flex:1;border:0;outline:0;background:transparent;color:var(--bone);font-family:var(--mono);font-size:14px;padding:0 14px;letter-spacing:-0.005em}
+.diag-input::placeholder{color:var(--bone-g)}
+.diag-submit{height:100%;padding:0 22px;background:linear-gradient(180deg,#E8A84A,#C88A30);color:#1A0F02;
+  font-weight:600;font-size:13.5px;letter-spacing:0.01em;display:flex;align-items:center;gap:9px;
+  border-left:1px solid rgba(0,0,0,0.35);transition:filter .2s;
+}
+.diag-submit:hover{filter:brightness(1.08)}
+.diag-submit svg{width:14px;height:14px}
+
+.diag-foot{margin-top:12px;display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;color:var(--bone-f)}
+.diag-foot .df-ok{color:var(--grn);display:inline-flex;align-items:center;gap:6px}
+.diag-foot .df-ok::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--grn);box-shadow:0 0 5px var(--grn-glow)}
+.diag-foot .df-sep{color:var(--bone-g)}
+
+/* contacts */
+.hero-contacts{margin-top:30px;display:flex;gap:22px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--bone-d)}
+.hero-contacts a{display:inline-flex;align-items:center;gap:9px;transition:color .2s}
+.hero-contacts a:hover{color:var(--amb)}
+.hero-contacts a svg{width:13px;height:13px;opacity:.7}
+.hero-contacts .c-sep{color:var(--bone-g);align-self:center}
+
+/* =================== RIGHT: INDICATOR PANEL (MARK) =================== */
+.panel-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:20px 0}
+.panel{position:relative;width:100%;max-width:400px;aspect-ratio:0.72;
+  border-radius:22px;padding:26px 24px 22px;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, rgba(178,196,216,0.05) 0%, transparent 60%),
+    linear-gradient(180deg,#1D2127 0%,#14171B 42%,#0E1114 100%);
+  border:1px solid var(--line-h);
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.05) inset,
+    0 -1px 0 rgba(0,0,0,0.5) inset,
+    0 34px 60px -20px rgba(0,0,0,0.7),
+    0 12px 30px -10px rgba(0,0,0,0.5);
+}
+/* chassis chamfer highlight */
+.panel::before{content:"";position:absolute;inset:1px;border-radius:21px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,0.03) 0%,transparent 18%);
+}
+/* panel serial */
+.panel-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;
+  font-family:var(--mono);font-size:10px;letter-spacing:0.14em;color:var(--bone-f);text-transform:uppercase;
+}
+.panel-top .pt-id{color:var(--steel)}
+.panel-top .pt-live{display:inline-flex;align-items:center;gap:6px;color:var(--bone-d)}
+.panel-top .pt-live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--grn);box-shadow:0 0 5px var(--grn-glow);animation:pulse 2s ease-in-out infinite}
+
+/* LED cluster */
+.leds{display:flex;flex-direction:column;gap:18px;padding:14px 18px;border-radius:14px;
+  background:linear-gradient(180deg,#08090B,#0D0F12);
+  border:1px solid rgba(0,0,0,0.6);
+  box-shadow:inset 0 2px 6px rgba(0,0,0,0.75),inset 0 0 0 0.5px rgba(255,255,255,0.025);
+}
+.led-row{display:flex;align-items:center;gap:16px}
+.led{position:relative;width:58px;height:58px;border-radius:50%;flex-shrink:0;
+  background:radial-gradient(circle at 50% 50%,#050607,#0A0C0E 70%);
+  box-shadow:inset 0 2px 4px rgba(0,0,0,0.9),inset 0 0 0 1px rgba(255,255,255,0.03),inset 0 -1px 2px rgba(255,255,255,0.02);
+}
+/* LED lens glass layer */
+.led::before{content:"";position:absolute;inset:5px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,rgba(255,255,255,0.05) 0%,transparent 35%),
+             radial-gradient(circle at 50% 50%,#0A0B0D 30%,#050607 100%);
+  box-shadow:inset 0 0 0 0.5px rgba(255,255,255,0.04);
+}
+/* LED highlight glare (thin crescent) */
+.led::after{content:"";position:absolute;top:7px;left:12px;right:12px;height:10px;border-radius:50%;
+  background:radial-gradient(ellipse 100% 100% at 50% 0%,rgba(255,255,255,0.06) 0%,transparent 70%);
+  pointer-events:none;
+}
+/* active LED states */
+.led.on-r::before{background:
+    radial-gradient(circle at 38% 32%,rgba(255,220,220,0.35) 0%,transparent 40%),
+    radial-gradient(circle at 50% 55%,#FF7474 0%,var(--red) 40%,#5E1212 100%);
+  box-shadow:inset 0 0 0 0.5px rgba(255,180,180,0.25),inset 0 0 12px rgba(255,80,80,0.4),0 0 22px var(--red-glow),0 0 4px rgba(226,70,70,0.7);
+}
+.led.on-a::before{background:
+    radial-gradient(circle at 38% 32%,rgba(255,240,210,0.4) 0%,transparent 40%),
+    radial-gradient(circle at 50% 55%,#FFD07A 0%,var(--amb) 42%,#5E3A12 100%);
+  box-shadow:inset 0 0 0 0.5px rgba(255,220,180,0.3),inset 0 0 12px rgba(255,170,80,0.4),0 0 24px var(--amb-glow),0 0 4px rgba(232,168,74,0.7);
+}
+.led.on-g::before{background:
+    radial-gradient(circle at 38% 32%,rgba(210,255,230,0.4) 0%,transparent 40%),
+    radial-gradient(circle at 50% 55%,#76EAB2 0%,var(--grn) 42%,#104A30 100%);
+  box-shadow:inset 0 0 0 0.5px rgba(180,255,210,0.3),inset 0 0 12px rgba(80,220,150,0.4),0 0 22px var(--grn-glow),0 0 4px rgba(63,207,142,0.7);
+}
+
+.led-meta{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+.led-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--bone-f)}
+.led-hdr{font-family:var(--sans);font-size:15px;font-weight:500;letter-spacing:-0.01em;color:var(--bone)}
+.led-desc{font-family:var(--mono);font-size:10.5px;color:var(--bone-f);line-height:1.5}
+.led-row.active .led-hdr{color:var(--bone)}
+.led-row.active.r .led-tag{color:var(--red)}
+.led-row.active.a .led-tag{color:var(--amb)}
+.led-row.active.g .led-tag{color:var(--grn)}
+.led-row:not(.active) .led-hdr,
+.led-row:not(.active) .led-desc{opacity:.42}
+
+/* panel bottom: scan bar */
+.panel-bot{margin-top:18px;padding:14px 4px 2px}
+.pb-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--bone-f);margin-bottom:8px}
+.pb-label b{color:var(--bone-d);font-weight:500}
+.pb-track{height:3px;border-radius:2px;background:var(--c-3);position:relative;overflow:hidden;box-shadow:inset 0 1px 1px rgba(0,0,0,0.6)}
+.pb-fill{position:absolute;top:0;left:-30%;width:30%;height:100%;
+  background:linear-gradient(90deg,transparent,var(--amb),transparent);
+  animation:sweep 3.2s linear infinite;
+}
+@keyframes sweep{to{left:100%}}
+.pb-ticks{margin-top:10px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:9.5px;color:var(--bone-g);letter-spacing:0.08em}
+
+/* corner bolts on panel */
+.bolt{position:absolute;width:4px;height:4px;border-radius:50%;background:radial-gradient(circle,#3A4048 30%,#0E1114 100%);box-shadow:inset 0 0 0 0.5px rgba(255,255,255,0.05)}
+.bolt.b1{top:9px;left:9px}.bolt.b2{top:9px;right:9px}.bolt.b3{bottom:9px;left:9px}.bolt.b4{bottom:9px;right:9px}
+
+/* =================== PLACEHOLDER STRIP =================== */
+.rest{position:relative;z-index:1;padding:22px 28px;border-top:1px solid var(--line);
+  background:rgba(7,8,10,0.7);font-family:var(--mono);font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--bone-f);text-align:center;
+}
+.rest span{color:var(--steel)}
+
+/* reduced motion */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ambient background -->
+<div class="console" aria-hidden="true"></div>
+
+<!-- left telemetry rail -->
+<div class="console-left-rail" aria-hidden="true">
+  <div class="rail-hd">// system_state</div>
+  <div class="rail-row"><b>uptime</b><span>99.97%</span></div>
+  <div class="rail-row"><b>uplink</b><span>stable</span></div>
+  <div class="rail-row"><b>region</b><span>us-west</span></div>
+  <div class="rail-sep"></div>
+  <div class="rail-hd">// active_scans</div>
+  <div class="rail-row r-ok"><b>DG-401</b><span>GREEN</span></div>
+  <div class="rail-row r-amb"><b>DG-412</b><span>AMBER</span></div>
+  <div class="rail-row r-red"><b>DG-418</b><span>RED</span></div>
+  <div class="rail-row r-ok"><b>DG-423</b><span>GREEN</span></div>
+  <div class="rail-row r-amb"><b>DG-431</b><span>AMBER</span></div>
+  <div class="rail-sep"></div>
+  <div class="rail-hd">// queue</div>
+  <div class="rail-row"><b>pending</b><span>47</span></div>
+  <div class="rail-row"><b>rate</b><span>1.8/s</span></div>
+</div>
+
+<!-- right telemetry rail -->
+<div class="console-right-rail" aria-hidden="true">
+  <div class="rail-hd">// session_17.04.24</div>
+  <div class="rail-row"><b>lead_capture</b><span>42%</span></div>
+  <div class="rail-bar"><div class="rail-bar-fill"></div></div>
+  <div class="rail-row"><b>site_load</b><span>4.1s</span></div>
+  <div class="rail-row"><b>mobile_score</b><span>62</span></div>
+  <div class="rail-row r-amb"><b>forms</b><span>degraded</span></div>
+  <div class="rail-sep"></div>
+  <div class="rail-hd">// log_stream</div>
+  <div class="rail-stream">
+    <div class="rs">[17:04:22] scan.init ok</div>
+    <div class="rs">[17:04:23] crawl::depth=2</div>
+    <div class="rs">[17:04:24] probe::forms</div>
+    <div class="rs">[17:04:25] probe::speed 4.1s</div>
+    <div class="rs">[17:04:26] probe::gbp miss</div>
+    <div class="rs">[17:04:27] probe::schema n/a</div>
+    <div class="rs">[17:04:28] score::compute</div>
+    <div class="rs">[17:04:29] report::ready</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <a href="#" class="brand" aria-label="Brewington home">
+      <span class="brand-logo" aria-hidden="true">
+        <span class="d on-r"></span>
+        <span class="d on-a"></span>
+        <span class="d on-g"></span>
+      </span>
+      <span class="brand-name">Brewington <em>Digital</em></span>
+    </a>
+    <div class="nav-links">
+      <a href="#diagnostic">Diagnostic</a>
+      <a href="#system">System</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#founder">Founder</a>
+    </div>
+    <div class="nav-right">
+      <span class="nav-phone" aria-hidden="true"><span class="p-dot"></span>602 609 4756</span>
+      <a href="sms:6026094756?body=Hey%2C%20run%20a%20diagnostic%20on%20my%20business." class="nav-cta">Text the shop</a>
+      <button class="nav-burger" aria-label="Menu"><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-in">
+
+    <div class="hero-left">
+      <div class="status-bar" aria-label="System status">
+        <span class="sb-dot" aria-hidden="true"></span>
+        <span>Live Diagnostic</span>
+        <span class="sb-div" aria-hidden="true"></span>
+        <span class="sb-id">UNIT-017</span>
+      </div>
+
+      <h1 class="hero-h1">
+        Your business is <span class="h-leak">leaking revenue</span><span class="h-dim"> while you read this.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Dead sites. Missed calls. Dropped follow-ups. Every hour costs you real jobs. <b>We diagnose it, fix it, and keep it running</b> like a shop that actually gets maintained.
+      </p>
+
+      <form class="diag" id="diagForm" autocomplete="off">
+        <div class="diag-label" aria-hidden="true">
+          <span class="dl-id">DG-001</span>
+          <span class="dl-sep">//</span>
+          <span>Run diagnostic on your site</span>
+        </div>
+        <div class="diag-form">
+          <div class="diag-prefix" aria-hidden="true">https://</div>
+          <input class="diag-input" type="text" name="url" placeholder="yourbusiness.com" aria-label="Your website" spellcheck="false" autocapitalize="none">
+          <button class="diag-submit" type="submit" aria-label="Run diagnostic">
+            Run Scan
+            <svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+        <div class="diag-foot">
+          <span class="df-ok">Scan in ~30s</span>
+          <span class="df-sep">//</span>
+          <span>No email. No pitch. Just the readout.</span>
+        </div>
+      </form>
+
+      <div class="hero-contacts">
+        <a href="sms:6026094756">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 3h12v9H6l-4 3V3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          Text 602 609 4756
+        </a>
+        <span class="c-sep">//</span>
+        <a href="mailto:digitalbrewington@gmail.com">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 4h12v8H2zM2 4l6 5 6-5" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          digitalbrewington@gmail.com
+        </a>
+      </div>
+    </div>
+
+    <div class="panel-wrap">
+      <div class="panel" role="img" aria-label="Three-state diagnostic indicator">
+        <span class="bolt b1"></span><span class="bolt b2"></span><span class="bolt b3"></span><span class="bolt b4"></span>
+
+        <div class="panel-top">
+          <span class="pt-id">BREW-DIAG / v3.2</span>
+          <span class="pt-live">LIVE</span>
+        </div>
+
+        <div class="leds" id="ledCluster">
+          <div class="led-row r active" data-state="r">
+            <div class="led on-r" aria-hidden="true"></div>
+            <div class="led-meta">
+              <div class="led-tag">01 // RED</div>
+              <div class="led-hdr">Broken down</div>
+              <div class="led-desc">voicemail, dead site, tanking reviews</div>
+            </div>
+          </div>
+          <div class="led-row a" data-state="a">
+            <div class="led" aria-hidden="true"></div>
+            <div class="led-meta">
+              <div class="led-tag">02 // AMBER</div>
+              <div class="led-hdr">Limping along</div>
+              <div class="led-desc">leaking leads, slow follow-up, losing money</div>
+            </div>
+          </div>
+          <div class="led-row g" data-state="g">
+            <div class="led" aria-hidden="true"></div>
+            <div class="led-meta">
+              <div class="led-tag">03 // GREEN</div>
+              <div class="led-hdr">Rolling clean</div>
+              <div class="led-desc">systems working, phone ringing, revenue flowing</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-bot" aria-hidden="true">
+          <div class="pb-label"><span>Scan progress</span><b id="pbPct">47%</b></div>
+          <div class="pb-track"><div class="pb-fill"></div></div>
+          <div class="pb-ticks"><span>CRAWL</span><span>SPEED</span><span>LEADS</span><span>GBP</span><span>SEO</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="rest"><span>//</span> rest of page continues <span>//</span></div>
+
+<script>
+// state cycle
+(function(){
+  var rows=document.querySelectorAll('.led-row');
+  var states=['r','a','g'];
+  var i=0;
+  function activate(s){
+    rows.forEach(function(r){
+      var on=r.dataset.state===s;
+      r.classList.toggle('active',on);
+      var led=r.querySelector('.led');
+      led.classList.toggle('on-r',on&&s==='r');
+      led.classList.toggle('on-a',on&&s==='a');
+      led.classList.toggle('on-g',on&&s==='g');
+    });
+  }
+  activate(states[0]);
+  setInterval(function(){
+    i=(i+1)%states.length;
+    activate(states[i]);
+  },2200);
+})();
+// progress percent tick
+(function(){
+  var el=document.getElementById('pbPct');if(!el)return;
+  var vals=['12%','29%','47%','63%','78%','94%'];var k=0;
+  setInterval(function(){k=(k+1)%vals.length;el.textContent=vals[k];},800);
+})();
+// form
+(function(){
+  var f=document.getElementById('diagForm');if(!f)return;
+  f.addEventListener('submit',function(e){e.preventDefault();var b=f.querySelector('.diag-submit');b.textContent='Scanning...';setTimeout(function(){b.innerHTML='Run Scan <svg viewBox=\"0 0 14 14\" fill=\"none\" aria-hidden=\"true\"><path d=\"M1 7h12M8 2l5 5-5 5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>';},1400);});
+})();
+</script>
+
+</body>
+</html>

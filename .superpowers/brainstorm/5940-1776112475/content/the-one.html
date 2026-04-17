@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brewington Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-snap-type: y mandatory; overflow-x: hidden; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: #08080c;
+    color: #fff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Grain overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    opacity: 0.6;
+  }
+
+  ::selection { background: #7c3aed; color: #fff; }
+
+  /* ═══════════════ SECTION SNAP ═══════════════ */
+  section {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* ═══════════════ NAV ═══════════════ */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 24px 48px;
+    display: flex; justify-content: space-between; align-items: center;
+    mix-blend-mode: difference;
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .nav-cta {
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 10px 24px;
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 100px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .nav-cta:hover {
+    background: #fff; color: #08080c;
+  }
+
+  /* ═══════════════ HERO ═══════════════ */
+  .hero {
+    flex-direction: column;
+    padding: 0 48px;
+    background: #08080c;
+  }
+
+  /* Waveform — the product IS the background */
+  .waveform-wrap {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0.12;
+  }
+  .waveform {
+    display: flex; align-items: center; gap: 3px;
+    height: 300px;
+  }
+  .waveform .bar {
+    width: 3px;
+    background: #a78bfa;
+    border-radius: 3px;
+    animation: wave 1.2s ease-in-out infinite alternate;
+  }
+
+  @keyframes wave {
+    0% { height: var(--h-min); }
+    100% { height: var(--h-max); }
+  }
+
+  /* Transcript — proof of product */
+  .transcript {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 2;
+    color: rgba(255,255,255,0.08);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .transcript .line {
+    opacity: 0;
+    animation: transcriptFade 0.5s forwards;
+  }
+  .transcript .caller { color: rgba(255,255,255,0.06); }
+  .transcript .ai { color: rgba(124,58,237,0.12); }
+
+  /* Main headline */
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    max-width: 900px;
+  }
+  .hero-content h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 14vw, 180px);
+    line-height: 0.85;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .hero-content h1 .accent {
+    display: block;
+    background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 50%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 1.8vw, 19px);
+    font-weight: 300;
+    color: rgba(255,255,255,0.4);
+    max-width: 520px;
+    margin: 0 auto 48px;
+    line-height: 1.8;
+  }
+  .hero-cta-group {
+    display: flex; justify-content: center; gap: 20px; align-items: center;
+  }
+  .cta-main {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: #7c3aed;
+    color: #fff;
+    padding: 18px 40px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 0 0 0 rgba(124,58,237,0), 0 4px 30px rgba(124,58,237,0.3);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-main::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+  .cta-main:hover::before { transform: translateX(100%); }
+  .cta-main:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 0 8px rgba(124,58,237,0.08), 0 8px 40px rgba(124,58,237,0.4);
+  }
+  .cta-ghost {
+    font-size: 14px; font-weight: 400;
+    color: rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: color 0.3s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .cta-ghost:hover { color: #a78bfa; }
+  .cta-ghost svg { width: 16px; height: 16px; transition: transform 0.3s; }
+  .cta-ghost:hover svg { transform: translateY(3px); }
+
+  /* Scroll indicator */
+  .scroll-line {
+    position: absolute; bottom: 0; left: 50%;
+    width: 1px; height: 80px;
+    background: linear-gradient(to bottom, transparent, rgba(124,58,237,0.3));
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; height: 60px; }
+    50% { opacity: 0.8; height: 80px; }
+  }
+
+  /* ═══════════════ PAIN SECTION ═══════════════ */
+  .pain {
+    background: #06060a;
+    flex-direction: column;
+    padding: 0 48px;
+    text-align: center;
+  }
+  .pain-number {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 20vw, 260px);
+    line-height: 0.85;
+    background: linear-gradient(to bottom, rgba(239,68,68,0.8), rgba(239,68,68,0.1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .pain h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(20px, 3vw, 36px);
+    font-weight: 600;
+    margin-top: -10px;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+  .pain p {
+    font-size: 17px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    max-width: 500px;
+    line-height: 1.8;
+  }
+
+  /* ═══════════════ SERVICES ═══════════════ */
+  .services {
+    background: #08080c;
+    flex-direction: column;
+    padding: 100px 48px;
+    min-height: auto;
+    scroll-snap-align: none;
+  }
+  .services-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .services-header .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: #7c3aed; margin-bottom: 16px;
+  }
+  .services-header h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 6vw, 72px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px;
+    max-width: 1000px;
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.04);
+  }
+  .service-card {
+    background: #08080c;
+    padding: 48px 36px;
+    position: relative;
+    transition: background 0.5s;
+    cursor: default;
+  }
+  .service-card:hover {
+    background: #0c0c14;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 0; height: 2px;
+    background: #7c3aed;
+    transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  .service-card:hover::before { width: 100%; }
+
+  .service-icon {
+    font-size: 28px; margin-bottom: 20px;
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px;
+    background: rgba(124,58,237,0.08);
+    color: #a78bfa;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .service-card h3 {
+    font-size: 18px; font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .service-card p {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.7;
+  }
+
+  /* ═══════════════ SOCIAL PROOF ═══════════════ */
+  .proof {
+    background: #06060a;
+    flex-direction: column;
+    padding: 100px 48px;
+    text-align: center;
+  }
+  .proof .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: #7c3aed; margin-bottom: 48px;
+  }
+  .stats-row {
+    display: flex; justify-content: center; gap: 80px; flex-wrap: wrap;
+    margin-bottom: 80px;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 72px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+  .stat .num span { color: #a78bfa; }
+  .stat .desc {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.3);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .testimonial {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    padding: 40px 0;
+  }
+  .testimonial::before {
+    content: '"';
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    color: rgba(124,58,237,0.15);
+    position: absolute;
+    top: -10px; left: -20px;
+    line-height: 1;
+  }
+  .testimonial blockquote {
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.6);
+    font-style: italic;
+    margin-bottom: 20px;
+  }
+  .testimonial cite {
+    font-style: normal;
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.05em;
+  }
+  .testimonial cite strong {
+    color: rgba(255,255,255,0.6);
+    font-weight: 500;
+  }
+
+  /* ═══════════════ PRICING ═══════════════ */
+  .pricing {
+    background: #08080c;
+    flex-direction: column;
+    padding: 100px 48px;
+    text-align: center;
+    scroll-snap-align: start;
+  }
+  .pricing .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: #7c3aed; margin-bottom: 16px;
+  }
+  .pricing h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 56px);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 60px;
+  }
+  .pricing-cards {
+    display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+    max-width: 800px; margin: 0 auto;
+  }
+  .price-card {
+    flex: 1; min-width: 300px; max-width: 380px;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 48px 36px;
+    text-align: left;
+    position: relative;
+    background: #0a0a12;
+    transition: border-color 0.4s, box-shadow 0.4s;
+  }
+  .price-card:hover {
+    border-color: rgba(124,58,237,0.3);
+  }
+  .price-card.featured {
+    border-color: rgba(124,58,237,0.4);
+    box-shadow: 0 0 60px rgba(124,58,237,0.08);
+  }
+  .price-card.featured::before {
+    content: 'Most Popular';
+    position: absolute; top: -12px; left: 36px;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 4px 14px; border-radius: 100px;
+    background: #7c3aed; color: #fff;
+  }
+  .price-tier {
+    font-size: 13px; font-weight: 500;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px; letter-spacing: 0.02em;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .price-amount span { color: #a78bfa; font-size: 24px; }
+  .price-period {
+    font-size: 13px; color: rgba(255,255,255,0.25);
+    margin-bottom: 28px;
+  }
+  .price-features {
+    list-style: none;
+    margin-bottom: 32px;
+  }
+  .price-features li {
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .price-features li::before {
+    content: '—';
+    color: #7c3aed;
+    font-weight: 500;
+  }
+  .price-cta {
+    display: block; text-align: center;
+    padding: 14px 28px; border-radius: 100px;
+    font-weight: 600; font-size: 14px;
+    cursor: pointer; transition: all 0.3s;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.6);
+  }
+  .price-cta:hover {
+    border-color: #7c3aed;
+    color: #fff;
+    background: rgba(124,58,237,0.08);
+  }
+  .price-card.featured .price-cta {
+    background: #7c3aed;
+    border-color: #7c3aed;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(124,58,237,0.3);
+  }
+  .price-card.featured .price-cta:hover {
+    box-shadow: 0 6px 30px rgba(124,58,237,0.4);
+    transform: translateY(-2px);
+  }
+
+  /* ═══════════════ FINAL CTA ═══════════════ */
+  .final-cta {
+    background: #06060a;
+    flex-direction: column;
+    padding: 100px 48px;
+    text-align: center;
+    position: relative;
+  }
+  .final-cta .glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(124,58,237,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .final-cta h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 100px);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    position: relative; z-index: 2;
+  }
+  .final-cta p {
+    font-size: 17px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.35);
+    max-width: 460px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+    position: relative; z-index: 2;
+  }
+  .final-cta .cta-main {
+    position: relative; z-index: 2;
+  }
+
+  /* ═══════════════ FOOTER ═══════════════ */
+  footer {
+    padding: 40px 48px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: rgba(255,255,255,0.2);
+    background: #06060a;
+  }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { color: rgba(255,255,255,0.2); transition: color 0.3s; }
+  .footer-links a:hover { color: #a78bfa; }
+
+  /* ═══════════════ INDUSTRIES TICKER ═══════════════ */
+  .ticker-wrap {
+    position: absolute;
+    bottom: 100px;
+    left: 0; right: 0;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .ticker {
+    display: flex;
+    gap: 48px;
+    animation: ticker 25s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  .ticker span {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.06);
+  }
+  .ticker span::after {
+    content: '·';
+    margin-left: 48px;
+    color: rgba(124,58,237,0.15);
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ═══════════════ LOCATIONS BAR ═══════════════ */
+  .locations {
+    position: absolute;
+    bottom: 40px;
+    left: 0; right: 0;
+    display: flex; justify-content: center; gap: 40px;
+    z-index: 2;
+  }
+  .locations span {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.15);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .locations span::before {
+    content: '';
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: #7c3aed;
+    box-shadow: 0 0 8px rgba(124,58,237,0.5);
+  }
+
+  /* Animation delays for hero entrance */
+  .hero-content > * {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: enter 0.8s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .hero-content > *:nth-child(1) { animation-delay: 0.5s; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.7s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.9s; }
+  @keyframes enter {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes transcriptFade {
+    to { opacity: 1; }
+  }
+
+  /* ═══════════════ RESPONSIVE ═══════════════ */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .hero, .pain, .services, .proof, .pricing, .final-cta { padding-left: 24px; padding-right: 24px; }
+    .stats-row { gap: 40px; }
+    .locations { gap: 20px; }
+    .locations span { font-size: 10px; }
+    .pricing-cards { gap: 16px; }
+    .price-card { min-width: 260px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Brewington Digital</div>
+  <div class="nav-cta">Book a Call</div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+  <!-- Audio waveform background — the product is the visual -->
+  <div class="waveform-wrap">
+    <div class="waveform" id="waveform"></div>
+  </div>
+
+  <!-- Ghost transcript -->
+  <div class="transcript" id="transcript"></div>
+
+  <!-- Industry ticker -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span>HVAC</span><span>Plumbing</span><span>Electrical</span><span>Dental</span>
+      <span>Cleaning</span><span>Landscaping</span><span>HVAC</span><span>Plumbing</span>
+      <span>Electrical</span><span>Dental</span><span>Cleaning</span><span>Landscaping</span>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <h1>
+      We answer<br>
+      <span class="accent">your phones.</span>
+    </h1>
+    <p class="hero-sub">
+      AI phone answering, missed-call text-back, appointment booking, and monthly reporting. Your front desk runs 24/7 — you just show up and work.
+    </p>
+    <div class="hero-cta-group">
+      <div class="cta-main">Book a Strategy Call</div>
+      <div class="cta-ghost">
+        See how it works
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="locations">
+    <span>Mesa, AZ</span>
+    <span>Scottsdale, AZ</span>
+    <span>Gilbert, AZ</span>
+  </div>
+
+  <div class="scroll-line"></div>
+</section>
+
+<!-- ═══════════════ PAIN ═══════════════ -->
+<section class="pain">
+  <div class="pain-number">62%</div>
+  <h2>of callers won't leave a voicemail.</h2>
+  <p>They'll call the next company on Google instead. Every missed call is a job you already paid to get — gone in four rings.</p>
+</section>
+
+<!-- ═══════════════ SERVICES ═══════════════ -->
+<section class="services">
+  <div class="services-header">
+    <div class="label">What We Run For You</div>
+    <h2>Everything. Handled.</h2>
+  </div>
+
+  <div class="service-grid">
+    <div class="service-card">
+      <div class="service-icon">01</div>
+      <h3>AI Phone Answering</h3>
+      <p>A trained AI receptionist picks up every call — 24/7, holidays included. Sounds human. Books jobs. Never calls in sick.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">02</div>
+      <h3>Missed Call Text-Back</h3>
+      <p>If a call slips through, an instant text goes out within 60 seconds. "Hey, we saw you called — how can we help?" Recovers 40%+ of lost leads.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">03</div>
+      <h3>Appointment Booking</h3>
+      <p>Callers get booked directly into your calendar. No back-and-forth. No receptionist needed. Confirmations and reminders on autopilot.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">04</div>
+      <h3>Website That Converts</h3>
+      <p>Fast, mobile-first, built to rank. Every element is designed to turn a visitor into a booked appointment — not just look pretty.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">05</div>
+      <h3>Monthly Reporting</h3>
+      <p>Clear report every month: calls answered, texts sent, appointments booked, revenue attributed. You see exactly what your investment produces.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">06</div>
+      <h3>Review Automation</h3>
+      <p>After every completed job, your customer gets a review request. Your Google rating climbs while you're on the next job site.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SOCIAL PROOF ═══════════════ -->
+<section class="proof">
+  <div class="label">The Numbers</div>
+  <div class="stats-row">
+    <div class="stat">
+      <div class="num">2,400<span>+</span></div>
+      <div class="desc">Calls Answered</div>
+    </div>
+    <div class="stat">
+      <div class="num">97<span>%</span></div>
+      <div class="desc">Answer Rate</div>
+    </div>
+    <div class="stat">
+      <div class="num">$180<span>K</span></div>
+      <div class="desc">Revenue Attributed</div>
+    </div>
+  </div>
+  <div class="testimonial">
+    <blockquote>We were losing 15-20 calls a week. Now every single one gets answered and most of them get booked before I even know they called.</blockquote>
+    <cite><strong>Mike R.</strong> — Owner, Desert Air HVAC, Mesa</cite>
+  </div>
+</section>
+
+<!-- ═══════════════ PRICING ═══════════════ -->
+<section class="pricing">
+  <div class="label">Simple Pricing</div>
+  <h2>One Price. Everything Included.</h2>
+
+  <div class="pricing-cards">
+    <div class="price-card">
+      <div class="price-tier">Starter</div>
+      <div class="price-amount">$297<span>/mo</span></div>
+      <div class="price-period">No contracts. Cancel anytime.</div>
+      <ul class="price-features">
+        <li>AI Phone Answering</li>
+        <li>Missed Call Text-Back</li>
+        <li>Appointment Booking</li>
+        <li>Monthly Report</li>
+      </ul>
+      <div class="price-cta">Book a Call</div>
+    </div>
+    <div class="price-card featured">
+      <div class="price-tier">Growth</div>
+      <div class="price-amount">$497<span>/mo</span></div>
+      <div class="price-period">No contracts. Cancel anytime.</div>
+      <ul class="price-features">
+        <li>Everything in Starter</li>
+        <li>Custom Website</li>
+        <li>Review Automation</li>
+        <li>Priority Support</li>
+      </ul>
+      <div class="price-cta">Book a Call</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ FINAL CTA ═══════════════ -->
+<section class="final-cta">
+  <div class="glow"></div>
+  <h2>Stop missing<br>money.</h2>
+  <p>One call. We'll show you exactly how many leads you're losing and how to capture every one of them.</p>
+  <div class="cta-main">Book Your Free Strategy Call &rarr;</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>&copy; 2026 Brewington Digital. Mesa, Scottsdale, Gilbert AZ.</span>
+  <div class="footer-links">
+    <a href="#">Privacy</a>
+    <a href="#">Terms</a>
+  </div>
+</footer>
+
+<script>
+// Build waveform bars
+(function() {
+  const wf = document.getElementById('waveform');
+  const count = 80;
+  for (let i = 0; i < count; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    const center = count / 2;
+    const dist = Math.abs(i - center) / center;
+    const hMin = 8 + Math.random() * 12;
+    const hMax = 30 + (1 - dist) * 200 + Math.random() * 60;
+    bar.style.setProperty('--h-min', hMin + 'px');
+    bar.style.setProperty('--h-max', hMax + 'px');
+    bar.style.animationDelay = (Math.random() * 1.5) + 's';
+    bar.style.animationDuration = (0.8 + Math.random() * 0.8) + 's';
+    wf.appendChild(bar);
+  }
+})();
+
+// Typewriter transcript
+(function() {
+  const lines = [
+    { cls: 'caller', text: '[Incoming Call — 480 area code]' },
+    { cls: 'ai', text: 'Hi, thanks for calling Desert Air HVAC.' },
+    { cls: 'ai', text: 'This is Sarah, how can I help you today?' },
+    { cls: 'caller', text: 'Yeah, my AC just stopped blowing cold.' },
+    { cls: 'ai', text: 'I\'m sorry to hear that. I can get a tech' },
+    { cls: 'ai', text: 'out to you today. What\'s your address?' },
+    { cls: 'caller', text: '4821 E Brown Rd, Mesa.' },
+    { cls: 'ai', text: 'Got it. I have a 2pm slot open — does' },
+    { cls: 'ai', text: 'that work for you?' },
+    { cls: 'caller', text: 'That\'s perfect.' },
+    { cls: 'ai', text: 'You\'re booked. You\'ll get a confirmation' },
+    { cls: 'ai', text: 'text in just a moment. Anything else?' },
+  ];
+  const el = document.getElementById('transcript');
+  let i = 0;
+  function addLine() {
+    if (i >= lines.length) {
+      // Reset after pause
+      setTimeout(() => {
+        el.innerHTML = '';
+        i = 0;
+        addLine();
+      }, 4000);
+      return;
+    }
+    const div = document.createElement('div');
+    div.className = 'line ' + lines[i].cls;
+    div.textContent = lines[i].text;
+    div.style.animationDelay = '0s';
+    el.appendChild(div);
+    i++;
+    setTimeout(addLine, 600 + Math.random() * 400);
+  }
+  setTimeout(addLine, 1500);
+})();
+</script>
+</body>
+</html>

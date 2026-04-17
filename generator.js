@@ -282,8 +282,9 @@ rgba(0,0,0,0.4) 100%)
 Radial glow behind headline: radial-gradient(ellipse at center,
 var(--accent-glow) 0%, transparent 70%) positioned behind text.
 
-Business name: split first word on its own line in --text,
-rest on next line in --accent. Font size clamp(56px,10vw,120px).
+Business name: display as one fluid headline, do NOT split it
+across multiple lines artificially. Let it wrap naturally.
+All in --accent. Font size clamp(40px,7vw,90px).
 Bebas Neue. Letter spacing 0.04em.
 Each letter animates in individually on load (staggered 30ms).
 
@@ -355,7 +356,8 @@ Rating badge: ${rating} in clamp(80px,12vw,120px) Bebas Neue
 --accent. Stars below in --accent. ${reviewCount} review count in --muted.
 Animate rating number counting up from 0 when scrolled into view.
 
-Up to 3 review cards in a row (stack on mobile):
+Show ALL reviews provided, up to 6 max, in a responsive grid
+(3 columns desktop, 2 tablet, 1 mobile):
 Glass morphism: background rgba(255,255,255,0.04),
 border 1px solid rgba(255,255,255,0.08),
 backdrop-filter blur(12px), border-radius --radius.
@@ -370,9 +372,11 @@ Split layout desktop: photo 45% left, text 55% right.
 Stack on mobile.
 
 ${localPhotoPaths.length > 1 ? `Photo: use "${localPhotoPaths[1]}", rounded, subtle --accent glow box-shadow.` : localPhotoPaths.length > 0 ? `Photo: use "${localPhotoPaths[0]}", rounded, subtle --accent glow box-shadow.` : 'No photo available for about section. Use a decorative accent block instead.'}
-Headline above photo column: NOT "About Us."
-Write something punchy and specific:
-"${city}'s Most Trusted ${niche.key.charAt(0).toUpperCase() + niche.key.slice(1)} Crew" or similar.
+Headline above photo column: NOT "About Us" and NOT a generic
+city/niche formula like "City's Best X." Instead, write a headline
+that references the business name specifically and incorporates
+one unique detail from their reviews if available (e.g. a trait
+customers praised, a standout quality, or something memorable).
 Bebas Neue, clamp(40px,6vw,80px).
 
 Body text: 3-4 sentences. Owner voice. Mention ${city}, ${niche.key},

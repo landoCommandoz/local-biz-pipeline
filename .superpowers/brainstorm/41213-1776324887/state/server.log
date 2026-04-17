@@ -1,0 +1,12 @@
+{"type":"server-started","port":57882,"host":"0.0.0.0","url_host":"localhost","url":"http://localhost:57882","screen_dir":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content","state_dir":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/state"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content/url-input-placement.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content/pre-scan-hook.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content/scan-depth.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content/real-scan-capabilities.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content/post-scan-cta.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content/post-scan-site-flow.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content/scanner-mockup.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content/scanner-mockup-v2.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content/real-vs-simulated.html"}
+{"type":"screen-added","file":"/workspaces/local-biz-pipeline/.superpowers/brainstorm/41213-1776324887/content/api-architecture.html"}
+{"type":"server-stopped","reason":"idle timeout"}

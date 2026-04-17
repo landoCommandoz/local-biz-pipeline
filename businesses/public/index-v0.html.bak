@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brewington Command Station</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#04060a; --panel:#0a0f18; --panel-2:#0e1422; --line:rgba(120,170,220,.12);
+    --ink:#e6eef7; --ink-dim:#7a8aa0; --ink-mute:#4a5668;
+    --accent:#00e5b5; --accent-amber:#ffb547; --accent-red:#ff5770;
+    --mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+    --sans:'Space Grotesk',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow-x:hidden}
+  body{
+    background:
+      radial-gradient(ellipse 1200px 800px at 20% 10%, rgba(0,229,181,0.08), transparent 60%),
+      radial-gradient(ellipse 800px 600px at 80% 90%, rgba(120,120,220,0.06), transparent 60%),
+      linear-gradient(180deg, #04060a 0%, #050812 100%);
+    min-height:100vh;
+  }
+  /* starfield */
+  .stars{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35}
+  .stars span{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;
+    box-shadow:0 0 4px rgba(255,255,255,.6);animation:twinkle 4s infinite}
+  @keyframes twinkle{0%,100%{opacity:.2}50%{opacity:.9}}
+
+  /* scan line */
+  .scanline{position:fixed;top:0;left:0;right:0;height:1px;z-index:2;pointer-events:none;
+    background:linear-gradient(90deg,transparent, var(--accent), transparent);
+    box-shadow:0 0 18px var(--accent);animation:scan 8s linear infinite;opacity:.25}
+  @keyframes scan{0%{top:0}100%{top:100%}}
+
+  /* layout */
+  .shell{position:relative;z-index:1;padding:28px 36px 60px;max-width:1440px;margin:0 auto}
+
+  /* command bar */
+  .bar{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;
+    padding:18px 24px;border:1px solid var(--line);border-radius:14px;
+    background:linear-gradient(180deg,rgba(20,28,42,.6),rgba(8,12,20,.6));
+    backdrop-filter:blur(14px);margin-bottom:24px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand-led{width:10px;height:10px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 12px var(--accent);animation:pulse 2s infinite}
+  @keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
+  .brand-name{font-family:var(--mono);font-weight:700;font-size:15px;letter-spacing:.14em}
+  .brand-sub{color:var(--ink-dim);font-family:var(--mono);font-size:11px;letter-spacing:.08em;margin-top:2px}
+
+  .metrics{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+  .metric{display:flex;flex-direction:column;align-items:center;min-width:100px}
+  .metric-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--ink-mute);margin-bottom:4px}
+  .metric-val{font-family:var(--mono);font-size:20px;font-weight:700;letter-spacing:.04em}
+  .metric-val.pos{color:var(--accent)}
+  .metric-val.neg{color:var(--accent-red)}
+  .metric-val.dim{color:var(--ink)}
+
+  .clock{text-align:right}
+  .clock-time{font-family:var(--mono);font-size:20px;font-weight:600;letter-spacing:.06em}
+  .clock-date{font-family:var(--mono);font-size:10px;color:var(--ink-dim);letter-spacing:.1em;margin-top:2px}
+
+  /* station layout */
+  .station{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px}
+
+  .room{position:relative;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    background:linear-gradient(180deg, rgba(16,22,36,.8), rgba(6,10,18,.8));
+    backdrop-filter:blur(12px);transition:transform .3s, border-color .3s}
+  .room:hover{border-color:rgba(0,229,181,.35);transform:translateY(-2px)}
+
+  .room-header{padding:16px 20px;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg, rgba(0,229,181,.06), transparent);
+    display:flex;align-items:center;gap:14px}
+  .room-led{width:12px;height:12px;border-radius:50%;flex-shrink:0;
+    background:var(--ink-mute);box-shadow:0 0 0 transparent;transition:all .3s}
+  .room-led.green{background:var(--accent);box-shadow:0 0 10px var(--accent);animation:pulse 2s infinite}
+  .room-led.amber{background:var(--accent-amber);box-shadow:0 0 10px var(--accent-amber)}
+  .room-led.red{background:var(--accent-red);box-shadow:0 0 10px var(--accent-red);animation:blink 1s infinite}
+  @keyframes blink{0%,100%{opacity:.5}50%{opacity:1}}
+  .room-name{font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+  .room-version{font-family:var(--mono);font-size:10px;color:var(--ink-mute);letter-spacing:.1em;margin-left:auto}
+  .room-status{font-family:var(--mono);font-size:10px;color:var(--ink-dim);letter-spacing:.12em;margin-top:4px;text-transform:uppercase}
+
+  .room-body{padding:18px 20px 20px}
+  .room-mission{font-size:13px;line-height:1.55;color:var(--ink-dim);margin-bottom:16px;
+    border-left:2px solid rgba(0,229,181,.3);padding-left:12px}
+
+  .room-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+  .stat{background:rgba(0,0,0,.3);border:1px solid var(--line);padding:10px 12px;border-radius:8px}
+  .stat-lbl{font-family:var(--mono);font-size:9px;color:var(--ink-mute);letter-spacing:.12em}
+  .stat-val{font-family:var(--mono);font-size:15px;font-weight:600;margin-top:2px}
+  .stat-val.pos{color:var(--accent)}
+  .stat-val.red{color:var(--accent-red)}
+
+  .room-activity{font-family:var(--mono);font-size:11px;color:var(--ink-dim);line-height:1.6;
+    max-height:100px;overflow:auto;border-top:1px dashed var(--line);padding-top:12px}
+  .room-activity .entry{padding:3px 0;border-bottom:1px dotted rgba(255,255,255,.05)}
+  .room-activity .no-activity{color:var(--ink-mute);font-style:italic}
+
+  .room-foot{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;
+    border-top:1px solid var(--line);background:rgba(0,0,0,.25);font-family:var(--mono);font-size:10px;
+    color:var(--ink-mute);letter-spacing:.08em}
+  .foot-spark{display:flex;gap:3px}
+  .foot-spark span{width:3px;height:10px;background:rgba(0,229,181,.25);border-radius:1px;animation:spark 1.2s ease-in-out infinite}
+  .foot-spark span:nth-child(2){animation-delay:.15s}
+  .foot-spark span:nth-child(3){animation-delay:.3s}
+  .foot-spark span:nth-child(4){animation-delay:.45s}
+  .foot-spark span:nth-child(5){animation-delay:.6s}
+  @keyframes spark{0%,100%{height:10px;opacity:.3}50%{height:16px;opacity:.9;background:var(--accent)}}
+
+  .escalation{margin-top:12px;padding:10px 12px;border-radius:8px;background:rgba(255,87,112,.08);
+    border:1px solid rgba(255,87,112,.3);font-family:var(--mono);font-size:11px;color:#ffc4cc}
+  .escalation b{color:var(--accent-red);letter-spacing:.1em}
+
+  /* empty state */
+  .empty{grid-column:1/-1;padding:60px;text-align:center;color:var(--ink-mute);
+    font-family:var(--mono);font-size:14px;border:1px dashed var(--line);border-radius:14px}
+
+  /* footer */
+  .footer{margin-top:32px;padding:18px 0;text-align:center;border-top:1px solid var(--line);
+    font-family:var(--mono);font-size:10px;color:var(--ink-mute);letter-spacing:.14em}
+
+  @media (max-width:700px){
+    .shell{padding:16px}
+    .bar{grid-template-columns:1fr;text-align:left}
+    .clock{text-align:left}
+    .metrics{justify-content:flex-start}
+    .station{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="scanline"></div>
+
+<div class="shell">
+  <div class="bar">
+    <div class="brand">
+      <span class="brand-led"></span>
+      <div>
+        <div class="brand-name">BREWINGTON COMMAND</div>
+        <div class="brand-sub">STATION / ORBIT 01 / OPERATOR: LANDO</div>
+      </div>
+    </div>
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">MTD INCOME</div>
+        <div class="metric-val pos" id="m-income">$0</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">MTD COST</div>
+        <div class="metric-val dim" id="m-cost">$0</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">MTD NET</div>
+        <div class="metric-val pos" id="m-net">$0</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">AGENTS ONLINE</div>
+        <div class="metric-val dim" id="m-agents">0</div>
+      </div>
+    </div>
+    <div class="clock">
+      <div class="clock-time" id="clock-time">--:--:--</div>
+      <div class="clock-date" id="clock-date">------</div>
+    </div>
+  </div>
+
+  <div class="station" id="station">
+    <div class="empty">Awaiting telemetry from businesses directory...</div>
+  </div>
+
+  <div class="footer">
+    BREWINGTON COMMAND v0.1 / POLL 3s / <span id="foot-status">LIVE</span>
+  </div>
+</div>
+
+<script>
+// starfield
+(function(){
+  const wrap = document.getElementById('stars');
+  const n = 80;
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('span');
+    s.style.left = Math.random()*100 + '%';
+    s.style.top = Math.random()*100 + '%';
+    s.style.animationDelay = (Math.random()*4) + 's';
+    s.style.opacity = 0.3 + Math.random()*0.6;
+    wrap.appendChild(s);
+  }
+})();
+
+// clock
+function tickClock(){
+  const d = new Date();
+  const t = d.toTimeString().slice(0,8);
+  const dt = d.toISOString().slice(0,10) + ' / ' + d.toTimeString().slice(9,15);
+  document.getElementById('clock-time').textContent = t;
+  document.getElementById('clock-date').textContent = dt;
+}
+tickClock();
+setInterval(tickClock, 1000);
+
+// status logic
+function ledClass(status, failures) {
+  if (failures >= 3) return 'red';
+  if (status === 'running' || status === 'ticking') return 'green';
+  if (status === 'awaiting_first_tick' || status === 'awaiting_gumroad_approval' || status === 'awaiting_approval') return 'amber';
+  if (status === 'stopped' || status === 'error') return 'red';
+  return '';
+}
+
+function statusText(status, mode) {
+  if (!status) return 'IDLE';
+  const map = {
+    awaiting_first_tick: 'STANDBY / FIRST TICK QUEUED',
+    awaiting_approval: 'STANDBY / AWAITING APPROVAL',
+    awaiting_gumroad_approval: 'STANDBY / GUMROAD APPROVAL',
+    running: 'RUNNING',
+    ticking: 'TICKING',
+    stopped: 'STOPPED',
+    error: 'ERROR'
+  };
+  const base = map[status] || status.toUpperCase();
+  return mode && mode !== 'idle' ? `${base} / ${mode.toUpperCase()}` : base;
+}
+
+function money(n) {
+  const sign = n < 0 ? '-' : '';
+  return sign + '$' + Math.abs(Math.round((n||0) * 100) / 100).toLocaleString();
+}
+
+function timeAgo(iso) {
+  if (!iso) return '--';
+  const diff = Date.now() - new Date(iso).getTime();
+  const s = Math.floor(diff/1000);
+  if (s < 60) return s + 's ago';
+  if (s < 3600) return Math.floor(s/60) + 'm ago';
+  if (s < 86400) return Math.floor(s/3600) + 'h ago';
+  return Math.floor(s/86400) + 'd ago';
+}
+
+function render(state) {
+  const o = state.overall || {};
+  document.getElementById('m-income').textContent = money(o.mtd_income);
+  document.getElementById('m-cost').textContent = money(o.mtd_cost);
+  const netEl = document.getElementById('m-net');
+  netEl.textContent = money(o.mtd_net);
+  netEl.className = 'metric-val ' + (o.mtd_net > 0 ? 'pos' : o.mtd_net < 0 ? 'neg' : 'dim');
+  document.getElementById('m-agents').textContent = (state.businesses || []).length;
+
+  const station = document.getElementById('station');
+  if (!state.businesses || state.businesses.length === 0) {
+    station.innerHTML = '<div class="empty">No businesses detected in /businesses/. Add a charter to begin.</div>';
+    return;
+  }
+
+  const html = state.businesses.map(b => {
+    const led = ledClass(b.status, b.failures_in_row);
+    const activity = (b.recent_log && b.recent_log.length > 0)
+      ? b.recent_log.map(l => `<div class="entry">${escapeHtml(l)}</div>`).join('')
+      : '<div class="no-activity">No entries. Charter awaits first tick.</div>';
+    const mtd = b.month_to_date || { income:0, cost:0 };
+    const net = (mtd.income||0) - (mtd.cost||0);
+    const escalation = b.last_escalation_reason
+      ? `<div class="escalation"><b>ESCALATION / ${timeAgo(b.last_escalation_at)}</b><br>${escapeHtml(b.last_escalation_reason)}</div>`
+      : '';
+    return `
+      <div class="room">
+        <div class="room-header">
+          <span class="room-led ${led}"></span>
+          <div>
+            <div class="room-name">${escapeHtml(b.name)}</div>
+            <div class="room-status">${statusText(b.status, b.mode)}</div>
+          </div>
+          <div class="room-version">v${b.charter_version}</div>
+        </div>
+        <div class="room-body">
+          <div class="room-mission">${escapeHtml(b.mission || b.product || 'No mission on file.')}</div>
+          <div class="room-stats">
+            <div class="stat"><div class="stat-lbl">MTD INCOME</div><div class="stat-val pos">${money(mtd.income)}</div></div>
+            <div class="stat"><div class="stat-lbl">MTD COST</div><div class="stat-val">${money(mtd.cost)}</div></div>
+            <div class="stat"><div class="stat-lbl">NET</div><div class="stat-val ${net<0?'red':'pos'}">${money(net)}</div></div>
+          </div>
+          ${escalation}
+          <div class="room-activity">${activity}</div>
+        </div>
+        <div class="room-foot">
+          <span>LAST TICK / ${timeAgo(b.last_tick_at)}</span>
+          <div class="foot-spark"><span></span><span></span><span></span><span></span><span></span></div>
+          <span>FAILURES / ${b.failures_in_row || 0}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+  station.innerHTML = html;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
+}
+
+async function poll() {
+  try {
+    const res = await fetch('/api/state', { cache: 'no-store' });
+    if (!res.ok) throw new Error('http ' + res.status);
+    const state = await res.json();
+    render(state);
+    document.getElementById('foot-status').textContent = 'LIVE';
+  } catch (e) {
+    document.getElementById('foot-status').textContent = 'RECONNECTING';
+  }
+}
+poll();
+setInterval(poll, 3000);
+</script>
+</body>
+</html>
