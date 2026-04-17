@@ -9,7 +9,7 @@
   "candidates_researched": 16,
   "candidates_pitched": 6,
   "candidates_approved": 6,
-  "candidates_hired": 6,
+  "candidates_hired": 7,
   "candidates_rejected": 0,
   "hired_roster": [
     {
@@ -115,18 +115,27 @@
       ],
       "purpose": "Malfunction detection timer. Every agent tick registers a watchdog; if a tick hangs past threshold, watchdog escalates to Hank, Hank escalates to Lando if unresolved in 2 cycles.",
       "pilot_subtask_tbd": "Wire into businesses/lib/watchdog.js. First use: protect Vega daily tick (09:00 local) from hanging on Gumroad API timeouts."
-    }
-  ],
-  "approved_queue": [
+    },
     {
       "slug": "dashboard-htmx-alpine",
       "brief": "dashboard_framework",
-      "approved_at": "2026-04-17T02:30:00Z",
-      "install_order": 5,
-      "install_status": "deferred_until_god_env_ships",
-      "deferral_reason": "Original pitch was card-based bays. Lando pivoted to god environment. HTMX+Alpine retained for polling + overlay drill-down layer. Install after designer pass ships if needed."
+      "package": "htmx.org + alpinejs",
+      "package_version_installed": "htmx.org@2.0.8 + alpinejs@3.15.11",
+      "install_cmd": "npm install htmx.org alpinejs",
+      "installed_at": "2026-04-17T08:54:45.974Z",
+      "installed_by": "hank (Lando directive: hire the pending queue now)",
+      "files_touched": [
+        "package.json",
+        "node_modules/htmx.org/",
+        "node_modules/alpinejs/",
+        "businesses/public/vendor/htmx.min.js",
+        "businesses/public/vendor/alpine.min.js"
+      ],
+      "purpose": "Polling + overlay drill-down layer for the command center. Lets bays pull live /api/state without a build step.",
+      "pilot_subtask_tbd": "Wire into redesigned command center HTML after the designer pass ships concepts."
     }
   ],
+  "approved_queue": [],
   "last_tick_at": "2026-04-17T07:44:20.713Z",
   "last_tick_summary": "audit complete: filed 5 uncredited installs (pino/wfa/croner/plop/watchdog) into hired_roster. Mode flipped trigger_only -> active_hiring per Lando directive. Hank will auto-hire free tools going forward without per-install permission.",
   "status": "hunting",

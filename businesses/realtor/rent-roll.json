@@ -1,0 +1,46 @@
+{
+  "month_key": "2026-04",
+  "computed_at": "2026-04-17T10:23:00.924Z",
+  "baseline_rent_mo": 20,
+  "tenants": [
+    {
+      "tenant": "builder",
+      "display_name": "Jax",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": null
+    },
+    {
+      "tenant": "foreman",
+      "display_name": "Hank",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": null
+    },
+    {
+      "tenant": "paymaster",
+      "display_name": "Doss",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": null
+    },
+    {
+      "tenant": "scout",
+      "display_name": "Vega",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": "2026-05-17"
+    }
+  ],
+  "total_owed": 80,
+  "total_paid": 0,
+  "occupancy_pct": 67
+}

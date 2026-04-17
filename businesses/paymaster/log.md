@@ -8,3 +8,6 @@
 - Role: paymaster
 - Display name: Doss
 - Lando approved the roster. Doss is now the name stenciled on this bay's card, on the sidebar, and on any speech bubble attributed to this agent.
+
+2026-04-17 09:09 :: INFO :: hired meter-anthropic (@anthropic-ai/sdk) :: wrapper at businesses/lib/metered-anthropic.js appends every messages.create call to businesses/paymaster/usage.jsonl
+2026-04-17 09:09 :: INFO :: hired reader-gumroad (gumroad-api-v2) :: businesses/lib/gumroad-reader.js pollSales() pulls Vega's Gumroad sales into scout/sales.jsonl and appends income entries to paymaster/ledger.json. Cursor at paymaster/gumroad-cursor.json. Needs GUMROAD_ACCESS_TOKEN in .env.

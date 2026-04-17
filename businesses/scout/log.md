@@ -22,3 +22,5 @@
 - Role: scout
 - Display name: Vega
 - Lando approved the roster. Vega is now the name stenciled on this bay's card, on the sidebar, and on any speech bubble attributed to this agent.
+
+2026-04-17 09:09 :: HIRE :: publisher-gumroad (gumroad-api-v2) installed at businesses/lib/gumroad-publisher.js, tests 4/4 PASS, blocked on env GUMROAD_ACCESS_TOKEN

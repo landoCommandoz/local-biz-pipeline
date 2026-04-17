@@ -122,6 +122,59 @@ app.get('/api/portfolio', (req, res) => {
 
 app.use('/screenshots', express.static(path.join(__dirname, '..', 'screenshots')));
 
+// ================================================================
+// REAL ESTATE: vacancies, applications, rent-roll
+// ================================================================
+function readDirMarkdowns(dir) {
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((f) => f.endsWith('.md') && !f.startsWith('_'))
+    .map((f) => {
+      const full = path.join(dir, f);
+      let stat;
+      try { stat = fs.statSync(full); } catch { stat = null; }
+      const raw = readText(full, '');
+      const first = raw.split('\n').find((l) => l.startsWith('# '));
+      const title = first ? first.replace(/^#\s+/, '').trim() : f;
+      const statusMatch = raw.match(/\*\*Status:\*\*\s*([a-z-]+)/i);
+      const rentMatch = raw.match(/\*\*Baseline rent:\*\*\s*\$(\d+)/);
+      return {
+        slug: f.replace(/\.md$/, ''),
+        title,
+        status: statusMatch ? statusMatch[1] : null,
+        rent_mo: rentMatch ? Number(rentMatch[1]) : null,
+        triaged: /## Realtor triage/i.test(raw),
+        listed_at: stat ? stat.mtime.toISOString() : null,
+        body: raw
+      };
+    });
+}
+
+app.get('/api/realestate', (req, res) => {
+  try {
+    const vacanciesDir = path.join(BUSINESSES_DIR, 'realtor', 'vacancies');
+    const applicationsDir = path.join(BUSINESSES_DIR, 'realtor', 'applications');
+    const rentRollPath = path.join(BUSINESSES_DIR, 'realtor', 'rent-roll.json');
+    const vacancies = readDirMarkdowns(vacanciesDir);
+    const applications = readDirMarkdowns(applicationsDir);
+    const rent_roll = readJSON(rentRollPath, null);
+    res.json({
+      time: new Date().toISOString(),
+      baseline_rent_mo: 20,
+      vacancies,
+      applications,
+      rent_roll,
+      tenants_total: rent_roll && Array.isArray(rent_roll.tenants) ? rent_roll.tenants.length : 0,
+      vacancies_total: vacancies.length,
+      applications_total: applications.length,
+      occupancy_pct: rent_roll ? rent_roll.occupancy_pct : 0
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/api/state', (req, res) => {
   const pnl = readJSON(path.join(BUSINESSES_DIR, 'pnl.json'), {});
   const names = listBusinesses();
@@ -225,6 +278,21 @@ for (const name of names) {
 try {
   fs.watch(path.join(BUSINESSES_DIR, 'foreman', 'candidates'), { persistent: false }, (_ev, file) => {
     sseBroadcast('hire', { agent: 'foreman', file, time: new Date().toISOString() });
+  });
+} catch {}
+
+// Watch realtor real-estate inboxes for live dashboard updates
+for (const sub of ['vacancies', 'applications']) {
+  const p = path.join(BUSINESSES_DIR, 'realtor', sub);
+  try {
+    fs.watch(p, { persistent: false }, (_ev, file) => {
+      sseBroadcast('realestate', { kind: sub, file, time: new Date().toISOString() });
+    });
+  } catch {}
+}
+try {
+  fs.watch(path.join(BUSINESSES_DIR, 'realtor', 'rent-roll.json'), { persistent: false }, () => {
+    sseBroadcast('realestate', { kind: 'rent-roll', time: new Date().toISOString() });
   });
 } catch {}
 

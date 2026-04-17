@@ -39,3 +39,9 @@ Phase 1 hunt tick. Brainstormed 10+ candidates across all 5 open role briefs (da
 - Standing order installed: auto-hire any free + approved + under-50MB package. Paid or new-brief still escalates.
 - hired_roster now: 6. approved_queue: 1 (htmx+alpine, deferred).
 
+
+## 2026-04-17T08:54 — 7TH HIRE FILED + DESIGNER DISPATCHED
+- Lando directive: stop deferring, hire the queue, put them on the command center. Also: send out the command-center agent to redesign the interface.
+- Installed: htmx.org@2.0.8 + alpinejs@3.15.11. Vendored to businesses/public/vendor/. approved_queue flushed.
+- hired_roster now: 7. approved_queue: 0.
+- Dispatched 2 design agents in parallel to produce full command-center concepts at businesses/public/concepts/. Rating loop: Claude + Lando review the concepts together, pick a winner, then wire the live data via the newly-hired htmx+alpine.

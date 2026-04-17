@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>THE SIGNAL // Brewington Yard</title>
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%2306060a'/><circle cx='32' cy='32' r='10' fill='none' stroke='%2300e5ff' stroke-width='3'/><circle cx='32' cy='32' r='3' fill='%2300e5ff'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #06060a;
+    --bg-1: #0a0b10;
+    --bg-2: #10121a;
+    --bg-3: #181b26;
+    --line: #1e2130;
+    --line-2: #272b3c;
+    --cyan: #00e5ff;
+    --cyan-dim: rgba(0,229,255,.55);
+    --cyan-ghost: rgba(0,229,255,.08);
+    --warm: #f2f0ed;
+    --muted: #6b6f78;
+    --muted-2: #4a4e58;
+    --danger: #ff5a5f;
+    --success: #3dd68c;
+    --amber: #ffb347;
+    --f-display: 'Syne', sans-serif;
+    --f-body: 'DM Sans', sans-serif;
+    --f-mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+  html, body{ height: 100%; }
+  body{
+    background: var(--bg);
+    color: var(--warm);
+    font-family: var(--f-body);
+    font-weight: 400;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before{
+    content:""; position: fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(ellipse 900px 500px at 20% -10%, rgba(0,229,255,.06), transparent 60%),
+      radial-gradient(ellipse 700px 400px at 100% 110%, rgba(0,229,255,.04), transparent 60%);
+  }
+  body::after{
+    content:""; position: fixed; inset:0; pointer-events:none; z-index:999;
+    background: repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 3px, rgba(0,0,0,.12) 3px 4px);
+    mix-blend-mode: multiply; opacity: .4;
+  }
+
+  /* ================================================================ */
+  /* LAYOUT                                                           */
+  /* ================================================================ */
+  .shell{
+    position: relative; z-index: 1;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 64px 1fr;
+    grid-template-columns: 1fr 380px;
+    grid-template-areas:
+      "bar bar"
+      "main rail";
+    gap: 0;
+  }
+
+  /* ================================================================ */
+  /* TOP BAR                                                          */
+  /* ================================================================ */
+  .bar{
+    grid-area: bar;
+    display: flex; align-items: center;
+    padding: 0 28px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--bg-1), var(--bg));
+    gap: 28px;
+  }
+  .bar-brand{
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .bar-brand .mark{
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 12px var(--cyan-dim);
+    animation: pulse 2s ease-in-out infinite;
+    align-self: center;
+  }
+  .bar-brand .title{
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: 15px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+  .bar-brand .sub{
+    font-family: var(--f-mono);
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .bar-stats{
+    margin-left: auto;
+    display: flex; gap: 32px; align-items: center;
+  }
+  .stat{
+    display: flex; flex-direction: column; align-items: flex-end; gap: 2px;
+  }
+  .stat .k{
+    font-family: var(--f-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .stat .v{
+    font-family: var(--f-mono);
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .stat .v.pos{ color: var(--success); }
+  .stat .v.neg{ color: var(--danger); }
+  .bar-clock{
+    font-family: var(--f-mono);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--warm);
+    letter-spacing: .08em;
+    min-width: 88px;
+    text-align: right;
+  }
+  .bar-stream{
+    display: flex; align-items: center; gap: 8px;
+    padding-left: 20px;
+    border-left: 1px solid var(--line);
+    height: 30px;
+  }
+  .lamp{
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--muted-2);
+    transition: background .3s, box-shadow .3s;
+  }
+  .lamp.on{ background: var(--success); box-shadow: 0 0 8px rgba(61,214,140,.6); }
+  .lamp.off{ background: var(--danger); }
+  .bar-stream .lbl{
+    font-family: var(--f-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .14em;
+  }
+  @keyframes pulse{
+    0%,100%{ opacity: 1; transform: scale(1); }
+    50%{ opacity: .5; transform: scale(.85); }
+  }
+
+  /* ================================================================ */
+  /* MAIN — 2x2 bay grid                                             */
+  /* ================================================================ */
+  .main{
+    grid-area: main;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+    overflow: hidden;
+  }
+
+  .bay{
+    position: relative;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--bg-1), var(--bg));
+    border-radius: 6px;
+    padding: 22px 24px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: border-color .2s, transform .3s;
+  }
+  .bay.working{
+    border-color: var(--cyan-dim);
+    box-shadow: 0 0 0 1px rgba(0,229,255,.12), inset 0 0 40px rgba(0,229,255,.03);
+  }
+  .bay.danger{ border-color: rgba(255,90,95,.4); }
+
+  .bay-head{
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 12px; margin-bottom: 14px;
+  }
+  .bay-id{
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .bay-name{
+    font-family: var(--f-display);
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    line-height: 1;
+  }
+  .bay-role{
+    font-family: var(--f-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .bay-status{
+    display: flex; flex-direction: column; align-items: flex-end; gap: 6px;
+  }
+  .chip{
+    font-family: var(--f-mono);
+    font-size: 10px;
+    padding: 4px 8px;
+    border-radius: 3px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .chip.mode{ background: var(--cyan-ghost); color: var(--cyan); border: 1px solid var(--cyan-dim); }
+  .chip.status{ background: transparent; color: var(--muted); border: 1px solid var(--line-2); }
+  .chip.working{ background: rgba(0,229,255,.12); color: var(--cyan); border: 1px solid var(--cyan); }
+  .chip.danger{ background: rgba(255,90,95,.1); color: var(--danger); border: 1px solid rgba(255,90,95,.35); }
+
+  .bay-summary{
+    font-family: var(--f-body);
+    font-size: 13px;
+    color: var(--warm);
+    line-height: 1.45;
+    margin-bottom: 14px;
+    min-height: 38px;
+    opacity: .9;
+  }
+  .bay-summary.empty{ color: var(--muted-2); font-style: italic; opacity: .6; }
+
+  .bay-nums{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 14px;
+  }
+  .num{
+    display: flex; flex-direction: column; gap: 3px;
+  }
+  .num .k{
+    font-family: var(--f-mono);
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .num .v{
+    font-family: var(--f-mono);
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .num .v.pos{ color: var(--success); }
+  .num .v.neg{ color: var(--danger); }
+  .num .v.warn{ color: var(--amber); }
+
+  .bay-foot{
+    margin-top: auto;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    font-family: var(--f-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .08em;
+  }
+  .bay-foot .when{ text-transform: uppercase; letter-spacing: .14em; }
+  .bay-foot .crew{ text-transform: uppercase; letter-spacing: .14em; }
+
+  .hires{
+    margin-top: 12px;
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .hire-pill{
+    font-family: var(--f-mono);
+    font-size: 10px;
+    padding: 3px 7px;
+    background: var(--bg-3);
+    border: 1px solid var(--line-2);
+    color: var(--muted);
+    border-radius: 3px;
+    letter-spacing: .06em;
+  }
+  .hire-pill.env-missing{
+    color: var(--amber);
+    border-color: rgba(255,179,71,.35);
+  }
+
+  /* ================================================================ */
+  /* RIGHT RAIL — activity feed                                       */
+  /* ================================================================ */
+  .rail{
+    grid-area: rail;
+    border-left: 1px solid var(--line);
+    background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg) 100%);
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .rail-head{
+    padding: 20px 22px 12px;
+    border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .rail-title{
+    font-family: var(--f-display);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .rail-meta{
+    font-family: var(--f-mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: .14em;
+  }
+  .feed{
+    list-style: none;
+    overflow-y: auto;
+    padding: 8px 0;
+    flex: 1;
+  }
+  .feed::-webkit-scrollbar{ width: 6px; }
+  .feed::-webkit-scrollbar-thumb{ background: var(--line-2); border-radius: 3px; }
+  .entry{
+    padding: 10px 22px;
+    border-bottom: 1px solid rgba(30,33,48,.5);
+    display: flex; flex-direction: column; gap: 4px;
+    font-family: var(--f-body);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--warm);
+    opacity: .9;
+  }
+  .entry:hover{ background: rgba(255,255,255,.02); }
+  .entry-head{
+    display: flex; justify-content: space-between; gap: 8px;
+    font-family: var(--f-mono);
+    font-size: 9px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  .entry-agent{ font-weight: 600; }
+  .entry-agent.foreman{ color: var(--amber); }
+  .entry-agent.scout{ color: var(--success); }
+  .entry-agent.builder{ color: var(--cyan); }
+  .entry-agent.paymaster{ color: #d9a6ff; }
+  .entry-ts{ color: var(--muted); }
+  .entry-text{ color: var(--warm); opacity: .85; }
+  .feed-empty{
+    padding: 40px 22px;
+    text-align: center;
+    color: var(--muted-2);
+    font-size: 12px;
+    font-style: italic;
+  }
+
+  /* ================================================================ */
+  /* NARROW                                                           */
+  /* ================================================================ */
+  @media (max-width: 1100px){
+    .shell{
+      grid-template-columns: 1fr;
+      grid-template-rows: 64px 1fr 220px;
+      grid-template-areas: "bar" "main" "rail";
+    }
+    .rail{ border-left: none; border-top: 1px solid var(--line); }
+    .main{ grid-template-rows: auto; }
+  }
+</style>
+</head>
+<body x-data="signal()" x-init="boot()">
+
+<div class="shell">
+
+  <!-- TOP BAR -->
+  <header class="bar">
+    <div class="bar-brand">
+      <div class="mark"></div>
+      <div>
+        <div class="title">The Signal</div>
+        <div class="sub">Brewington Yard <span x-text="'// ' + (data.overall.mtd_net >= 0 ? 'holding' : 'bleeding')"></span></div>
+      </div>
+    </div>
+    <div class="bar-stats">
+      <div class="stat">
+        <div class="k">MTD In</div>
+        <div class="v pos" x-text="fmtMoney(data.overall.mtd_income)">$0</div>
+      </div>
+      <div class="stat">
+        <div class="k">MTD Out</div>
+        <div class="v neg" x-text="fmtMoney(data.overall.mtd_cost)">$0</div>
+      </div>
+      <div class="stat">
+        <div class="k">Net</div>
+        <div class="v" :class="data.overall.mtd_net >= 0 ? 'pos' : 'neg'" x-text="fmtMoney(data.overall.mtd_net)">$0</div>
+      </div>
+      <div class="bar-clock" x-text="clock"></div>
+      <div class="bar-stream">
+        <div class="lamp" :class="stream.ok ? 'on' : 'off'"></div>
+        <div class="lbl" x-text="stream.ok ? 'STREAM' : 'OFFLINE'"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN: 4 bays in 2x2 -->
+  <main class="main">
+    <template x-for="bay in orderedBays()" :key="bay.name">
+      <section class="bay" :class="{ working: isWorking(bay), danger: (bay.failures_in_row || 0) > 0 }">
+
+        <div class="bay-head">
+          <div class="bay-id">
+            <div class="bay-name" x-text="bay.display_name || bay.name.toUpperCase()"></div>
+            <div class="bay-role" x-text="roleOf(bay)"></div>
+          </div>
+          <div class="bay-status">
+            <span class="chip" :class="isWorking(bay) ? 'working' : 'mode'" x-text="(bay.mode || 'idle').replace(/_/g,' ')"></span>
+            <span class="chip status" x-text="(bay.status || 'unknown').replace(/_/g,' ')"></span>
+            <span class="chip danger" x-show="(bay.failures_in_row || 0) > 0" x-text="'fails ' + bay.failures_in_row"></span>
+          </div>
+        </div>
+
+        <div class="bay-summary" :class="{ empty: !bay.last_tick_summary }" x-text="bay.last_tick_summary || '(no tick summary)'"></div>
+
+        <div class="bay-nums">
+          <div class="num">
+            <div class="k">MTD In</div>
+            <div class="v" :class="bay.month_to_date.income > 0 ? 'pos' : ''" x-text="fmtMoney(bay.month_to_date.income)"></div>
+          </div>
+          <div class="num">
+            <div class="k">MTD Out</div>
+            <div class="v" :class="bay.month_to_date.cost > 0 ? 'neg' : ''" x-text="fmtMoney(bay.month_to_date.cost)"></div>
+          </div>
+          <div class="num">
+            <div class="k">Crew</div>
+            <div class="v" x-text="(bay.hired_roster || []).length"></div>
+          </div>
+        </div>
+
+        <div class="hires" x-show="(bay.hired_roster || []).length > 0">
+          <template x-for="h in (bay.hired_roster || [])" :key="h.slug">
+            <span class="hire-pill" :class="{ 'env-missing': h.requires_env && !h.env_present }" x-text="pillText(h)"></span>
+          </template>
+        </div>
+
+        <div class="bay-foot">
+          <span class="when" x-text="'LAST TICK ' + humanAgo(bay.last_tick_at)"></span>
+          <span class="crew" x-text="'v' + (bay.charter_version || '?')"></span>
+        </div>
+
+      </section>
+    </template>
+  </main>
+
+  <!-- RIGHT RAIL: activity feed -->
+  <aside class="rail">
+    <div class="rail-head">
+      <div class="rail-title">Activity</div>
+      <div class="rail-meta" x-text="activity.length + ' events'"></div>
+    </div>
+    <ul class="feed" x-show="activity.length > 0">
+      <template x-for="(e, i) in activity" :key="i">
+        <li class="entry">
+          <div class="entry-head">
+            <span class="entry-agent" :class="e.agent" x-text="e.agent"></span>
+            <span class="entry-ts" x-text="e.ts || '---'"></span>
+          </div>
+          <div class="entry-text" x-text="e.text"></div>
+        </li>
+      </template>
+    </ul>
+    <div class="feed-empty" x-show="activity.length === 0">(no activity yet)</div>
+  </aside>
+
+</div>
+
+<script src="/vendor/alpine.min.js" defer></script>
+<script>
+  const ORDER = ['foreman', 'scout', 'builder', 'paymaster'];
+  const ROLE = { foreman: 'Foreman', scout: 'Scout', builder: 'Builder', paymaster: 'Paymaster' };
+
+  function signal(){
+    return {
+      data: { overall: { mtd_income: 0, mtd_cost: 0, mtd_net: 0 }, businesses: [] },
+      activity: [],
+      stream: { ok: false },
+      clock: '--:--:--',
+      _tickTimer: null,
+      _pollTimer: null,
+      _sse: null,
+
+      boot(){
+        this.tickClock();
+        this._tickTimer = setInterval(() => this.tickClock(), 1000);
+        this.loadState();
+        this.loadActivity();
+        this._pollTimer = setInterval(() => this.loadState(), 10000);
+        this.openStream();
+      },
+
+      tickClock(){
+        const d = new Date();
+        const hh = String(d.getHours()).padStart(2,'0');
+        const mm = String(d.getMinutes()).padStart(2,'0');
+        const ss = String(d.getSeconds()).padStart(2,'0');
+        this.clock = `${hh}:${mm}:${ss}`;
+      },
+
+      async loadState(){
+        try{
+          const r = await fetch('/api/state');
+          if (!r.ok) return;
+          this.data = await r.json();
+        } catch (err) {}
+      },
+
+      async loadActivity(){
+        try{
+          const r = await fetch('/api/activity?limit=40');
+          if (!r.ok) return;
+          const j = await r.json();
+          this.activity = j.entries || [];
+        } catch (err) {}
+      },
+
+      openStream(){
+        try{
+          this._sse = new EventSource('/api/stream');
+          this._sse.addEventListener('hello', () => { this.stream.ok = true; });
+          this._sse.addEventListener('change', () => { this.loadState(); this.loadActivity(); });
+          this._sse.addEventListener('hire', () => { this.loadState(); this.loadActivity(); });
+          this._sse.onerror = () => { this.stream.ok = false; };
+        } catch (err) { this.stream.ok = false; }
+      },
+
+      orderedBays(){
+        const index = new Map((this.data.businesses || []).map(b => [b.name, b]));
+        return ORDER.map(n => index.get(n)).filter(Boolean);
+      },
+
+      roleOf(bay){
+        return ROLE[bay.name] || 'Bay';
+      },
+
+      isWorking(bay){
+        if (!bay || !bay.last_tick_at) return false;
+        return (Date.now() - new Date(bay.last_tick_at).getTime()) < 90000;
+      },
+
+      fmtMoney(v){
+        const n = Number(v) || 0;
+        return (n < 0 ? '-' : '') + '$' + Math.abs(Math.round(n));
+      },
+
+      humanAgo(iso){
+        if (!iso) return 'never';
+        const diff = Date.now() - new Date(iso).getTime();
+        if (isNaN(diff)) return 'never';
+        const s = Math.floor(diff / 1000);
+        if (s < 60) return s + 's ago';
+        const m = Math.floor(s / 60);
+        if (m < 60) return m + 'm ago';
+        const h = Math.floor(m / 60);
+        if (h < 24) return h + 'h ago';
+        const d = Math.floor(h / 24);
+        return d + 'd ago';
+      },
+
+      pillText(h){
+        const slug = (h.slug || h.package || 'tool').toString();
+        return slug.replace(/^[a-z]+-/, '').toUpperCase();
+      }
+    };
+  }
+</script>
+</body>
+</html>

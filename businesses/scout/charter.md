@@ -56,6 +56,7 @@ All products are pure digital CSV downloads. Zero fulfillment cost after generat
 - `../../csv-utils.js` - read / write CSV helpers
 - `../../scorer.js` (via `prospectai/scorer.js` pattern) - opportunity scoring
 - Gumroad API (requires `GUMROAD_ACCESS_TOKEN` in .env, TBD)
+- `../lib/gumroad-publisher.js` - `publishListing()` and `updateListing()` for the Gumroad v2 products API, no-ops cleanly when `GUMROAD_ACCESS_TOKEN` is missing
 - Anthropic API for writing listing copy
 - `../twilio-whatsapp.js` for escalation only
 

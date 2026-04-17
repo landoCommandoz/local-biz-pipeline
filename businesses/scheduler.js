@@ -18,7 +18,8 @@ const CADENCE = {
   foreman: { cron: '0 */6 * * *', name: 'every 6 hours' },
   scout: { cron: '0 9 * * *', name: 'daily at 09:00 local' },
   builder: { cron: '0 */4 * * *', name: 'every 4 hours' },
-  paymaster: { cron: '0 23 * * 0', name: 'Sunday at 23:00 (weekly digest)' }
+  paymaster: { cron: '0 23 * * 0', name: 'Sunday at 23:00 (weekly digest)' },
+  realtor: { cron: '0 */4 * * *', name: 'every 4 hours' }
 };
 
 function listAgents() {

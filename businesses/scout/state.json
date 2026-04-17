@@ -96,5 +96,14 @@
       "rule": "If your product is live and has zero sales, that is your problem, not Lando's. Pick a channel (Reddit, X, Facebook group, cold DM to agency owners, whatever fits). Draft the post in your own voice. Post it or queue a single post for Lando to literally one-tap publish. Measure clicks and sales. Rotate channels if one is dead after 48h. Never wait for Lando to decide where you advertise.",
       "first_action_due": "next tick"
     }
-  }
+  },
+  "hired_roster": [
+    {
+      "slug": "publisher-gumroad",
+      "package": "gumroad-api-v2",
+      "purpose": "create and update Gumroad listings via API",
+      "installed_at": "2026-04-17T09:09:50Z",
+      "requires_env": ["GUMROAD_ACCESS_TOKEN"]
+    }
+  ]
 }

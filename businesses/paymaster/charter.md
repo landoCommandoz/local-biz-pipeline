@@ -72,6 +72,8 @@ Phase 1 agents (ecosystem builders) that do not earn revenue directly are measur
 - Anthropic Admin API (usage metrics) if Lando enables it, otherwise a local middleware that wraps SDK calls and counts tokens
 - WebSearch and WebFetch for the 24/7 deploy research
 - `../twilio-whatsapp.js` for the weekly digest and red-flag pings
+- `../lib/gumroad-reader.js` (`pollSales`) to pull Vega's Gumroad sales into `businesses/scout/sales.jsonl` and append income entries to `businesses/paymaster/ledger.json`. Needs `GUMROAD_ACCESS_TOKEN` in `.env`. Cursor lives at `businesses/paymaster/gumroad-cursor.json`. The weekly tick calls it; no scheduler of its own.
+- `../lib/metered-anthropic.js` (`getClient(agentName)`) is the metered Anthropic SDK wrapper every agent should use instead of `new Anthropic()`. Every `messages.create` call appends a row to `businesses/paymaster/usage.jsonl` with timestamp, agent, model, input_tokens, output_tokens, cache tokens, and ok/error. Falls back to a no-op client when `ANTHROPIC_API_KEY` is missing so dev work does not crash. This jsonl is the raw feed for tokens-per-dollar-earned.
 
 ## Escalation rules
 Ping Lando via WhatsApp when:

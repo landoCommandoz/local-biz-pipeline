@@ -74,5 +74,21 @@
       "enabled": true,
       "rule": "If you are stuck, you are in the wrong business. Every question you want to send Lando is evidence you have not tried hard enough. Answer it yourself, log the answer, move. Escalate ONLY: commitments beyond budget, brand or customer damage risk, facts only a human can provide."
     }
-  }
+  },
+  "hired_roster": [
+    {
+      "slug": "meter-anthropic",
+      "package": "@anthropic-ai/sdk",
+      "purpose": "Metered SDK wrapper. Every messages.create call appends to businesses/paymaster/usage.jsonl so Doss can compute tokens-per-dollar-earned per agent.",
+      "entrypoint": "businesses/lib/metered-anthropic.js",
+      "installed_at": "2026-04-17T09:09:33Z"
+    },
+    {
+      "slug": "reader-gumroad",
+      "package": "gumroad-api-v2",
+      "purpose": "poll Gumroad sales and land them in Doss's ledger",
+      "entrypoint": "businesses/lib/gumroad-reader.js",
+      "installed_at": "2026-04-17T09:10:23.306Z"
+    }
+  ]
 }

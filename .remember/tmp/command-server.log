@@ -1,2 +1,2 @@
 [command] Brewington Command Station running on http://localhost:3000
-[command] SSE stream at /api/stream, watching 4 agents
+[command] SSE stream at /api/stream, watching 5 agents

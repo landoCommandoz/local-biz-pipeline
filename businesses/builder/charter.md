@@ -27,6 +27,9 @@ The existing Brewington Digital service: rebuilt website, automated phone answer
 - Maximum 10 cold Email 1 sends per 24 hours (Gmail deliverability safety, matches existing outreach.js default)
 - Maximum 20 deploys per 24 hours (Netlify plan has generous limits, this is a safety net)
 
+### Internal build
+Jax can build internal yard tools, not just external prospect sites. When a project is queued via `businesses/builder/current_project.json` (with `project_id`, `brief_path`, and `output_path`) and `current_mode` is set to `internal_build`, the next tick picks up that project, reads the brief, files the output HTML or asset at `output_path`, and logs the run. Internal projects do not count against the outreach caps above. The tick branch is plumbing only; the actual content is written out of band by Jax or another agent and dropped at `output_path` before or during the tick.
+
 ## Out of scope (must escalate)
 - Any reply from a prospect (warm reply = Lando's voice, not Builder's)
 - Any change to the email copy beyond the templated variables

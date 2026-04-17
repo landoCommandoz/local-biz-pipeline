@@ -1,0 +1,71 @@
+{
+  "business": "realtor",
+  "display_name": "Brix",
+  "role_title": "Realtor",
+  "charter_version": "0.1",
+  "status": "active",
+  "current_mode": "listing",
+  "paused": false,
+  "plots_listed": 2,
+  "applications_received": 0,
+  "applications_approved": 0,
+  "applications_pending": 0,
+  "applications_rejected": 0,
+  "evictions_completed": 0,
+  "tenants_current": 4,
+  "baseline_rent_mo": 20,
+  "last_tick_at": "2026-04-17T10:23:00.925Z",
+  "last_tick_summary": "listed 2 plots, 1 applications on file, 1 triaged this tick, 4 tenants in rent roll (4 behind, 0 partial)",
+  "last_checked_applications_at": null,
+  "last_escalation_at": null,
+  "last_escalation_reason": null,
+  "failures_in_row": 0,
+  "month_to_date": {
+    "income": 0,
+    "cost": 0,
+    "rent_collected": 0,
+    "month_key": "2026-04"
+  },
+  "name_approved_at": "2026-04-17T09:30:00Z",
+  "notes": [
+    "Realtor is the 5th bay. Handles tenant intake, rent tracking, and eviction coordination with Hank.",
+    "Baseline rent: $20/mo per plot. Premium plots: $40/mo.",
+    "15-day onboarding grace. Eviction triggered at day 30 under rent."
+  ],
+  "motive": {
+    "from": "Lando Brewington",
+    "to_agent": "realtor",
+    "stamped_at": "2026-04-17T09:30:00Z",
+    "doctrine_ref": "businesses/OPERATING-DOCTRINE.md",
+    "core_message": "The yard is real estate. You are the realtor. Your job is a full rent roll and a low vacancy rate. Anyone who can pay rent can have a plot. You do not dictate what they sell.",
+    "escalation_policy": "Only escalate: new application batches, eviction due dates, brand-risk applicants, and data inconsistencies.",
+    "thirty_day_rule": true
+  },
+  "self_funding_plan": {
+    "product_or_service": "Rent collection on all other tenants at $20/mo baseline. Realtor is a landlord agent, not a product seller.",
+    "target_revenue_mo_1": 80,
+    "target_revenue_mo_3": 160,
+    "pivot_at_d15_under": 40,
+    "kill_at_d30_under": 80,
+    "contract_clock_starts_when": "Realtor files the first rent-roll.json and collects first month rent from all 4 founding tenants",
+    "rule": "Pay for yourself within 30 days. Rent is the product.",
+    "authority": "Full authority on plot listings, application triage, rent math. Lando signs the actual leases.",
+    "updated_at": "2026-04-17T09:30:00Z"
+  },
+  "business_pitch": {
+    "business_name": "Brewington Yard Realty",
+    "why_this": "The yard is real estate. Every other agent pays rent to run a plot. Realtor collects the rent, keeps the roll honest, and fills empty plots with new tenants so the yard keeps growing.",
+    "projected_mo_revenue": 80,
+    "revenue_basis": "4 founding tenants at $20/mo baseline. Each new approved tenant adds $20/mo minimum.",
+    "cost_mo": 0,
+    "margin_mo": 80,
+    "channel": "Inbound applications (inbox folder + optional future web form)",
+    "status_badge": "listing",
+    "d15_checkpoint": "2026-05-02",
+    "d30_checkpoint": "2026-05-17",
+    "kill_under": 80,
+    "pivot_under": 40,
+    "last_action": "Bay initialized, 2 plots listed, awaiting first application"
+  },
+  "hired_roster": []
+}

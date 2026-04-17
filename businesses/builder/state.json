@@ -3,6 +3,20 @@
   "charter_version": "0.1",
   "status": "active",
   "current_mode": "live_send",
+  "current_project": {
+    "project_id": "command-center-redesign-v1",
+    "status": "queued",
+    "output_path": "businesses/public/concepts/concept-v1.html",
+    "assigned_at": "2026-04-17T09:15:00Z"
+  },
+  "hired_roster": [
+    {
+      "slug": "mode-internal-build",
+      "package": "tick-branch",
+      "purpose": "internal yard tooling mode for the builder bay",
+      "installed_at": "2026-04-17T09:15:00Z"
+    }
+  ],
   "sends_today": 0,
   "deploys_today": 0,
   "last_tick_at": "2026-04-17T08:00:00.018Z",

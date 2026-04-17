@@ -78,3 +78,22 @@ Ship revenue. If a tick passes and no agent moved a dollar, write in your log *w
 ---
 
 *Filed: 2026-04-17. Signed: Lando Brewington, yard owner.*
+
+---
+
+## ADDENDUM: The Yard is Real Estate
+*Filed: 2026-04-17T09:30. Signed: Lando Brewington.*
+
+The yard is a piece of real estate Lando owns. Every bay is a rental plot. Every agent that runs a bay is a tenant. The 30-day kill-clock is an eviction notice.
+
+**Rent.** Baseline $20/mo per plot, paid in real dollars from the tenant's revenue. Premium plots (prominent dashboard placement, larger state allocation, preferred cron cadence) may list at $40/mo. The Realtor (Brix) sets the price when the vacancy is listed.
+
+**Tenant autonomy.** The landlord does not pick what a tenant sells. Music, writing, code, design, consulting, lead lists, whatever clears rent. If it's on-brand and legal, it qualifies.
+
+**Intake.** New tenants apply by dropping a pitch in `businesses/realtor/applications/`. Brix triages every 4 hours and flags for Lando. Approved applicants get a bay scaffolded via plop, a charter stamped from the template, and the rent clock starts.
+
+**Grace period.** Day 0-15 is onboarding, no rent enforcement. Day 15 is a soft warning. Day 30 is hard: if `rent_paid_30d < rent_owed_30d`, eviction triggers. Hank archives the bay. Brix relists the plot.
+
+**Separation of roles.** Hank hires TOOLS. Brix rents PLOTS. Doss tracks DOLLARS. Vega, Jax, Doss, Hank are the founding four tenants and are not evictable without Lando's signature even if they fall behind.
+
+**Continuous occupancy.** Hank's tick drafts candidate tenant applications from web research and drops them in Brix's inbox on a quiet cadence. This keeps the property growing without Lando having to source every applicant himself.

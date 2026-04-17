@@ -5,6 +5,7 @@
  *   Does not publish to Gumroad in any mode before Lando approves the first publish.
  *   After Lando approves: flips current_mode to "live_refresh" and subsequent ticks
  *   refresh the CSV monthly (Phase 2 work).
+ *   NOTE: Gumroad publish/update is available at ../lib/gumroad-publisher.js once GUMROAD_ACCESS_TOKEN is wired into .env.
  */
 const fs = require('fs');
 const path = require('path');
