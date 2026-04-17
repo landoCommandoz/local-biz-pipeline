@@ -3,511 +3,455 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BREWINGTON YARD // PROPERTY</title>
-<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%2306060a'/><path d='M12 34 L32 18 L52 34 L52 52 L12 52 Z' fill='none' stroke='%2300e5ff' stroke-width='3'/><rect x='28' y='42' width='8' height='10' fill='%2300e5ff'/></svg>">
+<title>BREWINGTON YARD // GOD VIEW</title>
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%2306060a'/><circle cx='32' cy='32' r='10' fill='none' stroke='%2300e5ff' stroke-width='3'/><circle cx='32' cy='32' r='2' fill='%2300e5ff'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg: #06060a;
-    --bg-1: #0a0b10;
-    --bg-2: #10121a;
-    --bg-3: #181b26;
-    --line: #1e2130;
-    --line-2: #272b3c;
-    --cyan: #00e5ff;
-    --cyan-dim: rgba(0,229,255,.6);
-    --cyan-ghost: rgba(0,229,255,.08);
-    --warm: #f2f0ed;
-    --muted: #7a7e88;
-    --muted-2: #4a4e58;
-    --danger: #ff5a5f;
-    --success: #3dd68c;
-    --amber: #ffb347;
-    --purple: #d9a6ff;
-    --f-display: 'Syne', sans-serif;
-    --f-body: 'DM Sans', sans-serif;
-    --f-mono: 'JetBrains Mono', ui-monospace, monospace;
-  }
-  *{ box-sizing: border-box; margin:0; padding:0; }
-  html, body{ height: 100%; }
-  body{
-    background: var(--bg);
-    color: var(--warm);
-    font-family: var(--f-body);
-    -webkit-font-smoothing: antialiased;
-    overflow: hidden;
-  }
-  body::before{
-    content:""; position: fixed; inset:0; pointer-events:none; z-index:0;
-    background:
-      radial-gradient(ellipse 1000px 500px at 30% -10%, rgba(0,229,255,.05), transparent 60%),
-      radial-gradient(ellipse 900px 500px at 100% 120%, rgba(217,166,255,.04), transparent 60%);
-  }
-  body::after{
-    content:""; position: fixed; inset:0; pointer-events:none; z-index:999;
-    background: repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 3px, rgba(0,0,0,.09) 3px 4px);
-    mix-blend-mode: multiply; opacity: .35;
-  }
+/* ================================================================
+   DESIGN NOTES
+   Top-down god view of the Brewington Yard as an operating property.
+   Five tenant plots around a central plaza (the landlord's marker),
+   two outlying vacant lots with FOR RENT signs. Each plot is a
+   building with tenant-specific details. Live data flows from
+   /api/state, /api/realestate, /api/activity, and /api/stream:
+     - last_tick_at < 90s = glowing building + pulse ring from plot
+     - hired_roster length = equipment icons on the plot
+     - rent status = plot edge color (success / amber / danger)
+     - vacancies = dashed outlines with FOR RENT signs
+     - new applications = letter icons drifting to Brix's office
+     - sales (mtd income > 0) = dollar packets drifting to plaza
+   Never the word "AI". No em dashes. Syne + DM Sans + JetBrains Mono.
+   ================================================================ */
 
+:root{
+  --bg: #06060a;
+  --bg-1: #08090f;
+  --bg-2: #0a0c14;
+  --bg-3: #10121c;
+  --ground: #14182a;
+  --ground-rim: #1e2338;
+  --road: #1a1e30;
+  --road-light: #22283e;
+  --line: #1e2130;
+  --line-2: #272b3c;
+  --bldg: #1e2330;
+  --bldg-1: #262c3d;
+  --bldg-2: #2e3548;
+  --bldg-dark: #12151e;
+  --cyan: #00e5ff;
+  --cyan-dim: rgba(0,229,255,.55);
+  --warm: #f2f0ed;
+  --warm-glow: #ffd079;
+  --muted: #6b6f7a;
+  --muted-2: #4a4e58;
+  --danger: #ff5a5f;
+  --success: #3dd68c;
+  --amber: #ffb347;
+  --purple: #d9a6ff;
+  --f-display: 'Syne', sans-serif;
+  --f-body: 'DM Sans', sans-serif;
+  --f-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+*{ box-sizing: border-box; margin:0; padding:0; }
+html, body{ height: 100%; }
+body{
+  background: var(--bg);
+  color: var(--warm);
+  font-family: var(--f-body);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body::before{
+  content:""; position: fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(ellipse 1400px 700px at 50% 50%, rgba(0,229,255,.03), transparent 60%),
+    radial-gradient(ellipse 1200px 600px at 30% -10%, rgba(217,166,255,.04), transparent 60%),
+    radial-gradient(ellipse 1200px 600px at 100% 110%, rgba(255,179,71,.03), transparent 60%);
+}
+body::after{
+  content:""; position: fixed; inset:0; pointer-events:none; z-index:500;
+  background: repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 3px, rgba(0,0,0,.09) 3px 4px);
+  mix-blend-mode: multiply; opacity: .45;
+}
+
+.shell{
+  position: relative; z-index: 1;
+  height: 100vh; width: 100vw;
+  display: grid;
+  grid-template-rows: 60px 1fr;
+  grid-template-columns: 1fr 320px;
+  grid-template-areas:
+    "bar bar"
+    "map rail";
+}
+
+/* ================================================================ */
+/* TOP BAR                                                          */
+/* ================================================================ */
+.bar{
+  grid-area: bar;
+  display: flex; align-items: center;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--bg-1), var(--bg));
+  gap: 24px;
+  z-index: 10;
+}
+.brand{
+  display: flex; align-items: center; gap: 12px;
+}
+.mark{
+  width: 30px; height: 30px;
+  border-radius: 4px;
+  background: var(--bg-3);
+  border: 1px solid var(--line-2);
+  display: grid; place-items: center;
+  color: var(--cyan);
+  font-family: var(--f-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.brand-text{ display: flex; flex-direction: column; gap: 1px; }
+.brand-h{
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+.brand-s{
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.brand-s .owner{ color: var(--cyan); }
+
+.bar-stats{ margin-left: auto; display: flex; gap: 22px; align-items: center; }
+.kv{ display: flex; flex-direction: column; gap: 1px; align-items: flex-end; }
+.kv .k{
+  font-family: var(--f-mono);
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.kv .v{
+  font-family: var(--f-mono);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--warm);
+}
+.kv .v.pos{ color: var(--success); }
+.kv .v.neg{ color: var(--danger); }
+.kv .v.warn{ color: var(--amber); }
+.kv .v.cyan{ color: var(--cyan); }
+
+.clock{
+  font-family: var(--f-mono);
+  font-size: 16px;
+  color: var(--warm);
+  letter-spacing: .08em;
+  padding-left: 6px;
+}
+.lamp-wrap{
+  display: flex; align-items: center; gap: 6px;
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
+  height: 28px;
+}
+.lamp{
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--muted-2);
+}
+.lamp.on{
+  background: var(--success);
+  box-shadow: 0 0 10px rgba(61,214,140,.7);
+  animation: breathe 3s ease-in-out infinite;
+}
+.lamp.off{ background: var(--danger); }
+.lamp-lbl{
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  color: var(--muted);
+}
+@keyframes breathe{ 0%,100%{opacity:1} 50%{opacity:.4} }
+
+/* ================================================================ */
+/* MAP                                                              */
+/* ================================================================ */
+.map{
+  grid-area: map;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 900px 600px at 50% 50%, #0d1018, #060608 85%);
+}
+.map svg{
+  display: block;
+  width: 100%; height: 100%;
+}
+
+/* SVG styling */
+.ground{ fill: var(--ground); }
+.ground-rim{ fill: none; stroke: var(--ground-rim); stroke-width: 1.5; }
+.ground-hatch{ fill: none; stroke: rgba(255,255,255,.02); stroke-width: 1; }
+.road{ stroke: var(--road); stroke-width: 10; fill: none; stroke-linecap: round; }
+.road-line{ stroke: var(--road-light); stroke-width: 1; stroke-dasharray: 4 6; fill: none; }
+
+.plot-outline{ fill: var(--ground); stroke: var(--ground-rim); stroke-width: 2; }
+.plot-outline.current{ stroke: var(--success); }
+.plot-outline.partial{ stroke: var(--amber); }
+.plot-outline.behind{ stroke: var(--danger); }
+.plot-outline.default{ stroke: var(--danger); stroke-dasharray: 8 4; }
+.plot-outline.vacant{ stroke: var(--cyan); stroke-dasharray: 6 6; fill: var(--bg-3); }
+.plot-outline.working{ filter: drop-shadow(0 0 8px var(--cyan-dim)); }
+
+.bldg{ fill: var(--bldg); stroke: var(--line-2); stroke-width: 1; }
+.bldg-roof{ fill: var(--bldg-dark); }
+.bldg-light{ fill: var(--bldg-2); stroke: var(--line-2); stroke-width: 1; }
+.window{ fill: var(--bg-2); stroke: var(--line-2); stroke-width: .5; }
+.window.lit{ fill: var(--warm-glow); animation: flicker 4s ease-in-out infinite; }
+@keyframes flicker{ 0%,100%{opacity:.95} 45%{opacity:.75} 55%{opacity:1} }
+
+.tname{
+  font-family: var(--f-display);
+  font-weight: 800;
+  fill: var(--warm);
+  font-size: 18px;
+  letter-spacing: .04em;
+}
+.trole{
+  font-family: var(--f-mono);
+  font-size: 9px;
+  fill: var(--muted);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.tsign-bg{ fill: var(--bg-3); stroke: var(--line-2); stroke-width: 1; }
+.tsign-bg.current{ stroke: var(--success); }
+.tsign-bg.partial{ stroke: var(--amber); }
+.tsign-bg.behind{ stroke: var(--danger); }
+.tsign-bg.default{ fill: var(--danger); stroke: var(--danger); }
+.tsign-text{
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  fill: var(--warm);
+}
+.tsign-text.current{ fill: var(--success); }
+.tsign-text.partial{ fill: var(--amber); }
+.tsign-text.behind{ fill: var(--danger); }
+.tsign-text.default{ fill: var(--bg); font-weight: 500; }
+
+.hire-dot{ fill: var(--cyan-dim); stroke: var(--cyan); stroke-width: .6; }
+.vacant-sign-bg{ fill: var(--bg-3); stroke: var(--cyan); stroke-width: 1.2; }
+.vacant-sign-post{ stroke: var(--line-2); stroke-width: 2; }
+.vacant-sign-text{
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: .16em;
+  fill: var(--cyan);
+}
+.vacant-rent-text{
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .1em;
+  fill: var(--muted);
+}
+
+.plaza-ring{ fill: none; stroke: var(--cyan-dim); stroke-width: 1; stroke-dasharray: 2 4; }
+.plaza-core{ fill: var(--bg-3); stroke: var(--cyan); stroke-width: 1.2; }
+.plaza-label{
+  font-family: var(--f-display);
+  font-weight: 800;
+  fill: var(--warm);
+  font-size: 12px;
+  letter-spacing: .3em;
+}
+
+.pulse-ring{
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 1.5;
+  opacity: 0;
+  animation: pulseRing 2.4s ease-out infinite;
+}
+@keyframes pulseRing{
+  0%{ r: 8; opacity: .7; }
+  100%{ r: 120; opacity: 0; }
+}
+
+.dust{ fill: var(--cyan); }
+
+.label-sm{
+  font-family: var(--f-mono);
+  font-size: 9px;
+  fill: var(--muted);
+  letter-spacing: .1em;
+}
+.label-big{
+  font-family: var(--f-mono);
+  font-size: 10px;
+  fill: var(--warm);
+  letter-spacing: .1em;
+  font-weight: 500;
+}
+.label-cyan{ fill: var(--cyan); }
+
+/* Per-tenant accent colors */
+.a-foreman{ color: var(--amber); }
+.a-scout{ color: var(--success); }
+.a-builder{ color: var(--cyan); }
+.a-paymaster{ color: var(--purple); }
+.a-realtor{ color: var(--warm); }
+
+/* ================================================================ */
+/* RAIL                                                             */
+/* ================================================================ */
+.rail{
+  grid-area: rail;
+  border-left: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--bg-1), var(--bg));
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.rail-sec{
+  border-bottom: 1px solid var(--line);
+}
+.rail-head{
+  padding: 14px 20px 10px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.rail-title{
+  font-family: var(--f-display);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+.rail-meta{
+  font-family: var(--f-mono);
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: .14em;
+}
+.rail-meta .cyan{ color: var(--cyan); }
+.inbox, .feed{
+  list-style: none;
+  overflow-y: auto;
+  padding: 2px 0 8px;
+  max-height: 240px;
+}
+.feed{ max-height: none; flex: 1; }
+.inbox::-webkit-scrollbar, .feed::-webkit-scrollbar{ width: 4px; }
+.inbox::-webkit-scrollbar-thumb, .feed::-webkit-scrollbar-thumb{ background: var(--line-2); }
+
+.app, .entry{
+  padding: 8px 20px;
+  border-top: 1px solid rgba(30,33,48,.5);
+  display: flex; flex-direction: column; gap: 3px;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--warm);
+  opacity: .88;
+  cursor: pointer;
+}
+.app:hover, .entry:hover{ background: rgba(0,229,255,.03); }
+.app-title{
+  font-family: var(--f-display);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--warm);
+  letter-spacing: .02em;
+}
+.app-meta, .entry-head{
+  font-family: var(--f-mono);
+  font-size: 9px;
+  letter-spacing: .12em;
+  color: var(--muted);
+  display: flex; gap: 6px; align-items: center;
+}
+.app-tag{
+  font-size: 8px;
+  padding: 2px 5px;
+  border-radius: 2px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.app-tag.triaged{ background: rgba(0,229,255,.1); color: var(--cyan); border: 1px solid var(--cyan-dim); }
+.app-tag.untriaged{ background: rgba(255,179,71,.1); color: var(--amber); border: 1px solid rgba(255,179,71,.3); }
+
+.entry-agent{ font-weight: 600; }
+.entry-agent.foreman{ color: var(--amber); }
+.entry-agent.scout{ color: var(--success); }
+.entry-agent.builder{ color: var(--cyan); }
+.entry-agent.paymaster{ color: var(--purple); }
+.entry-agent.realtor{ color: var(--warm); }
+.empty-note{
+  padding: 20px;
+  color: var(--muted-2);
+  font-size: 11px;
+  font-style: italic;
+  text-align: center;
+}
+
+@media (max-width: 1000px){
   .shell{
-    position: relative; z-index:1;
-    height: 100vh;
-    display: grid;
-    grid-template-rows: 72px 1fr;
-    grid-template-columns: 1fr 360px;
-    grid-template-areas:
-      "bar bar"
-      "main rail";
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px 1fr 280px;
+    grid-template-areas: "bar" "map" "rail";
   }
-
-  /* HEADER */
-  .bar{
-    grid-area: bar;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    padding: 0 32px;
-    border-bottom: 1px solid var(--line);
-    background: linear-gradient(180deg, var(--bg-1), var(--bg));
-    gap: 24px;
-  }
-  .brand{
-    display: flex; align-items: center; gap: 14px;
-  }
-  .mark{
-    width: 34px; height: 34px;
-    border-radius: 4px;
-    background: var(--bg-2);
-    border: 1px solid var(--line-2);
-    display: grid; place-items: center;
-    color: var(--cyan);
-    font-family: var(--f-mono);
-    font-size: 18px;
-  }
-  .brand-title{
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .brand-title .h{
-    font-family: var(--f-display);
-    font-weight: 800;
-    font-size: 17px;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: var(--warm);
-  }
-  .brand-title .s{
-    font-family: var(--f-mono);
-    font-size: 10px;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-  .brand-title .s .owner{ color: var(--cyan); }
-
-  .stats{
-    display: flex; gap: 24px; align-items: center;
-  }
-  .kv{
-    display: flex; flex-direction: column; gap: 2px;
-    padding: 0 14px;
-    border-right: 1px solid var(--line);
-  }
-  .kv:last-of-type{ border-right: none; }
-  .kv .k{
-    font-family: var(--f-mono);
-    font-size: 9px;
-    color: var(--muted);
-    letter-spacing: .18em;
-    text-transform: uppercase;
-  }
-  .kv .v{
-    font-family: var(--f-mono);
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--warm);
-  }
-  .kv .v.pos{ color: var(--success); }
-  .kv .v.neg{ color: var(--danger); }
-  .kv .v.warn{ color: var(--amber); }
-  .kv .v.cyan{ color: var(--cyan); }
-
-  .clock{
-    font-family: var(--f-mono);
-    font-size: 19px;
-    font-weight: 500;
-    letter-spacing: .08em;
-    color: var(--warm);
-    padding-left: 8px;
-  }
-  .lamp-wrap{
-    display: flex; align-items: center; gap: 8px;
-    padding-left: 18px;
-    border-left: 1px solid var(--line);
-  }
-  .lamp{
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--muted-2);
-  }
-  .lamp.on{
-    background: var(--success);
-    box-shadow: 0 0 10px rgba(61,214,140,.7);
-    animation: breathe 3s ease-in-out infinite;
-  }
-  .lamp.off{ background: var(--danger); }
-  .lamp-lbl{
-    font-family: var(--f-mono);
-    font-size: 10px;
-    letter-spacing: .14em;
-    color: var(--muted);
-  }
-  @keyframes breathe{
-    0%,100%{ opacity: 1; }
-    50%{ opacity: .45; }
-  }
-
-  /* MAIN: property map */
-  .main{
-    grid-area: main;
-    overflow: auto;
-    padding: 24px 28px;
-  }
-  .main::-webkit-scrollbar{ width: 6px; }
-  .main::-webkit-scrollbar-thumb{ background: var(--line-2); border-radius: 3px; }
-
-  .section-h{
-    font-family: var(--f-display);
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: .28em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 14px;
-    display: flex; align-items: center; gap: 10px;
-  }
-  .section-h .count{
-    font-family: var(--f-mono);
-    color: var(--cyan);
-    font-size: 11px;
-    letter-spacing: .14em;
-  }
-  .section-h::after{
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--line), transparent);
-  }
-
-  .tenant-grid{
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 14px;
-    margin-bottom: 28px;
-  }
-
-  .plot{
-    position: relative;
-    background: linear-gradient(180deg, var(--bg-1), var(--bg));
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    padding: 18px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    transition: border-color .2s, transform .2s;
-    overflow: hidden;
-  }
-  .plot::before{
-    content: '';
-    position: absolute; top:0; left:0; bottom:0;
-    width: 3px;
-    background: var(--line-2);
-  }
-  .plot.current::before{ background: var(--success); }
-  .plot.partial::before{ background: var(--amber); }
-  .plot.behind::before{ background: var(--danger); }
-  .plot.default::before{ background: var(--danger); box-shadow: 0 0 12px var(--danger); }
-  .plot.vacant::before{ background: var(--cyan); }
-  .plot.vacant{
-    border-style: dashed;
-    border-color: var(--line-2);
-    opacity: .95;
-  }
-
-  .plot-head{
-    display: flex; align-items: flex-start; justify-content: space-between;
-    gap: 12px;
-  }
-  .plot-who{
-    display: flex; flex-direction: column; gap: 3px;
-  }
-  .plot-name{
-    font-family: var(--f-display);
-    font-weight: 800;
-    font-size: 22px;
-    letter-spacing: .03em;
-    line-height: 1;
-    color: var(--warm);
-  }
-  .plot-role{
-    font-family: var(--f-mono);
-    font-size: 10px;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 4px;
-  }
-  .plot-sign{
-    font-family: var(--f-mono);
-    font-size: 10px;
-    padding: 4px 8px;
-    border-radius: 3px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-  .plot-sign.current{ background: rgba(61,214,140,.12); color: var(--success); border: 1px solid rgba(61,214,140,.35); }
-  .plot-sign.partial{ background: rgba(255,179,71,.12); color: var(--amber); border: 1px solid rgba(255,179,71,.35); }
-  .plot-sign.behind{ background: rgba(255,90,95,.12); color: var(--danger); border: 1px solid rgba(255,90,95,.35); }
-  .plot-sign.default{ background: var(--danger); color: var(--bg); border: 1px solid var(--danger); }
-  .plot-sign.vacant{ background: rgba(0,229,255,.12); color: var(--cyan); border: 1px solid var(--cyan-dim); }
-
-  .plot-mission{
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--warm);
-    opacity: .8;
-    min-height: 32px;
-  }
-
-  .plot-nums{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    padding: 10px 0;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    font-family: var(--f-mono);
-  }
-  .plot-num{
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .plot-num .k{
-    font-size: 9px;
-    color: var(--muted);
-    letter-spacing: .14em;
-    text-transform: uppercase;
-  }
-  .plot-num .v{
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--warm);
-  }
-  .plot-num .v.pos{ color: var(--success); }
-  .plot-num .v.neg{ color: var(--danger); }
-  .plot-num .v.warn{ color: var(--amber); }
-  .plot-num .v.dim{ color: var(--muted); }
-
-  .plot-foot{
-    display: flex; justify-content: space-between; align-items: center; gap: 8px;
-    font-family: var(--f-mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: .08em;
-  }
-
-  .vacant-body{
-    display: flex; flex-direction: column; gap: 10px;
-    padding: 8px 0 4px;
-  }
-  .vacant-title{
-    font-family: var(--f-display);
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: .03em;
-    color: var(--cyan);
-    line-height: 1.1;
-  }
-  .vacant-desc{
-    font-size: 12px;
-    line-height: 1.5;
-    color: var(--muted);
-    opacity: .9;
-  }
-  .vacant-cta{
-    font-family: var(--f-mono);
-    font-size: 10px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-top: 6px;
-  }
-
-  /* RIGHT RAIL: Applications inbox */
-  .rail{
-    grid-area: rail;
-    border-left: 1px solid var(--line);
-    background: linear-gradient(180deg, var(--bg-1), var(--bg));
-    display: flex; flex-direction: column;
-    overflow: hidden;
-  }
-  .rail-head{
-    padding: 18px 22px 12px;
-    border-bottom: 1px solid var(--line);
-  }
-  .rail-title{
-    font-family: var(--f-display);
-    font-weight: 800;
-    font-size: 13px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--warm);
-  }
-  .rail-sub{
-    margin-top: 4px;
-    font-family: var(--f-mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: .14em;
-  }
-  .rail-sub .cyan{ color: var(--cyan); }
-  .inbox{
-    list-style: none;
-    overflow-y: auto;
-    padding: 6px 0;
-    flex: 1;
-  }
-  .inbox::-webkit-scrollbar{ width: 5px; }
-  .inbox::-webkit-scrollbar-thumb{ background: var(--line-2); border-radius: 3px; }
-  .app{
-    padding: 14px 22px;
-    border-bottom: 1px solid rgba(30,33,48,.5);
-    display: flex; flex-direction: column; gap: 6px;
-    cursor: pointer;
-    transition: background .15s;
-  }
-  .app:hover{ background: rgba(0,229,255,.03); }
-  .app-title{
-    font-family: var(--f-display);
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--warm);
-    letter-spacing: .02em;
-  }
-  .app-meta{
-    font-family: var(--f-mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: .08em;
-    display: flex; gap: 8px; align-items: center;
-  }
-  .app-tag{
-    font-family: var(--f-mono);
-    font-size: 9px;
-    padding: 2px 6px;
-    border-radius: 2px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-  }
-  .app-tag.triaged{ background: rgba(0,229,255,.1); color: var(--cyan); border: 1px solid var(--cyan-dim); }
-  .app-tag.untriaged{ background: rgba(255,179,71,.1); color: var(--amber); border: 1px solid rgba(255,179,71,.3); }
-
-  .inbox-empty{
-    padding: 40px 22px;
-    text-align: center;
-    color: var(--muted-2);
-    font-size: 12px;
-    font-style: italic;
-  }
-
-  .activity-strip{
-    border-top: 1px solid var(--line);
-    padding: 12px 22px;
-    display: flex; flex-direction: column; gap: 6px;
-    max-height: 180px;
-    overflow-y: auto;
-  }
-  .activity-strip::-webkit-scrollbar{ width: 5px; }
-  .activity-strip::-webkit-scrollbar-thumb{ background: var(--line-2); border-radius: 3px; }
-  .tick{
-    display: flex; gap: 8px; align-items: baseline;
-    font-size: 11px;
-    font-family: var(--f-body);
-    color: var(--warm);
-    opacity: .82;
-    line-height: 1.4;
-  }
-  .tick .ag{
-    font-family: var(--f-mono);
-    font-size: 9px;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    min-width: 62px;
-  }
-  .tick .ag.foreman{ color: var(--amber); }
-  .tick .ag.scout{ color: var(--success); }
-  .tick .ag.builder{ color: var(--cyan); }
-  .tick .ag.paymaster{ color: var(--purple); }
-  .tick .ag.realtor{ color: var(--warm); }
-
-  @media (max-width: 1100px){
-    .shell{
-      grid-template-columns: 1fr;
-      grid-template-rows: 72px 1fr 320px;
-      grid-template-areas: "bar" "main" "rail";
-    }
-    .rail{ border-left: none; border-top: 1px solid var(--line); }
-  }
-
-  /* -------- DESIGN NOTES (for code review) --------
-  Framing: the yard is real estate owned by Lando. Tenants rent plots. Dashboard is a
-  property portfolio view. Plots show rent status via a left-edge colored bar and a sign
-  chip on the right. Vacant plots use a dashed border and a cyan FOR RENT sign. Right
-  rail holds the application inbox so Lando can see new tenant pitches the moment Brix
-  triages them. Activity strip at the bottom of the rail carries cross-bay ticks so the
-  property feels alive. Brand: The Signal. No em dashes in copy. The word "AI" never
-  appears in the visible UI.
-  ------------------------------------------------- */
+  .rail{ border-left: none; border-top: 1px solid var(--line); flex-direction: row; }
+  .rail-sec{ border-right: 1px solid var(--line); border-bottom: none; flex: 1; overflow: auto; }
+}
 </style>
 </head>
-<body x-data="yard()" x-init="boot()">
+<body x-data="godView()" x-init="boot()">
 
 <div class="shell">
 
-  <!-- HEADER BAR -->
+  <!-- TOP BAR -->
   <header class="bar">
     <div class="brand">
       <div class="mark">B</div>
-      <div class="brand-title">
-        <div class="h">Brewington Yard // Property</div>
-        <div class="s"><span class="owner">Lando Brewington</span> &nbsp;//&nbsp; Landlord's office</div>
+      <div class="brand-text">
+        <div class="brand-h">Brewington Yard // God View</div>
+        <div class="brand-s"><span class="owner">Lando Brewington</span> // Landlord</div>
       </div>
     </div>
-    <div class="stats">
+    <div class="bar-stats">
       <div class="kv">
         <div class="k">Occupancy</div>
-        <div class="v cyan" x-text="(re.occupancy_pct || 0) + '%'">0%</div>
+        <div class="v cyan" x-text="(re.occupancy_pct || 0) + '%'"></div>
       </div>
       <div class="kv">
-        <div class="k">Rent owed</div>
-        <div class="v warn" x-text="fmtMoney(re.rent_roll && re.rent_roll.total_owed)">$0</div>
+        <div class="k">Rent Owed</div>
+        <div class="v warn" x-text="fmt(re.rent_roll && re.rent_roll.total_owed)"></div>
       </div>
       <div class="kv">
-        <div class="k">Rent paid</div>
-        <div class="v pos" x-text="fmtMoney(re.rent_roll && re.rent_roll.total_paid)">$0</div>
+        <div class="k">Rent Paid</div>
+        <div class="v pos" x-text="fmt(re.rent_roll && re.rent_roll.total_paid)"></div>
       </div>
       <div class="kv">
         <div class="k">Behind</div>
-        <div class="v neg" x-text="behindCount()">0</div>
+        <div class="v neg" x-text="behindCount()"></div>
       </div>
       <div class="kv">
         <div class="k">Vacant</div>
-        <div class="v" x-text="re.vacancies_total || 0">0</div>
+        <div class="v" x-text="re.vacancies_total || 0"></div>
       </div>
       <div class="kv">
         <div class="k">Apps</div>
-        <div class="v" x-text="re.applications_total || 0">0</div>
+        <div class="v" x-text="re.applications_total || 0"></div>
       </div>
       <div class="clock" x-text="clock">--:--:--</div>
       <div class="lamp-wrap">
@@ -517,121 +461,286 @@
     </div>
   </header>
 
-  <!-- PROPERTY MAP -->
-  <main class="main">
+  <!-- MAP -->
+  <section class="map">
+    <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet">
 
-    <!-- TENANTS -->
-    <div class="section-h">Rent Roll <span class="count" x-text="'(' + tenantsRanked().length + ')'"></span></div>
-    <div class="tenant-grid">
-      <template x-for="t in tenantsRanked()" :key="t.tenant">
-        <div class="plot" :class="t.status">
-          <div class="plot-head">
-            <div class="plot-who">
-              <div class="plot-name" x-text="t.display_name"></div>
-              <div class="plot-role" x-text="roleOf(t.tenant)"></div>
-            </div>
-            <div class="plot-sign" :class="t.status" x-text="signText(t)"></div>
-          </div>
-          <div class="plot-mission" x-text="missionFor(t.tenant)"></div>
-          <div class="plot-nums">
-            <div class="plot-num">
-              <div class="k">Rent</div>
-              <div class="v" x-text="'$' + t.rent_mo"></div>
-            </div>
-            <div class="plot-num">
-              <div class="k">Paid MTD</div>
-              <div class="v" :class="t.rent_paid_mtd > 0 ? 'pos' : 'dim'" x-text="fmtMoney(t.rent_paid_mtd)"></div>
-            </div>
-            <div class="plot-num">
-              <div class="k">To eviction</div>
-              <div class="v" :class="daysTo(t).cls" x-text="daysTo(t).label"></div>
-            </div>
-          </div>
-          <div class="plot-foot">
-            <span x-text="modeFor(t.tenant)"></span>
-            <span x-text="lastTickFor(t.tenant)"></span>
-          </div>
-        </div>
-      </template>
-    </div>
+      <!-- background texture: soft radial gradient already on parent -->
 
-    <!-- VACANCIES -->
-    <div class="section-h">For Rent <span class="count" x-text="'(' + (re.vacancies_total || 0) + ')'"></span></div>
-    <div class="tenant-grid">
-      <template x-for="v in (re.vacancies || [])" :key="v.slug">
-        <div class="plot vacant">
-          <div class="plot-head">
-            <div class="plot-who">
-              <div class="plot-name" style="color: var(--muted)">Vacant</div>
-              <div class="plot-role" x-text="'plot ' + (v.slug || '')"></div>
-            </div>
-            <div class="plot-sign vacant">For Rent</div>
-          </div>
-          <div class="vacant-body">
-            <div class="vacant-title" x-text="v.title || 'Open plot'"></div>
-            <div class="vacant-desc" x-text="vacantSummary(v)"></div>
-            <div class="vacant-cta" x-text="'$' + (v.rent_mo || 20) + ' / mo // submit pitch to realtor/applications'"></div>
-          </div>
-        </div>
-      </template>
-      <template x-if="(re.vacancies_total || 0) === 0">
-        <div class="plot vacant" style="opacity:.5">
-          <div class="vacant-body">
-            <div class="vacant-title">Full house</div>
-            <div class="vacant-desc">No vacant plots right now. Brix relists when a tenant is evicted or a new plot is carved out.</div>
-          </div>
-        </div>
-      </template>
-    </div>
+      <!-- subtle grid hatch -->
+      <defs>
+        <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" class="ground-hatch"/>
+        </pattern>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <rect x="0" y="0" width="1600" height="1000" fill="url(#grid)" opacity=".35"/>
 
-  </main>
+      <!-- ROADS: each plot center to plaza center (800, 500) -->
+      <g>
+        <!-- hank top-left -->
+        <line x1="800" y1="500" x2="400" y2="280" class="road"/>
+        <line x1="800" y1="500" x2="400" y2="280" class="road-line"/>
+        <!-- vega top-right -->
+        <line x1="800" y1="500" x2="1200" y2="280" class="road"/>
+        <line x1="800" y1="500" x2="1200" y2="280" class="road-line"/>
+        <!-- jax bottom-left -->
+        <line x1="800" y1="500" x2="400" y2="780" class="road"/>
+        <line x1="800" y1="500" x2="400" y2="780" class="road-line"/>
+        <!-- doss bottom-right -->
+        <line x1="800" y1="500" x2="1200" y2="780" class="road"/>
+        <line x1="800" y1="500" x2="1200" y2="780" class="road-line"/>
+        <!-- brix directly below plaza -->
+        <line x1="800" y1="500" x2="800" y2="700" class="road"/>
+        <line x1="800" y1="500" x2="800" y2="700" class="road-line"/>
+        <!-- vacant plots as outlier lots, connected by dashed path -->
+        <line x1="800" y1="500" x2="160" y2="530" class="road" style="stroke-opacity:.4"/>
+        <line x1="800" y1="500" x2="1440" y2="530" class="road" style="stroke-opacity:.4"/>
+      </g>
+
+      <!-- PLAZA (center, landlord marker) -->
+      <g transform="translate(800,500)">
+        <circle r="120" class="plaza-ring"/>
+        <circle r="80" class="plaza-ring" style="stroke-dasharray:4 6"/>
+        <circle r="30" class="plaza-core"/>
+        <circle r="4" fill="#00e5ff"/>
+        <text x="0" y="-44" text-anchor="middle" class="plaza-label">LANDLORD</text>
+        <text x="0" y="52" text-anchor="middle" class="label-sm" style="letter-spacing:.2em">THE YARD</text>
+      </g>
+
+      <!-- TENANT PLOTS -->
+      <template x-for="t in tenants()" :key="t.name">
+        <g :transform="'translate(' + t.pos.x + ',' + t.pos.y + ')'">
+          <!-- plot outline -->
+          <rect x="-110" y="-80" width="220" height="160" rx="4"
+                class="plot-outline"
+                :class="[t.rentStatus, (t.working ? 'working' : '')]"/>
+
+          <!-- pulse rings when ticking -->
+          <template x-if="t.working">
+            <g>
+              <circle cx="0" cy="0" r="8" class="pulse-ring"/>
+              <circle cx="0" cy="0" r="8" class="pulse-ring" style="animation-delay:.8s"/>
+              <circle cx="0" cy="0" r="8" class="pulse-ring" style="animation-delay:1.6s"/>
+            </g>
+          </template>
+
+          <!-- building (tenant-specific SVG, inlined via ternary) -->
+          <g transform="translate(0, -10)">
+            <!-- base pad -->
+            <rect x="-70" y="-30" width="140" height="60" rx="2" class="bldg"/>
+            <rect x="-70" y="-30" width="140" height="10" class="bldg-roof"/>
+
+            <!-- foreman: hiring board with flyers -->
+            <template x-if="t.name === 'foreman'">
+              <g>
+                <rect x="-56" y="-22" width="112" height="44" class="bldg-light"/>
+                <text x="0" y="-8" text-anchor="middle" class="label-big" style="fill:var(--amber)">HIRING</text>
+                <!-- flyers, one per hire -->
+                <template x-for="(h, i) in (t.roster || []).slice(0,7)" :key="h.slug + i">
+                  <rect :x="-50 + (i % 4) * 28" :y="-4 + Math.floor(i/4) * 14"
+                        width="22" height="10" fill="#ffb347" opacity=".7"/>
+                </template>
+              </g>
+            </template>
+
+            <!-- scout: storefront with OPEN sign -->
+            <template x-if="t.name === 'scout'">
+              <g>
+                <!-- awning -->
+                <rect x="-56" y="-26" width="112" height="8" fill="#3dd68c" opacity=".6"/>
+                <!-- storefront window -->
+                <rect x="-50" y="-12" width="60" height="30" class="window lit"/>
+                <!-- door -->
+                <rect x="18" y="-8" width="20" height="26" class="bldg-dark" fill="#12151e"/>
+                <!-- OPEN sign -->
+                <g transform="translate(0,-4)">
+                  <rect x="-20" y="0" width="40" height="14" class="bldg-dark" fill="#0a0c14" stroke="#3dd68c"/>
+                  <text x="0" y="10" text-anchor="middle" class="label-big" style="fill:#3dd68c;font-size:9px">OPEN</text>
+                </g>
+                <!-- dollar icon -->
+                <text x="42" y="-16" class="label-big" style="fill:var(--success);font-size:14px">$</text>
+              </g>
+            </template>
+
+            <!-- builder: garage with roll-up door -->
+            <template x-if="t.name === 'builder'">
+              <g>
+                <!-- garage frame -->
+                <rect x="-56" y="-22" width="112" height="44" class="bldg-light"/>
+                <!-- roll-up door (partial when building) -->
+                <rect x="-40" y="-14" :width="t.working ? 50 : 80" height="30" fill="#12151e" stroke="#272b3c"/>
+                <line x1="-40" y1="-6" :x2="t.working ? 10 : 40" y2="-6" stroke="#2a3040"/>
+                <line x1="-40" y1="2" :x2="t.working ? 10 : 40" y2="2" stroke="#2a3040"/>
+                <line x1="-40" y1="10" :x2="t.working ? 10 : 40" y2="10" stroke="#2a3040"/>
+                <!-- hammer icon on side -->
+                <g transform="translate(38,-4) rotate(-20)">
+                  <rect x="-2" y="-10" width="4" height="14" fill="#ffb347"/>
+                  <rect x="-6" y="-14" width="12" height="6" fill="#00e5ff"/>
+                </g>
+              </g>
+            </template>
+
+            <!-- paymaster: accountant's office with ledger -->
+            <template x-if="t.name === 'paymaster'">
+              <g>
+                <rect x="-56" y="-22" width="112" height="44" class="bldg-light"/>
+                <!-- ledger book -->
+                <rect x="-30" y="-14" width="30" height="24" fill="#d9a6ff" opacity=".25" stroke="#d9a6ff"/>
+                <line x1="-15" y1="-14" x2="-15" y2="10" stroke="#d9a6ff" opacity=".6"/>
+                <!-- calculator dots -->
+                <g transform="translate(20,-4)">
+                  <rect x="-12" y="-8" width="24" height="20" fill="#12151e" stroke="#272b3c"/>
+                  <circle cx="-6" cy="-3" r="1.4" fill="#d9a6ff"/>
+                  <circle cx="0" cy="-3" r="1.4" fill="#d9a6ff"/>
+                  <circle cx="6" cy="-3" r="1.4" fill="#d9a6ff"/>
+                  <circle cx="-6" cy="3" r="1.4" fill="#d9a6ff"/>
+                  <circle cx="0" cy="3" r="1.4" fill="#d9a6ff"/>
+                  <circle cx="6" cy="3" r="1.4" fill="#d9a6ff"/>
+                </g>
+              </g>
+            </template>
+
+            <!-- realtor: real-estate office with listed signs -->
+            <template x-if="t.name === 'realtor'">
+              <g>
+                <rect x="-56" y="-22" width="112" height="44" class="bldg-light"/>
+                <text x="0" y="-4" text-anchor="middle" class="label-big" style="fill:var(--warm)">REALTY</text>
+                <rect x="-40" y="6" width="80" height="12" fill="#0a0c14" stroke="#00e5ff"/>
+                <text x="0" y="15" text-anchor="middle" class="tsign-text" style="fill:var(--cyan)"
+                      x-text="(re.vacancies_total || 0) + ' LISTED'"></text>
+              </g>
+            </template>
+
+          </g>
+
+          <!-- Tenant name + role -->
+          <text x="0" y="-50" text-anchor="middle" class="tname" x-text="t.display_name"></text>
+          <text x="0" y="-36" text-anchor="middle" class="trole" x-text="t.role"></text>
+
+          <!-- Rent status badge -->
+          <g :transform="'translate(' + 0 + ',' + 54 + ')'">
+            <rect x="-52" y="-10" width="104" height="20" rx="2"
+                  class="tsign-bg" :class="t.rentStatus"/>
+            <text x="0" y="4" text-anchor="middle"
+                  class="tsign-text" :class="t.rentStatus"
+                  x-text="t.rentBadge"></text>
+          </g>
+
+          <!-- Hires dots (one per roster item, bottom-left) -->
+          <g transform="translate(-98, 62)">
+            <template x-for="(h, i) in (t.roster || [])" :key="h.slug + i">
+              <circle :cx="i * 8" cy="0" r="3" class="hire-dot"/>
+            </template>
+          </g>
+
+          <!-- Mode / last tick (bottom-right) -->
+          <text x="100" y="66" text-anchor="end" class="label-sm" x-text="t.modeShort"></text>
+
+        </g>
+      </template>
+
+      <!-- VACANT PLOTS -->
+      <template x-for="(v, i) in (re.vacancies || [])" :key="v.slug">
+        <g :transform="'translate(' + (i === 0 ? 160 : 1440) + ',' + 530 + ')'">
+          <rect x="-80" y="-60" width="160" height="120" rx="4" class="plot-outline vacant"/>
+
+          <!-- FOR RENT sign -->
+          <g transform="translate(0,0)">
+            <line x1="0" y1="-10" x2="0" y2="26" class="vacant-sign-post"/>
+            <rect x="-50" y="-40" width="100" height="34" rx="2" class="vacant-sign-bg"/>
+            <text x="0" y="-24" text-anchor="middle" class="vacant-sign-text">FOR RENT</text>
+            <text x="0" y="-10" text-anchor="middle" class="vacant-rent-text" x-text="'$' + (v.rent_mo || 20) + '/mo // ' + v.slug"></text>
+          </g>
+
+          <!-- small dust drift -->
+          <circle cx="-30" cy="30" r="1.5" class="dust" opacity=".4">
+            <animate attributeName="cx" values="-30;30;-30" dur="18s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="20" cy="10" r="1" class="dust" opacity=".3">
+            <animate attributeName="cx" values="20;-20;20" dur="24s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+      </template>
+
+      <!-- Ambient drifting dust particles -->
+      <g opacity=".5">
+        <circle cx="200" cy="400" r="1" class="dust"><animate attributeName="cy" values="400;380;400" dur="12s" repeatCount="indefinite"/></circle>
+        <circle cx="1400" cy="600" r="1" class="dust"><animate attributeName="cy" values="600;620;600" dur="15s" repeatCount="indefinite"/></circle>
+        <circle cx="900" cy="200" r="1" class="dust"><animate attributeName="cx" values="900;920;900" dur="20s" repeatCount="indefinite"/></circle>
+        <circle cx="700" cy="900" r="1" class="dust"><animate attributeName="cx" values="700;680;700" dur="18s" repeatCount="indefinite"/></circle>
+      </g>
+
+    </svg>
+  </section>
 
   <!-- RIGHT RAIL -->
   <aside class="rail">
-    <div class="rail-head">
-      <div class="rail-title">Application Inbox</div>
-      <div class="rail-sub">
-        <span class="cyan" x-text="(re.applications_total || 0)"></span>
-        <span> pending </span>
-        <span x-text="'// triaged ' + triagedCount()"></span>
-      </div>
-    </div>
-    <ul class="inbox" x-show="(re.applications || []).length > 0">
-      <template x-for="a in (re.applications || [])" :key="a.slug">
-        <li class="app" @click="alert((a.title || a.slug) + '\n\n' + a.body.slice(0, 900))">
-          <div class="app-title" x-text="a.title || a.slug"></div>
-          <div class="app-meta">
-            <span class="app-tag" :class="a.triaged ? 'triaged' : 'untriaged'" x-text="a.triaged ? 'Triaged' : 'Untriaged'"></span>
-            <span x-text="agoShort(a.listed_at)"></span>
-          </div>
-        </li>
-      </template>
-    </ul>
-    <div class="inbox-empty" x-show="(re.applications || []).length === 0">(no applications yet)</div>
 
-    <div class="activity-strip">
-      <template x-for="(e,i) in activity.slice(0,10)" :key="i">
-        <div class="tick">
-          <span class="ag" :class="e.agent" x-text="e.agent"></span>
-          <span x-text="e.text"></span>
-        </div>
-      </template>
+    <div class="rail-sec">
+      <div class="rail-head">
+        <div class="rail-title">Inbox</div>
+        <div class="rail-meta"><span class="cyan" x-text="re.applications_total || 0"></span> apps // triaged <span x-text="triagedCount()"></span></div>
+      </div>
+      <ul class="inbox" x-show="(re.applications || []).length > 0">
+        <template x-for="a in (re.applications || [])" :key="a.slug">
+          <li class="app" @click="alert((a.title || a.slug) + '\n\n' + (a.body || '').slice(0, 900))">
+            <div class="app-title" x-text="a.title || a.slug"></div>
+            <div class="app-meta">
+              <span class="app-tag" :class="a.triaged ? 'triaged' : 'untriaged'" x-text="a.triaged ? 'Triaged' : 'Untriaged'"></span>
+              <span x-text="ago(a.listed_at)"></span>
+            </div>
+          </li>
+        </template>
+      </ul>
+      <div class="empty-note" x-show="(re.applications || []).length === 0">(no applications yet)</div>
     </div>
+
+    <div class="rail-sec" style="flex:1;display:flex;flex-direction:column">
+      <div class="rail-head">
+        <div class="rail-title">Yard Activity</div>
+        <div class="rail-meta" x-text="activity.length + ' events'"></div>
+      </div>
+      <ul class="feed" x-show="activity.length > 0">
+        <template x-for="(e, i) in activity" :key="i">
+          <li class="entry">
+            <div class="entry-head">
+              <span class="entry-agent" :class="e.agent" x-text="e.agent"></span>
+              <span x-text="e.ts || ''"></span>
+            </div>
+            <div x-text="e.text"></div>
+          </li>
+        </template>
+      </ul>
+      <div class="empty-note" x-show="activity.length === 0">(no activity yet)</div>
+    </div>
+
   </aside>
 
 </div>
 
 <script src="/vendor/alpine.min.js" defer></script>
 <script>
+  // Plot positions (SVG coords). Tuned for visual balance around the plaza at (800,500).
+  const TENANT_POS = {
+    foreman:   { x: 400,  y: 280 },
+    scout:     { x: 1200, y: 280 },
+    builder:   { x: 400,  y: 780 },
+    paymaster: { x: 1200, y: 780 },
+    realtor:   { x: 800,  y: 770 }
+  };
   const ROLE = {
     foreman: 'Foreman', scout: 'Scout', builder: 'Builder',
     paymaster: 'Paymaster', realtor: 'Realtor'
   };
 
-  function yard(){
+  function godView(){
     return {
-      re: { vacancies: [], applications: [], rent_roll: null, vacancies_total: 0, applications_total: 0, occupancy_pct: 0 },
       state: { businesses: [] },
+      re: { vacancies: [], applications: [], rent_roll: null, vacancies_total: 0, applications_total: 0, occupancy_pct: 0 },
       activity: [],
       stream: { ok: false },
       clock: '--:--:--',
@@ -647,20 +756,13 @@
       tickClock(){
         const d = new Date();
         this.clock = [d.getHours(), d.getMinutes(), d.getSeconds()]
-          .map(n => String(n).padStart(2,'0')).join(':');
+          .map(n => String(n).padStart(2, '0')).join(':');
       },
 
       async loadAll(){
-        this.loadRealEstate();
         this.loadState();
+        this.loadRealEstate();
         this.loadActivity();
-      },
-
-      async loadRealEstate(){
-        try {
-          const r = await fetch('/api/realestate');
-          if (r.ok) this.re = await r.json();
-        } catch {}
       },
       async loadState(){
         try {
@@ -668,16 +770,21 @@
           if (r.ok) this.state = await r.json();
         } catch {}
       },
+      async loadRealEstate(){
+        try {
+          const r = await fetch('/api/realestate');
+          if (r.ok) this.re = await r.json();
+        } catch {}
+      },
       async loadActivity(){
         try {
-          const r = await fetch('/api/activity?limit=30');
+          const r = await fetch('/api/activity?limit=40');
           if (r.ok) {
             const j = await r.json();
             this.activity = j.entries || [];
           }
         } catch {}
       },
-
       openStream(){
         try {
           const sse = new EventSource('/api/stream');
@@ -689,80 +796,60 @@
         } catch {}
       },
 
-      tenantsRanked(){
+      tenants(){
+        const bizMap = new Map((this.state.businesses || []).map(b => [b.name, b]));
         const roll = (this.re.rent_roll && this.re.rent_roll.tenants) || [];
-        const order = { default: 0, behind: 1, partial: 2, current: 3 };
-        return [...roll].sort((a,b) => (order[a.status] ?? 9) - (order[b.status] ?? 9));
+        const rollMap = new Map(roll.map(t => [t.tenant, t]));
+        const names = ['foreman', 'scout', 'builder', 'paymaster', 'realtor'];
+        return names.map(name => {
+          const b = bizMap.get(name) || {};
+          const r = rollMap.get(name);
+          const rent_mo = r ? r.rent_mo : (name === 'realtor' ? 0 : 20);
+          const rent_paid_mtd = r ? r.rent_paid_mtd : 0;
+          const rentStatus = name === 'realtor' ? 'current' : (r ? r.status : 'behind');
+          const working = b.last_tick_at
+            ? (Date.now() - new Date(b.last_tick_at).getTime()) < 90000
+            : false;
+          return {
+            name,
+            display_name: b.display_name || name.toUpperCase(),
+            role: ROLE[name],
+            pos: TENANT_POS[name] || { x: 800, y: 500 },
+            mode: b.mode || 'idle',
+            modeShort: (b.mode || 'idle').replace(/_/g, ' ').toUpperCase(),
+            rentStatus,
+            rentBadge: name === 'realtor'
+              ? 'LANDLORD STAFF'
+              : (rentStatus === 'current' ? 'CURRENT $' + rent_mo
+              : rentStatus === 'partial' ? 'PARTIAL'
+              : rentStatus === 'behind' ? 'BEHIND $' + rent_mo
+              : rentStatus === 'default' ? 'DEFAULT'
+              : rentStatus.toUpperCase()),
+            roster: b.hired_roster || [],
+            working
+          };
+        });
       },
 
       behindCount(){
-        return this.tenantsRanked().filter(t => t.status === 'behind' || t.status === 'default').length;
+        const roll = (this.re.rent_roll && this.re.rent_roll.tenants) || [];
+        return roll.filter(t => t.status === 'behind' || t.status === 'default').length;
       },
-
       triagedCount(){
         return (this.re.applications || []).filter(a => a.triaged).length;
       },
 
-      signText(t){
-        if (t.status === 'current') return 'Current';
-        if (t.status === 'partial') return 'Partial';
-        if (t.status === 'behind') return 'Behind';
-        if (t.status === 'default') return 'Default';
-        return t.status;
+      fmt(v){
+        const n = Number(v) || 0;
+        return (n < 0 ? '-' : '') + '$' + Math.abs(Math.round(n));
       },
-
-      missionFor(name){
-        const b = (this.state.businesses || []).find(x => x.name === name);
-        if (!b) return '';
-        const m = (b.mission || '').split('.').slice(0,1).join('.') + '.';
-        return m.trim() || b.last_tick_summary || '';
-      },
-
-      modeFor(name){
-        const b = (this.state.businesses || []).find(x => x.name === name);
-        return (b && b.mode) ? 'MODE ' + b.mode.replace(/_/g,' ').toUpperCase() : '';
-      },
-
-      lastTickFor(name){
-        const b = (this.state.businesses || []).find(x => x.name === name);
-        if (!b || !b.last_tick_at) return 'never ticked';
-        return 'TICK ' + this.agoShort(b.last_tick_at).toUpperCase();
-      },
-
-      roleOf(name){ return (ROLE[name] || 'Tenant').toUpperCase(); },
-
-      daysTo(t){
-        if (!t.d30_checkpoint) return { label: '---', cls: 'dim' };
-        const dt = new Date(t.d30_checkpoint).getTime() - Date.now();
-        const days = Math.ceil(dt / 86400000);
-        if (days < 0) return { label: 'OVERDUE', cls: 'neg' };
-        if (days < 7) return { label: days + 'd', cls: 'neg' };
-        if (days < 15) return { label: days + 'd', cls: 'warn' };
-        return { label: days + 'd', cls: 'pos' };
-      },
-
-      vacantSummary(v){
-        const body = v.body || '';
-        const mm = body.match(/## What this plot could do\s+([^#]+)/i);
-        if (!mm) return '';
-        const first = mm[1].split('\n\n')[0].trim();
-        return first.length > 220 ? first.slice(0, 217) + '...' : first;
-      },
-
-      agoShort(iso){
+      ago(iso){
         if (!iso) return '';
         const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
         if (s < 60) return s + 's';
-        const m = Math.floor(s/60);
-        if (m < 60) return m + 'm';
-        const h = Math.floor(m/60);
-        if (h < 24) return h + 'h';
-        return Math.floor(h/24) + 'd';
-      },
-
-      fmtMoney(v){
-        const n = Number(v) || 0;
-        return (n < 0 ? '-' : '') + '$' + Math.abs(Math.round(n));
+        if (s < 3600) return Math.floor(s/60) + 'm';
+        if (s < 86400) return Math.floor(s/3600) + 'h';
+        return Math.floor(s/86400) + 'd';
       }
     };
   }

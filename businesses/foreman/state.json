@@ -136,8 +136,8 @@
     }
   ],
   "approved_queue": [],
-  "last_tick_at": "2026-04-17T07:44:20.713Z",
-  "last_tick_summary": "audit complete: filed 5 uncredited installs (pino/wfa/croner/plop/watchdog) into hired_roster. Mode flipped trigger_only -> active_hiring per Lando directive. Hank will auto-hire free tools going forward without per-install permission.",
+  "last_tick_at": "2026-04-17T10:43:50.295Z",
+  "last_tick_summary": "routine tick: 0 hires ready to install, 0 watchdog findings",
   "status": "hunting",
   "last_escalation_at": null,
   "last_escalation_reason": null,

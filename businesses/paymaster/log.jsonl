@@ -3,3 +3,5 @@
 {"level":30,"time":1776394353682,"agent":"paymaster","path":"/workspaces/local-biz-pipeline/businesses/paymaster/ledger.json","msg":"ledger seeded"}
 {"level":30,"time":1776394353682,"agent":"paymaster","path":"/workspaces/local-biz-pipeline/businesses/paymaster/budgets.json","msg":"budgets seeded"}
 {"level":30,"time":1776394353683,"agent":"paymaster","path":"/workspaces/local-biz-pipeline/businesses/paymaster/24-7-deploy-plan.md","msg":"deploy plan seeded"}
+{"level":30,"time":1776422629937,"agent":"paymaster","opts":{},"msg":"tick start"}
+{"level":30,"time":1776422629938,"agent":"paymaster","msg":"heartbeat tick"}

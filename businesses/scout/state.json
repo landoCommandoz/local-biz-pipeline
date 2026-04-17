@@ -18,8 +18,8 @@
       "status": "live"
     }
   ],
-  "last_tick_at": "2026-04-17T05:01:22.132Z",
-  "last_tick_summary": "Flipped to live. Gumroad product v1 is file-uploaded and purchasable. Revenue tracking begins.",
+  "last_tick_at": "2026-04-17T10:43:50.116Z",
+  "last_tick_summary": "live refresh stub (not yet implemented)",
   "last_escalation_at": null,
   "last_escalation_reason": null,
   "failures_in_row": 0,
@@ -103,7 +103,9 @@
       "package": "gumroad-api-v2",
       "purpose": "create and update Gumroad listings via API",
       "installed_at": "2026-04-17T09:09:50Z",
-      "requires_env": ["GUMROAD_ACCESS_TOKEN"]
+      "requires_env": [
+        "GUMROAD_ACCESS_TOKEN"
+      ]
     }
   ]
 }

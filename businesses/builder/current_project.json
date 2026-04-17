@@ -1,7 +1,9 @@
 {
-  "project_id": "command-center-redesign-v1",
-  "brief_path": "businesses/builder/briefs/command-center-redesign-v1.md",
-  "output_path": "businesses/public/concepts/concept-v1.html",
-  "status": "queued",
-  "assigned_at": "2026-04-17T09:15:00Z"
+  "project_id": "command-center-redesign-v2",
+  "brief_path": "businesses/builder/briefs/command-center-redesign-v2.md",
+  "output_path": "businesses/public/concepts/concept-v2.html",
+  "status": "in_progress",
+  "assigned_at": "2026-04-17T10:45:00Z",
+  "supersedes": "command-center-redesign-v1",
+  "note": "v1 card-grid superseded by the god-view living ecosystem. Tenant plots, rent status, live activity motion."
 }

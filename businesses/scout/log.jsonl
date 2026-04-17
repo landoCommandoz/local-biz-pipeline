@@ -4,3 +4,5 @@
 {"level":30,"time":1776394354153,"agent":"scout","path":"/workspaces/local-biz-pipeline/businesses/scout/products/phoenix-metro-hvac-v1.csv","rows":5,"msg":"wrote product csv"}
 {"level":30,"time":1776394354153,"agent":"scout","path":"/workspaces/local-biz-pipeline/businesses/scout/products/phoenix-metro-hvac-listing-v1.md","msg":"wrote listing copy"}
 {"level":30,"time":1776394354707,"agent":"scout","msg":"escalation sent"}
+{"level":30,"time":1776422630115,"agent":"scout","msg":"tick start"}
+{"level":30,"time":1776422630116,"agent":"scout","msg":"live refresh tick (Phase 2 TBD)"}
