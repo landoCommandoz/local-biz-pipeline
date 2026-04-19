@@ -1,0 +1,18 @@
+Kenney CC0 Asset Packs
+=======================
+
+License: CC0 1.0 Universal (public domain dedication)
+Source: https://www.kenney.nl/assets
+No attribution required. Commercial use permitted.
+
+Packs installed here (downloaded 2026-04-17):
+- Isometric Tiles: City                 → isometric-tiles-city/          (141 sprites)
+- Isometric Tiles: Buildings            → isometric-tiles-buildings/     (130 sprites)
+- Isometric Tiles: Landscape            → isometric-tiles-landscape/     (129 sprites)
+- Isometric Miniature Library (furniture) → isometric-miniature-library/ (288 sprites)
+- Blocky Characters 2.0                 → blocky-characters/             (72 character previews + FBX/GLB/OBJ models)
+
+Hank's hunt recommendation: hunt-designer-upgrade-2026-04-17
+Hank's dossier: businesses/foreman/candidates/designer-upgrade-kenney-cc0-packs.md
+
+Do not delete sprites from these folders without checking businesses/builder/character-map.json for references.

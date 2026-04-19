@@ -1,0 +1,1709 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BREWINGTON YARD // GOD VIEW</title>
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%2306060a'/><circle cx='32' cy='32' r='10' fill='none' stroke='%2300e5ff' stroke-width='3'/><circle cx='32' cy='32' r='2' fill='%2300e5ff'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06060a;
+  --cyan:#00e5ff;
+  --cyan-dim:rgba(0,229,255,.55);
+  --warm:#f2f0ed;
+  --warm-glow:#ffd079;
+  --muted:#6b6f7a;
+  --muted-2:#4a4e58;
+  --danger:#ff5a5f;
+  --success:#3dd68c;
+  --amber:#ffb347;
+  --purple:#d9a6ff;
+  --wood:#a68550;
+  --wood-dark:#6e5630;
+  --f-display:'Syne',sans-serif;
+  --f-body:'DM Sans',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#06060a;color:var(--warm);font-family:var(--f-body);overflow:hidden;-webkit-font-smoothing:antialiased}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:500;background:repeating-linear-gradient(180deg,rgba(0,0,0,0) 0 3px,rgba(0,0,0,.08) 3px 4px);mix-blend-mode:multiply;opacity:.4}
+
+.shell{position:relative;z-index:1;height:100vh;width:100vw;display:grid;grid-template-rows:56px 32px 1fr;grid-template-columns:1fr 320px;grid-template-areas:"bar bar" "ticker ticker" "map ledger"}
+
+.bar{grid-area:bar;display:flex;align-items:center;padding:0 18px;border-bottom:1px solid rgba(30,33,48,.7);background:rgba(8,9,15,.72);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);gap:14px;z-index:10}
+.brand{display:flex;align-items:center;gap:10px}
+.mark{width:28px;height:28px;border-radius:4px;background:#10121c;border:1px solid #272b3c;display:grid;place-items:center;color:var(--cyan);font-family:var(--f-mono);font-size:13px;font-weight:600}
+.brand-h{font-family:var(--f-display);font-weight:800;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--warm)}
+.brand-s{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.brand-s .owner{color:var(--cyan)}
+
+.stats{margin-left:auto;display:flex;gap:14px;align-items:center}
+.kv{display:flex;flex-direction:column;gap:1px;align-items:flex-end}
+.kv .k{font-family:var(--f-mono);font-size:8.5px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+.kv .v{font-family:var(--f-mono);font-size:13px;font-weight:500;color:var(--warm)}
+.kv .v.pos{color:var(--success)}.kv .v.neg{color:var(--danger)}.kv .v.warn{color:var(--amber)}.kv .v.cyan{color:var(--cyan)}
+
+.clock{font-family:var(--f-mono);font-size:14px;color:var(--warm);letter-spacing:.08em;padding-left:4px}
+.dusk{font-family:var(--f-mono);font-size:9px;color:var(--amber);letter-spacing:.16em;text-transform:uppercase;padding-left:10px;border-left:1px solid rgba(30,33,48,.7);height:22px;display:flex;align-items:center}
+.lamp-wrap{display:flex;align-items:center;gap:6px;padding-left:10px;border-left:1px solid rgba(30,33,48,.7);height:22px}
+.lamp{width:7px;height:7px;border-radius:50%;background:var(--muted-2)}
+.lamp.on{background:var(--success);box-shadow:0 0 10px rgba(61,214,140,.7);animation:breathe 3s ease-in-out infinite}
+.lamp.off{background:var(--danger)}
+.lamp-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.14em;color:var(--muted)}
+@keyframes breathe{0%,100%{opacity:1}50%{opacity:.45}}
+
+.map{grid-area:map;position:relative;overflow:hidden;background:#06060a}
+.map svg{display:block;width:100%;height:100%}
+
+@keyframes pulseRing{0%{r:20;opacity:.7}100%{r:170;opacity:0}}
+@keyframes flicker{0%,100%{opacity:.95}40%{opacity:.78}55%{opacity:1}80%{opacity:.88}}
+@keyframes smokeRise{0%{transform:translate(0,0) scale(1);opacity:.55}100%{transform:translate(12px,-60px) scale(2.2);opacity:0}}
+@keyframes lampBreathe{0%,100%{opacity:.85}50%{opacity:.55}}
+@keyframes beacon{0%,84%,100%{opacity:1}88%{opacity:.2}94%{opacity:1}}
+@keyframes signSway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes spark{0%{transform:translate(0,0);opacity:1}100%{transform:translate(18px,20px);opacity:0}}
+@keyframes dustDrift{from{transform:translate(-40px,-20px)}to{transform:translate(1640px,1020px)}}
+@keyframes windowFlicker{0%,100%{opacity:.95}33%{opacity:.82}67%{opacity:1}}
+@keyframes grassWave{0%,100%{transform:skewX(-3deg)}50%{transform:skewX(3deg)}}
+@keyframes truckLoop{0%{offset-distance:0%}100%{offset-distance:100%}}
+@keyframes twinkle{0%,100%{opacity:.3}50%{opacity:1}}
+@keyframes tailWag{0%,100%{transform:translateX(-1px) rotate(-12deg)}50%{transform:translateX(1px) rotate(12deg)}}
+@keyframes catBlink{0%,92%,100%{transform:scaleY(1)}95%,97%{transform:scaleY(.05)}}
+@keyframes confettiFall{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--cx,0),var(--cy,80px)) rotate(360deg);opacity:0}}
+@keyframes walkBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1px)}}
+@keyframes modeDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+@keyframes commuteDash{to{stroke-dashoffset:-40}}
+@keyframes tumble{0%{transform:translate(-60px,540px) rotate(0)}100%{transform:translate(1660px,540px) rotate(1800deg)}}
+@keyframes raccoonRun{0%{transform:translate(-40px,760px)}100%{transform:translate(1660px,760px)}}
+
+.smoke-puff{transform-origin:center;animation:smokeRise 4.5s ease-out infinite}
+.smoke-puff.d1{animation-delay:1.5s}
+.smoke-puff.d2{animation-delay:3s}
+.lamp-halo{animation:lampBreathe 4s ease-in-out infinite}
+.beacon-light{animation:beacon 6s linear infinite;transform-origin:center}
+.open-sign{transform-origin:top center;animation:signSway 5s ease-in-out infinite}
+.hanging-sign{transform-origin:top center;animation:signSway 7s ease-in-out infinite}
+.window-lit{animation:windowFlicker 5s ease-in-out infinite}
+.grass{transform-origin:bottom center;animation:grassWave 6s ease-in-out infinite}
+.dust-mote{animation:dustDrift 60s linear infinite}
+.spark-dot{transform-origin:center;animation:spark 1.2s ease-out infinite}
+.mail-truck{offset-path:path('M 420 340 Q 420 260 500 260 L 1100 260 Q 1180 260 1180 340 L 1180 680 Q 1180 760 1100 760 L 500 760 Q 420 760 420 680 Z');offset-rotate:auto;animation:truckLoop 42s linear infinite}
+.twinkle{animation:twinkle 3s ease-in-out infinite}
+.dog-tail{transform-origin:right center;animation:tailWag .8s ease-in-out infinite}
+.cat-eye{transform-origin:center;animation:catBlink 8s ease-in-out infinite}
+.walker{animation:walkBob .4s ease-in-out infinite}
+.commute-line{stroke-dasharray:6 6;animation:commuteDash 1.2s linear infinite}
+.tumbleweed{animation:tumble 90s linear infinite}
+.raccoon{animation:raccoonRun 28s linear infinite}
+.confetti-bit{animation:confettiFall 1.8s ease-out forwards}
+
+/* --- right ledger panel --- */
+.ledger{grid-area:ledger;border-left:1px solid rgba(30,33,48,.7);background:linear-gradient(180deg,rgba(8,9,15,.88),rgba(6,6,10,.94));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;flex-direction:column;overflow:hidden}
+.ledger-head{padding:14px 18px 10px;border-bottom:1px solid rgba(30,33,48,.55)}
+.ledger-title{font-family:var(--f-display);font-weight:800;font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--warm)}
+.ledger-sub{font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.12em;margin-top:3px}
+.tenant-rows{list-style:none;overflow-y:auto;flex:1;min-height:0;padding:4px 0}
+.tenant-rows::-webkit-scrollbar{width:4px}
+.tenant-rows::-webkit-scrollbar-thumb{background:#272b3c;border-radius:2px}
+.tenant-row{padding:11px 16px;border-bottom:1px solid rgba(30,33,48,.35);display:flex;flex-direction:column;gap:5px;transition:background .2s}
+.tenant-row:hover{background:rgba(0,229,255,.03)}
+.row-head{display:flex;align-items:center;gap:8px}
+.row-name{font-family:var(--f-display);font-weight:800;font-size:13px;letter-spacing:.1em;color:var(--warm);flex:0 0 auto}
+.row-role{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;flex:1}
+.row-mode-dot{width:7px;height:7px;border-radius:50%;background:var(--muted-2)}
+.row-mode-dot.active{background:var(--cyan);box-shadow:0 0 8px rgba(0,229,255,.6);animation:modeDot 2.2s ease-in-out infinite}
+.row-money{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.money-earned{font-family:var(--f-mono);font-size:18px;font-weight:500;color:var(--cyan);letter-spacing:.02em}
+.money-rent{font-family:var(--f-mono);font-size:9px;color:var(--muted);letter-spacing:.1em}
+.money-net{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;margin-left:auto;font-weight:500}
+.money-net.pos{color:var(--success)}
+.money-net.neg{color:var(--danger)}
+.row-job{font-family:var(--f-body);font-size:10.5px;color:rgba(242,240,237,.72);line-height:1.35}
+.row-contrib{display:flex;flex-direction:column;gap:3px;margin-top:2px}
+.contrib-bar{height:4px;background:rgba(30,33,48,.6);border-radius:2px;overflow:hidden}
+.contrib-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--amber));border-radius:2px;transition:width .6s ease}
+.contrib-label{font-family:var(--f-mono);font-size:8.5px;color:var(--muted-2);letter-spacing:.1em}
+.ledger-foot{padding:10px 16px;border-top:1px solid rgba(30,33,48,.55);display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:10px;color:var(--muted);letter-spacing:.14em}
+.ledger-foot strong{color:var(--success);font-weight:500}
+.ledger-foot strong.neg{color:var(--danger)}
+
+@media (max-width:1000px){
+  .shell{grid-template-columns:1fr;grid-template-rows:56px 32px 1fr 320px;grid-template-areas:"bar" "ticker" "map" "ledger"}
+  .ledger{border-left:none;border-top:1px solid rgba(30,33,48,.7)}
+}
+
+/* --- alerts pill + modal --- */
+.alerts{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;cursor:pointer;user-select:none;background:rgba(30,33,48,.55);border:1px solid rgba(30,33,48,.9);transition:background .2s,border-color .2s,transform .15s;margin-left:6px}
+.alerts:hover{transform:translateY(-1px)}
+.alerts.hot{background:rgba(255,90,95,.18);border-color:rgba(255,90,95,.8);animation:alertBreathe 2s ease-in-out infinite}
+.alerts-dot{width:7px;height:7px;border-radius:50%;background:var(--muted-2);box-shadow:none}
+.alerts.hot .alerts-dot{background:var(--danger);box-shadow:0 0 8px rgba(255,90,95,.8)}
+.alerts-n{font-family:var(--f-mono);font-size:12px;font-weight:500;color:var(--muted);letter-spacing:.04em;min-width:12px;text-align:center}
+.alerts.hot .alerts-n{color:#fff}
+.alerts-lbl{font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.alerts.hot .alerts-lbl{color:#ffb8ba}
+@keyframes alertBreathe{0%,100%{box-shadow:0 0 0 0 rgba(255,90,95,.35)}50%{box-shadow:0 0 0 6px rgba(255,90,95,0)}}
+
+.alert-dlg{position:fixed;top:72px;right:18px;z-index:200;width:360px;max-height:70vh;overflow:hidden;background:rgba(8,9,15,.96);border:1px solid rgba(0,229,255,.35);border-radius:6px;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.4);display:none;flex-direction:column}
+.alert-dlg.open{display:flex}
+.alert-dlg-h{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(30,33,48,.7)}
+.alert-dlg-t{font-family:var(--f-display);font-weight:800;font-size:11px;letter-spacing:.26em;color:var(--warm);text-transform:uppercase}
+.alert-dlg-x{cursor:pointer;font-family:var(--f-mono);font-size:14px;color:var(--muted);padding:2px 6px;border-radius:3px;transition:color .15s,background .15s}
+.alert-dlg-x:hover{color:var(--warm);background:rgba(30,33,48,.6)}
+.alert-dlg-list{list-style:none;overflow-y:auto;padding:4px 0;flex:1;min-height:0}
+.alert-dlg-list::-webkit-scrollbar{width:4px}
+.alert-dlg-list::-webkit-scrollbar-thumb{background:#272b3c;border-radius:2px}
+.alert-item{padding:10px 14px;border-bottom:1px solid rgba(30,33,48,.4);display:flex;flex-direction:column;gap:3px}
+.alert-item-h{display:flex;align-items:baseline;gap:8px}
+.alert-item-sub{font-family:var(--f-display);font-weight:800;font-size:12px;letter-spacing:.1em;color:var(--warm);text-transform:uppercase}
+.alert-item-type{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--danger);margin-left:auto}
+.alert-item-reason{font-family:var(--f-body);font-size:10.5px;color:rgba(242,240,237,.72);line-height:1.35}
+.alert-item-age{font-family:var(--f-mono);font-size:8.5px;color:var(--muted);letter-spacing:.12em}
+.alert-dlg-empty{padding:32px 16px;text-align:center;font-family:var(--f-mono);font-size:10.5px;color:var(--muted);letter-spacing:.12em}
+
+/* --- wins ticker strip --- */
+.ticker{grid-area:ticker;position:relative;overflow:hidden;background:rgba(8,9,15,.82);border-bottom:1px solid rgba(30,33,48,.55);display:flex;align-items:center}
+.ticker-label{flex:0 0 auto;padding:0 14px 0 16px;font-family:var(--f-mono);font-size:9px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase;border-right:1px solid rgba(30,33,48,.55);height:100%;display:flex;align-items:center;background:rgba(0,229,255,.04);z-index:2}
+.ticker-wrap{flex:1;overflow:hidden;position:relative;height:100%;mask-image:linear-gradient(90deg,transparent 0,#000 40px,#000 calc(100% - 40px),transparent 100%);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 40px,#000 calc(100% - 40px),transparent 100%)}
+.ticker-strip{display:inline-flex;align-items:center;gap:28px;height:100%;white-space:nowrap;padding-left:20px;animation:tickerRoll 40s linear infinite;will-change:transform}
+.ticker-strip.paused{animation-play-state:paused}
+.ticker-wrap:hover .ticker-strip{animation-play-state:paused}
+@keyframes tickerRoll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.win{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:10.5px;color:var(--warm);letter-spacing:.04em}
+.win-dot{width:6px;height:6px;border-radius:50%;flex:0 0 auto}
+.win-txt{color:var(--warm)}
+.win-age{color:var(--muted);font-size:9.5px;letter-spacing:.1em;margin-left:4px}
+.ticker-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:10px;color:var(--muted-2);letter-spacing:.18em;text-transform:uppercase;pointer-events:none}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- TOP BAR -->
+  <header class="bar">
+    <div class="brand">
+      <div class="mark">B</div>
+      <div>
+        <div class="brand-h">Brewington Yard // God View</div>
+        <div class="brand-s"><span class="owner">Lando Brewington</span> // Landlord</div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="kv"><div class="k">Occupancy</div><div class="v cyan" id="kv-occ">0%</div></div>
+      <div class="kv"><div class="k">Rent Owed</div><div class="v warn" id="kv-owed">$0</div></div>
+      <div class="kv"><div class="k">Rent Paid</div><div class="v pos" id="kv-paid">$0</div></div>
+      <div class="kv"><div class="k">Behind</div><div class="v neg" id="kv-behind">0</div></div>
+      <div class="kv"><div class="k">Vacant</div><div class="v" id="kv-vacant">0</div></div>
+      <div class="kv"><div class="k">Apps</div><div class="v" id="kv-apps">0</div></div>
+      <div class="alerts" id="alerts" onclick="toggleAlerts(event)" title="Things waiting on Lando">
+        <span class="alerts-dot"></span>
+        <span class="alerts-n" id="alerts-n">0</span>
+        <span class="alerts-lbl">Alerts</span>
+      </div>
+      <div class="clock" id="clock">--:--:--</div>
+      <div class="dusk" id="dusk">DUSK</div>
+      <div class="lamp-wrap"><div class="lamp" id="lamp"></div><div class="lamp-lbl" id="lamp-lbl">...</div></div>
+    </div>
+  </header>
+
+  <!-- WINS TICKER -->
+  <div class="ticker" id="wins-ticker">
+    <div class="ticker-label">WINS</div>
+    <div class="ticker-wrap" id="wins-wrap">
+      <div class="ticker-strip" id="wins-strip"></div>
+    </div>
+  </div>
+
+  <!-- ALERT DIALOG (floating panel) -->
+  <div class="alert-dlg" id="alert-dlg" role="dialog" aria-label="Alerts">
+    <div class="alert-dlg-h">
+      <div class="alert-dlg-t">Needs Lando</div>
+      <div class="alert-dlg-x" onclick="closeAlerts()" aria-label="Close">CLOSE</div>
+    </div>
+    <ul class="alert-dlg-list" id="alert-dlg-list"></ul>
+  </div>
+
+  <!-- MAP (the yard) -->
+  <section class="map">
+    <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet" id="svg">
+      <defs>
+        <!-- time-of-day sky gradients (JS picks one) -->
+        <radialGradient id="sky-night" cx="50%" cy="40%" r="75%">
+          <stop offset="0%"  stop-color="#0b1020"/>
+          <stop offset="55%" stop-color="#05070f"/>
+          <stop offset="100%" stop-color="#03040a"/>
+        </radialGradient>
+        <radialGradient id="sky-dawn" cx="50%" cy="70%" r="85%">
+          <stop offset="0%"  stop-color="#ff9a7a"/>
+          <stop offset="35%" stop-color="#c96a70"/>
+          <stop offset="70%" stop-color="#3a3560"/>
+          <stop offset="100%" stop-color="#141830"/>
+        </radialGradient>
+        <radialGradient id="sky-morning" cx="50%" cy="60%" r="80%">
+          <stop offset="0%"  stop-color="#c9e2f0"/>
+          <stop offset="50%" stop-color="#89b0c8"/>
+          <stop offset="100%" stop-color="#3d5268"/>
+        </radialGradient>
+        <radialGradient id="sky-midday" cx="50%" cy="55%" r="80%">
+          <stop offset="0%"  stop-color="#7cc4e8"/>
+          <stop offset="60%" stop-color="#4a8ec0"/>
+          <stop offset="100%" stop-color="#1f3a5a"/>
+        </radialGradient>
+        <radialGradient id="sky-golden" cx="30%" cy="70%" r="90%">
+          <stop offset="0%"  stop-color="#ffb36b"/>
+          <stop offset="45%" stop-color="#cc6a55"/>
+          <stop offset="100%" stop-color="#2a2040"/>
+        </radialGradient>
+        <radialGradient id="sky-dusk" cx="50%" cy="40%" r="70%">
+          <stop offset="0%"  stop-color="#141826"/>
+          <stop offset="55%" stop-color="#0a0c14"/>
+          <stop offset="100%" stop-color="#05060a"/>
+        </radialGradient>
+        <radialGradient id="sky-blue" cx="50%" cy="45%" r="75%">
+          <stop offset="0%"  stop-color="#1a2450"/>
+          <stop offset="55%" stop-color="#0c1028"/>
+          <stop offset="100%" stop-color="#04060e"/>
+        </radialGradient>
+        <!-- west warm glow overlay -->
+        <linearGradient id="duskLight" x1="0%" y1="50%" x2="100%" y2="50%">
+          <stop offset="0%" stop-color="#3a1f1a" stop-opacity=".35"/>
+          <stop offset="35%" stop-color="#3a1f1a" stop-opacity=".12"/>
+          <stop offset="65%" stop-color="#0e1220" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#0e1220" stop-opacity=".25"/>
+        </linearGradient>
+        <pattern id="groundDots" x="0" y="0" width="14" height="14" patternUnits="userSpaceOnUse">
+          <rect width="14" height="14" fill="#141826"/>
+          <circle cx="3" cy="4" r=".6" fill="rgba(255,255,255,.025)"/>
+          <circle cx="10" cy="10" r=".5" fill="rgba(255,255,255,.02)"/>
+          <circle cx="7" cy="1" r=".4" fill="rgba(255,255,255,.02)"/>
+        </pattern>
+        <pattern id="gravel" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+          <rect width="10" height="10" fill="#1c2030"/>
+          <circle cx="2" cy="3" r=".5" fill="rgba(255,255,255,.05)"/>
+          <circle cx="7" cy="7" r=".6" fill="rgba(255,255,255,.04)"/>
+          <circle cx="5" cy="1" r=".4" fill="rgba(0,0,0,.3)"/>
+        </pattern>
+        <filter id="windowGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <radialGradient id="lampGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffb347" stop-opacity=".55"/>
+          <stop offset="60%" stop-color="#ff9040" stop-opacity=".18"/>
+          <stop offset="100%" stop-color="#ff9040" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="smokeGrad">
+          <stop offset="0%" stop-color="#dcd4c2" stop-opacity=".5"/>
+          <stop offset="100%" stop-color="#dcd4c2" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="roadGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#171b2a"/>
+          <stop offset="50%" stop-color="#1d2232"/>
+          <stop offset="100%" stop-color="#171b2a"/>
+        </linearGradient>
+        <filter id="shadow" x="-20%" y="-20%" width="160%" height="160%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+          <feOffset dx="6" dy="10" result="off"/>
+          <feComponentTransfer in="off" result="s"><feFuncA type="linear" slope=".55"/></feComponentTransfer>
+          <feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <linearGradient id="woodGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#b39058"/>
+          <stop offset="50%" stop-color="#a68550"/>
+          <stop offset="100%" stop-color="#8e7040"/>
+        </linearGradient>
+        <linearGradient id="roofGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#2e3447"/>
+          <stop offset="100%" stop-color="#1a1e2c"/>
+        </linearGradient>
+        <linearGradient id="wallGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#2a2f40"/>
+          <stop offset="100%" stop-color="#1d2130"/>
+        </linearGradient>
+        <linearGradient id="corkGrad">
+          <stop offset="0%" stop-color="#92703d"/>
+          <stop offset="100%" stop-color="#6e5530"/>
+        </linearGradient>
+        <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+          <stop offset="60%" stop-color="#000" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#000" stop-opacity=".55"/>
+        </radialGradient>
+      </defs>
+
+      <!-- SKY (fill swapped by JS based on hour) -->
+      <rect id="sky-rect" x="0" y="0" width="1600" height="1000" fill="url(#sky-dusk)"/>
+
+      <!-- GROUND dots -->
+      <rect x="0" y="0" width="1600" height="1000" fill="url(#groundDots)" opacity=".85"/>
+
+      <!-- west warm wash (visible at golden/dusk) -->
+      <rect id="dusk-overlay" x="0" y="0" width="1600" height="1000" fill="url(#duskLight)"/>
+
+      <!-- vignette -->
+      <rect x="0" y="0" width="1600" height="1000" fill="url(#vignette)"/>
+
+      <!-- stars + moon (visible only at night) -->
+      <g id="stars"></g>
+
+      <!-- sun (visible in day) -->
+      <g id="sun"></g>
+
+      <!-- ROADS -->
+      <g id="roads">
+        <path d="M 420 340 Q 420 260 500 260 L 1100 260 Q 1180 260 1180 340 L 1180 680 Q 1180 760 1100 760 L 500 760 Q 420 760 420 680 Z"
+              fill="none" stroke="url(#roadGrad)" stroke-width="28" stroke-linejoin="round"/>
+        <path d="M 420 340 Q 420 260 500 260 L 1100 260 Q 1180 260 1180 340 L 1180 680 Q 1180 760 1100 760 L 500 760 Q 420 760 420 680 Z"
+              fill="none" stroke="#34301a" stroke-width="1.5" stroke-dasharray="10 10" opacity=".7"/>
+        <path d="M 800 260 Q 800 380 800 500" fill="none" stroke="url(#roadGrad)" stroke-width="22"/>
+        <path d="M 800 260 L 800 500" fill="none" stroke="#34301a" stroke-width="1.4" stroke-dasharray="8 8" opacity=".65"/>
+        <path d="M 800 500 L 800 720" fill="none" stroke="url(#roadGrad)" stroke-width="22"/>
+        <path d="M 800 500 L 800 720" fill="none" stroke="#34301a" stroke-width="1.4" stroke-dasharray="8 8" opacity=".65"/>
+        <path d="M 420 500 Q 300 520 200 540" fill="none" stroke="#23221a" stroke-width="14" stroke-linecap="round" opacity=".75"/>
+        <path d="M 1180 500 Q 1300 520 1400 540" fill="none" stroke="#23221a" stroke-width="14" stroke-linecap="round" opacity=".75"/>
+      </g>
+
+      <!-- PLAZA monument -->
+      <g transform="translate(800,500)">
+        <circle r="95" fill="#1f243a" opacity=".9"/>
+        <circle r="95" fill="url(#gravel)" opacity=".6"/>
+        <g stroke="#e8dcbf" stroke-width="1.4" opacity=".35">
+          <line x1="-8" y1="-95" x2="-8" y2="-70"/>
+          <line x1="-2" y1="-95" x2="-2" y2="-70"/>
+          <line x1="4"  y1="-95" x2="4"  y2="-70"/>
+          <line x1="-8" y1="95"  x2="-8" y2="70"/>
+          <line x1="-2" y1="95"  x2="-2" y2="70"/>
+          <line x1="4"  y1="95"  x2="4"  y2="70"/>
+        </g>
+        <ellipse cx="4" cy="10" rx="28" ry="8" fill="#000" opacity=".45"/>
+        <polygon points="-22,0 22,0 26,-6 -26,-6" fill="#2a2f40"/>
+        <rect x="-22" y="-6" width="44" height="4" fill="#353a4d"/>
+        <polygon points="-8,-6 8,-6 6,-48 -6,-48" fill="url(#wallGrad)"/>
+        <polygon points="-8,-6 -6,-48 -6,-6" fill="#1a1e2c" opacity=".6"/>
+        <circle cx="0" cy="-52" r="3.5" fill="#00e5ff" class="beacon-light"/>
+        <circle cx="0" cy="-52" r="9" fill="#00e5ff" opacity=".25" class="beacon-light"/>
+        <text x="0" y="42" text-anchor="middle" font-family="Syne" font-weight="800" font-size="11" fill="#f2f0ed" letter-spacing=".3em">LANDLORD</text>
+        <text x="0" y="56" text-anchor="middle" font-family="JetBrains Mono" font-size="8.5" fill="#6b6f7a" letter-spacing=".22em">THE YARD</text>
+      </g>
+
+      <!-- STREETLAMPS -->
+      <g id="lamps">
+        <g transform="translate(720,440)"><circle r="44" fill="url(#lampGlow)" class="lamp-halo"/><rect x="-1" y="-28" width="2" height="30" fill="#3a3f52"/><circle cx="0" cy="-30" r="3" fill="#ffb347"/></g>
+        <g transform="translate(880,440)"><circle r="44" fill="url(#lampGlow)" class="lamp-halo"/><rect x="-1" y="-28" width="2" height="30" fill="#3a3f52"/><circle cx="0" cy="-30" r="3" fill="#ffb347"/></g>
+        <g transform="translate(720,560)"><circle r="44" fill="url(#lampGlow)" class="lamp-halo"/><rect x="-1" y="-28" width="2" height="30" fill="#3a3f52"/><circle cx="0" cy="-30" r="3" fill="#ffb347"/></g>
+        <g transform="translate(880,560)"><circle r="44" fill="url(#lampGlow)" class="lamp-halo"/><rect x="-1" y="-28" width="2" height="30" fill="#3a3f52"/><circle cx="0" cy="-30" r="3" fill="#ffb347"/></g>
+      </g>
+
+      <!-- VACANCIES -->
+      <g id="vacants"></g>
+
+      <!-- TENANTS -->
+      <g id="tenants"></g>
+
+      <!-- Commute lines, friendship visits, confetti, mail truck, raccoon, tumbleweed -->
+      <g id="commute"></g>
+      <g id="social"></g>
+      <g id="events"></g>
+      <g id="traffic"></g>
+
+      <!-- Ambient dust motes -->
+      <g id="dust">
+        <circle class="dust-mote" cx="-40" cy="-20" r="1.2" fill="rgba(255,220,180,.55)" style="animation-duration:55s"/>
+        <circle class="dust-mote" cx="-40" cy="200" r="1"   fill="rgba(255,220,180,.5)" style="animation-duration:72s;animation-delay:-10s"/>
+        <circle class="dust-mote" cx="-40" cy="420" r=".8"  fill="rgba(255,220,180,.4)" style="animation-duration:85s;animation-delay:-25s"/>
+        <circle class="dust-mote" cx="-40" cy="700" r="1.4" fill="rgba(255,220,180,.55)" style="animation-duration:60s;animation-delay:-40s"/>
+        <circle class="dust-mote" cx="-40" cy="880" r="1"   fill="rgba(255,220,180,.4)" style="animation-duration:78s;animation-delay:-50s"/>
+        <circle class="dust-mote" cx="-40" cy="120" r=".7"  fill="rgba(255,220,180,.35)" style="animation-duration:95s;animation-delay:-5s"/>
+        <circle class="dust-mote" cx="-40" cy="580" r="1.1" fill="rgba(255,220,180,.5)" style="animation-duration:66s;animation-delay:-32s"/>
+      </g>
+
+    </svg>
+  </section>
+
+  <!-- LEDGER PANEL (replaces old rail) -->
+  <aside class="ledger">
+    <div class="ledger-head">
+      <div class="ledger-title">THE BOOKS</div>
+      <div class="ledger-sub">What the yard is earning, right now.</div>
+    </div>
+    <ul class="tenant-rows" id="tenant-rows"></ul>
+    <div class="ledger-foot">
+      <div>MTD net: <strong id="kv-net">$0</strong></div>
+      <div id="server-hour">--:--</div>
+    </div>
+  </aside>
+
+</div>
+
+<script>
+/* ================================================================
+   GOD VIEW v3: LIVING VILLAGE
+   Tiny humans with routines, per-tenant vehicles + pets, mailboxes
+   with flags, time-of-day sky, mail truck on work hours, raccoon
+   at night, stars + moon, commute lines, friendship visits, car
+   purchase confetti. Vanilla JS + SVG DOM, no frameworks.
+   ================================================================ */
+const NS = 'http://www.w3.org/2000/svg';
+const S = (n, a, t) => { const e = document.createElementNS(NS, n); if (a) for (const k in a) e.setAttribute(k, a[k]); if (t != null) e.textContent = t; return e; };
+const H = (n, a, t) => { const e = document.createElement(n); if (a) for (const k in a) { if (k === 'class') e.className = a[k]; else e.setAttribute(k, a[k]); } if (t != null) e.textContent = t; return e; };
+
+// Tenant plot anchor points (ground-center of each plot). PRESERVED from v2.
+const POS = {
+  foreman:   { x: 420,  y: 400 },
+  scout:     { x: 1180, y: 400 },
+  builder:   { x: 420,  y: 700 },
+  paymaster: { x: 1180, y: 700 },
+  realtor:   { x: 800,  y: 680 }
+};
+const ROLE = { foreman:'Foreman', scout:'Scout', builder:'Builder', paymaster:'Paymaster', realtor:'Realtor' };
+const FIRST = { foreman:'HANK', scout:'VEGA', builder:'JAX', paymaster:'DOSS', realtor:'BRIX' };
+const VEHICLE_COLOR = { foreman:'#8c4a2c', scout:'#3dd68c', builder:'#d0ae5c', paymaster:'#1a1224', realtor:'#0a0c14' };
+const JOB_COPY = {
+  foreman:   'Hires tools into the yard. Runs the install bench.',
+  scout:     'Sells lead lists on Gumroad. $49 per pack.',
+  builder:   'Builds internal tooling and rebuilds prospect sites.',
+  paymaster: 'Keeps the books. Tracks tokens, ledger, and rent.',
+  realtor:   'Lists plots and triages tenant applications.'
+};
+
+const STATE = {
+  state: { businesses: [] },
+  re:    { vacancies: [], applications: [], rent_roll: null, vacancies_total: 0, applications_total: 0, occupancy_pct: 0 },
+  activity: [],
+  // session-persistent: which tenants have bought a "new car" (crossed $100 MTD)
+  carsBought: {},
+  lastIncome: {},
+  // v4: alerts + wins
+  alerts: [],
+  wins: [],              // array of {msg, color, ts}
+  SEEN: null,            // snapshot of last state for win-delta detection
+  winsFirstPass: true
+};
+
+const fmt = v => { const n = Number(v)||0; return (n<0?'-':'') + '$' + Math.abs(Math.round(n)); };
+const working = b => b && b.last_tick_at && (Date.now() - new Date(b.last_tick_at).getTime()) < 90000;
+const rentColor = st => st === 'current' ? '#3dd68c' : st === 'partial' ? '#ffb347' : st === 'default' ? '#ff5a5f' : '#ff5a5f';
+
+async function fetchState(){ try { const r = await fetch('/api/state'); if (r.ok) STATE.state = await r.json(); } catch(e){} }
+async function fetchRE(){    try { const r = await fetch('/api/realestate'); if (r.ok) STATE.re = await r.json(); } catch(e){} }
+async function fetchActivity(){ try { const r = await fetch('/api/activity?limit=40'); if (r.ok){ const j = await r.json(); STATE.activity = j.entries || []; } } catch(e){} }
+async function fetchAll(){ await Promise.all([fetchState(), fetchRE(), fetchActivity()]); render(); }
+
+/* ----------------- Hour + time-of-day ----------------- */
+function currentHour(){ return new Date().getHours(); }
+function phaseOf(h){
+  if (h >= 5 && h < 7)   return 'dawn';
+  if (h >= 7 && h < 10)  return 'morning';
+  if (h >= 10 && h < 16) return 'midday';
+  if (h >= 16 && h < 19) return 'golden';
+  if (h >= 19 && h < 20) return 'dusk';
+  if (h >= 20 && h < 22) return 'blue';
+  return 'night';
+}
+function skyFillFor(phase){
+  return 'url(#sky-' + ({dawn:'dawn',morning:'morning',midday:'midday',golden:'golden',dusk:'dusk',blue:'blue',night:'night'}[phase]) + ')';
+}
+
+/* ----------------- Plot helpers (preserved from v2) ----------------- */
+function plotGround(w, h){
+  const g = S('g');
+  g.appendChild(S('rect', {x:-w/2-18, y:-h/2-10, width:w+36, height:h+36, rx:6, fill:'url(#gravel)', opacity:.95}));
+  g.appendChild(S('rect', {x:-w/2-18, y:-h/2-10, width:w+36, height:h+36, rx:6, fill:'none', stroke:'rgba(0,0,0,.3)', 'stroke-width':1}));
+  return g;
+}
+
+/* Tiny human figure. Color and optional walker class. */
+function human(color, bob){
+  const g = S('g', {class: bob ? 'walker' : ''});
+  g.appendChild(S('circle', {cx:0, cy:-4, r:2.5, fill:'#e8c6a4'}));
+  g.appendChild(S('rect', {x:-2, y:-1.5, width:4, height:6, rx:1.2, fill:color}));
+  g.appendChild(S('line', {x1:-1.2, y1:4.5, x2:-1.8, y2:9, stroke:'#1a1a22', 'stroke-width':1.1}));
+  g.appendChild(S('line', {x1:1.2,  y1:4.5, x2:1.8,  y2:9, stroke:'#1a1a22', 'stroke-width':1.1}));
+  return g;
+}
+
+/* Mailbox with flag. flagUp boolean controls flag position. */
+function mailbox(flagUp){
+  const g = S('g');
+  g.appendChild(S('rect', {x:-3, y:-4, width:6, height:12, fill:'#3a2a12'}));
+  g.appendChild(S('rect', {x:-8, y:-10, width:16, height:8, rx:2, fill:'#2a2f40', stroke:'#4a4e58', 'stroke-width':.5}));
+  g.appendChild(S('circle', {cx:-6, cy:-6, r:.8, fill:'#6b6f7a'}));
+  const flag = S('g', {transform: flagUp ? 'rotate(0 6 -10)' : 'rotate(-90 6 -10)'});
+  flag.appendChild(S('rect', {x:6, y:-12, width:5, height:4, fill:'#ff5a5f'}));
+  g.appendChild(flag);
+  return g;
+}
+
+/* Vehicle: simple sedan/pickup top-down. variant: sedan, pickup, worktruck, customer */
+function vehicle(color, variant){
+  const g = S('g');
+  const w = variant === 'pickup' || variant === 'worktruck' ? 26 : 22;
+  const h = 12;
+  g.appendChild(S('ellipse', {cx:2, cy:7, rx:w/2+2, ry:3, fill:'#000', opacity:.4}));
+  g.appendChild(S('rect', {x:-w/2, y:-h/2, width:w, height:h, rx:3, fill:color}));
+  g.appendChild(S('rect', {x:-w/2+3, y:-h/2+2, width:w-6, height:h-4, rx:1.5, fill:'#0a0c14', opacity:.75}));
+  // wheels
+  g.appendChild(S('rect', {x:-w/2+2, y:-h/2-1.5, width:4, height:1.5, fill:'#0a0c14'}));
+  g.appendChild(S('rect', {x:w/2-6, y:-h/2-1.5, width:4, height:1.5, fill:'#0a0c14'}));
+  g.appendChild(S('rect', {x:-w/2+2, y:h/2, width:4, height:1.5, fill:'#0a0c14'}));
+  g.appendChild(S('rect', {x:w/2-6, y:h/2, width:4, height:1.5, fill:'#0a0c14'}));
+  if (variant === 'pickup' || variant === 'worktruck'){
+    g.appendChild(S('rect', {x:2, y:-h/2+1, width:w/2-2, height:h-2, fill:'#1a1a22', opacity:.6}));
+    if (variant === 'worktruck'){
+      // ladder in bed
+      g.appendChild(S('line', {x1:4, y1:-h/2+2, x2:w/2-1, y2:-h/2+2, stroke:'#8a6f3a', 'stroke-width':1}));
+      g.appendChild(S('line', {x1:4, y1:h/2-2, x2:w/2-1, y2:h/2-2, stroke:'#8a6f3a', 'stroke-width':1}));
+    }
+  }
+  return g;
+}
+
+/* Star icon badge for "new car" indicator */
+function starIcon(){
+  const g = S('g');
+  g.appendChild(S('polygon', {points:'0,-4 1.2,-1.2 4,-1.2 1.8,.8 2.8,4 0,2 -2.8,4 -1.8,.8 -4,-1.2 -1.2,-1.2', fill:'#ffb347', stroke:'#0a0c14', 'stroke-width':.4}));
+  return g;
+}
+
+/* ----------------- Building factories (preserved from v2) ----------------- */
+
+function bldgForeman(b){
+  const g = S('g');
+  g.appendChild(plotGround(190, 130));
+  g.appendChild(S('polygon', {points:'-85,-40 85,-40 85,40 -85,40', fill:'#000', opacity:.4, transform:'translate(18,22) skewX(-20) scale(1.05, .6)'}));
+  g.appendChild(S('rect', {x:-85, y:-40, width:170, height:80, fill:'url(#wallGrad)'}));
+  g.appendChild(S('rect', {x:50, y:-40, width:35, height:80, fill:'#000', opacity:.25}));
+  const roof = S('g');
+  roof.appendChild(S('polygon', {points:'-92,-40 0,-72 92,-40', fill:'url(#roofGrad)'}));
+  roof.appendChild(S('polygon', {points:'-92,-40 0,-72 -60,-40', fill:'#171a27', opacity:.6}));
+  roof.appendChild(S('line', {x1:-92, y1:-40, x2:92, y2:-40, stroke:'#0f1220', 'stroke-width':1}));
+  roof.appendChild(S('line', {x1:-92, y1:-40, x2:0, y2:-72, stroke:'#3c4359', 'stroke-width':.8, opacity:.7}));
+  g.appendChild(roof);
+  // Faded flag decal on roof
+  g.appendChild(S('rect', {x:-10, y:-58, width:14, height:8, fill:'#c13b22', opacity:.65}));
+  g.appendChild(S('rect', {x:-10, y:-58, width:14, height:2, fill:'#f2f0ed', opacity:.5}));
+  // Radio antenna with faint glow
+  g.appendChild(S('line', {x1:75, y1:-40, x2:75, y2:-78, stroke:'#3a3f52', 'stroke-width':1}));
+  g.appendChild(S('circle', {cx:75, cy:-78, r:1.8, fill:'#ff5a5f', class:'twinkle'}));
+  // Corkboard with hires
+  const board = S('g', {transform:'translate(-55,-8)'});
+  board.appendChild(S('rect', {x:-30, y:-18, width:60, height:36, fill:'url(#corkGrad)', stroke:'#3a2a12', 'stroke-width':1}));
+  (b.hired_roster || []).slice(0,7).forEach((h, i) => {
+    const col = i % 4, row = Math.floor(i/4);
+    board.appendChild(S('rect', {x:-26 + col*14, y:-14 + row*16, width:10, height:12, fill:'#f2dca6', opacity:.9}));
+    board.appendChild(S('circle', {cx:-21 + col*14, cy:-14 + row*16, r:.8, fill:'#d14'}));
+  });
+  g.appendChild(board);
+  // Doorway warm light spill
+  const door = S('g', {transform:'translate(28,8)'});
+  door.appendChild(S('polygon', {points:'-18,22 18,22 30,48 -30,48', fill:'#ffd079', opacity:.3, filter:'url(#windowGlow)'}));
+  door.appendChild(S('rect', {x:-14, y:-22, width:28, height:44, fill:'#ffd079', class:'window-lit', filter:'url(#windowGlow)'}));
+  door.appendChild(S('rect', {x:-14, y:-22, width:28, height:4, fill:'#0a0c14'}));
+  g.appendChild(door);
+  // Vent + smoke
+  const vent = S('g', {transform:'translate(30,-50)'});
+  vent.appendChild(S('rect', {x:-3, y:-12, width:6, height:12, fill:'#3a3f52'}));
+  vent.appendChild(S('rect', {x:-5, y:-14, width:10, height:3, fill:'#2a2f40'}));
+  vent.appendChild(S('circle', {cx:0, cy:-12, r:4, fill:'url(#smokeGrad)', class:'smoke-puff'}));
+  vent.appendChild(S('circle', {cx:0, cy:-12, r:4, fill:'url(#smokeGrad)', class:'smoke-puff d1'}));
+  vent.appendChild(S('circle', {cx:0, cy:-12, r:4, fill:'url(#smokeGrad)', class:'smoke-puff d2'}));
+  g.appendChild(vent);
+  // Oil drum + bench + coffee mug on drum
+  g.appendChild(S('ellipse', {cx:-70, cy:44, rx:10, ry:3, fill:'#000', opacity:.4}));
+  g.appendChild(S('rect', {x:-78, y:30, width:16, height:14, fill:'#c13b22'}));
+  g.appendChild(S('rect', {x:-78, y:30, width:16, height:2, fill:'#8a2817'}));
+  g.appendChild(S('rect', {x:-74, y:26, width:5, height:5, rx:1, fill:'#f2f0ed'}));
+  // bench
+  g.appendChild(S('rect', {x:60, y:40, width:24, height:3, fill:'#6e5530'}));
+  g.appendChild(S('rect', {x:62, y:43, width:2, height:6, fill:'#3a2a12'}));
+  g.appendChild(S('rect', {x:80, y:43, width:2, height:6, fill:'#3a2a12'}));
+  // trash can
+  g.appendChild(S('rect', {x:-92, y:20, width:10, height:16, rx:2, fill:'#2a2f40', stroke:'#4a4e58', 'stroke-width':.5}));
+  return g;
+}
+
+function bldgScout(b){
+  const g = S('g');
+  g.appendChild(plotGround(190, 130));
+  g.appendChild(S('polygon', {points:'-80,-35 80,-35 80,35 -80,35', fill:'#000', opacity:.4, transform:'translate(18,22) skewX(-20) scale(1.05, .55)'}));
+  g.appendChild(S('rect', {x:-80, y:-35, width:160, height:70, fill:'url(#wallGrad)'}));
+  g.appendChild(S('rect', {x:40, y:-35, width:40, height:70, fill:'#000', opacity:.25}));
+  g.appendChild(S('rect', {x:-84, y:-44, width:168, height:12, fill:'url(#roofGrad)'}));
+  g.appendChild(S('rect', {x:-84, y:-44, width:168, height:3, fill:'#3c4359'}));
+  const win = S('g', {transform:'translate(-20,0)'});
+  win.appendChild(S('rect', {x:-55, y:-22, width:110, height:44, fill:'#ffd079', class:'window-lit', filter:'url(#windowGlow)'}));
+  win.appendChild(S('rect', {x:-55, y:-22, width:110, height:44, fill:'none', stroke:'#3a2a12', 'stroke-width':1.5}));
+  win.appendChild(S('line', {x1:-55, y1:0, x2:55, y2:0, stroke:'#3a2a12', 'stroke-width':.8}));
+  win.appendChild(S('line', {x1:0, y1:-22, x2:0, y2:22, stroke:'#3a2a12', 'stroke-width':.8}));
+  // Cat silhouette blinking in lit window
+  const cat = S('g', {transform:'translate(-55,-10)'});
+  cat.appendChild(S('rect', {x:0, y:0, width:10, height:6, fill:'#1a1a22', opacity:.85}));
+  cat.appendChild(S('polygon', {points:'0,0 2,-3 4,0', fill:'#1a1a22'}));
+  cat.appendChild(S('polygon', {points:'6,0 8,-3 10,0', fill:'#1a1a22'}));
+  cat.appendChild(S('rect', {x:1, y:1.2, width:1, height:1.5, fill:'#00e5ff', class:'cat-eye'}));
+  cat.appendChild(S('rect', {x:8, y:1.2, width:1, height:1.5, fill:'#00e5ff', class:'cat-eye'}));
+  win.appendChild(cat);
+  g.appendChild(win);
+  // Door
+  g.appendChild(S('rect', {x:42, y:-18, width:22, height:40, fill:'#2a1e10'}));
+  g.appendChild(S('circle', {cx:60, cy:4, r:1.5, fill:'#d4b060'}));
+  // Awning
+  const awn = S('g', {transform:'translate(-20,-32)'});
+  for (let i = -55; i < 55; i += 12){
+    awn.appendChild(S('rect', {x:i, y:0, width:6, height:12, fill:'#3dd68c'}));
+    awn.appendChild(S('rect', {x:i+6, y:0, width:6, height:12, fill:'#f2f0ed'}));
+  }
+  awn.appendChild(S('rect', {x:-60, y:0, width:120, height:3, fill:'#2a2f40'}));
+  g.appendChild(awn);
+  // OPEN sign
+  const open = S('g', {class:'open-sign', transform:'translate(-20,-20)'});
+  open.appendChild(S('line', {x1:0, y1:-12, x2:0, y2:-4, stroke:'#3a2a12', 'stroke-width':1}));
+  open.appendChild(S('rect', {x:-14, y:-4, width:28, height:12, fill:'#0a0c14', stroke:'#3dd68c', 'stroke-width':1}));
+  open.appendChild(S('text', {x:0, y:5, 'text-anchor':'middle', 'font-family':'JetBrains Mono', 'font-size':8, fill:'#3dd68c', 'font-weight':600, 'letter-spacing':'.14em'}, 'OPEN'));
+  g.appendChild(open);
+  // Herbs + chalkboard sidewalk sign + THANK YOU mat + 2 coffee cups on bench
+  g.appendChild(S('rect', {x:30, y:28, width:8, height:8, fill:'#8a6f3a'}));
+  g.appendChild(S('circle', {cx:34, cy:24, r:6, fill:'#4a6b3e'}));
+  g.appendChild(S('rect', {x:68, y:28, width:8, height:8, fill:'#8a6f3a'}));
+  g.appendChild(S('circle', {cx:72, cy:24, r:6, fill:'#4a6b3e'}));
+  // chalkboard sidewalk sign
+  const chalk = S('g', {transform:'translate(-78,40)'});
+  chalk.appendChild(S('polygon', {points:'-8,0 8,0 0,-20', fill:'#6e5530'}));
+  chalk.appendChild(S('rect', {x:-6, y:-16, width:12, height:10, fill:'#0a0c14'}));
+  chalk.appendChild(S('text', {x:0, y:-8, 'text-anchor':'middle', 'font-family':'JetBrains Mono', 'font-size':6, fill:'#f2f0ed'}, '$49'));
+  g.appendChild(chalk);
+  // THANK YOU mat
+  g.appendChild(S('rect', {x:42, y:24, width:22, height:5, rx:.8, fill:'#8a2817'}));
+  // bike rack with 2 bikes
+  const bikes = S('g', {transform:'translate(-60,44)'});
+  bikes.appendChild(S('rect', {x:-16, y:0, width:32, height:1.5, fill:'#3a3f52'}));
+  bikes.appendChild(S('circle', {cx:-10, cy:-4, r:3, fill:'none', stroke:'#3dd68c', 'stroke-width':1}));
+  bikes.appendChild(S('circle', {cx:-4,  cy:-4, r:3, fill:'none', stroke:'#3dd68c', 'stroke-width':1}));
+  bikes.appendChild(S('circle', {cx:4,   cy:-4, r:3, fill:'none', stroke:'#f2f0ed', 'stroke-width':1}));
+  bikes.appendChild(S('circle', {cx:10,  cy:-4, r:3, fill:'none', stroke:'#f2f0ed', 'stroke-width':1}));
+  g.appendChild(bikes);
+  // hanging string lights
+  for (let i = -70; i <= 70; i += 14){
+    g.appendChild(S('circle', {cx:i, cy:-33 + Math.abs(i)/18, r:1.2, fill:'#ffb347', opacity:.85}));
+  }
+  return g;
+}
+
+function bldgBuilder(b){
+  const isBuilding = working(b) || b.mode === 'internal_build';
+  const g = S('g');
+  g.appendChild(plotGround(210, 150));
+  g.appendChild(S('polygon', {points:'-95,-45 95,-45 95,45 -95,45', fill:'#000', opacity:.42, transform:'translate(20,24) skewX(-20) scale(1.05, .6)'}));
+  g.appendChild(S('rect', {x:-95, y:-50, width:190, height:95, fill:'url(#wallGrad)'}));
+  g.appendChild(S('rect', {x:55, y:-50, width:40, height:95, fill:'#000', opacity:.28}));
+  const roof = S('g');
+  roof.appendChild(S('rect', {x:-100, y:-62, width:200, height:14, fill:'url(#roofGrad)'}));
+  for (let x = -100; x < 100; x += 10){
+    roof.appendChild(S('line', {x1:x, y1:-62, x2:x, y2:-48, stroke:'#0f1220', 'stroke-width':.6}));
+  }
+  g.appendChild(roof);
+  // Radio speaker
+  g.appendChild(S('circle', {cx:-88, cy:-36, r:5, fill:'#1a1a22', stroke:'#3dd68c', 'stroke-width':.8}));
+  g.appendChild(S('circle', {cx:-88, cy:-36, r:1.5, fill:'#3dd68c'}));
+  const doorLeft = S('g', {transform:'translate(-42,0)'});
+  doorLeft.appendChild(S('rect', {x:-30, y:-28, width:60, height:58, fill:'#0a0c14'}));
+  for (let y = -25; y < 30; y += 7) doorLeft.appendChild(S('line', {x1:-30, y1:y, x2:30, y2:y, stroke:'#2a3040', 'stroke-width':.7}));
+  g.appendChild(doorLeft);
+  const doorRight = S('g', {transform:'translate(42,0)'});
+  if (isBuilding){
+    doorRight.appendChild(S('rect', {x:-30, y:12, width:60, height:18, fill:'#0a0c14'}));
+    for (let y = 15; y < 30; y += 6) doorRight.appendChild(S('line', {x1:-30, y1:y, x2:30, y2:y, stroke:'#2a3040', 'stroke-width':.7}));
+    doorRight.appendChild(S('rect', {x:-30, y:-28, width:60, height:40, fill:'#ffd079', class:'window-lit', filter:'url(#windowGlow)'}));
+    doorRight.appendChild(S('rect', {x:-28, y:-25, width:56, height:36, fill:'url(#wallGrad)', opacity:.4}));
+    doorRight.appendChild(S('rect', {x:-20, y:-2, width:40, height:4, fill:'#2a2f40'}));
+    doorRight.appendChild(S('rect', {x:-18, y:2, width:3, height:10, fill:'#2a2f40'}));
+    doorRight.appendChild(S('rect', {x:15, y:2, width:3, height:10, fill:'#2a2f40'}));
+    // Gatorade bottle on workbench
+    doorRight.appendChild(S('rect', {x:-5, y:-8, width:3, height:7, fill:'#ff5a5f'}));
+    for (let i = 0; i < 4; i++){
+      const sp = S('circle', {cx:0, cy:-10, r:1.4, fill:'#00e5ff', class:'spark-dot'});
+      sp.style.animationDelay = (i * 0.3) + 's';
+      doorRight.appendChild(sp);
+    }
+  } else {
+    doorRight.appendChild(S('rect', {x:-30, y:-28, width:60, height:58, fill:'#0a0c14'}));
+    for (let y = -25; y < 30; y += 7) doorRight.appendChild(S('line', {x1:-30, y1:y, x2:30, y2:y, stroke:'#2a3040', 'stroke-width':.7}));
+  }
+  g.appendChild(doorRight);
+  // chimney + smoke
+  const ch = S('g', {transform:'translate(-70,-72)'});
+  ch.appendChild(S('rect', {x:-4, y:-14, width:8, height:24, fill:'#3a3f52'}));
+  ch.appendChild(S('rect', {x:-6, y:-16, width:12, height:3, fill:'#2a2f40'}));
+  const smokeR = isBuilding ? 5 : 3;
+  ch.appendChild(S('circle', {cx:0, cy:-16, r:smokeR, fill:'url(#smokeGrad)', class:'smoke-puff'}));
+  ch.appendChild(S('circle', {cx:0, cy:-16, r:smokeR, fill:'url(#smokeGrad)', class:'smoke-puff d1'}));
+  ch.appendChild(S('circle', {cx:0, cy:-16, r:smokeR, fill:'url(#smokeGrad)', class:'smoke-puff d2'}));
+  g.appendChild(ch);
+  // lumber + ladder + sawhorse + cooler
+  const lum = S('g', {transform:'translate(70,48)'});
+  lum.appendChild(S('rect', {x:-14, y:-4, width:28, height:4, fill:'#8a6f3a'}));
+  lum.appendChild(S('rect', {x:-14, y:0,  width:28, height:4, fill:'#6e5530'}));
+  lum.appendChild(S('rect', {x:-14, y:4,  width:28, height:4, fill:'#8a6f3a'}));
+  g.appendChild(lum);
+  const lad = S('g', {transform:'translate(90,0) rotate(18)'});
+  lad.appendChild(S('rect', {x:-1, y:-40, width:2, height:80, fill:'#8a6f3a'}));
+  lad.appendChild(S('rect', {x:3,  y:-40, width:2, height:80, fill:'#8a6f3a'}));
+  for (let y = -36; y < 40; y += 8) lad.appendChild(S('line', {x1:-1, y1:y, x2:5, y2:y, stroke:'#8a6f3a', 'stroke-width':1.2}));
+  g.appendChild(lad);
+  g.appendChild(S('line', {x1:-80, y1:50, x2:-50, y2:50, stroke:'#6e5530', 'stroke-width':2}));
+  g.appendChild(S('line', {x1:-76, y1:50, x2:-80, y2:58, stroke:'#6e5530', 'stroke-width':1.5}));
+  g.appendChild(S('line', {x1:-54, y1:50, x2:-50, y2:58, stroke:'#6e5530', 'stroke-width':1.5}));
+  g.appendChild(S('rect', {x:-46, y:48, width:8, height:10, fill:'#00e5ff', opacity:.7}));
+  // beer cooler
+  g.appendChild(S('rect', {x:-30, y:52, width:14, height:8, rx:1, fill:'#c13b22'}));
+  g.appendChild(S('rect', {x:-30, y:52, width:14, height:2, fill:'#f2f0ed'}));
+  // trash can
+  g.appendChild(S('rect', {x:-100, y:24, width:10, height:16, rx:2, fill:'#2a2f40', stroke:'#4a4e58', 'stroke-width':.5}));
+  // clipboard on nail (tiny rect on wall)
+  g.appendChild(S('rect', {x:-60, y:-25, width:7, height:10, fill:'#f2dca6', stroke:'#3a2a12', 'stroke-width':.4}));
+  return g;
+}
+
+function bldgPaymaster(b){
+  const g = S('g');
+  g.appendChild(plotGround(180, 130));
+  g.appendChild(S('polygon', {points:'-75,-38 75,-38 75,38 -75,38', fill:'#000', opacity:.4, transform:'translate(18,22) skewX(-20) scale(1.05, .58)'}));
+  g.appendChild(S('rect', {x:-75, y:-38, width:150, height:76, fill:'#2a2438'}));
+  g.appendChild(S('rect', {x:-75, y:-38, width:150, height:76, fill:'url(#wallGrad)', opacity:.5}));
+  g.appendChild(S('rect', {x:45, y:-38, width:30, height:76, fill:'#000', opacity:.28}));
+  g.appendChild(S('rect', {x:-80, y:-46, width:160, height:10, fill:'#1f1930'}));
+  g.appendChild(S('rect', {x:-80, y:-46, width:160, height:3, fill:'#3a2f4a'}));
+  g.appendChild(S('rect', {x:-80, y:-48, width:6, height:4, fill:'#3a2f4a'}));
+  g.appendChild(S('rect', {x:74, y:-48, width:6, height:4, fill:'#3a2f4a'}));
+  const w1 = S('g', {transform:'translate(-30,-6)'});
+  w1.appendChild(S('rect', {x:-14, y:-14, width:28, height:28, fill:'#ffd079', class:'window-lit', filter:'url(#windowGlow)'}));
+  w1.appendChild(S('rect', {x:-14, y:-14, width:28, height:12, fill:'#3a2f4a', opacity:.7}));
+  w1.appendChild(S('rect', {x:-14, y:-14, width:28, height:28, fill:'none', stroke:'#1f1930', 'stroke-width':1.2}));
+  // Reading glasses on sill (two small circles)
+  w1.appendChild(S('circle', {cx:-5, cy:12, r:1.6, fill:'none', stroke:'#d9a6ff', 'stroke-width':.7}));
+  w1.appendChild(S('circle', {cx:1, cy:12, r:1.6, fill:'none', stroke:'#d9a6ff', 'stroke-width':.7}));
+  g.appendChild(w1);
+  const w2 = S('g', {transform:'translate(30,-6)'});
+  w2.appendChild(S('rect', {x:-14, y:-14, width:28, height:28, fill:'#ffd079', class:'window-lit', filter:'url(#windowGlow)'}));
+  w2.appendChild(S('rect', {x:-14, y:-14, width:28, height:16, fill:'#3a2f4a', opacity:.7}));
+  w2.appendChild(S('rect', {x:-14, y:-14, width:28, height:28, fill:'none', stroke:'#1f1930', 'stroke-width':1.2}));
+  g.appendChild(w2);
+  const sign = S('g', {transform:'translate(0,-36)'});
+  sign.appendChild(S('rect', {x:-24, y:-5, width:48, height:10, fill:'#0a0c14', stroke:'#d9a6ff', 'stroke-width':.8}));
+  sign.appendChild(S('text', {x:0, y:3, 'text-anchor':'middle', 'font-family':'JetBrains Mono', 'font-size':7, fill:'#d9a6ff', 'letter-spacing':'.2em', 'font-weight':500}, 'LEDGER'));
+  g.appendChild(sign);
+  g.appendChild(S('rect', {x:-8, y:12, width:16, height:26, fill:'#1a1224'}));
+  g.appendChild(S('circle', {cx:5, cy:25, r:1.2, fill:'#d9a6ff'}));
+  // Cat statue by porch
+  g.appendChild(S('rect', {x:-22, y:30, width:4, height:8, fill:'#4a4e58'}));
+  g.appendChild(S('circle', {cx:-20, cy:30, r:2, fill:'#4a4e58'}));
+  // Tea kettle with steam
+  g.appendChild(S('rect', {x:18, y:34, width:7, height:5, rx:1.5, fill:'#3dd68c'}));
+  g.appendChild(S('rect', {x:24, y:32, width:2, height:3, fill:'#3dd68c'}));
+  g.appendChild(S('circle', {cx:21, cy:28, r:2, fill:'url(#smokeGrad)', class:'smoke-puff'}));
+  // Umbrella leaning
+  g.appendChild(S('line', {x1:-45, y1:30, x2:-40, y2:12, stroke:'#1a1224', 'stroke-width':1.2}));
+  g.appendChild(S('polygon', {points:'-40,12 -34,16 -46,16', fill:'#1a1224'}));
+  const lmp = S('g', {transform:'translate(20,14)'});
+  lmp.appendChild(S('circle', {r:18, fill:'url(#lampGlow)', class:'lamp-halo'}));
+  lmp.appendChild(S('rect', {x:-.5, y:-12, width:1.2, height:12, fill:'#3a3f52'}));
+  lmp.appendChild(S('circle', {cx:0, cy:-13, r:1.6, fill:'#ffb347'}));
+  g.appendChild(lmp);
+  // Clipped hedge (green blob)
+  g.appendChild(S('rect', {x:-70, y:40, width:28, height:6, rx:2, fill:'#4a6b3e'}));
+  // Brick walkway
+  for (let i = 0; i < 5; i++){
+    g.appendChild(S('rect', {x:-4 + (i%2)*4, y:38 + i*4, width:8, height:3, fill:'#8a4020', opacity:.7}));
+  }
+  // Neat mailbox handled by outer mailbox code
+  return g;
+}
+
+function bldgRealtor(b){
+  const g = S('g');
+  g.appendChild(plotGround(200, 140));
+  g.appendChild(S('polygon', {points:'-85,-42 85,-42 85,42 -85,42', fill:'#000', opacity:.42, transform:'translate(20,24) skewX(-20) scale(1.05, .58)'}));
+  g.appendChild(S('rect', {x:-85, y:-42, width:170, height:84, fill:'url(#wallGrad)'}));
+  g.appendChild(S('rect', {x:45, y:-42, width:40, height:84, fill:'#000', opacity:.28}));
+  const roof = S('g');
+  roof.appendChild(S('polygon', {points:'-92,-42 0,-70 92,-42', fill:'#1c2030'}));
+  roof.appendChild(S('polygon', {points:'-92,-42 0,-70 -55,-42', fill:'#141724', opacity:.55}));
+  for (let r = 0; r < 3; r++){
+    const y = -42 + r * -9;
+    roof.appendChild(S('line', {x1:-92 + r*5, y1:y, x2:92 - r*5, y2:y, stroke:'#0a0c14', 'stroke-width':.5}));
+  }
+  roof.appendChild(S('line', {x1:-92, y1:-42, x2:0, y2:-70, stroke:'#2e3447', 'stroke-width':.8, opacity:.7}));
+  g.appendChild(roof);
+  const bay = S('g', {transform:'translate(-25,0)'});
+  bay.appendChild(S('rect', {x:-38, y:-24, width:76, height:44, fill:'#ffd079', class:'window-lit', filter:'url(#windowGlow)'}));
+  bay.appendChild(S('rect', {x:-38, y:-24, width:76, height:44, fill:'none', stroke:'#2a1e10', 'stroke-width':1.4}));
+  for (let i = 0; i < 6; i++){
+    const c = i % 3, r = Math.floor(i / 3);
+    bay.appendChild(S('rect', {x:-30 + c * 20, y:-16 + r * 18, width:16, height:12, fill:'#f2f0ed', opacity:.95, stroke:'#2a1e10', 'stroke-width':.3}));
+  }
+  g.appendChild(bay);
+  const porch = S('g', {transform:'translate(52,8)'});
+  porch.appendChild(S('rect', {x:-20, y:-22, width:40, height:4, fill:'#1c2030'}));
+  porch.appendChild(S('rect', {x:-20, y:-24, width:2, height:30, fill:'#2a2f40'}));
+  porch.appendChild(S('rect', {x:18, y:-24, width:2, height:30, fill:'#2a2f40'}));
+  // Two rocking chairs
+  porch.appendChild(S('rect', {x:-14, y:-4, width:8, height:6, fill:'#6e5530'}));
+  porch.appendChild(S('rect', {x:-14, y:-8, width:8, height:4, fill:'#6e5530'}));
+  porch.appendChild(S('path', {d:'M -14 2 Q -10 5 -6 2', fill:'none', stroke:'#6e5530', 'stroke-width':1}));
+  porch.appendChild(S('rect', {x:4, y:-4, width:8, height:6, fill:'#6e5530'}));
+  porch.appendChild(S('rect', {x:4, y:-8, width:8, height:4, fill:'#6e5530'}));
+  porch.appendChild(S('path', {d:'M 4 2 Q 8 5 12 2', fill:'none', stroke:'#6e5530', 'stroke-width':1}));
+  // Newspaper on railing
+  porch.appendChild(S('rect', {x:-5, y:-22, width:10, height:3, fill:'#f2f0ed', stroke:'#2a1e10', 'stroke-width':.3}));
+  // Briefcase by door
+  porch.appendChild(S('rect', {x:-19, y:4, width:6, height:5, fill:'#2a1e10'}));
+  porch.appendChild(S('rect', {x:-17, y:3, width:2, height:1.2, fill:'#8a6f3a'}));
+  g.appendChild(porch);
+  // Hanging basket
+  g.appendChild(S('line', {x1:52, y1:-20, x2:52, y2:-10, stroke:'#3a2a12', 'stroke-width':.6}));
+  g.appendChild(S('circle', {cx:52, cy:-7, r:4, fill:'#4a6b3e'}));
+  // Low wooden fence around flowerbed
+  for (let i = 0; i < 5; i++){
+    g.appendChild(S('rect', {x:-78 + i*8, y:36, width:2, height:6, fill:'#6e5530'}));
+  }
+  g.appendChild(S('line', {x1:-78, y1:38, x2:-46, y2:38, stroke:'#6e5530', 'stroke-width':.8}));
+  // Flowerbed dots
+  g.appendChild(S('circle', {cx:-72, cy:44, r:1.5, fill:'#ff5a5f'}));
+  g.appendChild(S('circle', {cx:-64, cy:44, r:1.5, fill:'#ffb347'}));
+  g.appendChild(S('circle', {cx:-56, cy:44, r:1.5, fill:'#d9a6ff'}));
+  const hang = S('g', {class:'hanging-sign', transform:'translate(52,-14)'});
+  hang.appendChild(S('line', {x1:0, y1:-6, x2:0, y2:0, stroke:'#2a1e10', 'stroke-width':.8}));
+  hang.appendChild(S('rect', {x:-18, y:0, width:36, height:12, fill:'url(#woodGrad)', stroke:'#3a2a12', 'stroke-width':.6}));
+  hang.appendChild(S('text', {x:0, y:9, 'text-anchor':'middle', 'font-family':'Syne', 'font-weight':800, 'font-size':8, fill:'#2a1e10', 'letter-spacing':'.18em'}, 'PLOTS'));
+  g.appendChild(hang);
+  const yard = S('g', {transform:'translate(-72,50)'});
+  yard.appendChild(S('line', {x1:0, y1:0, x2:0, y2:14, stroke:'#3a2a12', 'stroke-width':1.4}));
+  yard.appendChild(S('rect', {x:-16, y:-12, width:32, height:12, fill:'#0a0c14', stroke:'#00e5ff', 'stroke-width':.7}));
+  yard.appendChild(S('text', {x:0, y:-3, 'text-anchor':'middle', 'font-family':'JetBrains Mono', 'font-size':7, fill:'#00e5ff', 'letter-spacing':'.18em'}, (STATE.re.vacancies_total || 0) + ' OPEN'));
+  g.appendChild(yard);
+  return g;
+}
+
+function buildingFor(name, b){
+  if (name === 'foreman')   return bldgForeman(b);
+  if (name === 'scout')     return bldgScout(b);
+  if (name === 'builder')   return bldgBuilder(b);
+  if (name === 'paymaster') return bldgPaymaster(b);
+  if (name === 'realtor')   return bldgRealtor(b);
+  return S('g');
+}
+
+/* ----------------- Per-tenant character details ---------------- */
+function tenantFlourish(name, h, b){
+  const g = S('g');
+  // Mailbox position (road-side) per plot
+  // Determine mail flag: up if an untriaged application exists OR truck passed recently
+  const appsUntriaged = (STATE.re.applications || []).filter(a => !a.triaged).length;
+  const truckPassed = (Date.now() - (STATE._lastTruckPass || 0)) < 5000;
+  const flagUp = appsUntriaged > 0 || truckPassed;
+
+  if (name === 'foreman'){
+    // Pickup parked on near road side
+    const veh = vehicle(STATE.carsBought.foreman ? '#d4b060' : VEHICLE_COLOR.foreman, 'pickup');
+    veh.setAttribute('transform', 'translate(-110,60)');
+    g.appendChild(veh);
+    if (STATE.carsBought.foreman){
+      const st = starIcon(); st.setAttribute('transform', 'translate(-110,46)'); g.appendChild(st);
+    }
+    // Dog by doorway (8-18) with wagging tail
+    if (h >= 8 && h < 18){
+      const dog = S('g', {transform:'translate(50,50)'});
+      dog.appendChild(S('rect', {x:-4, y:-2, width:8, height:5, rx:1.5, fill:'#8a6f3a'}));
+      dog.appendChild(S('circle', {cx:-5, cy:-1, r:2, fill:'#8a6f3a'}));
+      const tail = S('rect', {x:3, y:-1, width:4, height:1.2, fill:'#8a6f3a', class:'dog-tail'});
+      dog.appendChild(tail);
+      g.appendChild(dog);
+    }
+    // Mailbox at road edge
+    const mb = mailbox(flagUp); mb.setAttribute('transform', 'translate(-90,90)'); g.appendChild(mb);
+    // Humans by hour: dawn on steps w/ coffee, afternoon customer, dusk smoking on bench, morning silhouette in door
+    if (h >= 6 && h < 8){ const p = human('#c13b22', false); p.setAttribute('transform','translate(28,45)'); g.appendChild(p); }
+    else if (h >= 14 && h < 18){ const c = human('#d9a6ff', false); c.setAttribute('transform','translate(-40,55)'); g.appendChild(c); }
+    else if (h >= 18 && h < 20){ const b2 = human('#c13b22', false); b2.setAttribute('transform','translate(72,38)'); g.appendChild(b2); }
+  }
+
+  if (name === 'scout'){
+    // Bike rack already included; add customer at storefront in afternoon
+    const veh = vehicle(STATE.carsBought.scout ? '#00e5ff' : VEHICLE_COLOR.scout, 'sedan');
+    veh.setAttribute('transform', 'translate(-110,60)');
+    g.appendChild(veh);
+    if (STATE.carsBought.scout){
+      const st = starIcon(); st.setAttribute('transform', 'translate(-110,46)'); g.appendChild(st);
+    }
+    const mb = mailbox(flagUp); mb.setAttribute('transform', 'translate(-90,90)'); g.appendChild(mb);
+    if (h >= 8 && h < 12){ const p = human('#3dd68c', false); p.setAttribute('transform','translate(50,30)'); g.appendChild(p); }
+    else if (h >= 12 && h < 14){ const p = human('#3dd68c', false); p.setAttribute('transform','translate(-78,50)'); g.appendChild(p); }
+    else if (h >= 14 && h < 18){ const c = human('#f2f0ed', false); c.setAttribute('transform','translate(-40,55)'); g.appendChild(c); }
+    else if (h >= 18 && h < 20){ const sw = human('#3dd68c', false); sw.setAttribute('transform','translate(60,50)'); g.appendChild(sw); }
+  }
+
+  if (name === 'builder'){
+    // Work truck with ladders
+    const veh = vehicle(STATE.carsBought.builder ? '#00e5ff' : VEHICLE_COLOR.builder, 'worktruck');
+    veh.setAttribute('transform', 'translate(-120,68)');
+    g.appendChild(veh);
+    if (STATE.carsBought.builder){
+      const st = starIcon(); st.setAttribute('transform', 'translate(-120,54)'); g.appendChild(st);
+    }
+    // Customer pickup out front in afternoon
+    if (h >= 14 && h < 18){
+      const cust = vehicle('#3dd68c', 'sedan');
+      cust.setAttribute('transform', 'translate(90,70)');
+      g.appendChild(cust);
+    }
+    const mb = mailbox(flagUp); mb.setAttribute('transform', 'translate(-100,95)'); g.appendChild(mb);
+    if (h >= 8 && h < 12){ const p = human('#00e5ff', false); p.setAttribute('transform','translate(42,10)'); g.appendChild(p); }
+    else if (h >= 12 && h < 14){ /* Jax is visiting Hank, handled globally */ }
+    else if (h >= 14 && h < 18){ const c = human('#f2f0ed', false); c.setAttribute('transform','translate(70,55)'); g.appendChild(c); }
+    else if (h >= 18 && h < 20){ const p = human('#00e5ff', false); p.setAttribute('transform','translate(42,20)'); g.appendChild(p); }
+  }
+
+  if (name === 'paymaster'){
+    // Doss's parked vehicle (neat sedan)
+    const veh = vehicle(STATE.carsBought.paymaster ? '#d9a6ff' : VEHICLE_COLOR.paymaster, 'sedan');
+    veh.setAttribute('transform', 'translate(-110,58)');
+    g.appendChild(veh);
+    if (STATE.carsBought.paymaster){
+      const st = starIcon(); st.setAttribute('transform', 'translate(-110,44)'); g.appendChild(st);
+    }
+    const mb = mailbox(flagUp); mb.setAttribute('transform', 'translate(-90,90)'); g.appendChild(mb);
+    if (h >= 6 && h < 8){ const p = human('#d9a6ff', false); p.setAttribute('transform','translate(-40,42)'); g.appendChild(p); }
+    else if (h >= 12 && h < 14){ const p = human('#d9a6ff', false); p.setAttribute('transform','translate(20,45)'); g.appendChild(p); }
+    else if (h >= 18 && h < 20){ const p = human('#d9a6ff', false); p.setAttribute('transform','translate(-10,42)'); g.appendChild(p); }
+  }
+
+  if (name === 'realtor'){
+    // Black sedan
+    const veh = vehicle(STATE.carsBought.realtor ? '#ffb347' : VEHICLE_COLOR.realtor, 'sedan');
+    veh.setAttribute('transform', 'translate(-110,58)');
+    g.appendChild(veh);
+    if (STATE.carsBought.realtor){
+      const st = starIcon(); st.setAttribute('transform', 'translate(-110,44)'); g.appendChild(st);
+    }
+    const mb = mailbox(flagUp); mb.setAttribute('transform', 'translate(-90,90)'); g.appendChild(mb);
+    if (h >= 6 && h < 8){ const p = human('#f2f0ed', false); p.setAttribute('transform','translate(55,55)'); g.appendChild(p); }
+    else if (h >= 8 && h < 12){
+      const p = human('#f2f0ed', false); p.setAttribute('transform','translate(50,0)'); g.appendChild(p);
+      // Phone indicator: tiny cyan square above head
+      g.appendChild(S('rect', {x:49, y:-14, width:3, height:5, fill:'#00e5ff', opacity:.8}));
+    }
+    else if (h >= 14 && h < 18){ const p = human('#f2f0ed', false); p.setAttribute('transform','translate(-110,42)'); g.appendChild(p); }
+    else if (h >= 18 && h < 20){ const p = human('#f2f0ed', false); p.setAttribute('transform','translate(-90,42)'); g.appendChild(p); }
+  }
+  return g;
+}
+
+/* ----------------- Tenants ----------------- */
+function renderTenants(){
+  const layer = document.getElementById('tenants');
+  layer.innerHTML = '';
+  const h = currentHour();
+
+  const bizMap = new Map((STATE.state.businesses || []).map(b => [b.name, b]));
+  const roll = (STATE.re.rent_roll && STATE.re.rent_roll.tenants) || [];
+  const rollMap = new Map(roll.map(t => [t.tenant, t]));
+
+  ['foreman','scout','builder','paymaster','realtor'].forEach(name => {
+    const b = bizMap.get(name) || {};
+    const pos = POS[name];
+    if (!pos) return;
+    const r = rollMap.get(name);
+    const rentStatus = name === 'realtor' ? 'current' : (r ? r.status : 'behind');
+    const rentMo = r ? r.rent_mo : (name === 'realtor' ? 0 : 20);
+    const isWorking = working(b);
+
+    const g = S('g', {transform: `translate(${pos.x},${pos.y})`});
+
+    if (isWorking){
+      [0, 0.8, 1.6].forEach(d => {
+        const ring = S('circle', {cx:0, cy:0, r:20, fill:'none', stroke:'#00e5ff', 'stroke-width':1.6, opacity:0});
+        ring.style.animation = `pulseRing 2.4s ease-out ${d}s infinite`;
+        g.appendChild(ring);
+      });
+    }
+    g.appendChild(buildingFor(name, b));
+    g.appendChild(tenantFlourish(name, h, b));
+
+    // Nametag
+    const nameTag = S('g', {transform:'translate(0,-100)'});
+    nameTag.appendChild(S('rect', {x:-58, y:-12, width:116, height:22, rx:3, fill:'rgba(8,9,15,.75)', stroke:'rgba(0,229,255,.25)', 'stroke-width':.8}));
+    nameTag.appendChild(S('text', {x:0, y:3, 'text-anchor':'middle', 'font-family':'Syne', 'font-weight':800, 'font-size':13, fill:'#f2f0ed', 'letter-spacing':'.04em'}, b.display_name || name.toUpperCase()));
+    g.appendChild(nameTag);
+    const subTag = S('g', {transform:'translate(0,-78)'});
+    subTag.appendChild(S('text', {x:0, y:0, 'text-anchor':'middle', 'font-family':'JetBrains Mono', 'font-size':8, fill:'#6b6f7a', 'letter-spacing':'.22em', 'text-transform':'uppercase'}, (ROLE[name] || 'TENANT').toUpperCase()));
+    g.appendChild(subTag);
+
+    // Rent badge
+    const badgeY = 110;
+    const badgeG = S('g', {transform:`translate(0,${badgeY})`});
+    const badgeText = name === 'realtor'
+      ? 'LANDLORD STAFF'
+      : (rentStatus === 'current' ? `CURRENT $${rentMo}`
+         : rentStatus === 'partial' ? 'PARTIAL'
+         : rentStatus === 'behind' ? `BEHIND $${rentMo}`
+         : rentStatus === 'default' ? 'DEFAULT' : rentStatus.toUpperCase());
+    const badgeFill = rentStatus === 'default' ? rentColor(rentStatus) : 'rgba(8,9,15,.85)';
+    const badgeStroke = name === 'realtor' ? '#272b3c' : rentColor(rentStatus);
+    const badgeTextFill = rentStatus === 'default' ? '#06060a' : (name === 'realtor' ? '#f2f0ed' : rentColor(rentStatus));
+    badgeG.appendChild(S('rect', {x:-54, y:-9, width:108, height:18, rx:2, fill:badgeFill, stroke:badgeStroke, 'stroke-width':1}));
+    badgeG.appendChild(S('text', {x:0, y:3.5, 'text-anchor':'middle', 'font-family':'JetBrains Mono', 'font-size':9, fill:badgeTextFill, 'letter-spacing':'.14em', 'font-weight': rentStatus === 'default' ? 500 : 400}, badgeText));
+    g.appendChild(badgeG);
+
+    // v4 bonus: days-to-checkpoint bar under the rent badge
+    if (r && r.d30_checkpoint && name !== 'realtor'){
+      const d = daysUntil(r.d30_checkpoint);
+      if (d !== null){
+        const clampDays = Math.max(0, Math.min(30, d));
+        const pct = (clampDays / 30) * 100;
+        const fillColor = d < 7 ? '#ff5a5f' : d <= 15 ? '#ffb347' : '#3dd68c';
+        const clockG = S('g', {transform: `translate(0,${badgeY + 14})`});
+        clockG.appendChild(S('rect', {x:-40, y:-1.5, width:80, height:3, rx:1.5, fill:'rgba(30,33,48,.85)'}));
+        if (pct > 0){
+          clockG.appendChild(S('rect', {x:-40, y:-1.5, width: 80 * pct / 100, height:3, rx:1.5, fill:fillColor, opacity:.95}));
+        }
+        const lbl = d < 0 ? 'OVERDUE' : (d === 0 ? 'TODAY' : d + 'D');
+        clockG.appendChild(S('text', {x:0, y:12, 'text-anchor':'middle', 'font-family':'JetBrains Mono', 'font-size':7.5, fill: d < 7 ? '#ff5a5f' : 'rgba(107,111,122,.95)', 'letter-spacing':'.16em'}, lbl));
+        g.appendChild(clockG);
+      }
+    }
+
+    layer.appendChild(g);
+  });
+}
+
+/* ----------------- Vacancies ----------------- */
+function renderVacancies(){
+  const layer = document.getElementById('vacants');
+  layer.innerHTML = '';
+  (STATE.re.vacancies || []).forEach((v, i) => {
+    const cx = i === 0 ? 180 : 1420;
+    const cy = 540;
+    const g = S('g', {transform: `translate(${cx},${cy})`});
+    g.appendChild(S('rect', {x:-72, y:-52, width:144, height:104, rx:4, fill:'#151a28', stroke:'rgba(0,229,255,.3)', 'stroke-width':1, 'stroke-dasharray':'5 5'}));
+    g.appendChild(S('rect', {x:-72, y:-52, width:144, height:104, rx:4, fill:'url(#groundDots)', opacity:.7}));
+    const tufts = [[-40, 30], [20, -30], [40, 20], [-30, -20], [0, 30]];
+    tufts.forEach(([tx, ty]) => {
+      const t = S('g', {class:'grass', transform:`translate(${tx},${ty})`});
+      t.appendChild(S('line', {x1:-2, y1:0, x2:-2, y2:-5, stroke:'#4a6b3e', 'stroke-width':1}));
+      t.appendChild(S('line', {x1:0,  y1:0, x2:0,  y2:-7, stroke:'#5a7b48', 'stroke-width':1}));
+      t.appendChild(S('line', {x1:2,  y1:0, x2:2,  y2:-5, stroke:'#4a6b3e', 'stroke-width':1}));
+      g.appendChild(t);
+    });
+    const sign = S('g', {transform:'translate(0,-18) rotate(-3)'});
+    sign.appendChild(S('ellipse', {cx:5, cy:48, rx:40, ry:5, fill:'#000', opacity:.45}));
+    sign.appendChild(S('rect', {x:-32, y:0, width:3.5, height:50, fill:'url(#woodGrad)'}));
+    sign.appendChild(S('rect', {x:-32, y:0, width:1.5, height:50, fill:'#2a1e10', opacity:.5}));
+    sign.appendChild(S('rect', {x:28.5, y:0, width:3.5, height:50, fill:'url(#woodGrad)'}));
+    sign.appendChild(S('rect', {x:28.5, y:0, width:1.5, height:50, fill:'#2a1e10', opacity:.5}));
+    sign.appendChild(S('rect', {x:-38, y:-10, width:76, height:28, fill:'url(#woodGrad)', stroke:'#3a2a12', 'stroke-width':1}));
+    sign.appendChild(S('line', {x1:-36, y1:-3, x2:36, y2:-3, stroke:'#8a6f3a', 'stroke-width':.4, opacity:.6}));
+    sign.appendChild(S('line', {x1:-36, y1:3,  x2:36, y2:3,  stroke:'#8a6f3a', 'stroke-width':.4, opacity:.6}));
+    sign.appendChild(S('line', {x1:-36, y1:10, x2:36, y2:10, stroke:'#6e5530', 'stroke-width':.4, opacity:.6}));
+    sign.appendChild(S('text', {x:0, y:0, 'text-anchor':'middle', 'font-family':'Syne', 'font-weight':800, 'font-size':11, fill:'#2a1e10', 'letter-spacing':'.2em'}, 'FOR RENT'));
+    sign.appendChild(S('text', {x:0, y:12, 'text-anchor':'middle', 'font-family':'JetBrains Mono', 'font-size':7.5, fill:'#5a3e1a', 'letter-spacing':'.14em'}, `$${v.rent_mo || 20}/MO // ${v.slug.toUpperCase()}`));
+    sign.appendChild(S('circle', {cx:-30, cy:-7, r:.8, fill:'#2a1e10'}));
+    sign.appendChild(S('circle', {cx:30,  cy:-7, r:.8, fill:'#2a1e10'}));
+    sign.appendChild(S('circle', {cx:-30, cy:15, r:.8, fill:'#2a1e10'}));
+    sign.appendChild(S('circle', {cx:30,  cy:15, r:.8, fill:'#2a1e10'}));
+    g.appendChild(sign);
+    const bale = S('g', {transform:'translate(-45,35)'});
+    bale.appendChild(S('ellipse', {cx:2, cy:5, rx:12, ry:3, fill:'#000', opacity:.4}));
+    bale.appendChild(S('rect', {x:-10, y:-4, width:20, height:10, rx:2, fill:'#d4b060'}));
+    bale.appendChild(S('line', {x1:-10, y1:-2, x2:10, y2:-2, stroke:'#8a6f3a', 'stroke-width':.5}));
+    bale.appendChild(S('line', {x1:-10, y1:2,  x2:10, y2:2,  stroke:'#8a6f3a', 'stroke-width':.5}));
+    g.appendChild(bale);
+    layer.appendChild(g);
+  });
+}
+
+/* ----------------- Time-of-day sky, stars, sun, commute, traffic ---------------- */
+function renderSky(){
+  const h = currentHour();
+  const phase = phaseOf(h);
+  const sky = document.getElementById('sky-rect');
+  if (sky) sky.setAttribute('fill', skyFillFor(phase));
+  const duskOv = document.getElementById('dusk-overlay');
+  if (duskOv) duskOv.setAttribute('opacity', (phase === 'golden' || phase === 'dusk') ? 1 : .25);
+
+  // Stars + moon at night (20-22 blue, 22-05 night)
+  const stars = document.getElementById('stars');
+  stars.innerHTML = '';
+  if (phase === 'night' || phase === 'blue'){
+    const seed = 42;
+    for (let i = 0; i < 14; i++){
+      const x = ((seed * (i+1) * 37) % 1500) + 40;
+      const y = ((seed * (i+3) * 19) % 240) + 20;
+      const st = S('circle', {cx:x, cy:y, r: .8 + (i%3)*.3, fill:'#f2f0ed', class:'twinkle', opacity:.7});
+      st.style.animationDelay = (i * .3) + 's';
+      stars.appendChild(st);
+    }
+    // Crescent moon
+    const moon = S('g', {transform:'translate(1380,120)'});
+    moon.appendChild(S('circle', {r:22, fill:'#f2f0ed', opacity:.92}));
+    moon.appendChild(S('circle', {cx:8, cy:-3, r:20, fill: phase === 'night' ? '#03040a' : '#0c1028'}));
+    stars.appendChild(moon);
+  }
+
+  // Sun in day
+  const sun = document.getElementById('sun');
+  sun.innerHTML = '';
+  if (phase === 'morning' || phase === 'midday' || phase === 'golden'){
+    const sx = phase === 'morning' ? 260 : phase === 'midday' ? 800 : 1340;
+    const sy = phase === 'midday' ? 90 : 140;
+    const scolor = phase === 'golden' ? '#ff9a5a' : '#ffd079';
+    sun.appendChild(S('circle', {cx:sx, cy:sy, r:38, fill:scolor, opacity:.35}));
+    sun.appendChild(S('circle', {cx:sx, cy:sy, r:22, fill:scolor, opacity:.85}));
+  }
+}
+
+/* Mail truck: renders during 10-17 */
+function renderTraffic(){
+  const h = currentHour();
+  const traffic = document.getElementById('traffic');
+  traffic.innerHTML = '';
+  if (h >= 10 && h < 17){
+    const truck = S('g', {class:'mail-truck'});
+    truck.appendChild(S('rect', {x:-14, y:-7, width:28, height:14, rx:1.5, fill:'#f2f0ed'}));
+    truck.appendChild(S('rect', {x:-14, y:-7, width:28, height:4, fill:'#2a5ec4'}));
+    truck.appendChild(S('text', {x:0, y:3.5, 'text-anchor':'middle', 'font-family':'JetBrains Mono', 'font-size':5, fill:'#2a5ec4', 'letter-spacing':'.14em', 'font-weight':500}, 'USPS'));
+    truck.appendChild(S('rect', {x:-14, y:-8, width:3, height:1.5, fill:'#0a0c14'}));
+    truck.appendChild(S('rect', {x:11, y:-8, width:3, height:1.5, fill:'#0a0c14'}));
+    truck.appendChild(S('rect', {x:-14, y:6.5, width:3, height:1.5, fill:'#0a0c14'}));
+    truck.appendChild(S('rect', {x:11, y:6.5, width:3, height:1.5, fill:'#0a0c14'}));
+    traffic.appendChild(truck);
+    // mark pass-through timestamp so mailboxes know
+    if (!STATE._truckTimer){
+      STATE._truckTimer = setInterval(() => { STATE._lastTruckPass = Date.now(); renderTenants(); }, 45000);
+      STATE._lastTruckPass = Date.now();
+    }
+  } else if (STATE._truckTimer){
+    clearInterval(STATE._truckTimer); STATE._truckTimer = null;
+  }
+
+  // Raccoon at night
+  if (h >= 22 || h < 5){
+    const rc = S('g', {class:'raccoon'});
+    rc.appendChild(S('ellipse', {cx:0, cy:0, rx:7, ry:3, fill:'#3a3f52'}));
+    rc.appendChild(S('circle', {cx:6, cy:-1, r:2.5, fill:'#3a3f52'}));
+    rc.appendChild(S('rect', {x:6, y:-2, width:3, height:2, fill:'#1a1a22'}));
+    rc.appendChild(S('circle', {cx:8, cy:-1.5, r:.5, fill:'#f2f0ed'}));
+    rc.appendChild(S('line', {x1:-7, y1:0, x2:-12, y2:2, stroke:'#3a3f52', 'stroke-width':2}));
+    traffic.appendChild(rc);
+  }
+
+  // Tumbleweed 22-06
+  if (h >= 22 || h < 6){
+    const tw = S('g', {class:'tumbleweed'});
+    tw.appendChild(S('circle', {cx:0, cy:0, r:7, fill:'none', stroke:'#8a6f3a', 'stroke-width':1.2}));
+    tw.appendChild(S('circle', {cx:0, cy:0, r:4, fill:'none', stroke:'#6e5530', 'stroke-width':1}));
+    tw.appendChild(S('line', {x1:-6, y1:-3, x2:6, y2:3, stroke:'#8a6f3a', 'stroke-width':.8}));
+    tw.appendChild(S('line', {x1:-3, y1:5, x2:5, y2:-5, stroke:'#6e5530', 'stroke-width':.8}));
+    traffic.appendChild(tw);
+  }
+}
+
+/* Commute lines at 07:30-08:30 and 17:30-18:30 */
+function renderCommute(){
+  const d = new Date();
+  const h = d.getHours(), m = d.getMinutes();
+  const rush = (h === 7 && m >= 30) || (h === 8 && m < 30) || (h === 17 && m >= 30) || (h === 18 && m < 30);
+  const layer = document.getElementById('commute');
+  layer.innerHTML = '';
+  if (!rush) return;
+  ['foreman','scout','builder','paymaster','realtor'].forEach(name => {
+    const p = POS[name];
+    const ln = S('line', {x1:p.x, y1:p.y, x2:800, y2:500, stroke:'#00e5ff', 'stroke-width':1.2, opacity:.35, class:'commute-line'});
+    layer.appendChild(ln);
+  });
+}
+
+/* Friendship visit: Jax walks to Hank's oil drum at 12-14 */
+function renderSocial(){
+  const h = currentHour();
+  const layer = document.getElementById('social');
+  layer.innerHTML = '';
+  if (h >= 12 && h < 14){
+    // Walker near Hank's oil drum (at Hank plot -70,44 relative, so absolute 420-70, 400+44)
+    const walkerX = 420 - 70, walkerY = 400 + 30;
+    const wg = S('g', {transform:`translate(${walkerX},${walkerY})`});
+    const hm = human('#00e5ff', true);
+    wg.appendChild(hm);
+    // VISITING tag
+    const tag = S('g', {transform:'translate(0,-18)'});
+    tag.appendChild(S('rect', {x:-22, y:-7, width:44, height:11, rx:2, fill:'rgba(8,9,15,.85)', stroke:'#00e5ff', 'stroke-width':.6}));
+    tag.appendChild(S('text', {x:0, y:1, 'text-anchor':'middle', 'font-family':'JetBrains Mono', 'font-size':7, fill:'#00e5ff', 'letter-spacing':'.16em'}, 'VISITING'));
+    wg.appendChild(tag);
+    layer.appendChild(wg);
+  }
+}
+
+/* ----------------- Car purchase confetti ---------------- */
+function checkCarPurchases(){
+  (STATE.state.businesses || []).forEach(b => {
+    const inc = (b.month_to_date && b.month_to_date.income) || 0;
+    const last = STATE.lastIncome[b.name] || 0;
+    if (last < 100 && inc >= 100 && !STATE.carsBought[b.name]){
+      STATE.carsBought[b.name] = true;
+      fireConfetti(b.name);
+    }
+    STATE.lastIncome[b.name] = inc;
+  });
+}
+function fireConfetti(name){
+  const pos = POS[name]; if (!pos) return;
+  const layer = document.getElementById('events');
+  const burst = S('g', {transform:`translate(${pos.x},${pos.y - 60})`});
+  const colors = ['#00e5ff','#ffb347','#3dd68c','#d9a6ff','#ff5a5f'];
+  for (let i = 0; i < 22; i++){
+    const c = S('rect', {x:-1.5, y:-1.5, width:3, height:5, fill:colors[i % colors.length], class:'confetti-bit'});
+    const cx = (Math.random()*120) - 60;
+    const cy = 60 + Math.random()*40;
+    c.style.setProperty('--cx', cx+'px');
+    c.style.setProperty('--cy', cy+'px');
+    c.style.animationDelay = (i * 0.02) + 's';
+    burst.appendChild(c);
+  }
+  layer.appendChild(burst);
+  setTimeout(() => burst.remove(), 2200);
+  // Trigger re-render so star icon appears over car
+  renderTenants();
+}
+
+/* ----------------- v4: Alerts ---------------- */
+function ageStr(ts){
+  if (!ts) return '';
+  const ms = Date.now() - (typeof ts === 'number' ? ts : new Date(ts).getTime());
+  if (isNaN(ms) || ms < 0) return 'just now';
+  const s = Math.floor(ms/1000);
+  if (s < 60) return s + 's ago';
+  const m = Math.floor(s/60);
+  if (m < 60) return m + 'm ago';
+  const h = Math.floor(m/60);
+  if (h < 48) return h + 'h ago';
+  const d = Math.floor(h/24);
+  return d + 'd ago';
+}
+
+function daysUntil(iso){
+  if (!iso) return null;
+  const t = new Date(iso).getTime();
+  if (isNaN(t)) return null;
+  return Math.ceil((t - Date.now()) / 86400000);
+}
+
+function computeAlerts(){
+  const out = [];
+  // 1. Untriaged applications
+  (STATE.re.applications || []).forEach(a => {
+    if (!a.triaged){
+      out.push({
+        type: 'APPLICATION',
+        subject: a.title || a.slug || a.filename || 'new application',
+        reason: 'Waiting for triage decision',
+        age: a.received_at || a.created_at || null
+      });
+    }
+  });
+  // 2. Bays awaiting Lando reply > 48h
+  // 3. Bays with failures_in_row > 0
+  (STATE.state.businesses || []).forEach(b => {
+    const agent = (FIRST[b.name] || (b.name || '').toUpperCase());
+    if (b.status === 'awaiting_lando_reply' && b.last_escalation_at){
+      const hrs = (Date.now() - new Date(b.last_escalation_at).getTime()) / 3600000;
+      if (hrs > 48){
+        out.push({
+          type: 'ESCALATION',
+          subject: agent,
+          reason: 'Awaiting Lando reply, no move in ' + Math.floor(hrs) + 'h',
+          age: b.last_escalation_at
+        });
+      }
+    }
+    if ((b.failures_in_row || 0) > 0){
+      out.push({
+        type: 'FAILURES',
+        subject: agent,
+        reason: b.failures_in_row + ' tick(s) failed in a row',
+        age: b.last_tick_at || null
+      });
+    }
+  });
+  // 4. Rent default tenants
+  // 5. d30 checkpoint within 3 days and not current
+  const roll = (STATE.re.rent_roll && STATE.re.rent_roll.tenants) || [];
+  roll.forEach(t => {
+    const agent = (FIRST[t.tenant] || (t.tenant || '').toUpperCase());
+    if (t.status === 'default'){
+      out.push({
+        type: 'RENT DEFAULT',
+        subject: agent,
+        reason: 'Rent in default ($' + (t.rent_mo || 0) + '/mo)',
+        age: t.last_change_at || null
+      });
+    }
+    if (t.d30_checkpoint){
+      const d = daysUntil(t.d30_checkpoint);
+      if (d !== null && d <= 3 && t.status !== 'current'){
+        const label = d < 0 ? 'Eviction clock expired' : (d === 0 ? 'd30 checkpoint today' : d + 'd to d30 checkpoint');
+        out.push({
+          type: 'KILL CLOCK',
+          subject: agent,
+          reason: label + ' (status ' + (t.status || 'unknown') + ')',
+          age: t.d30_checkpoint
+        });
+      }
+    }
+  });
+  STATE.alerts = out;
+  return out;
+}
+
+function renderAlertsPill(){
+  const n = STATE.alerts.length;
+  const pill = document.getElementById('alerts');
+  const num = document.getElementById('alerts-n');
+  if (!pill || !num) return;
+  num.textContent = String(n);
+  pill.classList.toggle('hot', n > 0);
+  pill.setAttribute('aria-label', n + ' alerts waiting on Lando');
+}
+
+function renderAlertsDialog(){
+  const list = document.getElementById('alert-dlg-list');
+  if (!list) return;
+  list.innerHTML = '';
+  if (!STATE.alerts.length){
+    const empty = H('li', {class:'alert-dlg-empty'}, 'All clear. Nothing waiting on you.');
+    list.appendChild(empty);
+    return;
+  }
+  STATE.alerts.forEach(a => {
+    const li = H('li', {class:'alert-item'});
+    const head = H('div', {class:'alert-item-h'});
+    head.appendChild(H('div', {class:'alert-item-sub'}, a.subject));
+    head.appendChild(H('div', {class:'alert-item-type'}, a.type));
+    li.appendChild(head);
+    li.appendChild(H('div', {class:'alert-item-reason'}, a.reason));
+    if (a.age){
+      li.appendChild(H('div', {class:'alert-item-age'}, ageStr(a.age)));
+    }
+    list.appendChild(li);
+  });
+}
+
+function toggleAlerts(ev){
+  if (ev) ev.stopPropagation();
+  const dlg = document.getElementById('alert-dlg');
+  if (!dlg) return;
+  if (dlg.classList.contains('open')) closeAlerts();
+  else openAlerts();
+}
+function openAlerts(){
+  const dlg = document.getElementById('alert-dlg');
+  if (!dlg) return;
+  renderAlertsDialog();
+  dlg.classList.add('open');
+  document.addEventListener('click', outsideAlerts, true);
+  document.addEventListener('keydown', escAlerts);
+}
+function closeAlerts(){
+  const dlg = document.getElementById('alert-dlg');
+  if (!dlg) return;
+  dlg.classList.remove('open');
+  document.removeEventListener('click', outsideAlerts, true);
+  document.removeEventListener('keydown', escAlerts);
+}
+function outsideAlerts(e){
+  const dlg = document.getElementById('alert-dlg');
+  const pill = document.getElementById('alerts');
+  if (!dlg) return;
+  if (dlg.contains(e.target) || (pill && pill.contains(e.target))) return;
+  closeAlerts();
+}
+function escAlerts(e){ if (e.key === 'Escape') closeAlerts(); }
+
+/* ----------------- v4: Wins ticker ---------------- */
+const AGENT_COLOR = {
+  foreman:'#c13b22', scout:'#3dd68c', builder:'#00e5ff', paymaster:'#d9a6ff', realtor:'#ffb347'
+};
+
+function snapshotState(){
+  const snap = { biz: {}, apps: {}, rent: {} };
+  (STATE.state.businesses || []).forEach(b => {
+    snap.biz[b.name] = {
+      hires: (b.hired_roster || []).length,
+      income: (b.month_to_date && b.month_to_date.income) || 0,
+      last_tick_at: b.last_tick_at || null,
+      last_tick_summary: b.last_tick_summary || ''
+    };
+  });
+  (STATE.re.applications || []).forEach(a => {
+    const key = a.filename || a.slug || a.title;
+    if (key) snap.apps[key] = { triaged: !!a.triaged, title: a.title || a.slug || key };
+  });
+  const roll = (STATE.re.rent_roll && STATE.re.rent_roll.tenants) || [];
+  roll.forEach(t => {
+    snap.rent[t.tenant] = { status: t.status || 'unknown' };
+  });
+  return snap;
+}
+
+function rentRank(s){
+  // higher = better
+  return { default: 0, behind: 1, partial: 2, current: 3 }[s] ?? 1;
+}
+
+function pushWin(color, msg){
+  STATE.wins.unshift({ color, msg, ts: Date.now() });
+  if (STATE.wins.length > 12) STATE.wins.length = 12;
+}
+
+function computeWins(){
+  const next = snapshotState();
+  // first pass: seed SEEN, do not emit wins
+  if (!STATE.SEEN || STATE.winsFirstPass){
+    STATE.SEEN = next;
+    STATE.winsFirstPass = false;
+    return;
+  }
+  const prev = STATE.SEEN;
+
+  // Business-level diffs
+  (STATE.state.businesses || []).forEach(b => {
+    const name = b.name;
+    const agent = FIRST[name] || (name || '').toUpperCase();
+    const color = AGENT_COLOR[name] || '#00e5ff';
+    const prevB = prev.biz[name];
+    const nextB = next.biz[name];
+    if (!prevB || !nextB) return;
+    // 1. hires increased
+    if (nextB.hires > prevB.hires){
+      const newSlug = (b.hired_roster || [])[nextB.hires - 1];
+      const slugLabel = newSlug && typeof newSlug === 'string' ? newSlug : (newSlug && (newSlug.slug || newSlug.name)) || 'new tool';
+      pushWin(color, 'HANK filed hire: ' + slugLabel);
+    }
+    // 3. income increased
+    if (nextB.income > prevB.income){
+      const delta = Math.round(nextB.income - prevB.income);
+      if (delta > 0) pushWin(color, agent + ' +$' + delta + ' income');
+    }
+    // 4. successful tick
+    if (nextB.last_tick_at && nextB.last_tick_at !== prevB.last_tick_at){
+      const summary = (nextB.last_tick_summary || '').toUpperCase();
+      if (!summary.includes('FAIL')){
+        pushWin(color, agent + ' tick shipped');
+      }
+    }
+  });
+
+  // 2. new applications
+  Object.keys(next.apps).forEach(k => {
+    if (!prev.apps[k]){
+      const title = next.apps[k].title || k;
+      pushWin('#ffb347', 'BRIX received application: ' + title);
+    }
+  });
+
+  // 5. rent improving
+  Object.keys(next.rent).forEach(tenant => {
+    const prevS = prev.rent[tenant] && prev.rent[tenant].status;
+    const nextS = next.rent[tenant].status;
+    if (prevS && nextS && prevS !== nextS && rentRank(nextS) > rentRank(prevS)){
+      const agent = FIRST[tenant] || (tenant || '').toUpperCase();
+      const color = AGENT_COLOR[tenant] || '#3dd68c';
+      pushWin(color, agent + ' rent status: ' + prevS + ' to ' + nextS);
+    }
+  });
+
+  STATE.SEEN = next;
+}
+
+function buildWinPills(container, wins){
+  wins.forEach(w => {
+    const pill = H('span', {class:'win'});
+    const dot = H('span', {class:'win-dot'});
+    dot.style.background = w.color;
+    dot.style.boxShadow = '0 0 6px ' + w.color + 'a0';
+    pill.appendChild(dot);
+    pill.appendChild(H('span', {class:'win-txt'}, w.msg));
+    pill.appendChild(H('span', {class:'win-age'}, ageStr(w.ts)));
+    container.appendChild(pill);
+  });
+}
+
+function renderTicker(){
+  const strip = document.getElementById('wins-strip');
+  const wrap = document.getElementById('wins-wrap');
+  if (!strip || !wrap) return;
+  strip.innerHTML = '';
+  // Clear any previous placeholder
+  const oldEmpty = wrap.querySelector('.ticker-empty');
+  if (oldEmpty) oldEmpty.remove();
+  if (!STATE.wins.length){
+    strip.style.animation = 'none';
+    const empty = H('div', {class:'ticker-empty'}, '(watching for yard activity)');
+    wrap.appendChild(empty);
+    return;
+  }
+  strip.style.animation = '';
+  // Duplicate list twice for seamless loop
+  buildWinPills(strip, STATE.wins);
+  buildWinPills(strip, STATE.wins);
+  // Tune duration from content length (~40s default, add time for longer strips)
+  const count = STATE.wins.length;
+  const seconds = Math.max(22, Math.min(70, count * 4 + 18));
+  strip.style.animationDuration = seconds + 's';
+}
+
+/* ----------------- Top bar stats ---------------- */
+function renderStats(){
+  const re = STATE.re;
+  const roll = (re.rent_roll && re.rent_roll.tenants) || [];
+  const behind = roll.filter(t => t.status === 'behind' || t.status === 'default').length;
+  document.getElementById('kv-occ').textContent    = (re.occupancy_pct || 0) + '%';
+  document.getElementById('kv-owed').textContent   = fmt(re.rent_roll && re.rent_roll.total_owed);
+  document.getElementById('kv-paid').textContent   = fmt(re.rent_roll && re.rent_roll.total_paid);
+  document.getElementById('kv-behind').textContent = behind;
+  document.getElementById('kv-vacant').textContent = re.vacancies_total || 0;
+  document.getElementById('kv-apps').textContent   = re.applications_total || 0;
+
+  const h = currentHour();
+  const phase = phaseOf(h);
+  const duskLbl = {dawn:'DAWN',morning:'MORNING',midday:'MIDDAY',golden:'GOLDEN',dusk:'DUSK',blue:'BLUE HOUR',night:'NIGHT'}[phase];
+  document.getElementById('dusk').textContent = duskLbl;
+}
+
+/* ----------------- Ledger panel ---------------- */
+function contribFor(name, b){
+  const hires    = (b.hired_roster || []).length;
+  const products = (b.products_listed) || (b.month_to_date && b.month_to_date.products_listed) || 0;
+  const projects = (b.project_count) || (b.month_to_date && b.month_to_date.projects) || 0;
+  const ledgerE  = (b.ledger_entries) || (b.month_to_date && b.month_to_date.ledger_entries) || 0;
+  const tenants  = (STATE.re.rent_roll && STATE.re.rent_roll.tenants || []).length;
+  const vac      = STATE.re.vacancies_total || 0;
+  if (name === 'foreman')   return { pct: Math.min(100, hires*10),     label: hires + ' hires filed' };
+  if (name === 'scout')     return { pct: Math.min(100, products*33),  label: products + ' product listed' };
+  if (name === 'builder')   return { pct: Math.min(100, projects*20),  label: projects + ' builds shipped' };
+  if (name === 'paymaster') return { pct: Math.min(100, ledgerE*2),    label: ledgerE + ' ledger entries' };
+  if (name === 'realtor')   return { pct: Math.min(100, tenants*12),   label: tenants + ' tenants + ' + vac + ' vacancies' };
+  return { pct: 0, label: '' };
+}
+function renderLedger(){
+  const rows = document.getElementById('tenant-rows');
+  rows.innerHTML = '';
+  const bizMap = new Map((STATE.state.businesses || []).map(b => [b.name, b]));
+  const roll = (STATE.re.rent_roll && STATE.re.rent_roll.tenants) || [];
+  const rollMap = new Map(roll.map(t => [t.tenant, t]));
+
+  let mtdNet = 0;
+  ['foreman','scout','builder','paymaster','realtor'].forEach(name => {
+    const b = bizMap.get(name) || {};
+    const r = rollMap.get(name);
+    const income = (b.month_to_date && b.month_to_date.income) || 0;
+    const rentMo = r ? r.rent_mo : (name === 'realtor' ? 0 : 20);
+    const net = income - rentMo;
+    mtdNet += net;
+    const isActive = working(b);
+
+    const li = H('li', {class:'tenant-row', 'data-agent': name});
+    const head = H('div', {class:'row-head'});
+    head.appendChild(H('div', {class:'row-name'}, FIRST[name] || name.toUpperCase()));
+    head.appendChild(H('div', {class:'row-role'}, ROLE[name]));
+    head.appendChild(H('div', {class: 'row-mode-dot' + (isActive ? ' active' : '')}));
+    li.appendChild(head);
+
+    const money = H('div', {class:'row-money'});
+    money.appendChild(H('div', {class:'money-earned'}, fmt(income)));
+    money.appendChild(H('div', {class:'money-rent'}, 'rent $' + rentMo + '/mo'));
+    money.appendChild(H('div', {class:'money-net ' + (net >= 0 ? 'pos' : 'neg')}, (net >= 0 ? '+' : '') + fmt(net)));
+    li.appendChild(money);
+
+    li.appendChild(H('div', {class:'row-job'}, JOB_COPY[name]));
+
+    const c = contribFor(name, b);
+    const contrib = H('div', {class:'row-contrib'});
+    const bar = H('div', {class:'contrib-bar'});
+    const fill = H('div', {class:'contrib-fill'});
+    fill.style.width = c.pct + '%';
+    bar.appendChild(fill);
+    contrib.appendChild(bar);
+    contrib.appendChild(H('div', {class:'contrib-label'}, c.label));
+    li.appendChild(contrib);
+    rows.appendChild(li);
+  });
+  const kvNet = document.getElementById('kv-net');
+  kvNet.textContent = (mtdNet >= 0 ? '+' : '') + fmt(mtdNet);
+  kvNet.className = mtdNet < 0 ? 'neg' : '';
+  const d = new Date();
+  document.getElementById('server-hour').textContent = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+/* ----------------- Main render ---------------- */
+function render(){
+  checkCarPurchases();
+  computeWins();
+  computeAlerts();
+  renderSky();
+  renderStats();
+  renderVacancies();
+  renderTenants();
+  renderTraffic();
+  renderCommute();
+  renderSocial();
+  renderLedger();
+  renderAlertsPill();
+  renderTicker();
+  const dlg = document.getElementById('alert-dlg');
+  if (dlg && dlg.classList.contains('open')) renderAlertsDialog();
+}
+
+function tickClock(){
+  const d = new Date();
+  document.getElementById('clock').textContent =
+    [d.getHours(), d.getMinutes(), d.getSeconds()].map(n => String(n).padStart(2,'0')).join(':');
+}
+setInterval(tickClock, 1000); tickClock();
+
+// Re-render sky + social + traffic each minute so the hour-based layer updates smoothly
+setInterval(() => { renderSky(); renderCommute(); renderSocial(); renderTraffic(); }, 60000);
+
+// Keep ticker + alerts ages fresh every 30s
+setInterval(() => {
+  renderTicker();
+  const dlg = document.getElementById('alert-dlg');
+  if (dlg && dlg.classList.contains('open')) renderAlertsDialog();
+}, 30000);
+
+function setLive(ok){
+  const lamp = document.getElementById('lamp');
+  const lbl = document.getElementById('lamp-lbl');
+  lamp.classList.toggle('on', ok);
+  lamp.classList.toggle('off', !ok);
+  lbl.textContent = ok ? 'LIVE' : 'OFFLINE';
+}
+function openStream(){
+  try {
+    const sse = new EventSource('/api/stream');
+    sse.addEventListener('hello', () => setLive(true));
+    sse.addEventListener('change', () => { fetchState(); fetchActivity().then(render); });
+    sse.addEventListener('realestate', () => { fetchRE().then(render); });
+    sse.addEventListener('hire', () => { fetchState().then(render); });
+    sse.onerror = () => setLive(false);
+  } catch(e){}
+}
+
+fetchAll();
+setInterval(fetchAll, 10000);
+openStream();
+</script>
+</body>
+</html>

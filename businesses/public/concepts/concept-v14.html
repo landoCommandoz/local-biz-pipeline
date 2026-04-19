@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brewington Colony · Living View</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=JetBrains+Mono:wght@400;500;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky-top:#0a0e26;
+  --sky-mid:#1a1340;
+  --earth-0:#4a3520;
+  --earth-1:#3d2815;
+  --earth-2:#281a0e;
+  --earth-3:#180f07;
+  --earth-4:#0a0603;
+  --chamber-bg:#1a1208;
+  --chamber-fire:#3d2814;
+  --root:#8b6638;
+  --root-fine:#5d3f1e;
+  --grass:#5a7028;
+  --gold:#d4a858;
+  --gold-bright:#ffca70;
+  --bone:#f2ede3;
+  --amber:#ffb347;
+  --firelight:#ff8f3c;
+  --moonlight:#d8e8ff;
+
+  --glow-queen:#ff2a5a;
+  --glow-jax:#ffa83c;
+  --glow-hank:#ff6a1a;
+  --glow-vega:#a8e82a;
+  --glow-brix:#3a8cff;
+  --glow-doss:#ff2a5a;
+  --glow-vault:#ffc84c;
+  --glow-signal:#b088ff;
+  --glow-inc:#5ee3d8;
+
+  --f-display:'Cinzel',serif;
+  --f-journal:'Special Elite',monospace;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden}
+body{
+  background:
+    radial-gradient(ellipse 100% 40% at 50% 0%, rgba(176,136,255,.18) 0%, transparent 50%),
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 16%, var(--earth-0) 26%, var(--earth-1) 42%, var(--earth-2) 62%, var(--earth-3) 82%, var(--earth-4) 100%);
+  color:var(--bone);
+  font-family:var(--f-mono);
+}
+/* Stars + aurora */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:
+    radial-gradient(1px 1px at 8% 2%, rgba(242,237,227,.8), transparent),
+    radial-gradient(1px 1px at 22% 6%, rgba(212,168,88,.6), transparent),
+    radial-gradient(2px 2px at 35% 3%, rgba(242,237,227,.9), transparent),
+    radial-gradient(1px 1px at 48% 8%, rgba(242,237,227,.5), transparent),
+    radial-gradient(1.5px 1.5px at 62% 4%, rgba(176,136,255,.7), transparent),
+    radial-gradient(1px 1px at 74% 9%, rgba(242,237,227,.6), transparent),
+    radial-gradient(1px 1px at 88% 3%, rgba(212,168,88,.5), transparent),
+    radial-gradient(1.5px 1.5px at 15% 11%, rgba(242,237,227,.7), transparent),
+    radial-gradient(1px 1px at 55% 12%, rgba(94,227,216,.5), transparent),
+    radial-gradient(1px 1px at 93% 10%, rgba(242,237,227,.6), transparent);
+  opacity:.8;animation:twinkle 8s ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:.45}50%{opacity:.95}}
+
+/* Aurora at the top of the sky, rolling */
+body::after{
+  content:'';position:fixed;top:0;left:0;right:0;height:180px;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(94,227,216,.08) 20%, rgba(176,136,255,.12) 40%, rgba(94,227,216,.08) 60%, transparent 80%);
+  filter:blur(22px);opacity:.75;
+  animation:aurora 18s ease-in-out infinite;
+}
+@keyframes aurora{
+  0%,100%{transform:translateX(-6%) scaleX(1)}
+  50%{transform:translateX(6%) scaleX(1.1)}
+}
+
+/* ---------- HUD ---------- */
+.hud{
+  position:fixed;top:0;left:0;right:0;height:54px;z-index:80;
+  background:linear-gradient(180deg,rgba(10,14,38,.96),rgba(10,14,38,.5) 80%,transparent);
+  display:flex;align-items:center;padding:0 22px;gap:22px;
+  font-family:var(--f-mono);font-size:11px;
+}
+.hud .brand{font-family:var(--f-display);font-weight:900;font-size:18px;letter-spacing:.22em;color:var(--gold-bright);text-transform:uppercase;text-shadow:0 0 18px rgba(255,202,112,.6)}
+.hud .brand .sub{font-family:var(--f-journal);font-size:10px;letter-spacing:.1em;color:var(--amber);opacity:.85;text-transform:none;margin-left:10px;font-weight:400}
+.hud .sep{width:1px;height:22px;background:rgba(212,168,88,.3)}
+.hud .stat{display:flex;align-items:baseline;gap:6px}
+.hud .stat .k{color:rgba(242,237,227,.5);font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+.hud .stat .v{color:var(--bone);font-weight:500}
+.hud .stat .v.pos{color:#8fe26b}.hud .stat .v.neg{color:#ff7a7a}
+.hud .clock{margin-left:auto;color:var(--gold-bright);letter-spacing:.12em}
+
+/* ---------- Scene ---------- */
+.scene{position:fixed;inset:54px 0 0 0;z-index:10;overflow:hidden}
+.scene svg{display:block;width:100%;height:100%}
+
+/* ---------- Earth detail ---------- */
+.soil-strata line{stroke:rgba(0,0,0,.45);stroke-width:1;stroke-dasharray:4 16}
+.surface-line{stroke:#2a3810;stroke-width:3;fill:none}
+.grass-blade{stroke:var(--grass);stroke-width:1.5;stroke-linecap:round}
+.root{stroke:var(--root);fill:none;stroke-linecap:round}
+.root-fine{stroke:var(--root-fine);fill:none;stroke-width:1;opacity:.6}
+
+/* Dust motes */
+.mote{animation:mote-drift 24s linear infinite}
+.mote.m2{animation-duration:30s;animation-delay:-8s}
+.mote.m3{animation-duration:38s;animation-delay:-18s}
+.mote.m4{animation-duration:22s;animation-delay:-12s}
+@keyframes mote-drift{
+  0%{transform:translate(0,0);opacity:0}
+  15%{opacity:.7}85%{opacity:.7}
+  100%{transform:translate(-80px,-50px);opacity:0}
+}
+
+/* Falling dirt particles from excavating chambers */
+.dirt-fall{animation:dirt-fall 2.8s ease-in infinite}
+.dirt-fall.d2{animation-delay:-.9s}
+.dirt-fall.d3{animation-delay:-1.8s}
+@keyframes dirt-fall{
+  0%{transform:translateY(0);opacity:.9}
+  80%{opacity:.4}
+  100%{transform:translateY(24px);opacity:0}
+}
+
+/* Firefly bouncing around surface */
+.firefly{animation:firefly-float 6s ease-in-out infinite}
+.firefly.f2{animation-duration:8s;animation-delay:-2s}
+.firefly.f3{animation-duration:7s;animation-delay:-4s}
+@keyframes firefly-float{
+  0%,100%{transform:translate(0,0);opacity:.9}
+  25%{transform:translate(18px,-12px);opacity:.5}
+  50%{transform:translate(-10px,-22px);opacity:1}
+  75%{transform:translate(-22px,-6px);opacity:.7}
+}
+
+/* Envelope signals dropping from the sky every interval */
+.envelope{animation:envelope-drop 14s ease-in infinite}
+.envelope.e2{animation-delay:-6s}
+@keyframes envelope-drop{
+  0%{transform:translateY(0);opacity:0}
+  10%{opacity:1}
+  50%{transform:translateY(120px);opacity:1}
+  60%{transform:translateY(140px);opacity:0}
+  100%{transform:translateY(140px);opacity:0}
+}
+
+/* ---------- Chamber styling ---------- */
+.chamber{cursor:pointer}
+.chamber .wall{
+  fill:var(--chamber-bg);
+  stroke:var(--chamber-glow,#c9a84c);
+  stroke-width:2;
+  filter:drop-shadow(0 0 16px color-mix(in srgb, var(--chamber-glow,#c9a84c) 60%, transparent));
+  transition:stroke-width .2s;
+}
+.chamber:hover .wall{stroke-width:3}
+.chamber .fire-glow{
+  fill:url(#fire-glow-grad);
+  opacity:.85;
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+.chamber .chamber-title{
+  font-family:var(--f-display);font-weight:700;fill:var(--chamber-glow,#f2ede3);
+  text-anchor:middle;letter-spacing:.14em;text-transform:uppercase;
+  filter:drop-shadow(0 0 8px color-mix(in srgb, var(--chamber-glow,#f2ede3) 80%, transparent));
+  pointer-events:none;
+}
+.chamber .chamber-role{
+  font-family:var(--f-mono);fill:rgba(242,237,227,.65);
+  text-anchor:middle;letter-spacing:.16em;text-transform:uppercase;pointer-events:none;
+}
+.chamber .chamber-task{
+  font-family:var(--f-mono);fill:rgba(242,237,227,.5);
+  text-anchor:middle;letter-spacing:.04em;pointer-events:none;
+}
+
+/* Queen chamber pulses with authority */
+.chamber.queen .wall{
+  stroke-width:3;
+  filter:drop-shadow(0 0 32px var(--glow-queen));
+  animation:queen-pulse 3.2s ease-in-out infinite;
+}
+@keyframes queen-pulse{
+  0%,100%{filter:drop-shadow(0 0 26px var(--glow-queen))}
+  50%{filter:drop-shadow(0 0 46px var(--glow-queen))}
+}
+
+/* Founding chamber breathing */
+.chamber.founding .wall{
+  animation:chamber-breathe 5s ease-in-out infinite;
+  animation-delay:var(--breathe-delay,0s);
+}
+@keyframes chamber-breathe{
+  0%,100%{stroke-opacity:.85}
+  50%{stroke-opacity:.55}
+}
+
+/* Incubator chambers — under excavation, dashed + shake */
+.chamber.incubator .wall{
+  stroke-dasharray:3 5;
+  stroke-opacity:.75;
+  animation:excavate-pulse 3.2s ease-in-out infinite;
+  animation-delay:var(--dig-delay,0s);
+}
+@keyframes excavate-pulse{
+  0%,100%{stroke-dashoffset:0;stroke-opacity:.5}
+  50%{stroke-dashoffset:-12;stroke-opacity:.95}
+}
+.chamber.incubator{animation:dig-shake 5.5s ease-in-out infinite;transform-origin:center}
+.chamber.incubator.s2{animation-delay:-1.2s}
+.chamber.incubator.s3{animation-delay:-2.4s}
+.chamber.incubator.s4{animation-delay:-3.6s}
+.chamber.incubator.s5{animation-delay:-4.8s}
+@keyframes dig-shake{
+  0%,100%{transform:translate(0,0)}
+  45%{transform:translate(0.4px,0)}
+  50%{transform:translate(-0.4px,0.3px)}
+  55%{transform:translate(0.2px,-0.2px)}
+}
+.chamber.incubator .chamber-title{opacity:.88;font-size:11px}
+.chamber.incubator .label-tag{
+  font-family:var(--f-journal);fill:var(--glow-inc);
+  text-anchor:middle;font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.8;
+}
+
+/* Status light */
+.status-dot{animation:light-blink 2s ease-in-out infinite}
+@keyframes light-blink{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* Interior equipment animations */
+.eq-sparks circle{animation:eq-sparks 1.4s ease-out infinite}
+.eq-sparks circle:nth-child(2){animation-delay:.35s}
+.eq-sparks circle:nth-child(3){animation-delay:.7s}
+@keyframes eq-sparks{
+  0%{opacity:1;transform:translate(0,0) scale(1)}
+  100%{opacity:0;transform:translate(14px,-12px) scale(.3)}
+}
+.eq-hammer{animation:hammer-swing 1.2s ease-in-out infinite;transform-origin:4px 2px}
+@keyframes hammer-swing{
+  0%,100%{transform:rotate(-18deg)}
+  50%{transform:rotate(32deg)}
+}
+.eq-radar-line{animation:radar-spin 3s linear infinite;transform-origin:center}
+@keyframes radar-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.eq-wrench{animation:wrench-spin 6s linear infinite;transform-origin:center}
+@keyframes wrench-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.eq-bar{animation:bar-pulse 2.2s ease-in-out infinite;transform-origin:bottom}
+.eq-bar.b2{animation-delay:.3s}.eq-bar.b3{animation-delay:.6s}.eq-bar.b4{animation-delay:.9s}.eq-bar.b5{animation-delay:1.2s}
+@keyframes bar-pulse{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+.eq-wave line{animation:wave-bounce 1.8s ease-in-out infinite;transform-origin:bottom}
+.eq-wave line:nth-child(2){animation-delay:.15s}
+.eq-wave line:nth-child(3){animation-delay:.3s}
+.eq-wave line:nth-child(4){animation-delay:.45s}
+.eq-wave line:nth-child(5){animation-delay:.6s}
+.eq-wave line:nth-child(6){animation-delay:.45s}
+.eq-wave line:nth-child(7){animation-delay:.3s}
+.eq-wave line:nth-child(8){animation-delay:.15s}
+@keyframes wave-bounce{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+.eq-scroll-text{animation:scroll-up 7s linear infinite}
+@keyframes scroll-up{0%{transform:translateY(0)}100%{transform:translateY(-50%)}}
+.eq-coin{animation:coin-drop 6s ease-in-out infinite;transform-origin:center}
+@keyframes coin-drop{
+  0%{transform:translate(0,-40px);opacity:0}
+  15%{opacity:1}
+  55%{transform:translate(0,0);opacity:1}
+  100%{transform:translate(0,0);opacity:1}
+}
+.eq-crown-ray{animation:crown-shine 4s ease-in-out infinite;transform-origin:center}
+@keyframes crown-shine{0%,100%{opacity:.6}50%{opacity:1}}
+.eq-throne-glow{animation:throne-glow 3s ease-in-out infinite}
+@keyframes throne-glow{0%,100%{opacity:.75}50%{opacity:1}}
+.eq-magnify{animation:magnify-sweep 4s ease-in-out infinite;transform-origin:center}
+@keyframes magnify-sweep{0%,100%{transform:translate(-4px,0)}50%{transform:translate(4px,-2px)}}
+
+/* Queen outward aura */
+.queen-aura{
+  fill:url(#queen-aura-grad);opacity:.6;pointer-events:none;
+  animation:queen-aura-pulse 5.5s ease-in-out infinite;
+}
+@keyframes queen-aura-pulse{0%,100%{opacity:.4;transform:scale(1);transform-origin:800px 520px}50%{opacity:.8;transform:scale(1.06);transform-origin:800px 520px}}
+
+/* ---------- Tunnels ---------- */
+.tunnel{fill:none;stroke:rgba(0,0,0,.55);stroke-width:14;stroke-linecap:round}
+.tunnel-inner{fill:none;stroke:rgba(80,50,25,.65);stroke-width:8;stroke-linecap:round}
+.tunnel-inner-highlight{fill:none;stroke:rgba(212,168,88,.15);stroke-width:3;stroke-linecap:round}
+.tunnel-trail{fill:none;stroke:rgba(212,168,88,.22);stroke-width:1.2;stroke-dasharray:3 7;animation:trail-flow 15s linear infinite}
+@keyframes trail-flow{to{stroke-dashoffset:-200}}
+
+/* ---------- Surface elements ---------- */
+.tree-trunk{fill:#2d1e10}
+.tree-foliage{fill:#1a2a08;opacity:.9}
+.moon{fill:#f2ede3;opacity:.85;filter:drop-shadow(0 0 24px rgba(216,232,255,.5))}
+.moon-glow{fill:rgba(216,232,255,.08)}
+.mailbox{fill:#3d2a18;stroke:var(--gold);stroke-width:1}
+.mailbox-flag{fill:#a83d2a}
+.prospect{animation:prospect-walk 28s linear infinite}
+@keyframes prospect-walk{
+  0%{transform:translate(1600px,0)}
+  100%{transform:translate(-100px,0)}
+}
+.prospect-leg{animation:leg-walk .5s ease-in-out infinite;transform-origin:top}
+.prospect-leg.p2{animation-delay:.25s}
+@keyframes leg-walk{0%,100%{transform:rotate(0)}50%{transform:rotate(25deg)}}
+
+/* ---------- Feed + Legend ---------- */
+.feed-panel{
+  position:fixed;bottom:18px;left:18px;z-index:60;
+  width:340px;max-height:176px;overflow:hidden;
+  background:rgba(10,8,6,.88);border:1px solid rgba(212,168,88,.35);border-radius:3px;
+  padding:11px 14px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  font-family:var(--f-mono);font-size:10px;
+  box-shadow:0 10px 24px rgba(0,0,0,.7);
+}
+.feed-panel .title{font-family:var(--f-display);font-weight:700;font-size:11px;letter-spacing:.24em;color:var(--gold-bright);text-transform:uppercase;margin-bottom:9px}
+.feed-panel .feed-lines{max-height:130px;overflow:hidden;line-height:1.55}
+.feed-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;animation:feed-in .4s ease-out;padding:2px 0}
+@keyframes feed-in{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.feed-line .ts{color:rgba(242,237,227,.4);margin-right:6px}
+.feed-line .bay{font-weight:600;margin-right:4px}
+
+.legend-panel{
+  position:fixed;bottom:18px;right:18px;z-index:60;
+  background:rgba(10,8,6,.88);border:1px solid rgba(94,227,216,.35);border-radius:3px;
+  padding:11px 14px;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  font-family:var(--f-mono);font-size:10px;
+  box-shadow:0 10px 24px rgba(0,0,0,.7);
+  max-width:240px;
+}
+.legend-panel .title{font-family:var(--f-display);font-weight:700;font-size:11px;letter-spacing:.24em;color:var(--glow-inc);text-transform:uppercase;margin-bottom:7px}
+.legend-panel .row{display:flex;justify-content:space-between;color:rgba(242,237,227,.75);padding:1px 0}
+.legend-panel .row .v{color:var(--bone);font-weight:500}
+.legend-panel .note{margin-top:7px;font-family:var(--f-journal);font-size:10px;color:rgba(242,237,227,.55)}
+
+/* ---------- Modal ---------- */
+.modal-bd{
+  position:fixed;inset:0;z-index:120;display:none;
+  background:rgba(6,9,26,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  align-items:center;justify-content:center;padding:40px;
+}
+.modal-bd.open{display:flex}
+.modal{
+  width:100%;max-width:520px;max-height:82vh;overflow:hidden;
+  background:linear-gradient(180deg,rgba(10,8,6,.98),rgba(20,15,10,.98));
+  border:1px solid var(--chamber-glow,var(--gold));
+  border-radius:4px;
+  box-shadow:0 0 54px rgba(0,0,0,.8),0 0 28px color-mix(in srgb, var(--chamber-glow,#c9a84c) 30%, transparent);
+  display:flex;flex-direction:column;
+}
+.modal header{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 22px;border-bottom:1px solid rgba(212,168,88,.22)}
+.modal header .name{font-family:var(--f-display);font-weight:700;font-size:22px;letter-spacing:.14em;color:var(--chamber-glow,var(--gold-bright));text-transform:uppercase}
+.modal header .role{font-family:var(--f-journal);font-size:11px;letter-spacing:.1em;color:rgba(242,237,227,.6);margin-top:6px}
+.modal header .close{background:none;border:1px solid rgba(212,168,88,.3);color:var(--bone);padding:5px 12px;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;cursor:pointer;border-radius:2px}
+.modal header .close:hover{border-color:var(--gold-bright);color:var(--gold-bright)}
+.modal .body{padding:20px 22px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+.modal .block{display:flex;flex-direction:column;gap:6px}
+.modal .block h4{font-family:var(--f-mono);font-size:9px;letter-spacing:.18em;color:rgba(242,237,227,.45);text-transform:uppercase;font-weight:500}
+.modal .block .val{font-family:var(--f-mono);font-size:13px;color:var(--bone)}
+.modal .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.modal .metrics .m{background:rgba(6,9,26,.7);border:1px solid rgba(212,168,88,.15);padding:10px 12px;border-radius:2px}
+.modal .metrics .m .k{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.14em;color:rgba(242,237,227,.45);text-transform:uppercase}
+.modal .metrics .m .v{font-family:var(--f-mono);font-size:15px;color:var(--bone);font-weight:500;margin-top:2px}
+.modal .metrics .m .v.pos{color:#8fe26b}.modal .metrics .m .v.neg{color:#ff7a7a}
+.modal .actions{display:flex;gap:8px;flex-wrap:wrap}
+.modal .actions button{flex:1;min-width:90px;background:rgba(212,168,88,.08);border:1px solid rgba(212,168,88,.35);color:var(--gold-bright);padding:8px;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;cursor:pointer;border-radius:2px;text-transform:uppercase}
+.modal .actions button:hover{background:rgba(212,168,88,.2);border-color:var(--gold-bright)}
+
+@media (max-width:720px){
+  .hud{font-size:9px;padding:0 10px;gap:12px}
+  .hud .brand{font-size:13px}
+  .hud .stat .k{display:none}
+  .feed-panel{width:260px;font-size:9px}
+  .legend-panel{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="hud">
+  <div class="brand">Brewington Colony<span class="sub">living view</span></div>
+  <div class="sep"></div>
+  <div class="stat"><span class="k">Net</span><span class="v pos" id="h-net">$0</span></div>
+  <div class="stat"><span class="k">MRR</span><span class="v pos" id="h-mrr">$0</span></div>
+  <div class="stat"><span class="k">Workers</span><span class="v" id="h-workers">0</span></div>
+  <div class="stat"><span class="k">Chambers</span><span class="v" id="h-chambers">7</span></div>
+  <div class="stat"><span class="k">Incubating</span><span class="v" id="h-incubating">10</span></div>
+  <div class="clock" id="h-clock">00:00:00</div>
+</div>
+
+<div class="scene">
+  <svg id="colony" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="fire-glow-grad" cx="50%" cy="80%" r="70%">
+        <stop offset="0%" stop-color="#ff8f3c" stop-opacity="0.8"/>
+        <stop offset="35%" stop-color="#ff8f3c" stop-opacity="0.35"/>
+        <stop offset="100%" stop-color="#ff8f3c" stop-opacity="0"/>
+      </radialGradient>
+      <radialGradient id="queen-aura-grad" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stop-color="#ff2a5a" stop-opacity="0.4"/>
+        <stop offset="50%" stop-color="#ff2a5a" stop-opacity="0.08"/>
+        <stop offset="100%" stop-color="#ff2a5a" stop-opacity="0"/>
+      </radialGradient>
+      <symbol id="ant" viewBox="-6 -4 12 8">
+        <ellipse cx="-2" cy="0" rx="1.6" ry="1.3"/>
+        <ellipse cx="0.6" cy="0" rx="2.3" ry="1.6"/>
+        <ellipse cx="3.4" cy="0" rx="1.6" ry="1.3"/>
+        <line x1="-1.2" y1="0" x2="-2.5" y2="-3" stroke="currentColor" stroke-width="0.55"/>
+        <line x1="-1.2" y1="0" x2="-2.5" y2="3" stroke="currentColor" stroke-width="0.55"/>
+        <line x1="0.6" y1="-1" x2="2.2" y2="-3.4" stroke="currentColor" stroke-width="0.55"/>
+        <line x1="0.6" y1="1" x2="2.2" y2="3.4" stroke="currentColor" stroke-width="0.55"/>
+        <line x1="2.6" y1="-1" x2="4" y2="-3.4" stroke="currentColor" stroke-width="0.55"/>
+        <line x1="2.6" y1="1" x2="4" y2="3.4" stroke="currentColor" stroke-width="0.55"/>
+      </symbol>
+      <pattern id="dirt-texture" width="60" height="60" patternUnits="userSpaceOnUse">
+        <circle cx="12" cy="14" r="0.8" fill="rgba(0,0,0,0.4)"/>
+        <circle cx="38" cy="28" r="0.5" fill="rgba(212,168,88,0.08)"/>
+        <circle cx="52" cy="50" r="0.7" fill="rgba(0,0,0,0.3)"/>
+        <circle cx="20" cy="44" r="0.4" fill="rgba(212,168,88,0.05)"/>
+      </pattern>
+    </defs>
+
+    <rect x="0" y="240" width="1600" height="660" fill="url(#dirt-texture)" opacity="0.8"/>
+
+    <g class="soil-strata" opacity="0.5">
+      <line x1="0" y1="370" x2="1600" y2="382"/>
+      <line x1="0" y1="485" x2="1600" y2="476"/>
+      <line x1="0" y1="625" x2="1600" y2="638"/>
+      <line x1="0" y1="770" x2="1600" y2="760"/>
+    </g>
+
+    <!-- Moon -->
+    <g>
+      <circle class="moon-glow" cx="1360" cy="85" r="60"/>
+      <circle class="moon-glow" cx="1360" cy="85" r="40"/>
+      <circle class="moon" cx="1360" cy="85" r="23"/>
+    </g>
+
+    <!-- Envelope signals dropping into mailbox -->
+    <g transform="translate(540,60)">
+      <g class="envelope">
+        <rect x="-8" y="0" width="16" height="11" fill="#f2ede3" stroke="#888" stroke-width=".5"/>
+        <line x1="-8" y1="0" x2="0" y2="6" stroke="#888" stroke-width=".5"/>
+        <line x1="8" y1="0" x2="0" y2="6" stroke="#888" stroke-width=".5"/>
+      </g>
+      <g class="envelope e2" transform="translate(14,40)">
+        <rect x="-8" y="0" width="16" height="11" fill="#f2ede3" stroke="#888" stroke-width=".5"/>
+        <line x1="-8" y1="0" x2="0" y2="6" stroke="#888" stroke-width=".5"/>
+        <line x1="8" y1="0" x2="0" y2="6" stroke="#888" stroke-width=".5"/>
+      </g>
+    </g>
+
+    <!-- Surface -->
+    <path class="surface-line" d="M 0 240 Q 200 232, 400 240 T 800 238 T 1200 242 T 1600 238"/>
+    <g class="grass">
+      <path class="grass-blade" d="M 60 240 Q 62 230, 60 220"/>
+      <path class="grass-blade" d="M 63 240 Q 66 228, 65 218"/>
+      <path class="grass-blade" d="M 180 240 Q 178 229, 182 219"/>
+      <path class="grass-blade" d="M 184 240 Q 186 227, 188 220"/>
+      <path class="grass-blade" d="M 320 242 Q 322 230, 320 220"/>
+      <path class="grass-blade" d="M 460 241 Q 458 229, 462 218"/>
+      <path class="grass-blade" d="M 620 239 Q 624 228, 621 218"/>
+      <path class="grass-blade" d="M 780 238 Q 782 226, 780 216"/>
+      <path class="grass-blade" d="M 960 239 Q 962 228, 960 218"/>
+      <path class="grass-blade" d="M 1120 241 Q 1124 228, 1122 218"/>
+      <path class="grass-blade" d="M 1280 240 Q 1282 229, 1284 219"/>
+      <path class="grass-blade" d="M 1440 239 Q 1438 227, 1442 218"/>
+      <path class="grass-blade" d="M 1540 240 Q 1542 228, 1544 218"/>
+    </g>
+
+    <!-- Tree with extensive roots -->
+    <g transform="translate(200,240)">
+      <rect class="tree-trunk" x="-8" y="-70" width="16" height="70"/>
+      <ellipse class="tree-foliage" cx="0" cy="-85" rx="42" ry="32"/>
+      <ellipse class="tree-foliage" cx="-16" cy="-68" rx="26" ry="20"/>
+      <ellipse class="tree-foliage" cx="18" cy="-72" rx="24" ry="18"/>
+      <path class="root" stroke-width="3.5" d="M -2 0 C -8 40, -40 80, -70 150"/>
+      <path class="root" stroke-width="3" d="M 2 0 C 10 35, 40 70, 80 130"/>
+      <path class="root" stroke-width="2.5" d="M -1 0 C 5 30, 25 60, 30 110"/>
+      <path class="root-fine" d="M -35 60 C -45 80, -52 95, -60 120"/>
+      <path class="root-fine" d="M 40 60 C 48 75, 60 96, 68 115"/>
+      <path class="root-fine" d="M 25 80 C 30 92, 34 102, 38 118"/>
+    </g>
+    <g transform="translate(1200,240)">
+      <rect class="tree-trunk" x="-6" y="-56" width="12" height="56"/>
+      <ellipse class="tree-foliage" cx="0" cy="-68" rx="34" ry="24"/>
+      <ellipse class="tree-foliage" cx="-10" cy="-54" rx="20" ry="15"/>
+      <path class="root" stroke-width="3" d="M -1 0 C -5 30, -25 60, -42 110"/>
+      <path class="root" stroke-width="2.5" d="M 2 0 C 8 28, 28 55, 42 95"/>
+      <path class="root-fine" d="M -20 45 C -28 65, -34 80, -38 92"/>
+      <path class="root-fine" d="M 25 48 C 32 62, 38 74, 42 85"/>
+    </g>
+
+    <!-- Mailbox -->
+    <g transform="translate(540,240)">
+      <rect class="mailbox" x="-16" y="-34" width="32" height="24" rx="3"/>
+      <rect fill="#2a1d10" x="-14" y="-32" width="28" height="6"/>
+      <rect class="mailbox-flag" x="14" y="-30" width="2" height="14"/>
+      <line x1="0" y1="-10" x2="0" y2="0" stroke="#4a3020" stroke-width="3"/>
+    </g>
+
+    <!-- Fireflies -->
+    <g class="firefly" transform="translate(300,180)"><circle r="2" fill="#fff" opacity="0.9" filter="url(#glow)"/><circle r="3.5" fill="#f2c670" opacity="0.3"/></g>
+    <g class="firefly f2" transform="translate(800,200)"><circle r="2" fill="#fff" opacity="0.9"/><circle r="3.5" fill="#f2c670" opacity="0.3"/></g>
+    <g class="firefly f3" transform="translate(1050,170)"><circle r="2" fill="#fff" opacity="0.9"/><circle r="3.5" fill="#f2c670" opacity="0.3"/></g>
+
+    <!-- Prospect walking across surface -->
+    <g class="prospect" transform="translate(0,226)">
+      <g style="animation:prospect-walk 32s linear infinite">
+        <circle cx="0" cy="-14" r="3.5" fill="#bcaa85"/>
+        <rect x="-3" y="-10" width="6" height="8" fill="#6e5b3a"/>
+        <line class="prospect-leg" x1="-2" y1="-3" x2="-2" y2="2" stroke="#3d2a18" stroke-width="1.5"/>
+        <line class="prospect-leg p2" x1="2" y1="-3" x2="2" y2="2" stroke="#3d2a18" stroke-width="1.5"/>
+      </g>
+    </g>
+
+    <!-- Dust motes -->
+    <circle class="mote" cx="300" cy="550" r="1.5" fill="rgba(210,180,120,.3)"/>
+    <circle class="mote m2" cx="800" cy="680" r="1.8" fill="rgba(210,180,120,.3)"/>
+    <circle class="mote m3" cx="1200" cy="600" r="1.3" fill="rgba(210,180,120,.3)"/>
+    <circle class="mote m4" cx="500" cy="730" r="1.6" fill="rgba(210,180,120,.3)"/>
+    <circle class="mote" cx="1100" cy="770" r="1.4" fill="rgba(210,180,120,.3)"/>
+    <circle class="mote m2" cx="650" cy="500" r="1.2" fill="rgba(210,180,120,.3)"/>
+
+    <!-- Queen aura -->
+    <circle class="queen-aura" cx="800" cy="520" r="260"/>
+
+    <g id="tunnels"></g>
+    <g id="chambers"></g>
+    <g id="workers"></g>
+  </svg>
+</div>
+
+<div class="feed-panel">
+  <div class="title">Field Journal</div>
+  <div class="feed-lines" id="feed"></div>
+</div>
+
+<div class="legend-panel">
+  <div class="title">Colony Legend</div>
+  <div class="row"><span>Chambers earning</span><span class="v" id="l-earning">0</span></div>
+  <div class="row"><span>Founding chambers</span><span class="v">7</span></div>
+  <div class="row"><span>Incubating</span><span class="v">10</span></div>
+  <div class="row"><span>Queen</span><span class="v" style="color:#ff2a5a">active</span></div>
+  <div class="note">Dashed ring = excavating · pulsing = queen · dots = workers carrying work</div>
+</div>
+
+<div class="modal-bd" id="modal-bd">
+  <div class="modal" id="modal">
+    <header>
+      <div><div class="name" id="m-name">—</div><div class="role" id="m-role">—</div></div>
+      <button class="close" id="m-close">CLOSE ✕</button>
+    </header>
+    <div class="body">
+      <div class="block"><h4>Status</h4><div class="val" id="m-status">—</div></div>
+      <div class="block"><h4>Current Task</h4><div class="val" id="m-task">—</div></div>
+      <div class="block"><h4>Month-to-Date</h4>
+        <div class="metrics">
+          <div class="m"><div class="k">Income</div><div class="v pos" id="m-income">$0</div></div>
+          <div class="m"><div class="k">Cost</div><div class="v" id="m-cost">$0</div></div>
+          <div class="m"><div class="k">Net</div><div class="v" id="m-net">$0</div></div>
+        </div>
+      </div>
+      <div class="block"><h4>Notes</h4><div class="val" id="m-notes" style="font-family:var(--f-journal);opacity:.85">—</div></div>
+      <div class="actions">
+        <button data-action="pause">Pause</button>
+        <button data-action="force">Force Tick</button>
+        <button data-action="charter">Open Charter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==============================================================
+// CHAMBERS — each with unique interior equipment to feel alive
+// ==============================================================
+
+const CHAMBERS = [
+  {id:'queen', title:'BREWINGTON OS', role:'The Queen', kind:'queen', x:800, y:520, rx:110, ry:82, glow:'#ff2a5a', realBay:null,
+    interior:'queen-throne'},
+
+  // Founding
+  {id:'jax',    title:'JAX',    role:'The Builder',        kind:'founding', x:420, y:420, rx:90, ry:68, glow:'#ffa83c', realBay:'builder',    interior:'workshop'},
+  {id:'hank',   title:'HANK',   role:'The Hustler',        kind:'founding', x:640, y:320, rx:90, ry:62, glow:'#ff6a1a', realBay:'foreman',    interior:'terminal'},
+  {id:'vega',   title:'VEGA',   role:'The Analyst',        kind:'founding', x:960, y:320, rx:90, ry:62, glow:'#a8e82a', realBay:'scout',      interior:'charts'},
+  {id:'doss',   title:'DOSS',   role:'The Guardian',       kind:'founding', x:1180, y:420, rx:90, ry:68, glow:'#ff2a5a', realBay:'paymaster',  interior:'radar'},
+  {id:'brix',   title:'BRIX',   role:'The System Builder', kind:'founding', x:1120, y:660, rx:90, ry:62, glow:'#3a8cff', realBay:'realtor',    interior:'wrench'},
+  {id:'vault',  title:'VAULT',  role:'The Treasurer',      kind:'founding', x:460, y:680, rx:90, ry:62, glow:'#ffc84c', realBay:'vault',      interior:'coins'},
+  {id:'signal', title:'SIGNALSCOUT', role:'The Researcher', kind:'founding', x:780, y:790, rx:100, ry:58, glow:'#b088ff', realBay:'signalscout', interior:'wave'},
+
+  // Incubators
+  {id:'inc-seo',       title:'SEO AUDIT',       role:'$97 Gumroad',   kind:'incubator', x:140, y:360, rx:72, ry:46, glow:'#5ee3d8', interior:'magnify',  pitch:'0001-searchfit-seo-audit'},
+  {id:'inc-ai-vis',    title:'AI VISIBILITY',   role:'$47 Gumroad',   kind:'incubator', x:160, y:540, rx:72, ry:46, glow:'#5ee3d8', interior:'brain',    pitch:'0002-ai-visibility'},
+  {id:'inc-battle',    title:'BATTLECARD',      role:'$47 Gumroad',   kind:'incubator', x:220, y:740, rx:72, ry:46, glow:'#5ee3d8', interior:'swords',   pitch:'0003-competitive-intelligence'},
+  {id:'inc-callprep',  title:'CALL PREP',       role:'$29/mo',        kind:'incubator', x:420, y:830, rx:72, ry:46, glow:'#5ee3d8', interior:'phone',    pitch:'0004-call-prep'},
+  {id:'inc-campaign',  title:'CAMPAIGN BRIEF',  role:'$49 Gumroad',   kind:'incubator', x:820, y:870, rx:72, ry:46, glow:'#5ee3d8', interior:'flag',     pitch:'0005-campaign-plan'},
+  {id:'inc-email',     title:'EMAIL SEQUENCE',  role:'$47 Gumroad',   kind:'incubator', x:1140, y:820, rx:72, ry:46, glow:'#5ee3d8', interior:'envelope', pitch:'0006-email-sequence'},
+  {id:'inc-devtool',   title:'DEV SKILLS',      role:'$29 Gumroad',   kind:'incubator', x:1350, y:730, rx:72, ry:46, glow:'#5ee3d8', interior:'chip',     pitch:'0007-firecrawl-skill-gen'},
+  {id:'inc-linkfix',   title:'LINK FIX',        role:'$19 Gumroad',   kind:'incubator', x:1460, y:560, rx:72, ry:46, glow:'#5ee3d8', interior:'chain',    pitch:'0008-broken-links'},
+  {id:'inc-schema',    title:'SCHEMA',          role:'$49 Gumroad',   kind:'incubator', x:1450, y:380, rx:72, ry:46, glow:'#5ee3d8', interior:'tree',     pitch:'0009-schema-markup'},
+  {id:'inc-keywords',  title:'KEYWORD CLUSTER', role:'$39 Gumroad',   kind:'incubator', x:1280, y:200, rx:72, ry:46, glow:'#5ee3d8', interior:'stars',    pitch:'0010-keyword-clustering'}
+];
+
+const TUNNELS = [
+  ['queen','jax'], ['queen','hank'], ['queen','vega'], ['queen','doss'],
+  ['queen','brix'], ['queen','vault'], ['queen','signal'],
+  ['jax','inc-seo'], ['vault','inc-ai-vis'],
+  ['vault','inc-battle'], ['signal','inc-callprep'],
+  ['signal','inc-campaign'], ['brix','inc-email'],
+  ['brix','inc-devtool'], ['doss','inc-linkfix'],
+  ['doss','inc-schema'], ['vega','inc-keywords'],
+  // extra cross-connections for density
+  ['jax','hank'], ['hank','vega'], ['vega','doss'],
+  ['doss','brix'], ['brix','signal'], ['signal','vault'], ['vault','jax']
+];
+
+const BY_ID = Object.fromEntries(CHAMBERS.map(c=>[c.id,c]));
+
+// ========== TUNNELS ==========
+function pathFor(a, b){
+  const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+  const dx = b.x-a.x, dy = b.y-a.y;
+  const dist = Math.sqrt(dx*dx+dy*dy);
+  const sag = Math.min(60, dist*0.13);
+  const cy = my + sag;
+  return `M ${a.x} ${a.y} Q ${mx} ${cy}, ${b.x} ${b.y}`;
+}
+function renderTunnels(){
+  const g = document.getElementById('tunnels');
+  let html = '';
+  const paths = [];
+  for (const [fromId,toId] of TUNNELS){
+    const a = BY_ID[fromId], b = BY_ID[toId];
+    if (!a || !b) continue;
+    const d = pathFor(a,b);
+    paths.push({d, fromColor:a.glow, toColor:b.glow});
+    html += `<path class="tunnel" d="${d}"/>`;
+    html += `<path class="tunnel-inner" d="${d}"/>`;
+    html += `<path class="tunnel-inner-highlight" d="${d}"/>`;
+    html += `<path class="tunnel-trail" d="${d}"/>`;
+  }
+  g.innerHTML = html;
+  window.__TUNNEL_PATHS = paths;
+}
+
+// ========== CHAMBER SHAPE ==========
+function irregularEllipse(cx, cy, rx, ry, seed){
+  const pts = [];
+  const N = 16;
+  for (let i=0;i<N;i++){
+    const ang = (i/N) * Math.PI*2;
+    const jitter = 0.88 + ((Math.sin((seed+i)*7.3) + 1)/2)*0.24;
+    const x = cx + Math.cos(ang) * rx * jitter;
+    const y = cy + Math.sin(ang) * ry * jitter;
+    pts.push([x,y]);
+  }
+  let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)} `;
+  for (let i=1;i<pts.length;i++){
+    const p = pts[i], prev = pts[i-1];
+    const cx1 = (prev[0]+p[0])/2, cy1 = (prev[1]+p[1])/2;
+    d += `Q ${prev[0].toFixed(1)} ${prev[1].toFixed(1)}, ${cx1.toFixed(1)} ${cy1.toFixed(1)} `;
+  }
+  d += `Q ${pts[pts.length-1][0].toFixed(1)} ${pts[pts.length-1][1].toFixed(1)}, ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)} Z`;
+  return d;
+}
+
+// ========== CHAMBER INTERIORS ==========
+function interior(c){
+  const {interior:type, x, y, rx, ry, glow} = c;
+  // Position interior elements INSIDE the chamber. Use center offsets.
+  const cx = x, cy = y + ry*0.15; // slight bias toward bottom (floor area)
+
+  switch(type){
+    case 'queen-throne':
+      return `
+        <!-- throne -->
+        <g class="eq-throne-glow" transform="translate(${cx},${cy+6})">
+          <rect x="-18" y="-8" width="36" height="30" rx="3" fill="#5d3020" stroke="${glow}" stroke-width="1"/>
+          <rect x="-22" y="-22" width="44" height="18" fill="#3d1f12" stroke="${glow}" stroke-width="1"/>
+          <polygon points="-22,-22 -14,-32 -6,-22" fill="${glow}" opacity="0.35"/>
+          <polygon points="22,-22 14,-32 6,-22" fill="${glow}" opacity="0.35"/>
+          <circle cx="0" cy="-28" r="3" fill="${glow}"/>
+        </g>
+        <!-- crown rays -->
+        <g class="eq-crown-ray">
+          <line x1="${cx}" y1="${cy-44}" x2="${cx}" y2="${cy-58}" stroke="${glow}" stroke-width="1.5"/>
+          <line x1="${cx-12}" y1="${cy-42}" x2="${cx-22}" y2="${cy-54}" stroke="${glow}" stroke-width="1.5" opacity="0.7"/>
+          <line x1="${cx+12}" y1="${cy-42}" x2="${cx+22}" y2="${cy-54}" stroke="${glow}" stroke-width="1.5" opacity="0.7"/>
+        </g>
+        <!-- queen ant silhouette -->
+        <use href="#ant" x="${cx-16}" y="${cy-8}" width="34" height="22" style="color:${glow}"/>
+      `;
+    case 'workshop': // Jax — hammer + sparks + anvil
+      return `
+        <rect x="${cx-30}" y="${cy+6}" width="60" height="7" fill="#2a1a0c" stroke="${glow}" stroke-width=".8"/>
+        <g class="eq-hammer" transform="translate(${cx-4},${cy-2})">
+          <rect x="-2" y="0" width="4" height="14" fill="#3d2814"/>
+          <rect x="-8" y="-4" width="16" height="6" fill="${glow}"/>
+        </g>
+        <g class="eq-sparks" fill="${glow}">
+          <circle cx="${cx-6}" cy="${cy-4}" r="1.4"/>
+          <circle cx="${cx-4}" cy="${cy-6}" r="1.1"/>
+          <circle cx="${cx-8}" cy="${cy-2}" r="1.3"/>
+        </g>
+      `;
+    case 'terminal': // Hank — scrolling terminal
+      return `
+        <rect x="${cx-36}" y="${cy-6}" width="72" height="42" fill="#0a0805" stroke="${glow}" stroke-width="1" rx="2"/>
+        <clipPath id="term-clip-${c.id}"><rect x="${cx-34}" y="${cy-4}" width="68" height="38"/></clipPath>
+        <g clip-path="url(#term-clip-${c.id})">
+          <g class="eq-scroll-text" font-family="JetBrains Mono,monospace" font-size="7" fill="${glow}" opacity="0.85">
+            <text x="${cx-32}" y="${cy+4}">› scan phx/hvac</text>
+            <text x="${cx-32}" y="${cy+12}">› 49 found</text>
+            <text x="${cx-32}" y="${cy+20}">› sears heating</text>
+            <text x="${cx-32}" y="${cy+28}">› rsd refrig</text>
+            <text x="${cx-32}" y="${cy+36}">› kj cooling</text>
+            <text x="${cx-32}" y="${cy+44}">› ac for less</text>
+            <text x="${cx-32}" y="${cy+52}">› lee air plumb</text>
+            <text x="${cx-32}" y="${cy+60}">› queue +10</text>
+            <text x="${cx-32}" y="${cy+68}">› next:dallas</text>
+            <text x="${cx-32}" y="${cy+76}">› scan phx/hvac</text>
+            <text x="${cx-32}" y="${cy+84}">› 49 found</text>
+            <text x="${cx-32}" y="${cy+92}">› sears heating</text>
+            <text x="${cx-32}" y="${cy+100}">› rsd refrig</text>
+          </g>
+        </g>
+      `;
+    case 'charts': // Vega — bar chart
+      return `
+        <g transform="translate(${cx-28},${cy+22})">
+          <rect class="eq-bar" x="0" y="-30" width="8" height="30" fill="${glow}" opacity="0.9"/>
+          <rect class="eq-bar b2" x="12" y="-30" width="8" height="30" fill="${glow}" opacity="0.85"/>
+          <rect class="eq-bar b3" x="24" y="-30" width="8" height="30" fill="${glow}" opacity="0.9"/>
+          <rect class="eq-bar b4" x="36" y="-30" width="8" height="30" fill="${glow}" opacity="0.8"/>
+          <rect class="eq-bar b5" x="48" y="-30" width="8" height="30" fill="${glow}" opacity="0.85"/>
+        </g>
+      `;
+    case 'radar': // Doss — radar sweep
+      return `
+        <g transform="translate(${cx},${cy+10})">
+          <circle cx="0" cy="0" r="28" fill="none" stroke="${glow}" stroke-width="0.6" opacity="0.5"/>
+          <circle cx="0" cy="0" r="18" fill="none" stroke="${glow}" stroke-width="0.6" opacity="0.5"/>
+          <circle cx="0" cy="0" r="8" fill="none" stroke="${glow}" stroke-width="0.6" opacity="0.5"/>
+          <line class="eq-radar-line" x1="0" y1="0" x2="28" y2="0" stroke="${glow}" stroke-width="1.5"/>
+          <circle cx="0" cy="0" r="2" fill="${glow}"/>
+        </g>
+      `;
+    case 'wrench': // Brix — spinning wrench
+      return `
+        <g class="eq-wrench" transform="translate(${cx},${cy+6})">
+          <path d="M -18 -4 L -6 -4 L 0 -10 A 6 6 0 1 1 6 -4 L 18 -4 L 18 4 L 6 4 A 6 6 0 1 1 0 10 L -6 4 L -18 4 Z" fill="none" stroke="${glow}" stroke-width="1.5"/>
+        </g>
+      `;
+    case 'coins': // Vault — coin stack
+      return `
+        <g transform="translate(${cx},${cy+22})">
+          <ellipse cx="0" cy="0"   rx="14" ry="3" fill="${glow}" stroke="#b8932e" stroke-width="0.4"/>
+          <ellipse cx="0" cy="-6"  rx="14" ry="3" fill="${glow}" stroke="#b8932e" stroke-width="0.4"/>
+          <ellipse cx="0" cy="-12" rx="14" ry="3" fill="${glow}" stroke="#b8932e" stroke-width="0.4"/>
+          <ellipse class="eq-coin" cx="0" cy="-18" rx="14" ry="3" fill="${glow}" stroke="#b8932e" stroke-width="0.4"/>
+        </g>
+      `;
+    case 'wave': // SignalScout — audio waveform
+      return `
+        <g class="eq-wave" transform="translate(${cx-28},${cy+18})" stroke="${glow}" stroke-width="2.5" stroke-linecap="round">
+          <line x1="0"  y1="0" x2="0"  y2="-18"/>
+          <line x1="8"  y1="0" x2="8"  y2="-28"/>
+          <line x1="16" y1="0" x2="16" y2="-22"/>
+          <line x1="24" y1="0" x2="24" y2="-32"/>
+          <line x1="32" y1="0" x2="32" y2="-14"/>
+          <line x1="40" y1="0" x2="40" y2="-26"/>
+          <line x1="48" y1="0" x2="48" y2="-18"/>
+          <line x1="56" y1="0" x2="56" y2="-22"/>
+        </g>
+      `;
+    // Incubator product glyphs
+    case 'magnify':
+      return `
+        <g class="eq-magnify" transform="translate(${cx},${cy+4})" stroke="${glow}" fill="none" stroke-width="2">
+          <circle cx="-2" cy="-2" r="10"/>
+          <line x1="6" y1="6" x2="13" y2="13"/>
+        </g>
+      `;
+    case 'brain':
+      return `
+        <g transform="translate(${cx},${cy+4})" stroke="${glow}" fill="none" stroke-width="1.3">
+          <path d="M -10 0 C -14 -6, -10 -12, -4 -10 C -2 -14, 4 -14, 6 -10 C 12 -12, 14 -6, 10 0 C 14 4, 12 10, 6 10 C 4 14, -2 14, -4 10 C -10 12, -14 4, -10 0 Z"/>
+          <path d="M -4 -10 C -4 -4, -4 4, -4 10" stroke-width="0.8"/>
+          <path d="M 6 -10 C 6 -4, 6 4, 6 10" stroke-width="0.8"/>
+        </g>
+      `;
+    case 'swords':
+      return `
+        <g transform="translate(${cx},${cy+2})" stroke="${glow}" stroke-width="1.5" stroke-linecap="round">
+          <line x1="-14" y1="-12" x2="14" y2="14"/>
+          <line x1="14" y1="-12" x2="-14" y2="14"/>
+          <circle cx="0" cy="0" r="2.5" fill="${glow}"/>
+        </g>
+      `;
+    case 'phone':
+      return `
+        <g transform="translate(${cx},${cy+4})" fill="${glow}" stroke="${glow}" stroke-width="1">
+          <path fill="none" d="M -14 -8 C -14 -14, -10 -14, -8 -12 L -6 -8 L -8 -4 C -4 0, 0 4, 4 8 L 8 6 L 12 8 C 14 10, 14 14, 8 14 C -2 14, -14 2, -14 -8 Z"/>
+        </g>
+      `;
+    case 'flag':
+      return `
+        <g transform="translate(${cx-8},${cy-4})" stroke="${glow}" stroke-width="1.5" fill="${glow}">
+          <line x1="0" y1="0" x2="0" y2="22" stroke-width="2"/>
+          <path d="M 0 0 L 20 2 L 16 8 L 20 14 L 0 12 Z" opacity="0.6"/>
+        </g>
+      `;
+    case 'envelope':
+      return `
+        <g transform="translate(${cx-16},${cy-4})" stroke="${glow}" fill="none" stroke-width="1.5">
+          <rect x="0" y="0" width="32" height="20"/>
+          <polyline points="0,0 16,12 32,0"/>
+          <rect x="-4" y="-4" width="32" height="20" opacity="0.5"/>
+          <rect x="-8" y="-8" width="32" height="20" opacity="0.25"/>
+        </g>
+      `;
+    case 'chip':
+      return `
+        <g transform="translate(${cx-12},${cy-6})" stroke="${glow}" fill="none" stroke-width="1.3">
+          <rect x="0" y="0" width="24" height="18"/>
+          <rect x="6" y="4" width="12" height="10" fill="${glow}" opacity="0.2"/>
+          <line x1="-3" y1="3" x2="0" y2="3"/><line x1="-3" y1="9" x2="0" y2="9"/><line x1="-3" y1="15" x2="0" y2="15"/>
+          <line x1="24" y1="3" x2="27" y2="3"/><line x1="24" y1="9" x2="27" y2="9"/><line x1="24" y1="15" x2="27" y2="15"/>
+          <line x1="6" y1="-3" x2="6" y2="0"/><line x1="12" y1="-3" x2="12" y2="0"/><line x1="18" y1="-3" x2="18" y2="0"/>
+          <line x1="6" y1="18" x2="6" y2="21"/><line x1="12" y1="18" x2="12" y2="21"/><line x1="18" y1="18" x2="18" y2="21"/>
+        </g>
+      `;
+    case 'chain':
+      return `
+        <g transform="translate(${cx-16},${cy-4})" stroke="${glow}" fill="none" stroke-width="2">
+          <rect x="0" y="2" width="14" height="10" rx="5"/>
+          <rect x="10" y="-2" width="14" height="10" rx="5"/>
+          <rect x="20" y="4" width="14" height="10" rx="5"/>
+        </g>
+      `;
+    case 'tree':
+      return `
+        <g transform="translate(${cx},${cy+6})" stroke="${glow}" fill="${glow}">
+          <circle cx="0" cy="-14" r="3"/>
+          <circle cx="-12" cy="0" r="2.5"/><circle cx="0" cy="0" r="2.5"/><circle cx="12" cy="0" r="2.5"/>
+          <circle cx="-18" cy="12" r="2"/><circle cx="-6" cy="12" r="2"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/>
+          <line x1="0" y1="-14" x2="-12" y2="0" stroke-width="1"/>
+          <line x1="0" y1="-14" x2="0" y2="0" stroke-width="1"/>
+          <line x1="0" y1="-14" x2="12" y2="0" stroke-width="1"/>
+          <line x1="-12" y1="0" x2="-18" y2="12" stroke-width="0.8" opacity="0.7"/>
+          <line x1="-12" y1="0" x2="-6" y2="12" stroke-width="0.8" opacity="0.7"/>
+          <line x1="0" y1="0" x2="6" y2="12" stroke-width="0.8" opacity="0.7"/>
+          <line x1="12" y1="0" x2="18" y2="12" stroke-width="0.8" opacity="0.7"/>
+        </g>
+      `;
+    case 'stars':
+      return `
+        <g transform="translate(${cx},${cy+4})" fill="${glow}">
+          <circle class="eq-crown-ray" cx="-12" cy="-8" r="2"/>
+          <circle class="eq-crown-ray" cx="0" cy="-14" r="2.5"/>
+          <circle class="eq-crown-ray" cx="14" cy="-6" r="2"/>
+          <circle class="eq-crown-ray" cx="-10" cy="6" r="2"/>
+          <circle class="eq-crown-ray" cx="10" cy="10" r="2"/>
+          <circle class="eq-crown-ray" cx="0" cy="4" r="2"/>
+          <line x1="-12" y1="-8" x2="0" y2="-14" stroke="${glow}" stroke-width="0.6" opacity="0.5"/>
+          <line x1="0" y1="-14" x2="14" y2="-6" stroke="${glow}" stroke-width="0.6" opacity="0.5"/>
+          <line x1="14" y1="-6" x2="10" y2="10" stroke="${glow}" stroke-width="0.6" opacity="0.5"/>
+          <line x1="-12" y1="-8" x2="-10" y2="6" stroke="${glow}" stroke-width="0.6" opacity="0.5"/>
+          <line x1="0" y1="4" x2="0" y2="-14" stroke="${glow}" stroke-width="0.6" opacity="0.3"/>
+        </g>
+      `;
+    default: return '';
+  }
+}
+
+// ========== RENDER CHAMBERS ==========
+function renderChambers(){
+  const g = document.getElementById('chambers');
+  let html = '';
+  CHAMBERS.forEach((c,i)=>{
+    const shakeClass = c.kind === 'incubator' ? ` s${(i%5)+1}` : '';
+    const classes = `chamber ${c.kind}${shakeClass}`;
+    const breatheDelay = (i*0.7)%5;
+    const digDelay = (i*0.4)%4;
+    const glowVar = `--chamber-glow:${c.glow};--breathe-delay:${breatheDelay}s;--dig-delay:${digDelay}s;color:${c.glow}`;
+    const path = irregularEllipse(c.x, c.y, c.rx, c.ry, i*17.1);
+
+    const titleSize = c.kind === 'queen' ? 22 : c.kind === 'founding' ? 15 : 11;
+    const roleY = c.y + (c.kind==='incubator' ? 10 : 6);
+
+    html += `<g class="${classes}" data-id="${c.id}" style="${glowVar}">`;
+    // warm fire-glow at the chamber's base
+    html += `<ellipse cx="${c.x}" cy="${c.y+c.ry*0.55}" rx="${c.rx*0.9}" ry="${c.ry*0.45}" class="fire-glow"/>`;
+    // wall
+    html += `<path class="wall" d="${path}"/>`;
+    // chamber interior equipment
+    html += interior(c);
+    // title
+    html += `<text class="chamber-title" x="${c.x}" y="${c.y-c.ry*0.55}" font-size="${titleSize}">${c.title}</text>`;
+    // role line
+    html += `<text class="chamber-role" x="${c.x}" y="${c.y-c.ry*0.55+12}" font-size="${c.kind==='queen'?10:9}">${c.role}</text>`;
+    // task preview (founding only, real data)
+    if (c.realBay){
+      html += `<text class="chamber-task" id="task-${c.realBay}" x="${c.x}" y="${c.y+c.ry*0.72}" font-size="8">awaiting tick</text>`;
+    }
+    if (c.kind === 'incubator'){
+      html += `<text class="label-tag" x="${c.x}" y="${c.y+c.ry*0.78}">excavating</text>`;
+      // falling dirt particles
+      html += `<circle class="dirt-fall" cx="${c.x-c.rx*0.7}" cy="${c.y-c.ry*0.8}" r="1" fill="#8b6638"/>`;
+      html += `<circle class="dirt-fall d2" cx="${c.x+c.rx*0.4}" cy="${c.y-c.ry*0.85}" r="0.8" fill="#8b6638"/>`;
+      html += `<circle class="dirt-fall d3" cx="${c.x-c.rx*0.2}" cy="${c.y-c.ry*0.9}" r="1" fill="#5d3f1e"/>`;
+    }
+    // status light for real bays
+    if (c.realBay){
+      html += `<circle class="status-dot" id="light-${c.realBay}" cx="${c.x+c.rx*0.82}" cy="${c.y-c.ry*0.78}" r="5" fill="#3ff27a"/>`;
+    }
+    html += `</g>`;
+  });
+  g.innerHTML = html;
+  g.querySelectorAll('.chamber').forEach(el=>{
+    el.addEventListener('click', ()=> openModal(el.dataset.id));
+  });
+}
+
+// ========== WORKERS (ants + payload dots) ==========
+function renderWorkers(){
+  const g = document.getElementById('workers');
+  const paths = window.__TUNNEL_PATHS || [];
+  let html = '';
+  // 2 ants per tunnel + stagger
+  paths.forEach((t, i)=>{
+    const dur1 = 9 + (i%4)*2;
+    const delay1 = -(i*1.3 % dur1);
+    const dur2 = 11 + (i%3)*2;
+    const delay2 = -(i*2.1 % dur2);
+    const dir1 = i%2 ? 'normal' : 'reverse';
+    const dir2 = i%2 ? 'reverse' : 'normal';
+    html += `<use href="#ant" width="13" height="9" style="color:${t.toColor};animation:worker-walk-${i} ${dur1}s linear infinite;animation-delay:${delay1}s;animation-direction:${dir1};offset-path:path('${t.d}');offset-rotate:auto;filter:drop-shadow(0 0 3px ${t.toColor})"/>`;
+    html += `<style>@keyframes worker-walk-${i}{from{offset-distance:0%}to{offset-distance:100%}}</style>`;
+    html += `<use href="#ant" width="11" height="7" style="color:${t.fromColor};animation:worker-walk-${i}b ${dur2}s linear infinite;animation-delay:${delay2}s;animation-direction:${dir2};offset-path:path('${t.d}');offset-rotate:auto;filter:drop-shadow(0 0 3px ${t.fromColor})"/>`;
+    html += `<style>@keyframes worker-walk-${i}b{from{offset-distance:0%}to{offset-distance:100%}}</style>`;
+    // payload dot (income flow) on every other tunnel
+    if (i%2 === 0){
+      const dur3 = 6 + (i%3)*1.2;
+      const delay3 = -(i*0.9 % dur3);
+      html += `<circle r="3" style="fill:${t.toColor};animation:worker-pulse-${i} ${dur3}s linear infinite;animation-delay:${delay3}s;offset-path:path('${t.d}');filter:drop-shadow(0 0 9px ${t.toColor})"/>`;
+      html += `<style>@keyframes worker-pulse-${i}{from{offset-distance:0%}to{offset-distance:100%}}</style>`;
+    }
+  });
+  g.innerHTML = html;
+}
+
+// ========== HUD + DATA ==========
+function clock(){
+  const d=new Date();
+  const t=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
+  const el=document.getElementById('h-clock'); if(el) el.textContent=t;
+}
+setInterval(clock,1000); clock();
+
+function fmtMoney(n){const v=Math.round(Number(n)||0); return (v<0?'-$':'$')+Math.abs(v).toLocaleString()}
+function fmtTime(iso){if(!iso) return '—:—'; const d=new Date(iso); if(isNaN(d.getTime())) return '—:—'; return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')}
+function statusOf(b){
+  if(!b) return 'yellow';
+  if((b.failures_in_row||0)>0) return 'red';
+  if(b.status==='awaiting_lando_setup'||b.status==='blocked_on_env') return 'red';
+  if(!b.last_tick_at) return 'yellow';
+  const hrs=(Date.now()-new Date(b.last_tick_at).getTime())/3600000;
+  if(hrs>24) return 'red'; if(hrs>6) return 'yellow'; return 'green';
+}
+const STATUS_COLOR = { green:'#3ff27a', yellow:'#ffd84a', red:'#ff3344' };
+
+let STATE=null, lastTicks={}, feedEvents=[];
+
+async function fetchState(){try{const r=await fetch('/api/state',{cache:'no-store'}); if(!r.ok) return null; return await r.json()}catch{return null}}
+
+function renderBayUpdates(s){
+  const bayMap = Object.fromEntries((s.businesses||[]).map(b=>[b.name,b]));
+  let earning = 0;
+  CHAMBERS.filter(c=>c.realBay).forEach(c=>{
+    const b = bayMap[c.realBay]; if(!b) return;
+    const light = document.getElementById('light-'+c.realBay);
+    const task = document.getElementById('task-'+c.realBay);
+    const st = statusOf(b);
+    if (light) light.setAttribute('fill', STATUS_COLOR[st]);
+    if (task){
+      const summary = (b.last_tick_summary||'idle').replace(/[\u2013\u2014]/g,'-');
+      task.textContent = summary.length>42 ? summary.slice(0,40)+'...' : summary;
+    }
+    const inc = (b.month_to_date && b.month_to_date.income) || 0;
+    if (inc > 0) earning++;
+    if (b.last_tick_at && lastTicks[b.name] !== b.last_tick_at){
+      if (lastTicks[b.name] !== undefined){
+        pushFeed(c.title, b.last_tick_at, b.last_tick_summary||'', c.glow);
+      }
+      lastTicks[b.name] = b.last_tick_at;
+    }
+  });
+  const le = document.getElementById('l-earning'); if (le) le.textContent = earning;
+}
+
+function renderHUD(s){
+  const o = s.overall||{};
+  const net = Number(o.mtd_net||0), mrr = Number(o.mtd_income||0);
+  const setTxt = (id,v,cls)=>{const e=document.getElementById(id); if(!e) return; e.textContent=v; e.className='v'+(cls?' '+cls:'')};
+  setTxt('h-net', fmtMoney(net), net>=0?'pos':'neg');
+  setTxt('h-mrr', fmtMoney(mrr), 'pos');
+  setTxt('h-workers', (s.businesses||[]).length, '');
+}
+
+function pushFeed(title, iso, msg, color){
+  feedEvents.unshift({ts:fmtTime(iso), name:title, msg:(msg||'').slice(0,64), color:color||'#d4a858'});
+  feedEvents = feedEvents.slice(0, 10);
+  renderFeed();
+}
+function renderFeed(){
+  const el = document.getElementById('feed'); if (!el) return;
+  if (!feedEvents.length){ el.innerHTML = '<div class="feed-line" style="color:rgba(242,237,227,.5)">colony quiet...</div>'; return; }
+  el.innerHTML = feedEvents.map(e =>
+    `<div class="feed-line"><span class="ts">${e.ts}</span><span class="bay" style="color:${e.color}">${e.name}</span><span>${escapeHtml(e.msg)}</span></div>`
+  ).join('');
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+// ========== MODAL ==========
+function openModal(chamberId){
+  const c = BY_ID[chamberId]; if(!c) return;
+  const modal = document.getElementById('modal');
+  modal.style.setProperty('--chamber-glow', c.glow);
+  document.getElementById('m-name').textContent = c.title;
+  document.getElementById('m-role').textContent = c.role;
+
+  if (c.kind === 'queen'){
+    const s = STATE || {}; const o = s.overall || {};
+    document.getElementById('m-status').textContent = 'operational · presiding';
+    document.getElementById('m-task').textContent = 'Monitoring all colony activity';
+    document.getElementById('m-income').textContent = fmtMoney(o.mtd_income);
+    document.getElementById('m-cost').textContent = fmtMoney(o.mtd_cost);
+    const net = Number(o.mtd_net||0);
+    const netEl = document.getElementById('m-net');
+    netEl.textContent = fmtMoney(net); netEl.className = 'v ' + (net>=0?'pos':'neg');
+    document.getElementById('m-notes').innerHTML = `${(s.businesses||[]).length} chambers active · ${CHAMBERS.filter(c=>c.kind==='incubator').length} experiments excavating`;
+  } else if (c.kind === 'founding'){
+    const s = STATE || {};
+    const bay = (s.businesses||[]).find(b=>b.name === c.realBay);
+    if (!bay){
+      document.getElementById('m-status').textContent = 'offline';
+      document.getElementById('m-task').textContent = '—';
+      document.getElementById('m-income').textContent = '$0';
+      document.getElementById('m-cost').textContent = '$0';
+      document.getElementById('m-net').textContent = '$0';
+      document.getElementById('m-notes').innerHTML = 'no data';
+    } else {
+      document.getElementById('m-status').textContent = (bay.status||'—').replace(/_/g,' ');
+      document.getElementById('m-task').textContent = bay.last_tick_summary || '—';
+      document.getElementById('m-income').textContent = fmtMoney(bay.month_to_date&&bay.month_to_date.income);
+      document.getElementById('m-cost').textContent = fmtMoney(bay.month_to_date&&bay.month_to_date.cost);
+      const net = ((bay.month_to_date&&bay.month_to_date.income)||0) - ((bay.month_to_date&&bay.month_to_date.cost)||0);
+      const netEl = document.getElementById('m-net'); netEl.textContent = fmtMoney(net); netEl.className = 'v ' + (net>=0?'pos':'neg');
+      const log = (bay.recent_log||[]).slice(-6).map(l => typeof l==='string'?l:(l.at+' · '+(l.msg||''))).join('<br>');
+      document.getElementById('m-notes').innerHTML = log || '—';
+    }
+  } else if (c.kind === 'incubator'){
+    document.getElementById('m-status').textContent = 'excavating · not yet earning';
+    document.getElementById('m-task').textContent = 'Drafted pitch, awaiting Lando approval to spawn';
+    document.getElementById('m-income').textContent = '$0';
+    document.getElementById('m-cost').textContent = '$0';
+    document.getElementById('m-net').textContent = '$0';
+    document.getElementById('m-notes').innerHTML = c.pitch
+      ? `Pitch filed at <code>businesses/foreman/incubator-pitches/${c.pitch}.md</code>. Spawns as a real chamber once Lando approves.`
+      : 'incubator candidate';
+  }
+  document.getElementById('modal-bd').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal-bd').classList.remove('open'); }
+document.getElementById('m-close').addEventListener('click', closeModal);
+document.getElementById('modal-bd').addEventListener('click', (e)=>{ if (e.target.id === 'modal-bd') closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+document.querySelectorAll('.modal .actions button').forEach(b=>{ b.addEventListener('click', ()=>console.log('override:', b.dataset.action)); });
+
+// ========== BOOTSTRAP ==========
+renderTunnels();
+renderChambers();
+renderWorkers();
+
+async function tick(){
+  const s = await fetchState(); if (!s) return;
+  STATE = s;
+  renderHUD(s);
+  renderBayUpdates(s);
+  if (feedEvents.length === 0){
+    (s.businesses||[]).forEach(b=>{
+      const c = CHAMBERS.find(c=>c.realBay===b.name); if (!c) return;
+      if (b.last_tick_at && b.last_tick_summary){
+        feedEvents.push({ts:fmtTime(b.last_tick_at), name:c.title, msg:b.last_tick_summary.slice(0,64), color:c.glow});
+      }
+    });
+    feedEvents = feedEvents.slice(-10).reverse();
+    renderFeed();
+  }
+}
+tick(); setInterval(tick, 15000);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brewington Colony · Underground View</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=JetBrains+Mono:wght@400;500;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky-top:#06091a;
+  --sky-mid:#0c1430;
+  --earth-0:#3d2e1d;
+  --earth-1:#2d2215;
+  --earth-2:#1d1510;
+  --earth-3:#120c08;
+  --earth-4:#080604;
+  --chamber-bg:#0a0806;
+  --root:#7a5934;
+  --root-fine:#5d4022;
+  --grass:#4a5d25;
+  --gold:#d4a858;
+  --gold-bright:#f2c670;
+  --bone:#f2ede3;
+  --amber:#ffb347;
+  --dust:rgba(210,180,120,.25);
+
+  --glow-queen:#ff2a5a;
+  --glow-jax:#ffa83c;
+  --glow-hank:#ff6a1a;
+  --glow-vega:#a8e82a;
+  --glow-brix:#3a8cff;
+  --glow-doss:#ff2a5a;
+  --glow-vault:#ffc84c;
+  --glow-signal:#b088ff;
+  --glow-incubate:#5ee3d8;
+
+  --f-display:'Cinzel',serif;
+  --f-journal:'Special Elite',monospace;
+  --f-mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden}
+body{
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -20%, rgba(201,168,76,.08) 0%, transparent 50%),
+    linear-gradient(180deg, var(--sky-top) 0%, var(--sky-mid) 18%, var(--earth-0) 28%, var(--earth-1) 45%, var(--earth-2) 65%, var(--earth-3) 85%, var(--earth-4) 100%);
+  color:var(--bone);
+  font-family:var(--f-mono);
+}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+  background-image:
+    radial-gradient(1px 1px at 12% 3%, rgba(242,237,227,.6), transparent),
+    radial-gradient(1px 1px at 72% 8%, rgba(212,168,88,.5), transparent),
+    radial-gradient(2px 2px at 40% 5%, rgba(242,237,227,.7), transparent),
+    radial-gradient(1px 1px at 88% 14%, rgba(242,237,227,.4), transparent),
+    radial-gradient(1px 1px at 22% 12%, rgba(242,237,227,.5), transparent),
+    radial-gradient(1px 1px at 55% 2%, rgba(242,237,227,.6), transparent);
+  opacity:.7;
+  animation:twinkle 8s ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:.5}50%{opacity:.85}}
+
+/* ---------- HUD ---------- */
+.hud{
+  position:fixed;top:0;left:0;right:0;height:52px;z-index:80;
+  background:linear-gradient(180deg,rgba(6,9,26,.98),rgba(6,9,26,.7) 80%,transparent);
+  display:flex;align-items:center;padding:0 22px;gap:22px;
+  font-family:var(--f-mono);font-size:11px;
+}
+.hud .brand{font-family:var(--f-display);font-weight:900;font-size:17px;letter-spacing:.22em;color:var(--gold-bright);text-transform:uppercase;text-shadow:0 0 16px rgba(212,168,88,.5)}
+.hud .brand .sub{font-family:var(--f-journal);font-size:10px;letter-spacing:.1em;color:var(--amber);opacity:.8;text-transform:none;margin-left:10px;font-weight:400}
+.hud .sep{width:1px;height:22px;background:rgba(212,168,88,.3)}
+.hud .stat{display:flex;align-items:baseline;gap:6px}
+.hud .stat .k{color:rgba(242,237,227,.45);font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+.hud .stat .v{color:var(--bone);font-weight:500}
+.hud .stat .v.pos{color:#8fe26b}
+.hud .stat .v.neg{color:#ff7a7a}
+.hud .clock{margin-left:auto;color:var(--gold-bright);letter-spacing:.12em}
+
+/* ---------- Scene ---------- */
+.scene{
+  position:fixed;inset:52px 0 0 0;z-index:10;
+  overflow:hidden;
+}
+.scene svg{display:block;width:100%;height:100%}
+
+/* ---------- Earth detail decoration ---------- */
+.soil-strata line{stroke:rgba(0,0,0,.3);stroke-width:1;stroke-dasharray:6 18}
+.surface-line{stroke:#1a2b0a;stroke-width:3;fill:none}
+.grass-blade{stroke:var(--grass);stroke-width:1.5;stroke-linecap:round}
+.root{stroke:var(--root);fill:none;stroke-linecap:round}
+.root-fine{stroke:var(--root-fine);fill:none;stroke-width:1;opacity:.6}
+
+/* Dust motes drifting */
+.mote{animation:mote-drift 22s linear infinite}
+.mote.m2{animation-duration:30s;animation-delay:-10s}
+.mote.m3{animation-duration:38s;animation-delay:-18s}
+@keyframes mote-drift{
+  0%{transform:translate(0,0);opacity:0}
+  10%{opacity:.6}
+  90%{opacity:.6}
+  100%{transform:translate(-60px,-40px);opacity:0}
+}
+
+/* ---------- Chamber styling ---------- */
+.chamber{cursor:pointer;transition:transform .25s}
+.chamber:hover{transform:scale(1.04);transform-origin:center}
+.chamber .wall{
+  fill:var(--chamber-bg);
+  stroke:var(--chamber-glow,#c9a84c);
+  stroke-width:1.5;
+  filter:drop-shadow(0 0 14px color-mix(in srgb, var(--chamber-glow,#c9a84c) 55%, transparent));
+}
+.chamber .floor-glow{
+  fill:url(#chamber-radial-glow);
+  opacity:.65;
+  mix-blend-mode:screen;
+  pointer-events:none;
+}
+.chamber .chamber-title{
+  font-family:var(--f-display);font-weight:700;fill:var(--chamber-glow,#f2ede3);
+  text-anchor:middle;letter-spacing:.14em;text-transform:uppercase;
+  filter:drop-shadow(0 0 8px color-mix(in srgb, var(--chamber-glow,#f2ede3) 70%, transparent));
+  pointer-events:none;
+}
+.chamber .chamber-role{
+  font-family:var(--f-mono);fill:rgba(242,237,227,.6);
+  text-anchor:middle;letter-spacing:.16em;text-transform:uppercase;
+  pointer-events:none;
+}
+.chamber .chamber-task{
+  font-family:var(--f-mono);fill:rgba(242,237,227,.55);
+  text-anchor:middle;letter-spacing:.04em;
+  pointer-events:none;
+}
+
+/* Queen chamber — pulses with royal authority */
+.chamber.queen .wall{
+  stroke-width:2.5;
+  filter:drop-shadow(0 0 26px var(--glow-queen));
+  animation:queen-pulse 3s ease-in-out infinite;
+}
+@keyframes queen-pulse{
+  0%,100%{filter:drop-shadow(0 0 22px var(--glow-queen))}
+  50%{filter:drop-shadow(0 0 38px var(--glow-queen))}
+}
+
+/* Chamber breathing (subtle glow pulse) */
+.chamber.founding .wall{
+  animation:chamber-breathe 5s ease-in-out infinite;
+  animation-delay:var(--breathe-delay,0s);
+}
+@keyframes chamber-breathe{
+  0%,100%{stroke-opacity:.9}
+  50%{stroke-opacity:.6}
+}
+
+/* Incubator chambers — under construction */
+.chamber.incubator .wall{
+  stroke-dasharray:4 6;
+  stroke-opacity:.7;
+  animation:excavate 4s ease-in-out infinite;
+  animation-delay:var(--dig-delay,0s);
+}
+@keyframes excavate{
+  0%,100%{stroke-dashoffset:0;stroke-opacity:.5}
+  50%{stroke-dashoffset:-10;stroke-opacity:.9}
+}
+.chamber.incubator .chamber-title{opacity:.85;font-size:0.85em}
+.chamber.incubator .label-tag{
+  font-family:var(--f-journal);fill:var(--glow-incubate);
+  text-anchor:middle;font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  opacity:.7;
+}
+
+/* Status lights at the chamber door */
+.status-dot{animation:light-blink 2s ease-in-out infinite}
+@keyframes light-blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ---------- Tunnels ---------- */
+.tunnel{
+  fill:none;
+  stroke:rgba(0,0,0,.4);
+  stroke-width:14;
+  stroke-linecap:round;
+}
+.tunnel-inner{
+  fill:none;
+  stroke:rgba(60,40,20,.5);
+  stroke-width:8;
+  stroke-linecap:round;
+}
+.tunnel-trail{
+  fill:none;
+  stroke:rgba(212,168,88,.15);
+  stroke-width:1;
+  stroke-dasharray:3 6;
+  animation:trail-flow 18s linear infinite;
+}
+@keyframes trail-flow{
+  0%{stroke-dashoffset:0}
+  100%{stroke-dashoffset:-180}
+}
+
+/* ---------- Workers (ants) traveling tunnels ---------- */
+.worker{
+  fill:var(--worker-glow,var(--gold));
+  filter:drop-shadow(0 0 6px var(--worker-glow,var(--gold)));
+  offset-rotate:0deg;
+}
+.worker.w-a{offset-path:path('__PATH_A__');animation:walk-tunnel-a 9s linear infinite}
+.worker.w-b{offset-path:path('__PATH_B__');animation:walk-tunnel-b 11s linear infinite}
+/* Filled in by JS */
+
+/* ---------- Queen's light glowing up from below ---------- */
+.queen-aura{
+  fill:url(#queen-aura-grad);
+  opacity:.7;
+  pointer-events:none;
+  animation:queen-aura-pulse 6s ease-in-out infinite;
+}
+@keyframes queen-aura-pulse{0%,100%{opacity:.5}50%{opacity:.85}}
+
+/* ---------- Surface elements ---------- */
+.tree-trunk{fill:#2d1e10}
+.tree-foliage{fill:#1a2a08;opacity:.85}
+.moon{fill:#f2ede3;opacity:.82;filter:drop-shadow(0 0 20px rgba(242,237,227,.3))}
+.moon-glow{fill:rgba(242,237,227,.06)}
+.mailbox{fill:#4a3020;stroke:var(--gold);stroke-width:1}
+.mailbox-flag{fill:#a83d2a}
+
+/* ---------- Modal ---------- */
+.modal-bd{
+  position:fixed;inset:0;z-index:120;display:none;
+  background:rgba(6,9,26,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  align-items:center;justify-content:center;padding:40px;
+}
+.modal-bd.open{display:flex}
+.modal{
+  width:100%;max-width:520px;max-height:80vh;overflow:hidden;
+  background:linear-gradient(180deg,rgba(10,8,6,.98),rgba(20,15,10,.98));
+  border:1px solid var(--chamber-glow,var(--gold));
+  border-radius:4px;
+  box-shadow:0 0 48px rgba(0,0,0,.8),inset 0 0 0 1px rgba(212,168,88,.2),0 0 24px color-mix(in srgb, var(--chamber-glow,#c9a84c) 30%, transparent);
+  display:flex;flex-direction:column;
+}
+.modal header{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 22px;border-bottom:1px solid rgba(212,168,88,.2)}
+.modal header .name{font-family:var(--f-display);font-weight:700;font-size:22px;letter-spacing:.14em;color:var(--chamber-glow,var(--gold-bright));text-transform:uppercase}
+.modal header .role{font-family:var(--f-journal);font-size:11px;letter-spacing:.1em;color:rgba(242,237,227,.6);margin-top:6px}
+.modal header .close{background:none;border:1px solid rgba(212,168,88,.3);color:var(--bone);padding:5px 12px;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;cursor:pointer;border-radius:2px}
+.modal header .close:hover{border-color:var(--gold-bright);color:var(--gold-bright)}
+.modal .body{padding:20px 22px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+.modal .block{display:flex;flex-direction:column;gap:6px}
+.modal .block h4{font-family:var(--f-mono);font-size:9px;letter-spacing:.18em;color:rgba(242,237,227,.45);text-transform:uppercase;font-weight:500}
+.modal .block .val{font-family:var(--f-mono);font-size:13px;color:var(--bone)}
+.modal .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.modal .metrics .m{background:rgba(6,9,26,.7);border:1px solid rgba(212,168,88,.15);padding:10px 12px;border-radius:2px}
+.modal .metrics .m .k{font-family:var(--f-mono);font-size:8.5px;letter-spacing:.14em;color:rgba(242,237,227,.45);text-transform:uppercase}
+.modal .metrics .m .v{font-family:var(--f-mono);font-size:15px;color:var(--bone);font-weight:500;margin-top:2px}
+.modal .metrics .m .v.pos{color:#8fe26b}
+.modal .metrics .m .v.neg{color:#ff7a7a}
+.modal .actions{display:flex;gap:8px;flex-wrap:wrap}
+.modal .actions button{flex:1;min-width:90px;background:rgba(212,168,88,.08);border:1px solid rgba(212,168,88,.35);color:var(--gold-bright);padding:8px;font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;cursor:pointer;border-radius:2px;text-transform:uppercase}
+.modal .actions button:hover{background:rgba(212,168,88,.18);border-color:var(--gold-bright)}
+
+/* ---------- Feed (diegetic mailbox on surface) ---------- */
+.feed-panel{
+  position:fixed;bottom:18px;left:18px;z-index:60;
+  width:320px;max-height:160px;overflow:hidden;
+  background:rgba(10,8,6,.85);border:1px solid rgba(212,168,88,.3);border-radius:3px;
+  padding:10px 12px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  font-family:var(--f-mono);font-size:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.5);
+}
+.feed-panel .title{font-family:var(--f-display);font-weight:700;font-size:10px;letter-spacing:.22em;color:var(--gold-bright);text-transform:uppercase;margin-bottom:8px}
+.feed-panel .feed-lines{max-height:120px;overflow:hidden;line-height:1.55}
+.feed-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;animation:feed-in .4s ease-out;padding:2px 0}
+@keyframes feed-in{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+.feed-line .ts{color:rgba(242,237,227,.4);margin-right:6px}
+.feed-line .bay{font-weight:600;margin-right:4px}
+
+/* Incubator legend pinned bottom-right */
+.legend-panel{
+  position:fixed;bottom:18px;right:18px;z-index:60;
+  background:rgba(10,8,6,.85);border:1px solid rgba(94,227,216,.3);border-radius:3px;
+  padding:10px 12px;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  font-family:var(--f-mono);font-size:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.5);
+  max-width:230px;
+}
+.legend-panel .title{font-family:var(--f-display);font-weight:700;font-size:10px;letter-spacing:.22em;color:var(--glow-incubate);text-transform:uppercase;margin-bottom:6px}
+.legend-panel .row{display:flex;justify-content:space-between;color:rgba(242,237,227,.75);padding:1px 0}
+.legend-panel .row .v{color:var(--bone);font-weight:500}
+.legend-panel .note{margin-top:6px;font-family:var(--f-journal);font-size:10px;color:rgba(242,237,227,.5)}
+
+@media (max-width:720px){
+  .hud{font-size:9px;padding:0 10px;gap:12px}
+  .hud .brand{font-size:13px}
+  .hud .stat .k{display:none}
+  .feed-panel{width:260px;font-size:9px}
+  .legend-panel{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- HUD -->
+<div class="hud">
+  <div class="brand">Brewington Colony<span class="sub">Underground View</span></div>
+  <div class="sep"></div>
+  <div class="stat"><span class="k">Net</span><span class="v pos" id="h-net">$0</span></div>
+  <div class="stat"><span class="k">MRR</span><span class="v pos" id="h-mrr">$0</span></div>
+  <div class="stat"><span class="k">Workers</span><span class="v" id="h-workers">0</span></div>
+  <div class="stat"><span class="k">Active Chambers</span><span class="v" id="h-chambers">0</span></div>
+  <div class="stat"><span class="k">Incubating</span><span class="v" id="h-incubating">0</span></div>
+  <div class="clock" id="h-clock">00:00:00</div>
+</div>
+
+<!-- Scene -->
+<div class="scene">
+  <svg id="colony" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Radial glow used inside every chamber floor -->
+      <radialGradient id="chamber-radial-glow" cx="50%" cy="65%" r="60%">
+        <stop offset="0%" stop-color="currentColor" stop-opacity="0.7"/>
+        <stop offset="60%" stop-color="currentColor" stop-opacity="0.2"/>
+        <stop offset="100%" stop-color="currentColor" stop-opacity="0"/>
+      </radialGradient>
+
+      <!-- Queen chamber outward aura -->
+      <radialGradient id="queen-aura-grad" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stop-color="#ff2a5a" stop-opacity="0.35"/>
+        <stop offset="50%" stop-color="#ff2a5a" stop-opacity="0.06"/>
+        <stop offset="100%" stop-color="#ff2a5a" stop-opacity="0"/>
+      </radialGradient>
+
+      <!-- Simple ant/worker symbol -->
+      <symbol id="ant" viewBox="-6 -4 12 8">
+        <ellipse cx="-2" cy="0" rx="1.6" ry="1.3" />
+        <ellipse cx="0.6" cy="0" rx="2.2" ry="1.6" />
+        <ellipse cx="3.4" cy="0" rx="1.6" ry="1.3" />
+        <line x1="-1.2" y1="0" x2="-2.2" y2="-3" stroke="currentColor" stroke-width="0.5"/>
+        <line x1="-1.2" y1="0" x2="-2.2" y2="3" stroke="currentColor" stroke-width="0.5"/>
+        <line x1="0.6" y1="-1" x2="2" y2="-3.2" stroke="currentColor" stroke-width="0.5"/>
+        <line x1="0.6" y1="1" x2="2" y2="3.2" stroke="currentColor" stroke-width="0.5"/>
+        <line x1="2.6" y1="-1" x2="3.8" y2="-3.2" stroke="currentColor" stroke-width="0.5"/>
+        <line x1="2.6" y1="1" x2="3.8" y2="3.2" stroke="currentColor" stroke-width="0.5"/>
+      </symbol>
+
+      <!-- Earth texture (repeating particles) -->
+      <pattern id="dirt-texture" width="60" height="60" patternUnits="userSpaceOnUse">
+        <circle cx="12" cy="14" r="0.8" fill="rgba(0,0,0,0.3)"/>
+        <circle cx="38" cy="28" r="0.5" fill="rgba(212,168,88,0.08)"/>
+        <circle cx="52" cy="50" r="0.7" fill="rgba(0,0,0,0.25)"/>
+        <circle cx="20" cy="44" r="0.4" fill="rgba(212,168,88,0.05)"/>
+        <circle cx="8" cy="55" r="0.6" fill="rgba(0,0,0,0.2)"/>
+      </pattern>
+
+      <filter id="inner-shadow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur stdDeviation="4"/>
+      </filter>
+    </defs>
+
+    <!-- Earth texture overlay -->
+    <rect x="0" y="240" width="1600" height="660" fill="url(#dirt-texture)" opacity="0.7"/>
+
+    <!-- Soil strata markings -->
+    <g class="soil-strata" opacity="0.4">
+      <line x1="0" y1="360" x2="1600" y2="375"/>
+      <line x1="0" y1="480" x2="1600" y2="468"/>
+      <line x1="0" y1="620" x2="1600" y2="635"/>
+      <line x1="0" y1="780" x2="1600" y2="770"/>
+    </g>
+
+    <!-- Moon high in the sky -->
+    <g>
+      <circle class="moon-glow" cx="1380" cy="85" r="60"/>
+      <circle class="moon-glow" cx="1380" cy="85" r="40"/>
+      <circle class="moon" cx="1380" cy="85" r="22"/>
+    </g>
+
+    <!-- Surface ground line + grass -->
+    <path class="surface-line" d="M 0 240 Q 200 232, 400 240 T 800 238 T 1200 242 T 1600 238"/>
+    <g class="grass">
+      <!-- Random grass tufts -->
+      <path class="grass-blade" d="M 60 240 Q 62 230, 60 220"/>
+      <path class="grass-blade" d="M 63 240 Q 66 228, 65 218"/>
+      <path class="grass-blade" d="M 180 240 Q 178 229, 182 219"/>
+      <path class="grass-blade" d="M 184 240 Q 186 227, 188 220"/>
+      <path class="grass-blade" d="M 320 242 Q 322 230, 320 220"/>
+      <path class="grass-blade" d="M 460 241 Q 458 229, 462 218"/>
+      <path class="grass-blade" d="M 620 239 Q 624 228, 621 218"/>
+      <path class="grass-blade" d="M 780 238 Q 782 226, 780 216"/>
+      <path class="grass-blade" d="M 960 239 Q 962 228, 960 218"/>
+      <path class="grass-blade" d="M 1120 241 Q 1124 228, 1122 218"/>
+      <path class="grass-blade" d="M 1280 240 Q 1282 229, 1284 219"/>
+      <path class="grass-blade" d="M 1440 239 Q 1438 227, 1442 218"/>
+      <path class="grass-blade" d="M 1540 240 Q 1542 228, 1544 218"/>
+    </g>
+
+    <!-- A tree on the surface -->
+    <g transform="translate(200,240)">
+      <rect class="tree-trunk" x="-8" y="-70" width="16" height="70"/>
+      <ellipse class="tree-foliage" cx="0" cy="-85" rx="40" ry="30"/>
+      <ellipse class="tree-foliage" cx="-16" cy="-68" rx="24" ry="18"/>
+      <ellipse class="tree-foliage" cx="18" cy="-72" rx="22" ry="16"/>
+      <!-- Roots going underground -->
+      <path class="root" stroke-width="3.5" d="M -2 0 C -8 40, -40 80, -70 140"/>
+      <path class="root" stroke-width="3" d="M 2 0 C 10 35, 40 70, 80 120"/>
+      <path class="root" stroke-width="2.5" d="M -1 0 C 5 30, 25 60, 30 110"/>
+      <path class="root-fine" d="M -35 60 C -45 80, -52 95, -55 110"/>
+      <path class="root-fine" d="M 40 60 C 48 75, 54 92, 58 105"/>
+      <path class="root-fine" d="M 25 80 C 30 92, 34 102, 36 112"/>
+    </g>
+
+    <!-- Second tree farther right -->
+    <g transform="translate(1180,240)">
+      <rect class="tree-trunk" x="-6" y="-56" width="12" height="56"/>
+      <ellipse class="tree-foliage" cx="0" cy="-68" rx="32" ry="22"/>
+      <ellipse class="tree-foliage" cx="-10" cy="-54" rx="18" ry="14"/>
+      <path class="root" stroke-width="3" d="M -1 0 C -5 30, -25 60, -40 100"/>
+      <path class="root" stroke-width="2.5" d="M 2 0 C 8 28, 28 55, 40 90"/>
+      <path class="root-fine" d="M -20 45 C -25 60, -30 75, -32 88"/>
+      <path class="root-fine" d="M 25 48 C 30 60, 34 72, 36 82"/>
+    </g>
+
+    <!-- Mailbox — inbound signal drop -->
+    <g transform="translate(540,240)">
+      <rect class="mailbox" x="-16" y="-34" width="32" height="24" rx="3"/>
+      <rect fill="#2a1d10" x="-14" y="-32" width="28" height="6"/>
+      <rect class="mailbox-flag" x="14" y="-30" width="2" height="14"/>
+      <line x1="0" y1="-10" x2="0" y2="0" stroke="#4a3020" stroke-width="3"/>
+    </g>
+
+    <!-- Dust motes drifting -->
+    <circle class="mote" cx="300" cy="550" r="1.5" fill="var(--dust)"/>
+    <circle class="mote m2" cx="800" cy="680" r="1.8" fill="var(--dust)"/>
+    <circle class="mote m3" cx="1200" cy="600" r="1.3" fill="var(--dust)"/>
+    <circle class="mote" cx="500" cy="730" r="1.6" fill="var(--dust)"/>
+    <circle class="mote m2" cx="1100" cy="770" r="1.4" fill="var(--dust)"/>
+
+    <!-- Queen's outward aura -->
+    <circle class="queen-aura" cx="800" cy="550" r="220"/>
+
+    <!-- Groups for JS-rendered content -->
+    <g id="tunnels"></g>
+    <g id="chambers"></g>
+    <g id="workers"></g>
+  </svg>
+</div>
+
+<!-- Live feed, tucked bottom-left like a field journal -->
+<div class="feed-panel">
+  <div class="title">Field Journal</div>
+  <div class="feed-lines" id="feed"></div>
+</div>
+
+<!-- Incubator legend, bottom-right -->
+<div class="legend-panel">
+  <div class="title">Incubator Legend</div>
+  <div class="row"><span>Chambers in excavation</span><span class="v" id="l-excavating">10</span></div>
+  <div class="row"><span>Earning → promoted</span><span class="v" id="l-promoted">0</span></div>
+  <div class="row"><span>Killed after 30d</span><span class="v" id="l-killed">0</span></div>
+  <div class="note">Dashed = incubator · solid = founding · pulsing = queen</div>
+</div>
+
+<!-- Modal -->
+<div class="modal-bd" id="modal-bd">
+  <div class="modal" id="modal">
+    <header>
+      <div>
+        <div class="name" id="m-name">—</div>
+        <div class="role" id="m-role">—</div>
+      </div>
+      <button class="close" id="m-close">CLOSE ✕</button>
+    </header>
+    <div class="body">
+      <div class="block"><h4>Current Status</h4><div class="val" id="m-status">—</div></div>
+      <div class="block"><h4>Current Task</h4><div class="val" id="m-task">—</div></div>
+      <div class="block"><h4>Month-to-Date</h4>
+        <div class="metrics">
+          <div class="m"><div class="k">Income</div><div class="v pos" id="m-income">$0</div></div>
+          <div class="m"><div class="k">Cost</div><div class="v" id="m-cost">$0</div></div>
+          <div class="m"><div class="k">Net</div><div class="v" id="m-net">$0</div></div>
+        </div>
+      </div>
+      <div class="block"><h4>Notes</h4><div class="val" id="m-notes" style="font-family:var(--f-journal);opacity:.85">—</div></div>
+      <div class="actions">
+        <button data-action="pause">Pause</button>
+        <button data-action="force">Force Tick</button>
+        <button data-action="charter">Open Charter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ========== CHAMBER MAP ==========
+// Coordinates hand-placed for organic asymmetry. NOT a grid.
+// Each chamber is drawn as an irregular ellipse with stylized openings.
+// Founding 7 cluster around the Queen; Incubators 10 fan out further.
+
+const CHAMBERS = [
+  // Queen at the heart
+  {id:'queen', bay:'queen', title:'BREWINGTON OS', role:'The Queen', kind:'queen', x:800, y:550, rx:95, ry:72, glow:'#ff2a5a', realBay:null},
+
+  // Founding chambers — inner ring
+  {id:'jax',       bay:'builder',    title:'JAX',         role:'The Builder',         kind:'founding', x:430, y:430, rx:78, ry:58, glow:'#ffa83c', realBay:'builder'},
+  {id:'hank',      bay:'foreman',    title:'HANK',        role:'The Hustler',         kind:'founding', x:620, y:330, rx:78, ry:58, glow:'#ff6a1a', realBay:'foreman'},
+  {id:'vega',      bay:'scout',      title:'VEGA',        role:'The Analyst',         kind:'founding', x:930, y:320, rx:78, ry:58, glow:'#a8e82a', realBay:'scout'},
+  {id:'doss',      bay:'paymaster',  title:'DOSS',        role:'The Guardian',        kind:'founding', x:1150, y:430, rx:78, ry:58, glow:'#ff2a5a', realBay:'paymaster'},
+  {id:'brix',      bay:'realtor',    title:'BRIX',        role:'The System Builder',  kind:'founding', x:1100, y:660, rx:78, ry:58, glow:'#3a8cff', realBay:'realtor'},
+  {id:'vault',     bay:'vault',      title:'VAULT',       role:'The Treasurer',       kind:'founding', x:480, y:680, rx:78, ry:58, glow:'#ffc84c', realBay:'vault'},
+  {id:'signal',    bay:'signalscout',title:'SIGNALSCOUT', role:'The Researcher',      kind:'founding', x:760, y:790, rx:84, ry:54, glow:'#b088ff', realBay:'signalscout'},
+
+  // Incubator chambers — outer ring, under excavation
+  {id:'inc-seo',       title:'SEO AUDIT',       role:'$97 Gumroad',    kind:'incubator', x:140, y:360, rx:62, ry:40, glow:'#5ee3d8', pitch:'0001-searchfit-seo-audit'},
+  {id:'inc-ai-vis',    title:'AI VISIBILITY',   role:'$47 Gumroad',    kind:'incubator', x:160, y:540, rx:62, ry:40, glow:'#5ee3d8', pitch:'0002-ai-visibility'},
+  {id:'inc-battle',    title:'BATTLECARD',      role:'$47 Gumroad',    kind:'incubator', x:220, y:720, rx:62, ry:40, glow:'#5ee3d8', pitch:'0003-competitive-intelligence'},
+  {id:'inc-callprep',  title:'CALL PREP',       role:'$29/mo Stripe',  kind:'incubator', x:420, y:820, rx:62, ry:40, glow:'#5ee3d8', pitch:'0004-call-prep'},
+  {id:'inc-campaign',  title:'CAMPAIGN BRIEF',  role:'$49 Gumroad',    kind:'incubator', x:820, y:880, rx:62, ry:40, glow:'#5ee3d8', pitch:'0005-campaign-plan'},
+  {id:'inc-email',     title:'EMAIL SEQUENCE',  role:'$47 Gumroad',    kind:'incubator', x:1080, y:820, rx:62, ry:40, glow:'#5ee3d8', pitch:'0006-email-sequence'},
+  {id:'inc-devtool',   title:'DEV SKILL PACK',  role:'$29 Gumroad',    kind:'incubator', x:1310, y:700, rx:62, ry:40, glow:'#5ee3d8', pitch:'0007-firecrawl-skill-gen'},
+  {id:'inc-linkfix',   title:'LINK FIX',        role:'$19 Gumroad',    kind:'incubator', x:1420, y:550, rx:62, ry:40, glow:'#5ee3d8', pitch:'0008-broken-links'},
+  {id:'inc-schema',    title:'SCHEMA MARKUP',   role:'$49 Gumroad',    kind:'incubator', x:1400, y:360, rx:62, ry:40, glow:'#5ee3d8', pitch:'0009-schema-markup'},
+  {id:'inc-keywords',  title:'KEYWORD CLUSTER', role:'$39 Gumroad',    kind:'incubator', x:1240, y:200, rx:62, ry:40, glow:'#5ee3d8', pitch:'0010-keyword-clustering'}
+];
+
+// Tunnels: from-id, to-id. Curved via SVG path for each connection.
+// Queen connects to every founding. Founding chambers connect to 1-2 nearby incubators.
+const TUNNELS = [
+  // Queen spokes
+  ['queen','jax'], ['queen','hank'], ['queen','vega'], ['queen','doss'],
+  ['queen','brix'], ['queen','vault'], ['queen','signal'],
+  // Incubator ropes (each attached to the nearest founding chamber)
+  ['jax','inc-seo'], ['vault','inc-ai-vis'],
+  ['vault','inc-battle'], ['signal','inc-callprep'],
+  ['signal','inc-campaign'], ['brix','inc-email'],
+  ['brix','inc-devtool'], ['doss','inc-linkfix'],
+  ['doss','inc-schema'], ['vega','inc-keywords']
+];
+
+const BY_ID = Object.fromEntries(CHAMBERS.map(c=>[c.id,c]));
+
+// ========== RENDER TUNNELS ==========
+function renderTunnels(){
+  const g = document.getElementById('tunnels');
+  let html = '';
+  for (const [fromId,toId] of TUNNELS){
+    const a = BY_ID[fromId], b = BY_ID[toId];
+    if (!a || !b) continue;
+    // Curve the tunnel with a control point offset toward the midpoint
+    const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+    // Give it some sag (y-offset) so tunnels feel dug, not drafted
+    const dx = b.x-a.x, dy = b.y-a.y;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    const sag = Math.min(60, dist*0.15);
+    const cy = my + sag;
+    const d = `M ${a.x} ${a.y} Q ${mx} ${cy}, ${b.x} ${b.y}`;
+    html += `<path class="tunnel" d="${d}"/>`;
+    html += `<path class="tunnel-inner" d="${d}"/>`;
+    html += `<path class="tunnel-trail" d="${d}"/>`;
+  }
+  g.innerHTML = html;
+}
+
+// ========== RENDER CHAMBERS ==========
+function irregularEllipse(cx, cy, rx, ry, seed){
+  // Build a path resembling an ellipse but with slight irregularities for "dug out" feel
+  const pts = [];
+  const N = 14;
+  for (let i=0;i<N;i++){
+    const ang = (i/N) * Math.PI*2;
+    // Seeded pseudo-randomness
+    const jitter = 0.88 + ((Math.sin((seed+i)*7.3) + 1)/2)*0.24;
+    const x = cx + Math.cos(ang) * rx * jitter;
+    const y = cy + Math.sin(ang) * ry * jitter;
+    pts.push([x,y]);
+  }
+  let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)} `;
+  for (let i=1;i<pts.length;i++){
+    const p = pts[i];
+    const prev = pts[i-1];
+    const cx1 = (prev[0]+p[0])/2;
+    const cy1 = (prev[1]+p[1])/2;
+    d += `Q ${prev[0].toFixed(1)} ${prev[1].toFixed(1)}, ${cx1.toFixed(1)} ${cy1.toFixed(1)} `;
+  }
+  d += `Q ${pts[pts.length-1][0].toFixed(1)} ${pts[pts.length-1][1].toFixed(1)}, ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)} Z`;
+  return d;
+}
+
+function renderChambers(){
+  const g = document.getElementById('chambers');
+  let html = '';
+  CHAMBERS.forEach((c,i)=>{
+    const classes = `chamber ${c.kind}`;
+    const breatheDelay = (i*0.7)%5;
+    const digDelay = (i*0.4)%4;
+    const glowVar = `--chamber-glow:${c.glow};--breathe-delay:${breatheDelay}s;--dig-delay:${digDelay}s;color:${c.glow}`;
+    const path = irregularEllipse(c.x, c.y, c.rx, c.ry, i*17.1);
+
+    const titleSize = c.kind === 'queen' ? 20 : c.kind === 'founding' ? 16 : 11;
+    const roleY = c.kind === 'incubator' ? c.y+8 : c.y+4;
+
+    html += `<g class="${classes}" data-id="${c.id}" style="${glowVar}">`;
+    // chamber background glow (radial gradient)
+    html += `<ellipse cx="${c.x}" cy="${c.y+ry(c)/3}" rx="${c.rx*0.85}" ry="${c.ry*0.55}" fill="${c.glow}" opacity="0.18"/>`;
+    // chamber wall
+    html += `<path class="wall" d="${path}"/>`;
+    // floor glow ellipse
+    html += `<ellipse class="floor-glow" cx="${c.x}" cy="${c.y+c.ry*0.4}" rx="${c.rx*0.75}" ry="${c.ry*0.25}"/>`;
+    // title
+    html += `<text class="chamber-title" x="${c.x}" y="${c.y-10}" font-size="${titleSize}">${c.title}</text>`;
+    // role line
+    html += `<text class="chamber-role" x="${c.x}" y="${roleY}" font-size="${c.kind==='queen'?10:9}">${c.role}</text>`;
+    // task preview for real bays
+    if (c.realBay){
+      html += `<text class="chamber-task" id="task-${c.realBay}" x="${c.x}" y="${c.y+c.ry*0.48}" font-size="8">awaiting tick</text>`;
+    } else if (c.kind === 'incubator'){
+      html += `<text class="label-tag" x="${c.x}" y="${c.y+c.ry-6}">excavating</text>`;
+    }
+    // status light for real bays
+    if (c.realBay){
+      html += `<circle class="status-dot" id="light-${c.realBay}" cx="${c.x+c.rx-14}" cy="${c.y-c.ry+14}" r="5" fill="#3ff27a"/>`;
+    }
+    html += `</g>`;
+  });
+  g.innerHTML = html;
+
+  // Attach click handlers
+  g.querySelectorAll('.chamber').forEach(el=>{
+    el.addEventListener('click', ()=> openModal(el.dataset.id));
+  });
+}
+function ry(c){ return c.ry; }
+
+// ========== WORKERS (ants) ==========
+// Seed several workers on random tunnels with staggered animation delays.
+function renderWorkers(){
+  const g = document.getElementById('workers');
+  let html = '';
+  // Pick a handful of tunnels to populate
+  const tunnelPaths = [];
+  for (const [fromId,toId] of TUNNELS){
+    const a = BY_ID[fromId], b = BY_ID[toId];
+    if (!a || !b) continue;
+    const mx = (a.x+b.x)/2, my = (a.y+b.y)/2;
+    const dx = b.x-a.x, dy = b.y-a.y;
+    const dist = Math.sqrt(dx*dx+dy*dy);
+    const sag = Math.min(60, dist*0.15);
+    const cy = my + sag;
+    const d = `M ${a.x} ${a.y} Q ${mx} ${cy}, ${b.x} ${b.y}`;
+    tunnelPaths.push({d, color:b.glow || '#d4a858'});
+  }
+  tunnelPaths.forEach((t, i)=>{
+    const dur = 8 + (i%4)*2.5;
+    const delay = -(i*1.7 % dur);
+    const dir = i%2 ? 'normal' : 'reverse';
+    // Ant
+    html += `<use href="#ant" width="14" height="10" style="color:${t.color};animation:worker-walk-${i} ${dur}s linear infinite;animation-delay:${delay}s;animation-direction:${dir};offset-path:path('${t.d}');offset-rotate:auto;filter:drop-shadow(0 0 4px ${t.color})"/>`;
+    html += `<style>@keyframes worker-walk-${i}{from{offset-distance:0%}to{offset-distance:100%}}</style>`;
+  });
+  // Second pass: smaller pulsing "work dots" (income bits) on a handful of tunnels
+  tunnelPaths.slice(0, 6).forEach((t, i)=>{
+    const dur = 5 + (i%3)*1.4;
+    const delay = -(i*1.1 % dur);
+    html += `<circle r="3" style="fill:${t.color};animation:worker-pulse-${i} ${dur}s linear infinite;animation-delay:${delay}s;offset-path:path('${t.d}');filter:drop-shadow(0 0 8px ${t.color})"/>`;
+    html += `<style>@keyframes worker-pulse-${i}{from{offset-distance:0%}to{offset-distance:100%}}</style>`;
+  });
+  g.innerHTML = html;
+}
+
+// ========== HUD + DATA ==========
+function clock(){
+  const d=new Date();
+  const t=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
+  const el=document.getElementById('h-clock');
+  if(el) el.textContent=t;
+}
+setInterval(clock,1000); clock();
+
+function fmtMoney(n){
+  const v = Math.round(Number(n)||0);
+  return (v<0?'-$':'$')+Math.abs(v).toLocaleString();
+}
+function fmtTime(iso){
+  if(!iso) return '—:—';
+  const d=new Date(iso); if(isNaN(d.getTime())) return '—:—';
+  return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+}
+function statusOf(b){
+  if(!b) return 'yellow';
+  if((b.failures_in_row||0)>0) return 'red';
+  if(b.status==='awaiting_lando_setup'||b.status==='blocked_on_env') return 'red';
+  if(!b.last_tick_at) return 'yellow';
+  const hrs=(Date.now()-new Date(b.last_tick_at).getTime())/3600000;
+  if(hrs>24) return 'red'; if(hrs>6) return 'yellow'; return 'green';
+}
+const STATUS_COLOR = { green:'#3ff27a', yellow:'#ffd84a', red:'#ff3344' };
+
+let STATE = null;
+let lastTicks = {};
+let feedEvents = [];
+
+async function fetchState(){
+  try{ const r=await fetch('/api/state',{cache:'no-store'}); if(!r.ok) return null; return await r.json(); }catch{return null}
+}
+
+function renderBayUpdates(s){
+  const bayMap = Object.fromEntries((s.businesses||[]).map(b=>[b.name,b]));
+  CHAMBERS.filter(c=>c.realBay).forEach(c=>{
+    const b = bayMap[c.realBay]; if(!b) return;
+    const light = document.getElementById('light-'+c.realBay);
+    const task  = document.getElementById('task-'+c.realBay);
+    const st = statusOf(b);
+    if (light) light.setAttribute('fill', STATUS_COLOR[st]);
+    if (task){
+      const summary = (b.last_tick_summary||'idle').replace(/[\u2013\u2014]/g,'-');
+      task.textContent = summary.length>38 ? summary.slice(0,36)+'...' : summary;
+    }
+    // Feed event
+    if (b.last_tick_at && lastTicks[b.name] !== b.last_tick_at){
+      if (lastTicks[b.name] !== undefined){
+        pushFeed(c.title, b.last_tick_at, b.last_tick_summary||'', c.glow);
+      }
+      lastTicks[b.name] = b.last_tick_at;
+    }
+  });
+}
+
+function renderHUD(s){
+  const o = s.overall || {};
+  const net = Number(o.mtd_net||0);
+  const mrr = Number(o.mtd_income||0);
+  const founding = CHAMBERS.filter(c=>c.kind==='founding').length;
+  const inc = CHAMBERS.filter(c=>c.kind==='incubator').length;
+  const setTxt = (id,v,cls)=>{const e=document.getElementById(id); if(!e) return; e.textContent=v; e.className='v'+(cls?' '+cls:'')};
+  setTxt('h-net', fmtMoney(net), net>=0?'pos':'neg');
+  setTxt('h-mrr', fmtMoney(mrr), 'pos');
+  setTxt('h-workers', (s.businesses||[]).length, '');
+  setTxt('h-chambers', founding, '');
+  setTxt('h-incubating', inc, '');
+}
+
+function pushFeed(title, iso, msg, color){
+  feedEvents.unshift({ts:fmtTime(iso), name:title, msg:(msg||'').slice(0,64), color:color||'#d4a858'});
+  feedEvents = feedEvents.slice(0, 10);
+  renderFeed();
+}
+function renderFeed(){
+  const el = document.getElementById('feed');
+  if (!el) return;
+  if (!feedEvents.length){ el.innerHTML = '<div class="feed-line" style="color:rgba(242,237,227,.5)">colony quiet...</div>'; return; }
+  el.innerHTML = feedEvents.map(e =>
+    `<div class="feed-line"><span class="ts">${e.ts}</span><span class="bay" style="color:${e.color}">${e.name}</span><span>${escapeHtml(e.msg)}</span></div>`
+  ).join('');
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// ========== MODAL ==========
+function openModal(chamberId){
+  const c = BY_ID[chamberId]; if(!c) return;
+  const modal = document.getElementById('modal');
+  modal.style.setProperty('--chamber-glow', c.glow);
+  document.getElementById('m-name').textContent = c.title;
+  document.getElementById('m-role').textContent = c.role;
+
+  if (c.kind === 'queen'){
+    const s = STATE || {};
+    const o = s.overall || {};
+    document.getElementById('m-status').textContent = 'operational · presiding';
+    document.getElementById('m-task').textContent = 'Monitoring all colony activity';
+    document.getElementById('m-income').textContent = fmtMoney(o.mtd_income);
+    document.getElementById('m-cost').textContent = fmtMoney(o.mtd_cost);
+    const net = Number(o.mtd_net||0);
+    const netEl = document.getElementById('m-net');
+    netEl.textContent = fmtMoney(net);
+    netEl.className = 'v ' + (net>=0?'pos':'neg');
+    document.getElementById('m-notes').innerHTML = `${(s.businesses||[]).length} chambers active · ${CHAMBERS.filter(c=>c.kind==='incubator').length} experiments excavating`;
+  } else if (c.kind === 'founding'){
+    const s = STATE || {};
+    const bay = (s.businesses||[]).find(b=>b.name === c.realBay);
+    if (!bay){
+      document.getElementById('m-status').textContent = 'offline';
+      document.getElementById('m-task').textContent = '—';
+      document.getElementById('m-income').textContent = '$0';
+      document.getElementById('m-cost').textContent = '$0';
+      document.getElementById('m-net').textContent = '$0';
+      document.getElementById('m-notes').innerHTML = 'no data';
+    } else {
+      document.getElementById('m-status').textContent = (bay.status||'—').replace(/_/g,' ');
+      document.getElementById('m-task').textContent = bay.last_tick_summary || '—';
+      document.getElementById('m-income').textContent = fmtMoney(bay.month_to_date&&bay.month_to_date.income);
+      document.getElementById('m-cost').textContent = fmtMoney(bay.month_to_date&&bay.month_to_date.cost);
+      const net = ((bay.month_to_date&&bay.month_to_date.income)||0) - ((bay.month_to_date&&bay.month_to_date.cost)||0);
+      const netEl = document.getElementById('m-net');
+      netEl.textContent = fmtMoney(net);
+      netEl.className = 'v ' + (net>=0?'pos':'neg');
+      const log = (bay.recent_log||[]).slice(-6).map(l => typeof l==='string'?l:(l.at+' · '+(l.msg||''))).join('<br>');
+      document.getElementById('m-notes').innerHTML = log || '—';
+    }
+  } else if (c.kind === 'incubator'){
+    document.getElementById('m-status').textContent = 'excavating — not yet earning';
+    document.getElementById('m-task').textContent = 'Drafted pitch, awaiting Lando approval to spawn';
+    document.getElementById('m-income').textContent = '$0';
+    document.getElementById('m-cost').textContent = '$0';
+    document.getElementById('m-net').textContent = '$0';
+    document.getElementById('m-notes').innerHTML = c.pitch
+      ? `Pitch filed at <code>businesses/foreman/incubator-pitches/${c.pitch}.md</code>. Spawns as a real chamber once Lando approves.`
+      : 'incubator candidate';
+  }
+
+  document.getElementById('modal-bd').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal-bd').classList.remove('open'); }
+document.getElementById('m-close').addEventListener('click', closeModal);
+document.getElementById('modal-bd').addEventListener('click', (e)=>{
+  if (e.target.id === 'modal-bd') closeModal();
+});
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+document.querySelectorAll('.modal .actions button').forEach(b=>{
+  b.addEventListener('click', ()=>console.log('override:', b.dataset.action));
+});
+
+// ========== BOOTSTRAP ==========
+renderTunnels();
+renderChambers();
+renderWorkers();
+
+async function tick(){
+  const s = await fetchState();
+  if (!s) return;
+  STATE = s;
+  renderHUD(s);
+  renderBayUpdates(s);
+  if (feedEvents.length === 0){
+    (s.businesses||[]).forEach(b=>{
+      const c = CHAMBERS.find(c=>c.realBay===b.name);
+      if (!c) return;
+      if (b.last_tick_at && b.last_tick_summary){
+        feedEvents.push({ts:fmtTime(b.last_tick_at), name:c.title, msg:b.last_tick_summary.slice(0,64), color:c.glow});
+      }
+    });
+    feedEvents = feedEvents.slice(-10).reverse();
+    renderFeed();
+  }
+}
+tick();
+setInterval(tick, 15000);
+</script>
+
+</body>
+</html>

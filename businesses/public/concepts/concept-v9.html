@@ -1,0 +1,1027 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewington Yard - Command Center v9</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --concrete-dark: #1a1c1f;
+            --concrete-mid: #2a2d31;
+            --gold-trim: #c9a84c;
+            --teal-accent: #2dd4c0;
+            --bone: #f2ede3;
+            --muted: #6a6a6a;
+            --red-alert: #ff3344;
+            --green-active: #3ff27a;
+            --yellow-thinking: #ffd84a;
+            
+            --warm-amber: #ffa83c;
+            --blaze-orange: #ff6a1a;
+            --lime-green: #a8e82a;
+            --electric-blue: #3a8cff;
+            --cyber-red: #ff2a5a;
+            --gold: #ffc84c;
+            --soft-purple: #b088ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, #0a0c0f 0%, #1a1c1f 100%);
+            color: var(--bone);
+            overflow: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(1px 1px at 20% 30%, var(--teal-accent), transparent),
+                radial-gradient(1px 1px at 40% 70%, var(--gold-trim), transparent),
+                radial-gradient(1px 1px at 90% 40%, var(--teal-accent), transparent),
+                radial-gradient(1px 1px at 20% 95%, var(--gold-trim), transparent);
+            background-repeat: repeat;
+            background-size: 200px 200px, 300px 300px, 250px 250px, 180px 180px;
+            opacity: 0.3;
+            animation: twinkle 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            100% { opacity: 0.4; }
+        }
+
+        .hud-strip {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 36px;
+            background: rgba(26, 28, 31, 0.95);
+            border-bottom: 1px solid var(--gold-trim);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 30px;
+            z-index: 1000;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .hud-brand {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            color: var(--gold-trim);
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .hud-stat {
+            color: var(--bone);
+        }
+
+        .hud-stat.positive {
+            color: var(--green-active);
+        }
+
+        .hud-stat.negative {
+            color: var(--red-alert);
+        }
+
+        .hud-clock {
+            margin-left: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .command-grid {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: grid;
+            grid-template-columns: repeat(3, 280px);
+            grid-template-rows: repeat(3, 220px);
+            gap: 20px;
+            z-index: 100;
+        }
+
+        .room {
+            position: relative;
+            background: var(--concrete-dark);
+            border: 1px solid var(--gold-trim);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .room:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(45, 212, 192, 0.4);
+        }
+
+        .room-floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: radial-gradient(ellipse at center bottom, var(--room-glow) 0%, transparent 70%);
+            opacity: 0.6;
+        }
+
+        .room-content {
+            position: relative;
+            z-index: 10;
+            height: 100%;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .room-name {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--room-glow);
+            text-shadow: 0 0 8px currentColor;
+        }
+
+        .room-role {
+            font-size: 10px;
+            color: var(--muted);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .room-task {
+            font-size: 9px;
+            color: var(--bone);
+            margin-bottom: 8px;
+            line-height: 1.3;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .room-last-action {
+            font-size: 8px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .room-progress {
+            width: 100%;
+            height: 3px;
+            background: rgba(106, 106, 106, 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .room-progress-bar {
+            height: 100%;
+            background: var(--room-glow);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+            box-shadow: 0 0 4px currentColor;
+        }
+
+        .status-light {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        .status-light.green {
+            background: var(--green-active);
+        }
+
+        .status-light.yellow {
+            background: var(--yellow-thinking);
+        }
+
+        .status-light.red {
+            background: var(--red-alert);
+        }
+
+        .room-sprite {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: sprite-bob 2.4s ease-in-out infinite;
+        }
+
+        @keyframes sprite-bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .room-neon-trim {
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            border: 1px solid var(--room-glow);
+            box-shadow: 0 0 8px var(--room-glow);
+            animation: neon-pulse 3s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes neon-pulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 0.8; }
+        }
+
+        /* Individual room styles */
+        .room.jax {
+            --room-glow: var(--warm-amber);
+        }
+
+        .room.hank {
+            --room-glow: var(--blaze-orange);
+        }
+
+        .room.vega {
+            --room-glow: var(--lime-green);
+        }
+
+        .room.brix {
+            --room-glow: var(--electric-blue);
+        }
+
+        .room.doss {
+            --room-glow: var(--cyber-red);
+        }
+
+        .room.vault {
+            --room-glow: var(--gold);
+        }
+
+        .room.signalscout {
+            --room-glow: var(--soft-purple);
+        }
+
+        .portal {
+            position: relative;
+            background: radial-gradient(circle, var(--red-alert) 0%, transparent 70%);
+            border: 2px solid var(--red-alert);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .portal::before {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border: 2px solid var(--teal-accent);
+            border-radius: 50%;
+            animation: portal-rotate 6s linear infinite;
+        }
+
+        .portal::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle, var(--red-alert) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: portal-pulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes portal-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes portal-pulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
+        }
+
+        .portal-label {
+            position: relative;
+            z-index: 10;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--bone);
+            text-shadow: 0 0 8px var(--red-alert);
+        }
+
+        .for-lease {
+            --room-glow: var(--muted);
+            background: rgba(26, 28, 31, 0.5);
+            border: 1px solid var(--muted);
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .for-lease .room-name {
+            color: var(--muted);
+            text-shadow: none;
+        }
+
+        .for-lease-progress {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            text-align: center;
+        }
+
+        .for-lease-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(106, 106, 106, 0.3);
+            border-radius: 3px;
+            margin-bottom: 8px;
+        }
+
+        .for-lease-text {
+            font-size: 8px;
+            color: var(--muted);
+        }
+
+        .live-feed {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 320px;
+            height: 200px;
+            background: rgba(26, 28, 31, 0.9);
+            border: 1px solid var(--gold-trim);
+            padding: 12px;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .live-feed-title {
+            font-size: 10px;
+            color: var(--gold-trim);
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .live-feed-content {
+            height: calc(100% - 24px);
+            overflow-y: auto;
+            font-size: 8px;
+            line-height: 1.4;
+        }
+
+        .live-feed-item {
+            margin-bottom: 4px;
+            opacity: 0;
+            animation: feed-in 0.3s ease-out forwards;
+        }
+
+        @keyframes feed-in {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .live-feed-time {
+            color: var(--bone);
+        }
+
+        .live-feed-separator {
+            color: var(--muted);
+        }
+
+        .live-feed-message {
+            color: var(--bone);
+        }
+
+        .detail-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 360px;
+            height: 100vh;
+            background: rgba(26, 28, 31, 0.95);
+            border-left: 2px solid var(--gold-trim);
+            padding: 20px;
+            z-index: 2000;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .detail-panel.open {
+            right: 0;
+        }
+
+        .detail-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .detail-panel-close {
+            background: none;
+            border: 1px solid var(--muted);
+            color: var(--bone);
+            cursor: pointer;
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .detail-panel-close:hover {
+            background: var(--muted);
+            color: var(--concrete-dark);
+        }
+
+        .detail-agent-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--agent-color);
+            margin-bottom: 4px;
+        }
+
+        .detail-agent-role {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+        }
+
+        .detail-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gold-trim);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detail-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .detail-button {
+            background: none;
+            border: 1px solid var(--teal-accent);
+            color: var(--teal-accent);
+            padding: 8px 12px;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .detail-button:hover {
+            background: var(--teal-accent);
+            color: var(--concrete-dark);
+        }
+
+        .metrics-table {
+            width: 100%;
+            font-size: 10px;
+        }
+
+        .metrics-table td {
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(106, 106, 106, 0.2);
+        }
+
+        .metrics-table td:first-child {
+            color: var(--muted);
+            width: 40%;
+        }
+
+        .metrics-table td:last-child {
+            color: var(--bone);
+            text-align: right;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+    <div class="hud-strip">
+        <div class="hud-brand">BREWINGTON YARD</div>
+        <div class="hud-stat" id="net-today">NET TODAY: $0</div>
+        <div class="hud-stat positive" id="mrr">MRR: $0</div>
+        <div class="hud-stat" id="active-clients">ACTIVE CLIENTS: 0</div>
+        <div class="hud-stat" id="alerts">ALERTS: 0</div>
+        <div class="hud-stat positive" id="uptime">UPTIME: 99.9%</div>
+        <div class="hud-clock" id="clock">00:00:00</div>
+    </div>
+
+    <div class="command-grid">
+        <!-- Row 1 -->
+        <div class="room jax" data-agent="jax">
+            <div class="room-neon-trim"></div>
+            <div class="room-floor"></div>
+            <div class="room-content">
+                <div class="room-header">
+                    <div class="room-name">JAX</div>
+                    <div class="status-light yellow"></div>
+                </div>
+                <div class="room-role">The Builder</div>
+                <div class="room-task">Building core infrastructure</div>
+                <div class="room-last-action">Last: --:--</div>
+                <div class="room-progress">
+                    <div class="room-progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="room-sprite" style="background-image: url('/assets/kenney/blocky-characters/Previews/character-a.png')"></div>
+        </div>
+
+        <div class="room hank" data-agent="hank">
+            <div class="room-neon-trim"></div>
+            <div class="room-floor"></div>
+            <div class="room-content">
+                <div class="room-header">
+                    <div class="room-name">HANK</div>
+                    <div class="status-light yellow"></div>
+                </div>
+                <div class="room-role">The Hustler</div>
+                <div class="room-task">Prospecting new opportunities</div>
+                <div class="room-last-action">Last: --:--</div>
+                <div class="room-progress">
+                    <div class="room-progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="room-sprite" style="background-image: url('/assets/kenney/blocky-characters/Previews/character-b.png')"></div>
+        </div>
+
+        <div class="room vega" data-agent="vega">
+            <div class="room-neon-trim"></div>
+            <div class="room-floor"></div>
+            <div class="room-content">
+                <div class="room-header">
+                    <div class="room-name">VEGA</div>
+                    <div class="status-light yellow"></div>
+                </div>
+                <div class="room-role">The Analyst</div>
+                <div class="room-task">Analyzing market data</div>
+                <div class="room-last-action">Last: --:--</div>
+                <div class="room-progress">
+                    <div class="room-progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="room-sprite" style="background-image: url('/assets/kenney/blocky-characters/Previews/character-c.png')"></div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="room brix" data-agent="brix">
+            <div class="room-neon-trim"></div>
+            <div class="room-floor"></div>
+            <div class="room-content">
+                <div class="room-header">
+                    <div class="room-name">BRIX</div>
+                    <div class="status-light yellow"></div>
+                </div>
+                <div class="room-role">The System Builder</div>
+                <div class="room-task">Managing operations</div>
+                <div class="room-last-action">Last: --:--</div>
+                <div class="room-progress">
+                    <div class="room-progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="room-sprite" style="background-image: url('/assets/kenney/blocky-characters/Previews/character-d.png')"></div>
+        </div>
+
+        <div class="portal" data-agent="portal">
+            <div class="portal-label">BREWINGTON OS</div>
+        </div>
+
+        <div class="room doss" data-agent="doss">
+            <div class="room-neon-trim"></div>
+            <div class="room-floor"></div>
+            <div class="room-content">
+                <div class="room-header">
+                    <div class="room-name">DOSS</div>
+                    <div class="status-light yellow"></div>
+                </div>
+                <div class="room-role">The Guardian</div>
+                <div class="room-task">Monitoring security</div>
+                <div class="room-last-action">Last: --:--</div>
+                <div class="room-progress">
+                    <div class="room-progress-bar" style="width: 100%"></div>
+                </div>
+            </div>
+            <div class="room-sprite" style="background-image: url('/assets/kenney/blocky-characters/Previews/character-e.png')"></div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="room vault" data-agent="vault">
+            <div class="room-neon-trim"></div>
+            <div class="room-floor"></div>
+            <div class="room-content">
+                <div class="room-header">
+                    <div class="room-name">VAULT</div>
+                    <div class="status-light yellow"></div>
+                </div>
+                <div class="room-role">The Treasurer</div>
+                <div class="room-task">Managing finances</div>
+                <div class="room-last-action">Last: --:--</div>
+                <div class="room-progress">
+                    <div class="room-progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="room-sprite" style="background-image: url('/assets/kenney/blocky-characters/Previews/character-f.png')"></div>
+        </div>
+
+        <div class="room signalscout" data-agent="signalscout">
+            <div class="room-neon-trim"></div>
+            <div class="room-floor"></div>
+            <div class="room-content">
+                <div class="room-header">
+                    <div class="room-name">SIGNALSCOUT</div>
+                    <div class="status-light yellow"></div>
+                </div>
+                <div class="room-role">The Researcher</div>
+                <div class="room-task">Scanning signals</div>
+                <div class="room-last-action">Last: --:--</div>
+                <div class="room-progress">
+                    <div class="room-progress-bar" style="width: 0%"></div>
+                </div>
+            </div>
+            <div class="room-sprite" style="background-image: url('/assets/kenney/blocky-characters/Previews/character-g.png')"></div>
+        </div>
+
+        <div class="room for-lease" data-agent="for-lease">
+            <div class="room-content">
+                <div class="room-header">
+                    <div class="room-name">FOR LEASE</div>
+                </div>
+                <div class="room-role">Available Space</div>
+                <div class="for-lease-progress">
+                    <div class="for-lease-bar"></div>
+                    <div class="for-lease-text">0/5 PAYING CLIENTS</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="live-feed">
+        <div class="live-feed-title">LIVE FEED</div>
+        <div class="live-feed-content" id="live-feed-content">
+            <div class="live-feed-item">
+                <span class="live-feed-time">[--:--]</span>
+                <span class="live-feed-separator">::</span>
+                <span class="live-feed-message">listening...</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="detail-panel" id="detail-panel">
+        <div class="detail-panel-header">
+            <div>
+                <div class="detail-agent-name" id="detail-agent-name">Agent Name</div>
+                <div class="detail-agent-role" id="detail-agent-role">Role Title</div>
+            </div>
+            <button class="detail-panel-close" id="close-detail">✕</button>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">Current Status</div>
+            <div id="detail-status">Active</div>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">Performance Metrics</div>
+            <table class="metrics-table">
+                <tr>
+                    <td>MTD Income:</td>
+                    <td id="metric-income">$0</td>
+                </tr>
+                <tr>
+                    <td>MTD Cost:</td>
+                    <td id="metric-cost">$0</td>
+                </tr>
+                <tr>
+                    <td>Net:</td>
+                    <td id="metric-net">$0</td>
+                </tr>
+                <tr>
+                    <td>Status:</td>
+                    <td id="metric-status">—</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">Manual Override</div>
+            <div class="detail-controls">
+                <button class="detail-button" onclick="console.log('PAUSE clicked')">PAUSE</button>
+                <button class="detail-button" onclick="console.log('FORCE TICK clicked')">FORCE TICK</button>
+                <button class="detail-button" onclick="console.log('OPEN CHARTER clicked')">OPEN CHARTER</button>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <div class="detail-section-title">Activity Log</div>
+            <div id="detail-log">No recent activity</div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let systemState = {};
+        let liveFeedItems = [];
+
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toTimeString().slice(0, 8);
+            document.getElementById('clock').textContent = timeStr;
+        }
+
+        // Fetch system state
+        async function fetchSystemState() {
+            try {
+                const response = await fetch('/api/state');
+                if (response.ok) {
+                    systemState = await response.json();
+                    updateUI();
+                }
+            } catch (error) {
+                console.log('State fetch failed, using fallback');
+            }
+        }
+
+        // Update UI with system state
+        function updateUI() {
+            updateHUD();
+            updateRooms();
+            updateLiveFeed();
+        }
+
+        // Update HUD strip
+        function updateHUD() {
+            const overall = systemState.overall || {};
+            
+            document.getElementById('net-today').textContent = `NET TODAY: $${overall.net_today || 0}`;
+            document.getElementById('mrr').textContent = `MRR: $${overall.mrr || 0}`;
+            document.getElementById('active-clients').textContent = `ACTIVE CLIENTS: ${overall.active_clients || 0}`;
+            document.getElementById('alerts').textContent = `ALERTS: ${overall.alerts || 0}`;
+            
+            // Update stat colors
+            const netElement = document.getElementById('net-today');
+            const netValue = overall.net_today || 0;
+            netElement.className = netValue > 0 ? 'hud-stat positive' : netValue < 0 ? 'hud-stat negative' : 'hud-stat';
+            
+            const alertElement = document.getElementById('alerts');
+            alertElement.className = (overall.alerts || 0) > 0 ? 'hud-stat negative' : 'hud-stat';
+        }
+
+        // Update room states
+        function updateRooms() {
+            const businesses = systemState.businesses || {};
+            
+            Object.keys(businesses).forEach(bayKey => {
+                const bay = businesses[bayKey];
+                const room = document.querySelector(`[data-agent="${bayKey}"]`);
+                
+                if (room && bay) {
+                    updateRoomState(room, bay, bayKey);
+                }
+            });
+        }
+
+        // Update individual room state
+        function updateRoomState(room, bay, bayKey) {
+            const statusLight = room.querySelector('.status-light');
+            const task = room.querySelector('.room-task');
+            const lastAction = room.querySelector('.room-last-action');
+            const progressBar = room.querySelector('.room-progress-bar');
+            
+            // Update status light
+            const hoursAgo = bay.last_tick_at ? (Date.now() - new Date(bay.last_tick_at)) / (1000 * 60 * 60) : 999;
+            const failures = bay.failures_in_row || 0;
+            
+            if (failures > 0 || bay.status === 'awaiting_lando_setup' || hoursAgo > 24) {
+                statusLight.className = 'status-light red';
+            } else if (hoursAgo <= 6) {
+                statusLight.className = 'status-light green';
+            } else {
+                statusLight.className = 'status-light yellow';
+            }
+            
+            // Update task
+            if (bay.last_tick_summary) {
+                task.textContent = bay.last_tick_summary.slice(0, 50) + (bay.last_tick_summary.length > 50 ? '...' : '');
+            }
+            
+            // Update last action time
+            if (bay.last_tick_at) {
+                const time = new Date(bay.last_tick_at);
+                lastAction.textContent = `Last: ${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`;
+            }
+            
+            // Update progress bar
+            let progress = 0;
+            switch (bayKey) {
+                case 'jax':
+                case 'vega':
+                    progress = (bay.month_to_date?.income || 0) / (bay.self_funding_plan?.target_revenue_mo_1 || 1) * 100;
+                    break;
+                case 'hank':
+                    progress = (bay.candidates_pitched || 0) / 30 * 100;
+                    break;
+                case 'brix':
+                    progress = (bay.tenants_current || 0) / 8 * 100;
+                    break;
+                case 'doss':
+                    progress = Math.max(0, 100 - failures * 20);
+                    break;
+                case 'vault':
+                    progress = (bay.listings_live || 0) / 5 * 100;
+                    break;
+                case 'signalscout':
+                    progress = (bay.queue_depth || 0) / 5 * 100;
+                    break;
+            }
+            
+            if (progressBar) {
+                progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+            }
+        }
+
+        // Update live feed
+        function updateLiveFeed() {
+            const businesses = systemState.businesses || {};
+            const newItems = [];
+            
+            Object.keys(businesses).forEach(bayKey => {
+                const bay = businesses[bayKey];
+                if (bay.last_tick_summary && bay.last_tick_at) {
+                    const time = new Date(bay.last_tick_at);
+                    const timeStr = `${time.getHours().toString().padStart(2, '0')}:${time.getMinutes().toString().padStart(2, '0')}`;
+                    const agentName = bayKey.toUpperCase();
+                    const message = bay.last_tick_summary.slice(0, 45);
+                    
+                    newItems.push({
+                        time: timeStr,
+                        agent: agentName,
+                        message: message,
+                        timestamp: bay.last_tick_at
+                    });
+                }
+            });
+            
+            // Sort by timestamp and take last 8
+            newItems.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            liveFeedItems = newItems.slice(0, 8);
+            
+            const feedContent = document.getElementById('live-feed-content');
+            if (liveFeedItems.length === 0) {
+                feedContent.innerHTML = '<div class="live-feed-item"><span class="live-feed-message">listening...</span></div>';
+            } else {
+                feedContent.innerHTML = liveFeedItems.map(item => `
+                    <div class="live-feed-item">
+                        <span class="live-feed-time">[${item.time}]</span>
+                        <span class="live-feed-separator"> :: </span>
+                        <span class="live-feed-message" style="color: var(--${getAgentColor(item.agent)})">${item.agent}</span>
+                        <span class="live-feed-separator"> :: </span>
+                        <span class="live-feed-message">${item.message}</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Get agent color variable
+        function getAgentColor(agent) {
+            const colors = {
+                'JAX': 'warm-amber',
+                'HANK': 'blaze-orange',
+                'VEGA': 'lime-green',
+                'BRIX': 'electric-blue',
+                'DOSS': 'cyber-red',
+                'VAULT': 'gold',
+                'SIGNALSCOUT': 'soft-purple'
+            };
+            return colors[agent] || 'bone';
+        }
+
+        // Room click handling
+        document.addEventListener('click', (e) => {
+            const room = e.target.closest('.room, .portal');
+            if (room) {
+                const agent = room.dataset.agent;
+                if (agent === 'portal') {
+                    showPortalDetail();
+                } else if (agent !== 'for-lease') {
+                    showRoomDetail(agent);
+                }
+            }
+        });
+
+        // Show room detail panel
+        function showRoomDetail(agent) {
+            const panel = document.getElementById('detail-panel');
+            const overlay = document.getElementById('overlay');
+            const business = systemState.businesses?.[agent] || {};
+            
+            // Agent info mapping
+            const agentInfo = {
+                jax: { name: 'JAX', role: 'The Builder', color: 'var(--warm-amber)' },
+                hank: { name: 'HANK', role: 'The Hustler', color: 'var(--blaze-orange)' },
+                vega: { name: 'VEGA', role: 'The Analyst', color: 'var(--lime-green)' },
+                brix: { name: 'BRIX', role: 'The System Builder', color: 'var(--electric-blue)' },
+                doss: { name: 'DOSS', role: 'The Guardian', color: 'var(--cyber-red)' },
+                vault: { name: 'VAULT', role: 'The Treasurer', color: 'var(--gold)' },
+                signalscout: { name: 'SIGNALSCOUT', role: 'The Researcher', color: 'var(--soft-purple)' }
+            };
+            
+            const info = agentInfo[agent] || { name: agent.toUpperCase(), role: 'Agent', color: 'var(--bone)' };
+            
+            document.getElementById('detail-agent-name').textContent = info.name;
+            document.getElementById('detail-agent-name').style.color = info.color;
+            document.getElementById('detail-agent-role').textContent = info.role;
+            
+            document.getElementById('detail-status').textContent = business.status || 'Active';
+            document.getElementById('metric-income').textContent = `$${business.month_to_date?.income || 0}`;
+            document.getElementById('metric-cost').textContent = `$${business.month_to_date?.cost || 0}`;
+            document.getElementById('metric-net').textContent = `$${(business.month_to_date?.income || 0) - (business.month_to_date?.cost || 0)}`;
+            document.getElementById('metric-status').textContent = business.status || '—';
+            
+            document.getElementById('detail-log').textContent = business.last_tick_summary || 'No recent activity';
+            
+            panel.classList.add('open');
+            overlay.classList.add('active');
+        }
+
+        // Show portal detail
+        function showPortalDetail() {
+            console.log('Portal clicked - yard summary');
+            // Placeholder for portal functionality
+        }
+
+        // Close detail panel
+        document.getElementById('close-detail').addEventListener('click', closeDetailPanel);
+        document.getElementById('overlay').addEventListener('click', closeDetailPanel);
+
+        function closeDetailPanel() {
+            document.getElementById('detail-panel').classList.remove('open');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        // Initialize
+        updateClock();
+        setInterval(updateClock, 1000);
+        fetchSystemState();
+        setInterval(fetchSystemState, 15000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewington Yard Command</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=DM+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #05070d;
+            --gold: #f7c873;
+            --bone: #f2ede3;
+            --cyan: #00e5ff;
+            --clay: #c44545;
+            --sage: #7a8c3a;
+            --indigo-night: #1a1f3a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(247,200,115,0.18), transparent 70%),
+                radial-gradient(ellipse 120% 80% at 50% 120%, rgba(26,31,58,0.9), var(--black) 70%),
+                var(--black);
+            color: var(--bone);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Stars in the cosmos */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(1px 1px at 20% 15%, var(--bone), transparent),
+                radial-gradient(1px 1px at 80% 22%, var(--gold), transparent),
+                radial-gradient(1px 1px at 35% 8%, var(--bone), transparent),
+                radial-gradient(1px 1px at 65% 12%, var(--bone), transparent),
+                radial-gradient(2px 2px at 10% 30%, var(--gold), transparent),
+                radial-gradient(1px 1px at 90% 18%, var(--bone), transparent),
+                radial-gradient(1px 1px at 50% 5%, var(--bone), transparent),
+                radial-gradient(1px 1px at 75% 28%, var(--gold), transparent),
+                radial-gradient(1px 1px at 25% 20%, var(--bone), transparent),
+                radial-gradient(1px 1px at 58% 24%, var(--bone), transparent);
+            opacity: 0.6;
+            animation: twinkle 6s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.35; }
+            50% { opacity: 0.7; }
+        }
+
+        /* God ray from the top: the viewer IS the god looking down */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 50vh;
+            background: radial-gradient(ellipse at top, rgba(247,200,115,0.25), rgba(247,200,115,0.08) 40%, transparent 70%);
+            pointer-events: none;
+            z-index: 2;
+            animation: god-ray 14s ease-in-out infinite;
+        }
+
+        @keyframes god-ray {
+            0%, 100% { opacity: 0.7; transform: translateX(-50%) scaleY(1); }
+            50% { opacity: 1; transform: translateX(-50%) scaleY(1.08); }
+        }
+        
+        .yard-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        .top-ribbon {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: var(--black);
+            border-bottom: 1px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 100;
+        }
+        
+        .yard-title {
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--gold);
+        }
+        
+        .time-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--bone);
+        }
+        
+        .mtd-net {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .bottom-ribbon {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: var(--black);
+            border-top: 1px solid var(--gold);
+            overflow: hidden;
+            z-index: 100;
+        }
+        
+        .event-feed {
+            white-space: nowrap;
+            animation: scroll-left 60s linear infinite;
+            line-height: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--bone);
+            padding-left: 100%;
+        }
+        
+        @keyframes scroll-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .yard-scene {
+            position: absolute;
+            top: 40px;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            overflow: hidden;
+            z-index: 3;
+        }
+
+        .isometric-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('/assets/kenney/isometric-tiles-landscape/PNG/landscapeTiles_067.png');
+            background-repeat: repeat;
+            background-size: 64px 64px;
+            background-position: center;
+            opacity: 1;
+        }
+
+        /* Vignette fade at edges so the scene feels peered-into */
+        .isometric-container::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(5,7,13,0.85) 95%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .sky {
+            position: absolute;
+            top: -50vh;
+            left: -50vw;
+            width: 200vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, var(--indigo-night), var(--black));
+            transition: background 2s ease;
+        }
+        
+        .sky.day {
+            background: linear-gradient(to bottom, var(--gold), var(--black));
+        }
+        
+        .ground {
+            display: none;
+        }
+
+        .central-path {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(247,200,115,0.08) 20%, rgba(247,200,115,0.08) 80%, transparent);
+            pointer-events: none;
+        }
+        
+        .bay {
+            position: absolute;
+            width: 140px;
+            height: 160px;
+        }
+
+        .bay-building {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            animation: lamp-flicker 3s ease-in-out infinite alternate;
+            image-rendering: pixelated;
+        }
+
+        @keyframes lamp-flicker {
+            0% { filter: brightness(1); }
+            100% { filter: brightness(1.08) drop-shadow(0 0 6px var(--gold)); }
+        }
+
+        .bay-character {
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            width: 56px;
+            height: 56px;
+            transform: translateX(-50%);
+            object-fit: contain;
+            image-rendering: pixelated;
+            animation: character-bob 2.4s ease-in-out infinite;
+            z-index: 2;
+            filter: drop-shadow(0 3px 3px rgba(0,0,0,0.7));
+        }
+
+        /* Character shadow puddle on the ground */
+        .bay-shadow {
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            width: 40px;
+            height: 8px;
+            background: radial-gradient(ellipse, rgba(0,0,0,0.6), transparent 70%);
+            transform: translateX(-50%);
+            z-index: 1;
+            animation: shadow-pulse 2.4s ease-in-out infinite;
+        }
+
+        @keyframes character-bob {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            25%      { transform: translateX(-54%) translateY(-2px); }
+            50%      { transform: translateX(-50%) translateY(-5px); }
+            75%      { transform: translateX(-46%) translateY(-2px); }
+        }
+
+        @keyframes shadow-pulse {
+            0%, 100% { width: 40px; opacity: 0.7; }
+            50%      { width: 34px; opacity: 0.45; }
+        }
+
+        /* Chimney smoke puff from each bay */
+        .bay-smoke {
+            position: absolute;
+            top: 28px;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: radial-gradient(circle, rgba(242,237,227,0.5), transparent 70%);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            animation: smoke-rise 4s ease-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes smoke-rise {
+            0%   { transform: translate(-50%, 0) scale(0.6); opacity: 0; }
+            20%  { opacity: 0.8; }
+            100% { transform: translate(-40%, -50px) scale(1.6); opacity: 0; }
+        }
+
+        .bay-sign {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 18px;
+            background: var(--black);
+            border: 1px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: var(--gold);
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            z-index: 3;
+        }
+        
+        .rent-gauge {
+            position: absolute;
+            right: 2px;
+            top: 24px;
+            width: 5px;
+            height: 80px;
+            background: var(--indigo-night);
+            border: 1px solid var(--bone);
+            z-index: 3;
+        }
+        
+        .rent-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: var(--sage);
+            transition: height 0.5s ease, background-color 0.5s ease;
+        }
+        
+        .thought-bubble {
+            position: absolute;
+            top: -60px;
+            left: -20px;
+            width: 120px;
+            padding: 8px;
+            background: var(--bone);
+            color: var(--black);
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            opacity: 0;
+            animation: bubble-appear 8s ease-in-out;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .thought-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 8px solid var(--gold);
+        }
+        
+        @keyframes bubble-appear {
+            0%, 90% { opacity: 0; transform: scale(0.8); }
+            10%, 80% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0.8); }
+        }
+        
+        .red-alert {
+            position: absolute;
+            top: -30px;
+            left: 20px;
+            width: 20px;
+            height: 20px;
+            background: var(--clay);
+            border-radius: 50%;
+            animation: alert-pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 20px var(--clay);
+        }
+        
+        @keyframes alert-pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        .rent-halo {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 100px;
+            height: 100px;
+            border: 3px solid var(--clay);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: halo-pulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes halo-pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+        
+        .gold-coin {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: coin-fall 2s ease-in;
+            pointer-events: none;
+            z-index: 5;
+        }
+        
+        @keyframes coin-fall {
+            0% { top: -100px; opacity: 1; transform: scale(1); }
+            90% { top: 20px; opacity: 1; transform: scale(1); }
+            100% { top: 20px; opacity: 0; transform: scale(0); }
+        }
+        
+        .connecting {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--bone);
+            font-size: 18px;
+            z-index: 50;
+        }
+        
+        /* Bay grid: 3 rows in a U shape, larger spacing so nothing overlaps */
+        .bay-1 { top: 80px;  left: calc(50% - 260px); }
+        .bay-2 { top: 80px;  left: calc(50% - 90px);  }
+        .bay-3 { top: 80px;  left: calc(50% + 80px);  }
+        .bay-4 { top: 260px; left: calc(50% - 350px); }
+        .bay-5 { top: 260px; left: calc(50% + 170px); }
+        .bay-6 { top: 420px; left: calc(50% - 170px); }
+        .bay-7 { top: 420px; left: calc(50% + 10px);  }
+    </style>
+</head>
+<body>
+    <div class="yard-container">
+        <div class="top-ribbon">
+            <div class="yard-title">BREWINGTON YARD</div>
+            <div class="time-display" id="current-time">--:--</div>
+            <div class="mtd-net" id="mtd-net">$0</div>
+        </div>
+        
+        <div class="yard-scene">
+            <div class="connecting" id="connecting">connecting...</div>
+            <div class="isometric-container" id="scene" style="display: none;">
+                <div class="sky" id="sky"></div>
+                <div class="ground"></div>
+                <div class="central-path"></div>
+                <div id="bays-container"></div>
+            </div>
+        </div>
+        
+        <div class="bottom-ribbon">
+            <div class="event-feed" id="event-feed">Yard initializing...</div>
+        </div>
+    </div>
+
+    <script>
+        let state = null;
+        let lastIncomes = {};
+        let lastTicksShown = {};
+        let eventLog = [];
+        
+        const characters = [
+            'character-a.png', 'character-b.png', 'character-c.png', 
+            'character-d.png', 'character-e.png', 'character-f.png',
+            'character-g.png', 'character-h.png', 'character-i.png',
+            'character-j.png', 'character-k.png', 'character-l.png',
+            'character-m.png', 'character-n.png', 'character-o.png',
+            'character-p.png', 'character-q.png', 'character-r.png'
+        ];
+        
+        const buildings = [
+            'buildingTiles_000.png', 'buildingTiles_001.png', 'buildingTiles_002.png',
+            'buildingTiles_003.png', 'buildingTiles_004.png', 'buildingTiles_005.png',
+            'buildingTiles_006.png', 'buildingTiles_007.png', 'buildingTiles_008.png',
+            'buildingTiles_009.png', 'buildingTiles_010.png', 'buildingTiles_011.png'
+        ];
+        
+        function updateTime() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            document.getElementById('current-time').textContent = `${hours}:${minutes}`;
+            
+            const sky = document.getElementById('sky');
+            if (hours >= 6 && hours < 18) {
+                sky.classList.add('day');
+            } else {
+                sky.classList.remove('day');
+            }
+        }
+        
+        function addEvent(message) {
+            const now = new Date();
+            const time = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            eventLog.unshift(`${time} ${message}`);
+            eventLog = eventLog.slice(0, 5);
+            document.getElementById('event-feed').textContent = eventLog.join('  •  ');
+        }
+        
+        function showThoughtBubble(bayElement, text) {
+            const existing = bayElement.querySelector('.thought-bubble');
+            if (existing) existing.remove();
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'thought-bubble';
+            bubble.textContent = text.length > 60 ? text.substring(0, 57) + '...' : text;
+            bayElement.appendChild(bubble);
+            
+            setTimeout(() => {
+                if (bubble.parentNode) bubble.remove();
+            }, 8000);
+        }
+        
+        function dropCoin(bayElement) {
+            const coin = document.createElement('div');
+            coin.className = 'gold-coin';
+            coin.style.left = '30px';
+            bayElement.appendChild(coin);
+            
+            setTimeout(() => {
+                if (coin.parentNode) coin.remove();
+            }, 2000);
+        }
+        
+        function renderBays() {
+            if (!state || !state.businesses) return;
+            
+            const container = document.getElementById('bays-container');
+            const existingBays = Array.from(container.children);
+            const currentBayNames = state.businesses.map(b => b.display_name);
+            
+            // Remove bays that no longer exist
+            existingBays.forEach(bay => {
+                const bayName = bay.dataset.bayName;
+                if (!currentBayNames.includes(bayName)) {
+                    bay.remove();
+                }
+            });
+            
+            state.businesses.forEach((business, index) => {
+                const bayName = business.display_name;
+                let bayElement = container.querySelector(`[data-bay-name="${bayName}"]`);
+                
+                if (!bayElement) {
+                    // New bay
+                    bayElement = document.createElement('div');
+                    bayElement.className = `bay bay-${(index % 7) + 1}`;
+                    bayElement.dataset.bayName = bayName;
+                    
+                    const building = document.createElement('img');
+                    building.className = 'bay-building';
+                    building.src = `/assets/kenney/isometric-tiles-buildings/PNG/${buildings[index % buildings.length]}`;
+                    
+                    const character = document.createElement('img');
+                    character.className = 'bay-character';
+                    character.src = `/assets/kenney/blocky-characters/Previews/${characters[index % characters.length]}`;
+                    
+                    const sign = document.createElement('div');
+                    sign.className = 'bay-sign';
+                    sign.textContent = `${bayName.toUpperCase()}`;
+                    
+                    const rentGauge = document.createElement('div');
+                    rentGauge.className = 'rent-gauge';
+                    const rentFill = document.createElement('div');
+                    rentFill.className = 'rent-fill';
+                    rentGauge.appendChild(rentFill);
+                    
+                    const shadow = document.createElement('div');
+                    shadow.className = 'bay-shadow';
+
+                    const smoke = document.createElement('div');
+                    smoke.className = 'bay-smoke';
+                    smoke.style.animationDelay = `${(index * 0.6) % 4}s`;
+
+                    bayElement.appendChild(smoke);
+                    bayElement.appendChild(building);
+                    bayElement.appendChild(shadow);
+                    bayElement.appendChild(character);
+                    bayElement.appendChild(sign);
+                    bayElement.appendChild(rentGauge);
+                    container.appendChild(bayElement);
+                    
+                    addEvent(`${bayName.toUpperCase()} joined the yard`);
+                }
+                
+                // Update rent gauge
+                const rentFill = bayElement.querySelector('.rent-fill');
+                let rentLevel = 70; // Default healthy
+                if (business.business_pitch && business.business_pitch.d30_checkpoint) {
+                    const checkpoint = new Date(business.business_pitch.d30_checkpoint);
+                    const now = new Date();
+                    const daysLeft = Math.ceil((checkpoint - now) / (1000 * 60 * 60 * 24));
+                    rentLevel = Math.max(0, Math.min(100, (daysLeft / 30) * 100));
+                    
+                    if (daysLeft <= 3) {
+                        if (!bayElement.querySelector('.rent-halo')) {
+                            const halo = document.createElement('div');
+                            halo.className = 'rent-halo';
+                            bayElement.appendChild(halo);
+                        }
+                    } else {
+                        const halo = bayElement.querySelector('.rent-halo');
+                        if (halo) halo.remove();
+                    }
+                }
+                
+                rentFill.style.height = `${rentLevel}%`;
+                if (rentLevel > 50) {
+                    rentFill.style.backgroundColor = 'var(--sage)';
+                } else if (rentLevel > 20) {
+                    rentFill.style.backgroundColor = 'var(--gold)';
+                } else {
+                    rentFill.style.backgroundColor = 'var(--clay)';
+                }
+                
+                // Thought bubble: only fire ONCE per new tick, not every poll
+                if (business.last_tick_at && business.last_tick_summary) {
+                    const lastTick = new Date(business.last_tick_at);
+                    const now = new Date();
+                    const hoursAgo = (now - lastTick) / (1000 * 60 * 60);
+                    const alreadyShown = lastTicksShown[bayName] === business.last_tick_at;
+
+                    if (hoursAgo < 6 && !alreadyShown) {
+                        showThoughtBubble(bayElement, business.last_tick_summary);
+                        lastTicksShown[bayName] = business.last_tick_at;
+                    }
+                }
+                
+                // Check for failures
+                if (business.failures_in_row > 0) {
+                    if (!bayElement.querySelector('.red-alert')) {
+                        const alert = document.createElement('div');
+                        alert.className = 'red-alert';
+                        bayElement.appendChild(alert);
+                    }
+                } else {
+                    const alert = bayElement.querySelector('.red-alert');
+                    if (alert) alert.remove();
+                }
+                
+                // Check for income changes
+                const currentIncome = business.month_to_date ? business.month_to_date.income || 0 : 0;
+                const lastIncome = lastIncomes[bayName] || 0;
+                
+                if (currentIncome > lastIncome && lastIncome > 0) {
+                    dropCoin(bayElement);
+                    addEvent(`${bayName.toUpperCase()} earned $${currentIncome - lastIncome}`);
+                }
+                
+                lastIncomes[bayName] = currentIncome;
+            });
+        }
+        
+        async function fetchState() {
+            try {
+                const response = await fetch('/api/state');
+                const newState = await response.json();
+                
+                if (newState && newState.businesses) {
+                    state = newState;
+                    
+                    document.getElementById('connecting').style.display = 'none';
+                    document.getElementById('scene').style.display = 'block';
+                    
+                    // Update MTD net
+                    const mtdNet = state.overall ? state.overall.mtd_net || 0 : 0;
+                    const mtdElement = document.getElementById('mtd-net');
+                    mtdElement.textContent = `$${mtdNet.toLocaleString()}`;
+                    mtdElement.style.color = mtdNet >= 0 ? 'var(--gold)' : 'var(--clay)';
+                    
+                    renderBays();
+                }
+            } catch (error) {
+                console.error('Failed to fetch state:', error);
+            }
+        }
+        
+        // Initialize
+        updateTime();
+        setInterval(updateTime, 60000);
+        setInterval(fetchState, 15000);
+        fetchState();
+    </script>
+</body>
+</html>

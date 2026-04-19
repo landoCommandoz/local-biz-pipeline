@@ -1,0 +1,1153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewington Yard Command Center v11</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --concrete-dark: #1a1c1f;
+            --concrete-mid: #2a2d31;
+            --gold-trim: #c9a84c;
+            --teal-accent: #2dd4c0;
+            --bone: #f2ede3;
+            --muted: #6a6a6a;
+            --red-alert: #ff3344;
+            --green-active: #3ff27a;
+            --yellow-thinking: #ffd84a;
+            
+            --jax-glow: #ffa83c;
+            --hank-glow: #ff6a1a;
+            --vega-glow: #a8e82a;
+            --brix-glow: #3a8cff;
+            --doss-glow: #ff2a5a;
+            --vault-glow: #ffc84c;
+            --signalscout-glow: #b088ff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: var(--concrete-dark);
+            color: var(--bone);
+            font-family: 'JetBrains Mono', monospace;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .hud {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: var(--concrete-mid);
+            border-bottom: 2px solid var(--gold-trim);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 30px;
+            z-index: 100;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .hud .logo {
+            font-family: 'Syne', sans-serif;
+            color: var(--gold-trim);
+        }
+        
+        .hud .positive {
+            color: var(--green-active);
+        }
+        
+        .hud .alert {
+            color: var(--red-alert);
+        }
+        
+        .hud .clock {
+            margin-left: auto;
+        }
+        
+        .grid-container {
+            position: fixed;
+            top: 40px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 4px;
+            padding: 8px;
+            background: var(--concrete-dark);
+        }
+        
+        .room {
+            position: relative;
+            background: var(--concrete-mid);
+            border: 3px solid var(--gold-trim);
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+        
+        .room:hover {
+            transform: scale(1.02);
+        }
+        
+        .room.portal {
+            cursor: default;
+        }
+        
+        .room.portal:hover {
+            transform: none;
+        }
+        
+        .room-floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30%;
+            background: radial-gradient(ellipse at center bottom, rgba(255,255,255,0.15) 0%, transparent 70%);
+            animation: floor-breathe 4s ease-in-out infinite;
+        }
+        
+        .room-walls {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            box-shadow: 
+                inset 0 0 0 2px var(--concrete-dark),
+                inset 8px 8px 16px rgba(0,0,0,0.4);
+        }
+        
+        .room-trim {
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border: 3px solid var(--gold-trim);
+            animation: trim-pulse 3s ease-in-out infinite;
+        }
+        
+        .room-header {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            z-index: 20;
+        }
+        
+        .room-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        
+        .room-role {
+            font-size: 10px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        
+        .room-task {
+            font-size: 9px;
+            color: var(--bone);
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .room-last-action {
+            font-size: 8px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--teal-accent);
+            transition: width 0.5s ease;
+            border-radius: 2px;
+        }
+        
+        .status-light {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green-active);
+            animation: status-pulse 1s ease-in-out infinite;
+        }
+        
+        .status-light.yellow {
+            background: var(--yellow-thinking);
+        }
+        
+        .status-light.red {
+            background: var(--red-alert);
+        }
+        
+        .character {
+            position: absolute;
+            bottom: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 48px;
+            height: 64px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center bottom;
+            animation: character-bob 2s ease-in-out infinite;
+            z-index: 15;
+        }
+        
+        .station {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 32px;
+            height: 16px;
+            background: var(--concrete-mid);
+            border: 1px solid var(--gold-trim);
+            z-index: 10;
+        }
+        
+        /* Room-specific floor glows */
+        .room.jax .room-floor { background: radial-gradient(ellipse at center bottom, var(--jax-glow) 0%, transparent 70%); opacity: 0.3; }
+        .room.hank .room-floor { background: radial-gradient(ellipse at center bottom, var(--hank-glow) 0%, transparent 70%); opacity: 0.3; }
+        .room.vega .room-floor { background: radial-gradient(ellipse at center bottom, var(--vega-glow) 0%, transparent 70%); opacity: 0.3; }
+        .room.brix .room-floor { background: radial-gradient(ellipse at center bottom, var(--brix-glow) 0%, transparent 70%); opacity: 0.3; }
+        .room.doss .room-floor { background: radial-gradient(ellipse at center bottom, var(--doss-glow) 0%, transparent 70%); opacity: 0.3; }
+        .room.vault .room-floor { background: radial-gradient(ellipse at center bottom, var(--vault-glow) 0%, transparent 70%); opacity: 0.3; }
+        .room.signalscout .room-floor { background: radial-gradient(ellipse at center bottom, var(--signalscout-glow) 0%, transparent 70%); opacity: 0.3; }
+        
+        /* Room-specific title colors */
+        .room.jax .room-title { color: var(--jax-glow); }
+        .room.hank .room-title { color: var(--hank-glow); }
+        .room.vega .room-title { color: var(--vega-glow); }
+        .room.brix .room-title { color: var(--brix-glow); }
+        .room.doss .room-title { color: var(--doss-glow); }
+        .room.vault .room-title { color: var(--vault-glow); }
+        .room.signalscout .room-title { color: var(--signalscout-glow); }
+        
+        /* Character sprites */
+        .room.jax .character { background-image: url('/assets/kenney/blocky-characters/Previews/character-a.png'); }
+        .room.hank .character { background-image: url('/assets/kenney/blocky-characters/Previews/character-b.png'); }
+        .room.vega .character { background-image: url('/assets/kenney/blocky-characters/Previews/character-c.png'); }
+        .room.brix .character { background-image: url('/assets/kenney/blocky-characters/Previews/character-d.png'); }
+        .room.doss .character { background-image: url('/assets/kenney/blocky-characters/Previews/character-e.png'); }
+        .room.vault .character { background-image: url('/assets/kenney/blocky-characters/Previews/character-f.png'); }
+        .room.signalscout .character { background-image: url('/assets/kenney/blocky-characters/Previews/character-g.png'); }
+        
+        /* Portal styling */
+        .portal {
+            background: var(--concrete-dark);
+            border-color: var(--red-alert);
+        }
+        
+        .portal-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--red-alert) 20%, transparent 60%);
+            animation: portal-pulse 2s ease-in-out infinite;
+        }
+        
+        .portal-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--red-alert);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: portal-rotate 8s linear infinite;
+        }
+        
+        .portal-ring:nth-child(2) {
+            width: 60px;
+            height: 60px;
+        }
+        
+        .portal-ring:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            animation-duration: 12s;
+            animation-direction: reverse;
+        }
+        
+        /* For Lease styling */
+        .for-lease {
+            background: var(--concrete-dark);
+            border-style: dashed;
+        }
+        
+        .lease-content {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .lease-header {
+            text-align: center;
+        }
+        
+        .lease-title {
+            font-size: 16px;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        
+        .lease-subtitle {
+            font-size: 10px;
+            color: var(--muted);
+        }
+        
+        .live-feed {
+            flex: 1;
+            margin-top: 20px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--gold-trim);
+            padding: 8px;
+            font-size: 9px;
+            overflow-y: auto;
+        }
+        
+        .feed-line {
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .feed-time {
+            color: var(--muted);
+        }
+        
+        .feed-bay {
+            font-weight: 700;
+        }
+        
+        .feed-message {
+            color: var(--bone);
+        }
+        
+        /* Ambient animations */
+        .ambient-welding {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--jax-glow);
+            border-radius: 50%;
+            animation: welding-spark 0.8s ease-out infinite;
+        }
+        
+        .ambient-phone-list {
+            position: absolute;
+            top: 30%;
+            right: 10px;
+            width: 60px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--hank-glow);
+            overflow: hidden;
+        }
+        
+        .phone-line {
+            height: 8px;
+            background: var(--hank-glow);
+            margin: 1px 0;
+            opacity: 0.7;
+            animation: phone-scroll 3s linear infinite;
+        }
+        
+        .ambient-bar-chart {
+            position: absolute;
+            bottom: 30%;
+            left: 20px;
+            display: flex;
+            align-items: end;
+            gap: 3px;
+        }
+        
+        .chart-bar {
+            width: 6px;
+            background: var(--vega-glow);
+            animation: chart-bounce 2s ease-in-out infinite;
+        }
+        
+        .ambient-wrench {
+            position: absolute;
+            top: 40%;
+            right: 20px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--brix-glow);
+            border-radius: 3px;
+            animation: wrench-spin 4s linear infinite;
+        }
+        
+        .ambient-radar {
+            position: absolute;
+            top: 30%;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--doss-glow);
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .radar-sweep {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 18px;
+            background: var(--doss-glow);
+            transform-origin: bottom;
+            animation: radar-sweep 3s linear infinite;
+        }
+        
+        .ambient-coins {
+            position: absolute;
+            bottom: 35%;
+            right: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .coin {
+            width: 12px;
+            height: 4px;
+            background: var(--vault-glow);
+            border-radius: 50%;
+            animation: coin-stack 1.5s ease-in-out infinite;
+        }
+        
+        .ambient-waveform {
+            position: absolute;
+            bottom: 25%;
+            left: 15px;
+            right: 15px;
+            height: 20px;
+            display: flex;
+            align-items: end;
+            gap: 2px;
+        }
+        
+        .wave-bar {
+            width: 3px;
+            background: var(--signalscout-glow);
+            animation: wave-pulse 0.8s ease-in-out infinite;
+        }
+        
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: var(--concrete-mid);
+            border: 3px solid var(--gold-trim);
+            width: 600px;
+            max-width: 90vw;
+            max-height: 80vh;
+            padding: 30px;
+            position: relative;
+            overflow-y: auto;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--bone);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .modal-role {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+        
+        .modal-section {
+            margin-bottom: 20px;
+        }
+        
+        .modal-section h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--gold-trim);
+        }
+        
+        .modal-section p {
+            font-size: 12px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .modal-button {
+            background: var(--gold-trim);
+            color: var(--concrete-dark);
+            border: none;
+            padding: 8px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .modal-button:hover {
+            background: var(--teal-accent);
+        }
+        
+        /* Animations */
+        @keyframes floor-breathe {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.36; }
+        }
+        
+        @keyframes trim-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.98; }
+        }
+        
+        @keyframes character-bob {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-3px); }
+        }
+        
+        @keyframes status-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        @keyframes portal-pulse {
+            0%, 100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+        }
+        
+        @keyframes portal-rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        @keyframes welding-spark {
+            0% { opacity: 0; transform: translate(0, 0); }
+            20% { opacity: 1; }
+            100% { opacity: 0; transform: translate(20px, -15px); }
+        }
+        
+        @keyframes phone-scroll {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50px); }
+        }
+        
+        @keyframes chart-bounce {
+            0%, 100% { transform: scaleY(0.6); }
+            50% { transform: scaleY(1); }
+        }
+        
+        @keyframes wrench-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes radar-sweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes coin-stack {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+        
+        @keyframes wave-pulse {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hud">
+        <div class="logo">BREWINGTON YARD</div>
+        <div id="net-today">NET TODAY $0</div>
+        <div id="mrr" class="positive">MRR $0</div>
+        <div id="clients">CLIENTS 0</div>
+        <div id="alerts">ALERTS 0</div>
+        <div id="uptime" class="positive">UPTIME 99.9%</div>
+        <div id="clock" class="clock">00:00:00</div>
+    </div>
+    
+    <div class="grid-container">
+        <!-- Row 1 -->
+        <div class="room jax" data-bay="jax">
+            <div class="room-walls"></div>
+            <div class="room-trim"></div>
+            <div class="room-floor"></div>
+            <div class="status-light"></div>
+            <div class="room-header">
+                <div class="room-title">JAX</div>
+                <div class="room-role">The Builder</div>
+                <div class="room-task">Building responsive sections...</div>
+                <div class="room-last-action">Last: 14:23</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 65%;"></div>
+                </div>
+            </div>
+            <div class="character"></div>
+            <div class="station"></div>
+            <div class="ambient-welding" style="top: 45%; left: 35%;"></div>
+            <div class="ambient-welding" style="top: 48%; left: 38%; animation-delay: 0.3s;"></div>
+            <div class="ambient-welding" style="top: 42%; left: 32%; animation-delay: 0.6s;"></div>
+        </div>
+        
+        <div class="room hank" data-bay="hank">
+            <div class="room-walls"></div>
+            <div class="room-trim"></div>
+            <div class="room-floor"></div>
+            <div class="status-light"></div>
+            <div class="room-header">
+                <div class="room-title">HANK</div>
+                <div class="room-role">The Hustler</div>
+                <div class="room-task">Scraping local service businesses...</div>
+                <div class="room-last-action">Last: 14:20</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 45%;"></div>
+                </div>
+            </div>
+            <div class="character"></div>
+            <div class="station"></div>
+            <div class="ambient-phone-list">
+                <div class="phone-line" style="animation-delay: 0s;"></div>
+                <div class="phone-line" style="animation-delay: 0.2s;"></div>
+                <div class="phone-line" style="animation-delay: 0.4s;"></div>
+                <div class="phone-line" style="animation-delay: 0.6s;"></div>
+                <div class="phone-line" style="animation-delay: 0.8s;"></div>
+            </div>
+        </div>
+        
+        <div class="room vega" data-bay="vega">
+            <div class="room-walls"></div>
+            <div class="room-trim"></div>
+            <div class="room-floor"></div>
+            <div class="status-light"></div>
+            <div class="room-header">
+                <div class="room-title">VEGA</div>
+                <div class="room-role">The Analyst</div>
+                <div class="room-task">Calculating monthly metrics...</div>
+                <div class="room-last-action">Last: 14:25</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 80%;"></div>
+                </div>
+            </div>
+            <div class="character"></div>
+            <div class="station"></div>
+            <div class="ambient-bar-chart">
+                <div class="chart-bar" style="height: 12px; animation-delay: 0s;"></div>
+                <div class="chart-bar" style="height: 18px; animation-delay: 0.2s;"></div>
+                <div class="chart-bar" style="height: 8px; animation-delay: 0.4s;"></div>
+                <div class="chart-bar" style="height: 22px; animation-delay: 0.6s;"></div>
+                <div class="chart-bar" style="height: 15px; animation-delay: 0.8s;"></div>
+            </div>
+        </div>
+        
+        <!-- Row 2 -->
+        <div class="room brix" data-bay="brix">
+            <div class="room-walls"></div>
+            <div class="room-trim"></div>
+            <div class="room-floor"></div>
+            <div class="status-light"></div>
+            <div class="room-header">
+                <div class="room-title">BRIX</div>
+                <div class="room-role">The System Builder</div>
+                <div class="room-task">Monitoring pipeline health...</div>
+                <div class="room-last-action">Last: 14:22</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 90%;"></div>
+                </div>
+            </div>
+            <div class="character"></div>
+            <div class="station"></div>
+            <div class="ambient-wrench"></div>
+        </div>
+        
+        <div class="room portal">
+            <div class="room-walls"></div>
+            <div class="room-trim"></div>
+            <div class="portal-core"></div>
+            <div class="portal-ring"></div>
+            <div class="portal-ring"></div>
+        </div>
+        
+        <div class="room doss" data-bay="doss">
+            <div class="room-walls"></div>
+            <div class="room-trim"></div>
+            <div class="room-floor"></div>
+            <div class="status-light"></div>
+            <div class="room-header">
+                <div class="room-title">DOSS</div>
+                <div class="room-role">The Guardian</div>
+                <div class="room-task">Scanning for threats...</div>
+                <div class="room-last-action">Last: 14:24</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 75%;"></div>
+                </div>
+            </div>
+            <div class="character"></div>
+            <div class="station"></div>
+            <div class="ambient-radar">
+                <div class="radar-sweep"></div>
+            </div>
+        </div>
+        
+        <!-- Row 3 -->
+        <div class="room vault" data-bay="vault">
+            <div class="room-walls"></div>
+            <div class="room-trim"></div>
+            <div class="room-floor"></div>
+            <div class="status-light"></div>
+            <div class="room-header">
+                <div class="room-title">VAULT</div>
+                <div class="room-role">The Treasurer</div>
+                <div class="room-task">Tracking daily transactions...</div>
+                <div class="room-last-action">Last: 14:21</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 55%;"></div>
+                </div>
+            </div>
+            <div class="character"></div>
+            <div class="station"></div>
+            <div class="ambient-coins">
+                <div class="coin" style="animation-delay: 0s;"></div>
+                <div class="coin" style="animation-delay: 0.2s;"></div>
+                <div class="coin" style="animation-delay: 0.4s;"></div>
+                <div class="coin" style="animation-delay: 0.6s;"></div>
+            </div>
+        </div>
+        
+        <div class="room signalscout" data-bay="signalscout">
+            <div class="room-walls"></div>
+            <div class="room-trim"></div>
+            <div class="room-floor"></div>
+            <div class="status-light"></div>
+            <div class="room-header">
+                <div class="room-title">SIGNALSCOUT</div>
+                <div class="room-role">The Researcher</div>
+                <div class="room-task">Monitoring social signals...</div>
+                <div class="room-last-action">Last: 14:19</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 30%;"></div>
+                </div>
+            </div>
+            <div class="character"></div>
+            <div class="station"></div>
+            <div class="ambient-waveform">
+                <div class="wave-bar" style="animation-delay: 0s;"></div>
+                <div class="wave-bar" style="animation-delay: 0.1s;"></div>
+                <div class="wave-bar" style="animation-delay: 0.2s;"></div>
+                <div class="wave-bar" style="animation-delay: 0.3s;"></div>
+                <div class="wave-bar" style="animation-delay: 0.4s;"></div>
+                <div class="wave-bar" style="animation-delay: 0.5s;"></div>
+                <div class="wave-bar" style="animation-delay: 0.6s;"></div>
+                <div class="wave-bar" style="animation-delay: 0.7s;"></div>
+            </div>
+        </div>
+        
+        <div class="room for-lease">
+            <div class="room-walls"></div>
+            <div class="room-trim"></div>
+            <div class="lease-content">
+                <div class="lease-header">
+                    <div class="lease-title">FOR LEASE</div>
+                    <div class="lease-subtitle">Next hire at 5 clients</div>
+                </div>
+                <div class="live-feed" id="live-feed">
+                    <div class="feed-line">
+                        <span class="feed-time">[14:25]</span>
+                        <span class="feed-bay" style="color: var(--vega-glow);">VEGA</span>
+                        <span class="feed-message"> :: Completed monthly MRR calculation</span>
+                    </div>
+                    <div class="feed-line">
+                        <span class="feed-time">[14:24]</span>
+                        <span class="feed-bay" style="color: var(--doss-glow);">DOSS</span>
+                        <span class="feed-message"> :: System health check passed</span>
+                    </div>
+                    <div class="feed-line">
+                        <span class="feed-time">[14:23]</span>
+                        <span class="feed-bay" style="color: var(--jax-glow);">JAX</span>
+                        <span class="feed-message"> :: Built header section for client site</span>
+                    </div>
+                    <div class="feed-line">
+                        <span class="feed-time">[14:22]</span>
+                        <span class="feed-bay" style="color: var(--brix-glow);">BRIX</span>
+                        <span class="feed-message"> :: Pipeline monitoring active</span>
+                    </div>
+                    <div class="feed-line">
+                        <span class="feed-time">[14:21]</span>
+                        <span class="feed-bay" style="color: var(--vault-glow);">VAULT</span>
+                        <span class="feed-message"> :: Payment received via Stripe</span>
+                    </div>
+                    <div class="feed-line">
+                        <span class="feed-time">[14:20]</span>
+                        <span class="feed-bay" style="color: var(--hank-glow);">HANK</span>
+                        <span class="feed-message"> :: Found 3 new prospects via Maps</span>
+                    </div>
+                    <div class="feed-line">
+                        <span class="feed-time">[14:19]</span>
+                        <span class="feed-bay" style="color: var(--signalscout-glow);">SIGNALSCOUT</span>
+                        <span class="feed-message"> :: Reddit signal: web dev needed</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-backdrop" id="modal">
+        <div class="modal">
+            <button class="modal-close">&times;</button>
+            <div class="modal-title" id="modal-title">Agent Name</div>
+            <div class="modal-role" id="modal-role">Role Title</div>
+            
+            <div class="modal-section">
+                <h3>Current Status</h3>
+                <p id="modal-status">Status information will appear here...</p>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Recent Activity</h3>
+                <p id="modal-activity">Recent activity logs will appear here...</p>
+            </div>
+            
+            <div class="modal-section">
+                <h3>Performance Metrics</h3>
+                <p id="modal-metrics">Performance data will appear here...</p>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="modal-button" onclick="console.log('PAUSE clicked')">PAUSE</button>
+                <button class="modal-button" onclick="console.log('FORCE TICK clicked')">FORCE TICK</button>
+                <button class="modal-button" onclick="console.log('OPEN CHARTER clicked')">OPEN CHARTER</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        let currentState = null;
+        
+        // Clock update
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toTimeString().slice(0, 8);
+            document.getElementById('clock').textContent = timeString;
+        }
+        
+        // Fetch state from API
+        async function fetchState() {
+            try {
+                const response = await fetch('/api/state');
+                if (response.ok) {
+                    currentState = await response.json();
+                    updateUI();
+                }
+            } catch (error) {
+                console.warn('Failed to fetch state:', error);
+            }
+        }
+        
+        // Update UI with current state
+        function updateUI() {
+            if (!currentState) return;
+            
+            // Update HUD
+            const businesses = currentState.businesses || [];
+            let totalRevenue = 0;
+            let totalMRR = 0;
+            let clientCount = 0;
+            let alertCount = 0;
+            
+            businesses.forEach(business => {
+                totalRevenue += business.revenue_today || 0;
+                totalMRR += business.mrr || 0;
+                clientCount += business.client_count || 0;
+                alertCount += business.alert_count || 0;
+            });
+            
+            document.getElementById('net-today').textContent = `NET TODAY $${totalRevenue}`;
+            document.getElementById('mrr').textContent = `MRR $${totalMRR}`;
+            document.getElementById('clients').textContent = `CLIENTS ${clientCount}`;
+            document.getElementById('alerts').textContent = `ALERTS ${alertCount}`;
+            
+            if (totalRevenue > 0) {
+                document.getElementById('net-today').className = 'positive';
+            } else {
+                document.getElementById('net-today').className = '';
+            }
+            
+            if (alertCount > 0) {
+                document.getElementById('alerts').className = 'alert';
+            } else {
+                document.getElementById('alerts').className = '';
+            }
+            
+            // Update room status lights and content
+            const rooms = document.querySelectorAll('.room[data-bay]');
+            rooms.forEach(room => {
+                const bayName = room.dataset.bay;
+                const business = businesses.find(b => b.bay_name === bayName);
+                
+                if (business) {
+                    updateRoomContent(room, business);
+                    updateStatusLight(room, business);
+                }
+            });
+            
+            // Update live feed
+            updateLiveFeed(businesses);
+        }
+        
+        function updateRoomContent(room, business) {
+            const taskEl = room.querySelector('.room-task');
+            const actionEl = room.querySelector('.room-last-action');
+            const progressEl = room.querySelector('.progress-fill');
+            
+            if (taskEl && business.last_tick_summary) {
+                const truncated = business.last_tick_summary.length > 50 
+                    ? business.last_tick_summary.slice(0, 47) + '...'
+                    : business.last_tick_summary;
+                taskEl.textContent = truncated;
+            }
+            
+            if (actionEl && business.last_tick_at) {
+                const time = new Date(business.last_tick_at).toTimeString().slice(0, 5);
+                actionEl.textContent = `Last: ${time}`;
+            }
+            
+            if (progressEl && business.progress !== undefined) {
+                progressEl.style.width = `${Math.min(100, Math.max(0, business.progress * 100))}%`;
+            }
+        }
+        
+        function updateStatusLight(room, business) {
+            const light = room.querySelector('.status-light');
+            if (!light) return;
+            
+            light.className = 'status-light';
+            
+            const now = Date.now();
+            const lastTick = business.last_tick_at ? new Date(business.last_tick_at).getTime() : 0;
+            const hoursSince = (now - lastTick) / (1000 * 60 * 60);
+            
+            if (business.failures_in_row > 0 || business.status === 'awaiting_lando_setup' || hoursSince > 24) {
+                light.classList.add('red');
+            } else if (hoursSince > 6) {
+                light.classList.add('yellow');
+            } else {
+                // Green (default)
+            }
+        }
+        
+        function updateLiveFeed(businesses) {
+            const feedEl = document.getElementById('live-feed');
+            if (!feedEl) return;
+            
+            // Collect recent events from all businesses
+            const events = [];
+            businesses.forEach(business => {
+                if (business.last_tick_summary && business.last_tick_at) {
+                    events.push({
+                        time: new Date(business.last_tick_at),
+                        bay: business.bay_name.toUpperCase(),
+                        message: business.last_tick_summary,
+                        color: getBayColor(business.bay_name)
+                    });
+                }
+            });
+            
+            // Sort by time, most recent first
+            events.sort((a, b) => b.time - a.time);
+            
+            // Take last 8 events
+            const recentEvents = events.slice(0, 8);
+            
+            // Generate HTML
+            const html = recentEvents.map(event => {
+                const timeStr = event.time.toTimeString().slice(0, 5);
+                return `
+                    <div class="feed-line">
+                        <span class="feed-time">[${timeStr}]</span>
+                        <span class="feed-bay" style="color: ${event.color};">${event.bay}</span>
+                        <span class="feed-message"> :: ${event.message}</span>
+                    </div>
+                `;
+            }).join('');
+            
+            feedEl.innerHTML = html;
+        }
+        
+        function getBayColor(bayName) {
+            const colors = {
+                'jax': 'var(--jax-glow)',
+                'hank': 'var(--hank-glow)',
+                'vega': 'var(--vega-glow)',
+                'brix': 'var(--brix-glow)',
+                'doss': 'var(--doss-glow)',
+                'vault': 'var(--vault-glow)',
+                'signalscout': 'var(--signalscout-glow)'
+            };
+            return colors[bayName] || 'var(--bone)';
+        }
+        
+        // Modal functionality
+        function openModal(bayName) {
+            const modal = document.getElementById('modal');
+            const business = currentState?.businesses?.find(b => b.bay_name === bayName);
+            
+            if (business) {
+                document.getElementById('modal-title').textContent = bayName.toUpperCase();
+                document.getElementById('modal-role').textContent = getRoleTitle(bayName);
+                document.getElementById('modal-status').textContent = business.last_tick_summary || 'No recent activity';
+                document.getElementById('modal-activity').textContent = `Last activity: ${business.last_tick_at ? new Date(business.last_tick_at).toLocaleString() : 'Unknown'}`;
+                document.getElementById('modal-metrics').textContent = `Status: ${business.status || 'Unknown'} | Failures: ${business.failures_in_row || 0}`;
+            } else {
+                document.getElementById('modal-title').textContent = bayName.toUpperCase();
+                document.getElementById('modal-role').textContent = getRoleTitle(bayName);
+                document.getElementById('modal-status').textContent = 'No data available';
+                document.getElementById('modal-activity').textContent = 'No activity logged';
+                document.getElementById('modal-metrics').textContent = 'No metrics available';
+            }
+            
+            modal.classList.add('active');
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById('modal');
+            modal.classList.remove('active');
+        }
+        
+        function getRoleTitle(bayName) {
+            const roles = {
+                'jax': 'The Builder',
+                'hank': 'The Hustler',
+                'vega': 'The Analyst',
+                'brix': 'The System Builder',
+                'doss': 'The Guardian',
+                'vault': 'The Treasurer',
+                'signalscout': 'The Researcher'
+            };
+            return roles[bayName] || 'Agent';
+        }
+        
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update clock immediately and then every second
+            updateClock();
+            setInterval(updateClock, 1000);
+            
+            // Fetch state immediately and then every 15 seconds
+            fetchState();
+            setInterval(fetchState, 15000);
+            
+            // Room click handlers
+            const rooms = document.querySelectorAll('.room[data-bay]');
+            rooms.forEach(room => {
+                room.addEventListener('click', function() {
+                    openModal(this.dataset.bay);
+                });
+            });
+            
+            // Modal close handlers
+            const modalBackdrop = document.getElementById('modal');
+            const modalClose = document.querySelector('.modal-close');
+            
+            modalClose.addEventListener('click', closeModal);
+            
+            modalBackdrop.addEventListener('click', function(e) {
+                if (e.target === modalBackdrop) {
+                    closeModal();
+                }
+            });
+            
+            // Escape key to close modal
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

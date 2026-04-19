@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brewington Yard — Command Chair</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#04040a; --gold:#c9a84c; --bone:#efe9d8; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; width: 100%; background: var(--bg); color: var(--bone); font-family: 'Share Tech Mono', monospace; overflow: hidden; }
+  body { position: relative; }
+
+  /* Cockpit chrome */
+  .cockpit-vignette {
+    position: fixed; inset: 0; pointer-events: none; z-index: 50;
+    box-shadow: inset 0 0 200px 80px rgba(0,0,0,0.85);
+  }
+  .cockpit-corner {
+    position: fixed; width: 32px; height: 32px; border: 2px solid var(--gold);
+    opacity: 0.85; pointer-events: none; z-index: 51;
+  }
+  .cockpit-corner.tl { top: 16px;    left: 16px;  border-right: none; border-bottom: none; }
+  .cockpit-corner.tr { top: 16px;    right: 16px; border-left:  none; border-bottom: none; }
+  .cockpit-corner.bl { bottom: 12px; left: 16px;  border-right: none; border-top:    none; }
+  .cockpit-corner.br { bottom: 12px; right: 16px; border-left:  none; border-top:    none; }
+
+  .logo {
+    position: fixed; top: 24px; left: 56px; z-index: 52;
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 4px;
+    color: var(--gold);
+  }
+  .clock {
+    position: fixed; top: 24px; right: 56px; z-index: 52;
+    text-align: right; font-size: 11px; letter-spacing: 2px;
+    color: rgba(239,233,216,0.6);
+  }
+  .clock time {
+    display: block; margin-top: 2px;
+    font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 3px;
+    color: var(--gold);
+  }
+
+  .ticker {
+    position: fixed; left: 60px; right: 60px; bottom: 18px; height: 24px;
+    z-index: 52; overflow: hidden;
+    background: rgba(4,4,10,0.6);
+    border-top: 1px solid rgba(201,168,76,0.25);
+    border-bottom: 1px solid rgba(201,168,76,0.25);
+    font-size: 11px; letter-spacing: 1.5px; line-height: 24px;
+    color: rgba(239,233,216,0.7);
+  }
+  .ticker-track {
+    display: inline-block; white-space: nowrap; padding-left: 100%;
+    animation: tickerScroll 60s linear infinite;
+  }
+  @keyframes tickerScroll { from { transform: translateX(0);} to { transform: translateX(-100%);} }
+
+  /* Stage — 3D scene host. Grid is injected in Task 2. */
+  .stage {
+    position: fixed; inset: 0; z-index: 10;
+    display: grid; place-items: center;
+    perspective: 1800px; perspective-origin: 50% 50%;
+  }
+  .grid {
+    display: grid; gap: 6px;
+    transform-style: preserve-3d;
+    /* Columns / rows set in Task 2. */
+    background: #000; padding: 6px; border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+  <div class="cockpit-vignette"></div>
+  <div class="cockpit-corner tl"></div>
+  <div class="cockpit-corner tr"></div>
+  <div class="cockpit-corner bl"></div>
+  <div class="cockpit-corner br"></div>
+  <div class="logo">BREWINGTON YARD</div>
+  <div class="clock"><span id="clock-date">—</span><time id="clock-time">—</time></div>
+
+  <div class="stage">
+    <div class="grid" id="grid"><!-- rooms injected in Task 2 --></div>
+  </div>
+
+  <div class="ticker"><span class="ticker-track" id="ticker-track">COCKPIT ONLINE · STANDING BY FOR ORDERS · BREWINGTON YARD</span></div>
+
+<script>
+  function tickClock() {
+    const d = new Date();
+    const time = d.toLocaleTimeString('en-US', { hour12: false });
+    const date = d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }).toUpperCase();
+    document.getElementById('clock-date').textContent = date;
+    document.getElementById('clock-time').textContent = time;
+  }
+  tickClock();
+  setInterval(tickClock, 1000);
+</script>
+</body>
+</html>

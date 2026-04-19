@@ -1,0 +1,1201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>FORGE // JAX TEST ROOM</title>
+
+<!--
+  FORGE test article, max fidelity.
+    * True WebGL 3D scene. POV from the command chair.
+    * Luma-key fragment shader drops the video's dark background, restores it as warm rim bloom.
+    * JAX hero room floats dead center, lit from above by a volumetric shaft.
+    * Six ambient rooms hint at the full cockpit wrap, blurred and desaturated so the hero reads first.
+    * Reflective floor catches the room's light.
+    * Dust motes drift through the shaft.
+    * Command chair silhouette locks in the POV.
+    * Cinematic camera entry: subtle orbit + dolly + settle shake.
+    * Anamorphic lens flare on the key light.
+    * Chromatic aberration fringing at the viewport edges.
+
+  If /assets/videos/jax.mp4 is present, it loads as the hero texture automatically.
+  Otherwise a detailed canvas placeholder renders an iso room with JAX at the keyboard
+  so the technique is fully visible even before the real footage arrives.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@400;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#04040a;
+  --gold:#c9a84c;
+  --gold-bright:#e8c96a;
+  --gold-soft:rgba(201,168,76,0.6);
+  --gold-line:rgba(201,168,76,0.22);
+  --gold-faint:rgba(201,168,76,0.08);
+  --teal:#2dd4c0;
+  --text-1:#f0f0f0;
+  --text-2:#888896;
+  --text-3:#55555c;
+  --orange-jax:#f97316;
+  --grain:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.92  0 0 0 0 0.85  0 0 0 0.18 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;background:#000;color:var(--text-1);font-family:"Plus Jakarta Sans",sans-serif;overflow:hidden;cursor:crosshair}
+canvas{display:block;position:fixed;inset:0;width:100%;height:100%;z-index:1}
+
+/* ============================================================
+   ATMOSPHERIC OVERLAYS
+   ============================================================ */
+.grain{position:fixed;inset:0;pointer-events:none;background-image:var(--grain);background-size:180px 180px;opacity:0.42;mix-blend-mode:overlay;z-index:10}
+.vignette{
+  position:fixed;inset:0;pointer-events:none;z-index:9;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, transparent 42%, rgba(0,0,0,0.55) 88%, #000 100%),
+    linear-gradient(180deg, rgba(0,0,0,0.45) 0%, transparent 22%, transparent 78%, rgba(0,0,0,0.6) 100%);
+}
+.ca-fringe{
+  position:fixed;inset:0;pointer-events:none;z-index:11;
+  mix-blend-mode:screen;
+  opacity:0.5;
+  background:
+    radial-gradient(ellipse 65% 50% at 50% 50%, transparent 50%, rgba(255,80,80,0.06) 85%, rgba(255,80,80,0.1) 100%),
+    radial-gradient(ellipse 65% 50% at 50% 50%, transparent 50%, rgba(80,180,255,0.06) 85%, rgba(80,180,255,0.1) 100%);
+}
+.hud-glass{
+  position:fixed;inset:0;pointer-events:none;z-index:12;
+  background:
+    linear-gradient(100deg, transparent 40%, rgba(201,168,76,0.03) 48%, transparent 56%),
+    linear-gradient(80deg, transparent 40%, rgba(45,212,192,0.02) 48%, transparent 56%);
+  mix-blend-mode:screen;
+}
+.scanlines{
+  position:fixed;inset:0;pointer-events:none;z-index:8;
+  background:repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 1px, transparent 1px, transparent 3px);
+  opacity:0.32;
+  mix-blend-mode:overlay;
+}
+.cover{position:fixed;inset:0;background:#000;z-index:100;pointer-events:none;opacity:1;transition:opacity 1400ms cubic-bezier(.6,0,.2,1)}
+.cover.out{opacity:0}
+
+/* ============================================================
+   HUD / CHROME
+   ============================================================ */
+.chrome{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:flex-start;padding:30px 36px;z-index:20;pointer-events:none}
+.logo{font-family:"Bebas Neue",sans-serif;font-size:19px;letter-spacing:0.32em;color:var(--gold);opacity:0;transform:translateY(-4px);transition:opacity 700ms ease-out 600ms, transform 700ms ease-out 600ms}
+.logo.show{opacity:1;transform:translateY(0)}
+.logo .sep{color:var(--text-3);margin:0 12px;font-weight:300}
+.logo .sub{color:var(--text-2);letter-spacing:0.24em;font-size:11px;font-family:"Share Tech Mono",monospace}
+.meta{
+  display:flex;flex-direction:column;align-items:flex-end;gap:5px;
+  font-family:"Share Tech Mono",monospace;font-size:10px;letter-spacing:0.3em;color:var(--text-3);
+  opacity:0;transform:translateY(-4px);
+  transition:opacity 700ms ease-out 750ms, transform 700ms ease-out 750ms;
+}
+.meta.show{opacity:1;transform:translateY(0)}
+.meta .tag{color:var(--gold)}
+.meta .teal{color:var(--teal)}
+
+/* Corner brackets */
+.corner{position:fixed;width:34px;height:34px;z-index:14;pointer-events:none;opacity:0;transition:opacity 1200ms ease-out 400ms}
+.corner.show{opacity:1}
+.corner::before,.corner::after{content:"";position:absolute;background:var(--gold)}
+.corner::before{width:100%;height:1px}
+.corner::after{width:1px;height:100%}
+.corner.tl{top:18px;left:18px}
+.corner.tl::before{top:0;left:0}
+.corner.tl::after{top:0;left:0}
+.corner.tr{top:18px;right:18px}
+.corner.tr::before{top:0;right:0}
+.corner.tr::after{top:0;right:0}
+.corner.bl{bottom:18px;left:18px}
+.corner.bl::before{bottom:0;left:0}
+.corner.bl::after{bottom:0;left:0}
+.corner.br{bottom:18px;right:18px}
+.corner.br::before{bottom:0;right:0}
+.corner.br::after{bottom:0;right:0}
+
+/* HUD reticle at center */
+.reticle{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:92px;height:92px;z-index:13;pointer-events:none;
+  opacity:0;transition:opacity 800ms ease-out 2600ms;
+}
+.reticle.show{opacity:0.38}
+.reticle::before,.reticle::after{
+  content:"";position:absolute;left:50%;top:50%;background:var(--gold);
+}
+.reticle::before{width:1px;height:10px;transform:translate(-50%,-50%) translateY(-30px)}
+.reticle::after{width:10px;height:1px;transform:translate(-50%,-50%) translateX(30px)}
+.reticle svg{position:absolute;inset:0;width:100%;height:100%}
+
+/* Nameplate (projected, over the JAX room) */
+.plate{
+  position:fixed;
+  padding:5px 11px 4px 11px;
+  font-family:"Bebas Neue",sans-serif;
+  font-size:17px;
+  letter-spacing:0.16em;
+  color:var(--gold);
+  background:rgba(4,4,10,0.84);
+  border:1px solid var(--gold-line);
+  z-index:16;
+  pointer-events:none;
+  white-space:nowrap;
+  line-height:1;
+  opacity:0;
+  transform:translate(-10%, 12%);
+  transition:opacity 600ms ease-out 2100ms;
+  box-shadow:0 0 18px rgba(201,168,76,0.12);
+}
+.plate::before{
+  content:"";position:absolute;top:-1px;left:-1px;
+  width:14px;height:14px;
+  border-top:1px solid var(--gold);border-left:1px solid var(--gold);
+}
+.plate::after{
+  content:"";position:absolute;bottom:-1px;right:-1px;
+  width:14px;height:14px;
+  border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);
+}
+.plate.show{opacity:1}
+.plate .mark{color:var(--text-3);font-family:"Share Tech Mono",monospace;font-size:9px;letter-spacing:0.32em;margin-right:8px;vertical-align:2px}
+.plate .role{display:block;font-family:"Share Tech Mono",monospace;font-size:9px;letter-spacing:0.32em;color:var(--teal);margin-top:3px;opacity:0.85}
+
+/* Status strip */
+.status{
+  position:fixed;bottom:26px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:24px;
+  font-family:"Share Tech Mono",monospace;font-size:10px;letter-spacing:0.32em;
+  color:var(--text-3);z-index:20;pointer-events:none;
+  opacity:0;transition:opacity 800ms ease-out 2400ms;
+}
+.status.show{opacity:1}
+.status span{display:inline-flex;align-items:center;gap:8px}
+.status .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);animation:pulse 2s ease-in-out infinite}
+.status .dot.gold{background:var(--gold);box-shadow:0 0 8px var(--gold-soft)}
+.status .ok{color:var(--gold)}
+.status .sep{color:var(--text-3);opacity:0.4}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.45;transform:scale(0.82)}}
+
+/* Placeholder banner */
+.banner{
+  position:fixed;top:86px;left:50%;transform:translateX(-50%);
+  padding:8px 14px;
+  font-family:"Share Tech Mono",monospace;font-size:10px;letter-spacing:0.26em;
+  color:var(--gold);
+  border:1px dashed var(--gold-line);
+  background:rgba(4,4,10,0.72);
+  backdrop-filter:blur(8px);
+  z-index:20;pointer-events:none;
+  opacity:0;transition:opacity 600ms ease-out 2800ms;
+}
+.banner.show{opacity:1}
+.banner small{color:var(--text-3);font-weight:400}
+
+/* Chair silhouette as DOM element over the canvas for crisp shape */
+.chair{
+  position:fixed;
+  bottom:-5vh;left:0;right:0;
+  height:30vh;
+  z-index:7;
+  pointer-events:none;
+  opacity:0;transition:opacity 1200ms ease-out 700ms;
+  background:
+    radial-gradient(ellipse 48% 60% at 50% 100%, #000 0%, rgba(0,0,0,0.86) 38%, rgba(0,0,0,0.1) 72%, transparent 100%);
+  filter:blur(1px);
+}
+.chair.show{opacity:1}
+.chair-rails{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:72%;max-width:1100px;height:12vh;z-index:7;
+  pointer-events:none;opacity:0;transition:opacity 1200ms ease-out 900ms;
+}
+.chair-rails.show{opacity:0.8}
+.chair-rails svg{width:100%;height:100%}
+
+/* Audio disable */
+.noselect{user-select:none}
+</style>
+</head>
+
+<body class="noselect">
+
+<div class="cover" id="cover"></div>
+
+<canvas id="stage"></canvas>
+
+<!-- atmospheric stack, back to front -->
+<div class="scanlines"></div>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div class="hud-glass"></div>
+<div class="ca-fringe"></div>
+
+<!-- chair silhouette -->
+<div class="chair" id="chair"></div>
+<div class="chair-rails" id="chairRails">
+  <svg viewBox="0 0 1000 160" preserveAspectRatio="xMidYMax meet">
+    <defs>
+      <linearGradient id="railG" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#1a1a22" stop-opacity="0"/>
+        <stop offset="100%" stop-color="#1a1a22" stop-opacity="1"/>
+      </linearGradient>
+      <linearGradient id="panelG" x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0%" stop-color="#0c0c12" stop-opacity="0"/>
+        <stop offset="40%" stop-color="#0c0c12" stop-opacity="0.65"/>
+        <stop offset="100%" stop-color="#060609" stop-opacity="1"/>
+      </linearGradient>
+    </defs>
+    <path d="M0 160 L0 90 Q120 80 260 75 L300 70 L700 70 L740 75 Q880 80 1000 90 L1000 160 Z" fill="url(#panelG)"/>
+    <path d="M140 160 L190 95 L810 95 L860 160 Z" fill="url(#railG)" opacity="0.6"/>
+    <!-- control console lines -->
+    <path d="M260 108 L420 108" stroke="#c9a84c" stroke-opacity="0.18" stroke-width="1"/>
+    <path d="M580 108 L740 108" stroke="#c9a84c" stroke-opacity="0.18" stroke-width="1"/>
+    <circle cx="360" cy="114" r="2" fill="#2dd4c0" opacity="0.7"/>
+    <circle cx="640" cy="114" r="2" fill="#c9a84c" opacity="0.8"/>
+    <circle cx="700" cy="114" r="1.5" fill="#c9a84c" opacity="0.5"/>
+    <rect x="468" y="95" width="64" height="22" fill="none" stroke="#c9a84c" stroke-opacity="0.22"/>
+    <text x="500" y="110" text-anchor="middle" fill="#c9a84c" fill-opacity="0.5" font-family="'Share Tech Mono', monospace" font-size="8" letter-spacing="0.3em">CMD</text>
+  </svg>
+</div>
+
+<!-- corner brackets -->
+<div class="corner tl" id="c1"></div>
+<div class="corner tr" id="c2"></div>
+<div class="corner bl" id="c3"></div>
+<div class="corner br" id="c4"></div>
+
+<!-- HUD reticle -->
+<div class="reticle" id="reticle">
+  <svg viewBox="0 0 92 92">
+    <circle cx="46" cy="46" r="30" stroke="#c9a84c" stroke-width="0.6" fill="none" opacity="0.7"/>
+    <circle cx="46" cy="46" r="38" stroke="#c9a84c" stroke-width="0.4" fill="none" opacity="0.4"/>
+    <circle cx="46" cy="46" r="1.5" fill="#c9a84c"/>
+  </svg>
+</div>
+
+<!-- chrome -->
+<div class="chrome">
+  <div class="logo" id="logo">
+    FORGE <span class="sep">//</span> <span class="sub">COCKPIT TEST ROOM 01</span>
+  </div>
+  <div class="meta" id="meta">
+    <div><span class="tag">APPROACH</span> WEBGL / LUMA KEY</div>
+    <div><span class="tag">ROOM</span> <span class="teal">JAX</span> BUILDER</div>
+    <div id="srcLine"><span class="tag">SRC</span> STANDBY</div>
+    <div><span class="tag">FPS</span> <span id="fps">---</span></div>
+  </div>
+</div>
+
+<!-- nameplate -->
+<div class="plate" id="plate">
+  <span class="mark">01</span>JAX
+  <span class="role">BUILDER</span>
+</div>
+
+<!-- status strip -->
+<div class="status" id="status">
+  <span><span class="dot"></span>PARALLAX LIVE</span>
+  <span class="sep">//</span>
+  <span class="ok">LUMA KEY ACTIVE</span>
+  <span class="sep">//</span>
+  <span><span class="dot gold"></span>AMBIENT ROOMS x6</span>
+  <span class="sep">//</span>
+  <span>MOVE MOUSE TO LOOK</span>
+</div>
+
+<!-- placeholder banner -->
+<div class="banner" id="banner">
+  PLACEHOLDER CLIP &nbsp;&nbsp; <small>DROP REAL JAX.MP4 AT businesses/realtor/inbox/videos/jax.mp4</small>
+</div>
+
+<script type="importmap">
+{ "imports": { "three": "/vendor/three.module.min.js" } }
+</script>
+
+<script type="module">
+import * as THREE from "three";
+
+/* ============================================================
+   RENDERER + SCENE
+   ============================================================ */
+const canvas = document.getElementById("stage");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true, powerPreference:"high-performance" });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight, false);
+renderer.setClearColor(0x04040a, 1);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.08;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x04040a, 0.075);
+
+const camera = new THREE.PerspectiveCamera(46, window.innerWidth / window.innerHeight, 0.1, 200);
+camera.position.set(2.2, 0.6, 14);
+camera.lookAt(0, 0.3, 0);
+
+/* ============================================================
+   FLOOR: dark plane with soft golden falloff directly under hero
+   ============================================================ */
+{
+  const floorGeo = new THREE.PlaneGeometry(80, 80, 1, 1);
+  const floorMat = new THREE.ShaderMaterial({
+    uniforms:{ uCol:{ value:new THREE.Color(0xc9a84c) }, uCol2:{ value:new THREE.Color(0x04040a) } },
+    vertexShader:`varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+    fragmentShader:`
+      precision highp float;
+      uniform vec3 uCol; uniform vec3 uCol2;
+      varying vec2 vUv;
+      void main(){
+        vec2 p = vUv - 0.5;
+        float d = length(p) * 2.0;
+        float glow = pow(1.0 - smoothstep(0.0, 0.32, d), 2.2) * 0.45;
+        // subtle tile grid
+        vec2 g = abs(fract(vUv * 40.0) - 0.5);
+        float line = smoothstep(0.46, 0.5, max(g.x, g.y));
+        vec3 col = mix(uCol2, uCol * 0.35, glow) + vec3(line) * 0.04;
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `,
+    transparent:false,
+    depthWrite:true,
+  });
+  const floor = new THREE.Mesh(floorGeo, floorMat);
+  floor.rotation.x = -Math.PI / 2;
+  floor.position.y = -2.2;
+  scene.add(floor);
+}
+
+/* ============================================================
+   LIGHT SHAFT above the hero room (volumetric cone)
+   ============================================================ */
+{
+  const shaftGeo = new THREE.CylinderGeometry(0.12, 2.6, 6.4, 36, 1, true);
+  const shaftMat = new THREE.ShaderMaterial({
+    uniforms:{ uCol:{ value:new THREE.Color(0xc9a84c) }, uTime:{ value:0 } },
+    vertexShader:`
+      varying vec2 vUv;
+      varying float vY;
+      void main(){
+        vUv = uv;
+        vY = position.y;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+      }
+    `,
+    fragmentShader:`
+      precision highp float;
+      uniform vec3 uCol;
+      uniform float uTime;
+      varying vec2 vUv;
+      varying float vY;
+      void main(){
+        float radial = smoothstep(0.0, 0.5, 1.0 - abs(vUv.x - 0.5) * 2.0);
+        float vertical = smoothstep(-3.2, 3.2, vY);
+        // subtle vertical flicker
+        float f = 0.9 + 0.12 * sin(uTime * 1.7 + vY * 0.8);
+        float a = radial * vertical * 0.18 * f;
+        gl_FragColor = vec4(uCol, a);
+      }
+    `,
+    transparent:true,
+    depthWrite:false,
+    side:THREE.DoubleSide,
+    blending:THREE.AdditiveBlending,
+  });
+  window.__shaft = new THREE.Mesh(shaftGeo, shaftMat);
+  window.__shaft.position.set(0, 1.0, 0.1);
+  scene.add(window.__shaft);
+}
+
+/* ============================================================
+   LIGHTING
+   ============================================================ */
+scene.add(new THREE.AmbientLight(0x222230, 1.1));
+const keyLight = new THREE.PointLight(0xc9a84c, 2.2, 16, 2.0);
+keyLight.position.set(0.4, 4.2, 2.4);
+scene.add(keyLight);
+const fillLight = new THREE.PointLight(0x2dd4c0, 0.5, 14, 2.0);
+fillLight.position.set(-4, 1.2, 3);
+scene.add(fillLight);
+const backRim = new THREE.PointLight(0xf97316, 0.55, 12, 2.2);
+backRim.position.set(3.6, 0.4, -2.2);
+scene.add(backRim);
+
+/* ============================================================
+   PLACEHOLDER CANVAS (highly detailed iso room scene)
+   ============================================================ */
+function buildPlaceholder(size = 1024){
+  const c = document.createElement("canvas");
+  c.width = size; c.height = size;
+  const ctx = c.getContext("2d");
+
+  // precomputed scrolling code lines
+  const codeLines = [
+    "const cockpit = new Yard();",
+    "await cockpit.loadAgents(18);",
+    "render({ perspective: 1800 });",
+    "/* wire ECHO outreach */",
+    "if (leads.hot) notify(\"hank\");",
+    "deploy(max, { credits: 849 });",
+    "stats.active_clients++;",
+    "brix.catalog(inbox);",
+    "forge.rebuild(\"hero\");",
+    "// +1 tenant this tick",
+  ];
+
+  function draw(t){
+    ctx.save();
+    ctx.setTransform(1,0,0,1,0,0);
+    // always-black background (luma key wants this pure)
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, size, size);
+
+    // ---- iso floor ----
+    const cx = size / 2, cy = size * 0.66;
+    ctx.save();
+    ctx.translate(cx, cy);
+    // floor diamond (bright enough to survive luma key)
+    const floorW = size * 0.62, floorH = floorW * 0.58;
+    ctx.beginPath();
+    ctx.moveTo(0, -floorH/2);
+    ctx.lineTo(floorW/2, 0);
+    ctx.lineTo(0, floorH/2);
+    ctx.lineTo(-floorW/2, 0);
+    ctx.closePath();
+    const fg = ctx.createLinearGradient(0, -floorH/2, 0, floorH/2);
+    fg.addColorStop(0, "#3a3a54");
+    fg.addColorStop(1, "#20202e");
+    ctx.fillStyle = fg;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(249,115,22,0.75)";
+    ctx.lineWidth = 2.2;
+    ctx.stroke();
+
+    // floor tile lines
+    ctx.strokeStyle = "rgba(201,168,76,0.12)";
+    ctx.lineWidth = 0.6;
+    const steps = 6;
+    for (let i = 1; i < steps; i++){
+      const r = i / steps;
+      ctx.beginPath();
+      ctx.moveTo(-floorW/2 * r, -floorH/2 * r);
+      ctx.lineTo(floorW/2 * r, -floorH/2 * r);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-floorW/2 * r, floorH/2 * r);
+      ctx.lineTo(floorW/2 * r, floorH/2 * r);
+      ctx.stroke();
+    }
+
+    // shadow under character
+    ctx.fillStyle = "rgba(0,0,0,0.6)";
+    ctx.beginPath();
+    ctx.ellipse(0, 10, 80, 18, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+
+    // ---- iso left wall ----
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(cx - floorW/2, cy);
+    ctx.lineTo(cx, cy - floorH/2);
+    ctx.lineTo(cx, cy - floorH/2 - size * 0.32);
+    ctx.lineTo(cx - floorW/2, cy - size * 0.32);
+    ctx.closePath();
+    const lwg = ctx.createLinearGradient(cx - floorW/2, 0, cx, 0);
+    lwg.addColorStop(0, "#2a2a3e");
+    lwg.addColorStop(1, "#464668");
+    ctx.fillStyle = lwg;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(249,115,22,0.85)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // left wall: shelf with tools
+    ctx.strokeStyle = "rgba(201,168,76,0.35)";
+    ctx.lineWidth = 1;
+    const shelfY = cy - size * 0.12;
+    ctx.beginPath();
+    ctx.moveTo(cx - floorW/2 + 60, shelfY);
+    ctx.lineTo(cx - 40, shelfY - size * 0.04);
+    ctx.stroke();
+    // little tool silhouettes
+    for (let i = 0; i < 4; i++){
+      const k = i / 3;
+      const x = (cx - floorW/2 + 75) + (cx - 60 - (cx - floorW/2 + 75)) * k;
+      const y = shelfY - k * size * 0.04 - 18;
+      ctx.fillStyle = "rgba(201,168,76,0.6)";
+      ctx.fillRect(x - 3, y, 6, 18);
+    }
+    ctx.restore();
+
+    // ---- iso right wall ----
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - floorH/2);
+    ctx.lineTo(cx + floorW/2, cy);
+    ctx.lineTo(cx + floorW/2, cy - size * 0.32);
+    ctx.lineTo(cx, cy - floorH/2 - size * 0.32);
+    ctx.closePath();
+    const rwg = ctx.createLinearGradient(cx, 0, cx + floorW/2, 0);
+    rwg.addColorStop(0, "#4a4a6c");
+    rwg.addColorStop(1, "#2a2a3e");
+    ctx.fillStyle = rwg;
+    ctx.fill();
+    ctx.strokeStyle = "rgba(249,115,22,0.85)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // right wall: big monitor with scrolling code
+    const monX = cx + 40, monY = cy - floorH/2 - size * 0.22;
+    const monW = floorW * 0.34, monH = size * 0.16;
+    // frame
+    ctx.fillStyle = "#0a0a12";
+    ctx.fillRect(monX, monY, monW, monH);
+    ctx.strokeStyle = "rgba(45,212,192,0.55)";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(monX, monY, monW, monH);
+    // glow
+    ctx.save();
+    ctx.globalCompositeOperation = "lighter";
+    const gPulse = 0.35 + 0.22 * Math.sin(t / 380);
+    ctx.fillStyle = `rgba(45,212,192,${gPulse * 0.25})`;
+    ctx.fillRect(monX, monY, monW, monH);
+    ctx.restore();
+    // scrolling code (clip)
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(monX + 6, monY + 6, monW - 12, monH - 12);
+    ctx.clip();
+    ctx.font = "12px 'Share Tech Mono', monospace";
+    ctx.fillStyle = "rgba(45,212,192,0.9)";
+    const scrollY = -(t / 38) % (codeLines.length * 16);
+    for (let i = 0; i < codeLines.length * 2; i++){
+      const ln = codeLines[i % codeLines.length];
+      const y = monY + 18 + (i * 16) + scrollY;
+      ctx.globalAlpha = 0.55 + 0.4 * ((i % 5) / 5);
+      ctx.fillText(ln, monX + 10, y);
+    }
+    ctx.globalAlpha = 1;
+    ctx.restore();
+
+    // small LED row below monitor
+    for (let i = 0; i < 5; i++){
+      const on = ((t / 400 + i) | 0) % 3 === 0;
+      ctx.fillStyle = on ? "rgba(201,168,76,0.9)" : "rgba(201,168,76,0.25)";
+      ctx.fillRect(monX + i * 12 + 6, monY + monH + 8, 6, 3);
+    }
+
+    // ---- desk on floor ----
+    ctx.save();
+    ctx.translate(cx, cy);
+    const deskW = floorW * 0.42;
+    const deskH = 16;
+    ctx.fillStyle = "#1a1520";
+    // iso desk top
+    ctx.beginPath();
+    ctx.moveTo(-deskW/2, -floorH * 0.18);
+    ctx.lineTo(0, -floorH * 0.22);
+    ctx.lineTo(deskW/2, -floorH * 0.18);
+    ctx.lineTo(0, -floorH * 0.14);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = "rgba(249,115,22,0.45)";
+    ctx.stroke();
+    // keyboard (gold outline)
+    ctx.strokeStyle = "rgba(201,168,76,0.7)";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(-48, -floorH * 0.182, 96, 14);
+    // mug (teal rim)
+    ctx.beginPath();
+    ctx.arc(-72, -floorH * 0.19, 7, 0, Math.PI * 2);
+    ctx.fillStyle = "#0a0a12";
+    ctx.fill();
+    ctx.strokeStyle = "rgba(45,212,192,0.7)";
+    ctx.stroke();
+    // steam wisp above mug
+    const wispT = (t / 80) % 30;
+    ctx.strokeStyle = `rgba(45,212,192,${0.4 - wispT/100})`;
+    ctx.beginPath();
+    ctx.moveTo(-72, -floorH * 0.19 - wispT);
+    ctx.bezierCurveTo(-68, -floorH * 0.19 - wispT - 6, -76, -floorH * 0.19 - wispT - 10, -72, -floorH * 0.19 - wispT - 18);
+    ctx.stroke();
+    ctx.restore();
+
+    // ---- JAX character ----
+    ctx.save();
+    ctx.translate(cx, cy);
+    const bob = Math.sin(t / 540) * 3.6;
+    const chX = 0, chY = -40 + bob;
+    // legs (implied sitting)
+    ctx.fillStyle = "#2a2a36";
+    ctx.beginPath();
+    ctx.moveTo(chX - 18, chY + 28);
+    ctx.lineTo(chX - 28, chY + 62);
+    ctx.lineTo(chX - 10, chY + 62);
+    ctx.lineTo(chX - 8, chY + 28);
+    ctx.closePath();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(chX + 18, chY + 28);
+    ctx.lineTo(chX + 28, chY + 62);
+    ctx.lineTo(chX + 10, chY + 62);
+    ctx.lineTo(chX + 8, chY + 28);
+    ctx.closePath();
+    ctx.fill();
+    // torso
+    ctx.fillStyle = "#f97316";
+    ctx.beginPath();
+    ctx.moveTo(chX - 22, chY - 8);
+    ctx.lineTo(chX + 22, chY - 8);
+    ctx.lineTo(chX + 26, chY + 30);
+    ctx.lineTo(chX - 26, chY + 30);
+    ctx.closePath();
+    ctx.fill();
+    // torso accent
+    ctx.fillStyle = "#c9a84c";
+    ctx.fillRect(chX - 2, chY - 8, 4, 38);
+    // arms typing
+    const typeL = Math.sin(t / 160) * 2;
+    const typeR = Math.cos(t / 170) * 2;
+    ctx.fillStyle = "#f97316";
+    ctx.fillRect(chX - 32, chY + 2 + typeL, 14, 20);
+    ctx.fillRect(chX + 18, chY + 2 + typeR, 14, 20);
+    // hands
+    ctx.fillStyle = "#e8c96a";
+    ctx.fillRect(chX - 32, chY + 20 + typeL, 14, 6);
+    ctx.fillRect(chX + 18, chY + 20 + typeR, 14, 6);
+    // head
+    ctx.fillStyle = "#e8c96a";
+    ctx.beginPath();
+    ctx.arc(chX, chY - 22, 15, 0, Math.PI * 2);
+    ctx.fill();
+    // hair shadow
+    ctx.fillStyle = "#604020";
+    ctx.beginPath();
+    ctx.arc(chX, chY - 26, 15, Math.PI, 0, false);
+    ctx.fill();
+    // eye glow from monitor
+    ctx.fillStyle = "rgba(45,212,192,0.8)";
+    ctx.fillRect(chX - 6, chY - 22, 3, 2);
+    ctx.fillRect(chX + 3, chY - 22, 3, 2);
+    ctx.restore();
+
+    // ---- floor light splash under shaft ----
+    ctx.save();
+    const splashG = ctx.createRadialGradient(cx, cy + 20, 20, cx, cy + 20, 220);
+    splashG.addColorStop(0, "rgba(201,168,76,0.28)");
+    splashG.addColorStop(1, "rgba(201,168,76,0)");
+    ctx.globalCompositeOperation = "lighter";
+    ctx.fillStyle = splashG;
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + 20, 220, 90, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+
+    // ---- dust motes inside the room ----
+    ctx.save();
+    ctx.fillStyle = "rgba(255,225,170,0.55)";
+    for (let i = 0; i < 30; i++){
+      const seed = i * 37.1;
+      const px = cx + Math.sin(seed + t / 800) * 160 + Math.cos(seed * 0.3) * 80;
+      const py = cy - 120 + Math.cos(seed + t / 1400) * 90 + ((t / 22 + i * 17) % 200) - 100;
+      const r = 0.6 + (i % 3) * 0.4;
+      ctx.globalAlpha = 0.2 + 0.4 * ((Math.sin(seed + t/600) + 1) / 2);
+      ctx.fillRect(px, py, r, r);
+    }
+    ctx.globalAlpha = 1;
+    ctx.restore();
+
+    // ---- top-edge ambient shadow ----
+    ctx.save();
+    const topG = ctx.createLinearGradient(0, 0, 0, size);
+    topG.addColorStop(0, "rgba(0,0,0,0.55)");
+    topG.addColorStop(0.25, "rgba(0,0,0,0.0)");
+    ctx.fillStyle = topG;
+    ctx.fillRect(0, 0, size, size);
+    ctx.restore();
+
+    ctx.restore();
+  }
+
+  draw(0);
+  return { canvas:c, draw };
+}
+
+/* ============================================================
+   BUILD A LOWER-DETAIL AMBIENT ROOM CANVAS
+   ============================================================ */
+function buildAmbient(color, variant){
+  const c = document.createElement("canvas");
+  c.width = 512; c.height = 512;
+  const ctx = c.getContext("2d");
+  function draw(t){
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0,0,512,512);
+    const cx = 256, cy = 320;
+    // floor
+    ctx.fillStyle = "#1f1f2e";
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 90); ctx.lineTo(cx + 160, cy); ctx.lineTo(cx, cy + 90); ctx.lineTo(cx - 160, cy);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = color + "cc";
+    ctx.lineWidth = 1.8;
+    ctx.stroke();
+    // walls
+    ctx.fillStyle = "#26263a";
+    ctx.beginPath();
+    ctx.moveTo(cx - 160, cy); ctx.lineTo(cx, cy - 90); ctx.lineTo(cx, cy - 230); ctx.lineTo(cx - 160, cy - 140);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = color + "cc"; ctx.stroke();
+    ctx.fillStyle = "#2e2e44";
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - 90); ctx.lineTo(cx + 160, cy); ctx.lineTo(cx + 160, cy - 140); ctx.lineTo(cx, cy - 230);
+    ctx.closePath(); ctx.fill();
+    ctx.stroke();
+    // monitor glow accent
+    const pulse = 0.5 + 0.4 * Math.sin(t / 600 + variant);
+    ctx.fillStyle = color;
+    ctx.globalAlpha = pulse;
+    ctx.fillRect(cx + 28, cy - 148, 34, 24);
+    ctx.globalAlpha = 1;
+    ctx.strokeStyle = color;
+    ctx.strokeRect(cx + 28, cy - 148, 34, 24);
+    // silhouette "character"
+    const bob = Math.sin(t / 700 + variant) * 3.2;
+    ctx.fillStyle = color;
+    ctx.fillRect(cx - 18, cy - 60 + bob, 36, 56);
+    ctx.beginPath();
+    ctx.arc(cx, cy - 76 + bob, 14, 0, Math.PI * 2);
+    ctx.fill();
+    // floor shadow
+    ctx.fillStyle = "rgba(0,0,0,0.5)";
+    ctx.beginPath();
+    ctx.ellipse(cx, cy + 2, 28, 6, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  draw(0);
+  return { canvas:c, draw };
+}
+
+/* ============================================================
+   LUMA-KEY SHADER MATERIAL
+   ============================================================ */
+function makeLumaMat(texture, opts = {}){
+  return new THREE.ShaderMaterial({
+    uniforms:{
+      uMap:{ value:texture },
+      uThreshold:{ value: opts.threshold ?? 0.06 },
+      uSoftness:{ value: opts.softness ?? 0.16 },
+      uEdge:{ value: new THREE.Color(opts.edge ?? 0xf97316) },
+      uEdgeAmt:{ value: opts.edgeAmt ?? 0.16 },
+      uFade:{ value: opts.fade ?? 1.0 },
+      uDesat:{ value: opts.desat ?? 0.0 },
+    },
+    vertexShader:`
+      varying vec2 vUv;
+      void main(){
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+      }
+    `,
+    fragmentShader:`
+      precision highp float;
+      uniform sampler2D uMap;
+      uniform float uThreshold;
+      uniform float uSoftness;
+      uniform vec3 uEdge;
+      uniform float uEdgeAmt;
+      uniform float uFade;
+      uniform float uDesat;
+      varying vec2 vUv;
+      void main(){
+        vec4 c = texture2D(uMap, vUv);
+        float luma = dot(c.rgb, vec3(0.2126, 0.7152, 0.0722));
+        float a = smoothstep(uThreshold, uThreshold + uSoftness, luma);
+        if (a < 0.004) discard;
+        float rim = (1.0 - a) * uEdgeAmt;
+        vec3 col = c.rgb + uEdge * rim;
+        // optional desaturation for ambient rooms
+        float g = dot(col, vec3(0.299, 0.587, 0.114));
+        col = mix(col, vec3(g), uDesat);
+        gl_FragColor = vec4(col, a * uFade);
+      }
+    `,
+    transparent:true,
+    depthWrite:false,
+    side:THREE.DoubleSide,
+  });
+}
+
+/* ============================================================
+   HERO ROOM
+   Try video, else placeholder canvas.
+   ============================================================ */
+let placeholder = null;
+let usingVideo = false;
+const placeholderStart = performance.now();
+
+const videoEl = document.createElement("video");
+videoEl.src = "/assets/videos/jax.mp4";
+videoEl.muted = true;
+videoEl.loop = true;
+videoEl.playsInline = true;
+videoEl.crossOrigin = "anonymous";
+videoEl.preload = "auto";
+
+const heroTexture = await new Promise((resolve) => {
+  let done = false;
+  const finish = (tex, reason) => {
+    if (done) return; done = true;
+    resolve(tex);
+    const src = reason === "video" ? "/assets/videos/jax.mp4" : "PLACEHOLDER CANVAS";
+    document.getElementById("srcLine").innerHTML = `<span class="tag">SRC</span> ${src}`;
+    if (reason !== "video") document.getElementById("banner").classList.add("show");
+  };
+  videoEl.addEventListener("loadeddata", () => {
+    usingVideo = true;
+    videoEl.play().catch(()=>{});
+    const t = new THREE.VideoTexture(videoEl);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.minFilter = THREE.LinearFilter;
+    t.magFilter = THREE.LinearFilter;
+    finish(t, "video");
+  }, {once:true});
+  videoEl.addEventListener("error", () => {
+    placeholder = buildPlaceholder(1024);
+    const t = new THREE.CanvasTexture(placeholder.canvas);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.minFilter = THREE.LinearFilter;
+    t.magFilter = THREE.LinearFilter;
+    finish(t, "canvas");
+  }, {once:true});
+  setTimeout(() => {
+    if (done) return;
+    placeholder = buildPlaceholder(1024);
+    const t = new THREE.CanvasTexture(placeholder.canvas);
+    t.colorSpace = THREE.SRGBColorSpace;
+    t.minFilter = THREE.LinearFilter;
+    t.magFilter = THREE.LinearFilter;
+    finish(t, "canvas-timeout");
+  }, 2400);
+});
+
+const heroMat = makeLumaMat(heroTexture, { threshold:0.02, softness:0.06, edge:0xf97316, edgeAmt:0.2 });
+const heroGeo = new THREE.PlaneGeometry(4.6, 4.6, 1, 1);
+const hero = new THREE.Mesh(heroGeo, heroMat);
+hero.position.set(0, 0.5, 0);
+scene.add(hero);
+
+/* Reflected hero (simple mirror beneath floor for presence) */
+const heroReflect = new THREE.Mesh(heroGeo, heroMat.clone());
+heroReflect.material.uniforms.uFade.value = 0.22;
+heroReflect.material.uniforms.uEdgeAmt.value = 0.05;
+heroReflect.material.uniforms.uDesat.value = 0.6;
+heroReflect.scale.y = -1;
+heroReflect.position.set(0, -4.9, 0);
+scene.add(heroReflect);
+
+/* Back-plate warm glow to make hero feel lit */
+const glowGeo = new THREE.PlaneGeometry(7.6, 7.6);
+const glowMat = new THREE.ShaderMaterial({
+  uniforms:{ uColor:{ value:new THREE.Color(0xc9a84c) }, uPulse:{ value:0 } },
+  vertexShader:`varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+  fragmentShader:`
+    precision highp float;
+    uniform vec3 uColor;
+    uniform float uPulse;
+    varying vec2 vUv;
+    void main(){
+      vec2 p = vUv - 0.5;
+      float d = length(p) * 2.0;
+      float g = pow(1.0 - smoothstep(0.0, 0.9, d), 2.4) * (0.5 + uPulse * 0.12);
+      gl_FragColor = vec4(uColor * g * 0.7, g * 0.4);
+    }
+  `,
+  transparent:true,
+  depthWrite:false,
+  blending:THREE.AdditiveBlending,
+});
+const heroGlow = new THREE.Mesh(glowGeo, glowMat);
+heroGlow.position.set(0, 0.5, -0.35);
+scene.add(heroGlow);
+
+/* ============================================================
+   AMBIENT ROOMS (hint at the wraparound cockpit)
+   ============================================================ */
+const ambients = [];
+const ambientLayouts = [
+  { pos:[-4.4, 0.55, -2.0], rotY:  0.55, scale:2.6, color:"#2dd4c0", v:0 },
+  { pos:[-3.6, 0.55, -5.2], rotY:  0.38, scale:2.2, color:"#3b82f6", v:1 },
+  { pos:[ 4.4, 0.55, -2.0], rotY: -0.55, scale:2.6, color:"#a855f7", v:2 },
+  { pos:[ 3.6, 0.55, -5.2], rotY: -0.38, scale:2.2, color:"#22c55e", v:3 },
+  { pos:[-1.9, 2.1, -3.6], rotY:  0.08, scale:1.9, color:"#c9a84c", v:4 },
+  { pos:[ 1.9, 2.1, -3.6], rotY: -0.08, scale:1.9, color:"#f472b6", v:5 },
+];
+ambientLayouts.forEach((L) => {
+  const ph = buildAmbient(L.color, L.v);
+  const tex = new THREE.CanvasTexture(ph.canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.minFilter = THREE.LinearFilter;
+  tex.magFilter = THREE.LinearFilter;
+  const mat = makeLumaMat(tex, {
+    threshold:0.02, softness:0.08,
+    edge:new THREE.Color(L.color).getHex(),
+    edgeAmt:0.12,
+    fade:0.62,
+    desat:0.55,
+  });
+  const g = new THREE.PlaneGeometry(L.scale, L.scale, 1, 1);
+  const m = new THREE.Mesh(g, mat);
+  m.position.set(...L.pos);
+  m.rotation.y = L.rotY;
+  scene.add(m);
+  ambients.push({ mesh:m, ph, tex });
+});
+
+/* ============================================================
+   DUST PARTICLES
+   ============================================================ */
+const dustCount = 380;
+const dustGeo = new THREE.BufferGeometry();
+const dustPos = new Float32Array(dustCount * 3);
+const dustSeeds = new Float32Array(dustCount);
+for (let i = 0; i < dustCount; i++){
+  const r = 4 + Math.random() * 5;
+  const a = Math.random() * Math.PI * 2;
+  dustPos[i*3 + 0] = Math.cos(a) * r;
+  dustPos[i*3 + 1] = -1.6 + Math.random() * 5.5;
+  dustPos[i*3 + 2] = Math.sin(a) * r - 1;
+  dustSeeds[i] = Math.random();
+}
+dustGeo.setAttribute("position", new THREE.BufferAttribute(dustPos, 3));
+dustGeo.setAttribute("seed", new THREE.BufferAttribute(dustSeeds, 1));
+const dustMat = new THREE.ShaderMaterial({
+  uniforms:{ uTime:{ value:0 } },
+  vertexShader:`
+    attribute float seed;
+    uniform float uTime;
+    varying float vAlpha;
+    void main(){
+      vec3 p = position;
+      p.y += sin(uTime * 0.00045 + seed * 20.0) * 0.3;
+      p.x += cos(uTime * 0.00032 + seed * 10.0) * 0.22;
+      p.z += sin(uTime * 0.00041 + seed * 17.0) * 0.22;
+      vec4 mv = modelViewMatrix * vec4(p, 1.0);
+      gl_Position = projectionMatrix * mv;
+      gl_PointSize = (0.7 + seed * 1.2) * (200.0 / -mv.z);
+      vAlpha = 0.22 + 0.4 * abs(sin(uTime * 0.001 + seed * 30.0));
+    }
+  `,
+  fragmentShader:`
+    precision highp float;
+    varying float vAlpha;
+    void main(){
+      vec2 p = gl_PointCoord - 0.5;
+      float d = length(p);
+      float a = smoothstep(0.5, 0.0, d) * vAlpha;
+      gl_FragColor = vec4(0.92, 0.85, 0.65, a);
+    }
+  `,
+  transparent:true,
+  depthWrite:false,
+  blending:THREE.AdditiveBlending,
+});
+const dust = new THREE.Points(dustGeo, dustMat);
+scene.add(dust);
+
+/* ============================================================
+   ANAMORPHIC LENS FLARE on key light
+   (horizontal streak plane always facing camera)
+   ============================================================ */
+const flareGeo = new THREE.PlaneGeometry(7.0, 0.18);
+const flareMat = new THREE.ShaderMaterial({
+  uniforms:{ uCol:{ value:new THREE.Color(0xe8c96a) }, uTime:{ value:0 } },
+  vertexShader:`varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }`,
+  fragmentShader:`
+    precision highp float;
+    uniform vec3 uCol;
+    uniform float uTime;
+    varying vec2 vUv;
+    void main(){
+      float h = 1.0 - smoothstep(0.0, 0.5, abs(vUv.y - 0.5));
+      float w = 1.0 - smoothstep(0.0, 0.48, abs(vUv.x - 0.5));
+      float flick = 0.9 + 0.1 * sin(uTime * 0.003);
+      float a = pow(h, 3.0) * pow(w, 0.7) * 0.8 * flick;
+      gl_FragColor = vec4(uCol, a);
+    }
+  `,
+  transparent:true,
+  depthWrite:false,
+  blending:THREE.AdditiveBlending,
+});
+const flare = new THREE.Mesh(flareGeo, flareMat);
+flare.position.set(0.2, 3.6, 0.5);
+scene.add(flare);
+
+/* ============================================================
+   CAMERA RIG
+   ============================================================ */
+const rig = {
+  startPos: new THREE.Vector3(2.2, 0.9, 14),
+  settlePos: new THREE.Vector3(0, 0.55, 5.6),
+  look: new THREE.Vector3(0, 0.4, 0),
+  mx:0, my:0, tmx:0, tmy:0,
+  t0: performance.now(),
+  dur: 2200,
+  shakeAmp: 0,
+  scroll: 0,
+  targetScroll: 0,
+};
+
+function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+function easeInOutCubic(t){ return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2; }
+
+window.addEventListener("mousemove", (e) => {
+  const nx = (e.clientX / window.innerWidth) * 2 - 1;
+  const ny = (e.clientY / window.innerHeight) * 2 - 1;
+  rig.tmx = nx;
+  rig.tmy = ny;
+});
+window.addEventListener("mouseleave", () => { rig.tmx = 0; rig.tmy = 0; });
+window.addEventListener("wheel", (e) => {
+  rig.targetScroll = Math.max(-0.6, Math.min(0.6, rig.targetScroll + e.deltaY * -0.0008));
+}, { passive:true });
+
+/* ============================================================
+   NAMEPLATE PROJECTION
+   ============================================================ */
+const plateEl = document.getElementById("plate");
+const plateAnchor = new THREE.Vector3();
+function updatePlate(){
+  // anchor at hero bottom-left (in local x,y: -2.0, -2.0 at z slightly forward)
+  plateAnchor.set(-2.0, hero.position.y - 2.0, 0.05);
+  plateAnchor.project(camera);
+  const x = (plateAnchor.x * 0.5 + 0.5) * window.innerWidth;
+  const y = (-plateAnchor.y * 0.5 + 0.5) * window.innerHeight;
+  plateEl.style.left = `${x}px`;
+  plateEl.style.top  = `${y}px`;
+}
+
+/* ============================================================
+   RESIZE
+   ============================================================ */
+function resize(){
+  const w = window.innerWidth, h = window.innerHeight;
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  renderer.setSize(w, h, false);
+}
+window.addEventListener("resize", resize);
+resize();
+
+/* ============================================================
+   REVEAL SEQUENCE
+   ============================================================ */
+requestAnimationFrame(() => {
+  document.getElementById("cover").classList.add("out");
+  ["c1","c2","c3","c4"].forEach(id => document.getElementById(id).classList.add("show"));
+  document.getElementById("logo").classList.add("show");
+  document.getElementById("meta").classList.add("show");
+  document.getElementById("chair").classList.add("show");
+  document.getElementById("chairRails").classList.add("show");
+  document.getElementById("status").classList.add("show");
+  document.getElementById("reticle").classList.add("show");
+  document.getElementById("plate").classList.add("show");
+});
+
+/* ============================================================
+   FPS READOUT
+   ============================================================ */
+const fpsEl = document.getElementById("fps");
+let fpsFrames = 0, fpsT0 = performance.now();
+
+/* ============================================================
+   ANIMATION LOOP
+   ============================================================ */
+function tick(now){
+  // camera entry: dolly settle
+  const t = Math.min(1, (now - rig.t0) / rig.dur);
+  const k = easeOutCubic(t);
+
+  const base = new THREE.Vector3().lerpVectors(rig.startPos, rig.settlePos, k);
+
+  // subtle sit-down shake when settle approaches
+  rig.shakeAmp = (1 - k) * 0.03;
+  const shakeX = (Math.sin(now * 0.0097) + Math.sin(now * 0.0043)) * rig.shakeAmp;
+  const shakeY = (Math.cos(now * 0.0079) + Math.sin(now * 0.0031)) * rig.shakeAmp;
+
+  // scroll zoom
+  rig.scroll += (rig.targetScroll - rig.scroll) * 0.08;
+
+  // parallax
+  rig.mx += (rig.tmx - rig.mx) * 0.055;
+  rig.my += (rig.tmy - rig.my) * 0.055;
+
+  camera.position.set(
+    base.x + rig.mx * 0.7 + shakeX,
+    base.y + rig.my * -0.32 + shakeY,
+    base.z + rig.scroll * 1.4
+  );
+  const lookY = rig.look.y + rig.my * -0.10;
+  camera.lookAt(rig.look.x + rig.mx * 0.22, lookY, rig.look.z);
+
+  // shaft animates flicker
+  if (window.__shaft) window.__shaft.material.uniforms.uTime.value = now * 0.001;
+  flareMat.uniforms.uTime.value = now;
+  glowMat.uniforms.uPulse.value = 0.5 + 0.5 * Math.sin(now * 0.0012);
+
+  // hero idle float
+  hero.position.y = 0.5 + Math.sin(now / 1900) * 0.045;
+  heroGlow.position.y = hero.position.y;
+  heroReflect.position.y = -4.9 + Math.sin(now / 1900) * 0.045;
+
+  // keep flare always facing camera
+  flare.lookAt(camera.position);
+
+  // ambient rooms gently bob and refresh their canvas less often
+  ambients.forEach((amb, i) => {
+    amb.mesh.position.y += (Math.sin(now / 2000 + i) * 0.0002);
+    if ((now | 0) % 2 === 0){
+      amb.ph.draw(now);
+      amb.tex.needsUpdate = true;
+    }
+  });
+
+  // dust
+  dustMat.uniforms.uTime.value = now;
+
+  // update hero placeholder canvas every frame
+  if (!usingVideo && placeholder){
+    placeholder.draw(now - placeholderStart);
+    heroTexture.needsUpdate = true;
+    heroReflect.material.uniforms.uMap.value = heroTexture;
+  }
+
+  updatePlate();
+  renderer.render(scene, camera);
+
+  // FPS
+  fpsFrames++;
+  if (now - fpsT0 > 500){
+    const fps = (fpsFrames * 1000 / (now - fpsT0)) | 0;
+    fpsEl.textContent = fps;
+    fpsFrames = 0;
+    fpsT0 = now;
+  }
+
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>

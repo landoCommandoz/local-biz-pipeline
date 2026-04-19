@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewington Yard Command Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --space-black: #05070d;
+            --navy: #0f1b3d;
+            --neon-orange: #ff7a1a;
+            --neon-teal: #1aeae0;
+            --neon-green: #3ff27a;
+            --neon-purple-deep: #7030f0;
+            --neon-red: #ff1a3a;
+            --neon-gray: #c8cdd4;
+            --neon-amber: #ffcb3a;
+            --neon-purple-soft: #b088ff;
+            --star-white: #ffffff;
+            --bone: #f2ede3;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            font-family: 'JetBrains Mono', monospace;
+            background: radial-gradient(ellipse at center, var(--navy) 0%, var(--space-black) 100%);
+            color: var(--bone);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .starfield {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--star-white);
+            border-radius: 50%;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .hud-top {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 36px;
+            background: rgba(5, 7, 13, 0.9);
+            border-bottom: 1px solid var(--neon-green);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 11px;
+            font-weight: 600;
+            z-index: 1000;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+
+        .hud-stat {
+            margin-right: 20px;
+            color: var(--star-white);
+        }
+
+        .hud-stat.accent {
+            color: var(--neon-green);
+        }
+
+        .event-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 280px;
+            height: 180px;
+            background: rgba(5, 7, 13, 0.85);
+            border: 1px solid var(--neon-green);
+            padding: 12px;
+            z-index: 1000;
+            overflow-y: auto;
+            font-size: 10px;
+            line-height: 1.4;
+        }
+
+        .event-line {
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .event-time {
+            color: var(--star-white);
+        }
+
+        .event-bay {
+            font-weight: 600;
+        }
+
+        .event-msg {
+            color: var(--bone);
+        }
+
+        .yard-scene {
+            position: absolute;
+            top: 36px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 200px);
+            grid-template-rows: repeat(3, 160px);
+            gap: 8px;
+            transform: perspective(800px) rotateX(15deg);
+        }
+
+        .grid-cell {
+            position: relative;
+            background: var(--space-black);
+            border: 2px solid var(--space-black);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .grid-cell.active {
+            animation: pulse-trim 2s infinite ease-in-out;
+        }
+
+        .grid-cell.portal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle, var(--neon-red) 0%, var(--space-black) 70%);
+            border-color: var(--neon-red);
+            box-shadow: 0 0 20px var(--neon-red);
+        }
+
+        .portal-effect {
+            width: 80px;
+            height: 80px;
+            border: 3px solid var(--neon-red);
+            border-radius: 50%;
+            animation: portal-spin 3s linear infinite;
+            background: radial-gradient(circle, transparent 30%, var(--neon-red) 70%);
+        }
+
+        @keyframes portal-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .room-floor {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .room-lighting {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.4;
+        }
+
+        .room-content {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sprite {
+            width: 24px;
+            height: 24px;
+            background: var(--bone);
+            border-radius: 2px;
+            position: relative;
+            animation: sprite-idle 4s infinite ease-in-out;
+            margin-top: 10px;
+        }
+
+        .sprite::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            height: 8px;
+            background: var(--space-black);
+            border-radius: 1px;
+        }
+
+        @keyframes sprite-idle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-2px); }
+        }
+
+        .equipment {
+            width: 60px;
+            height: 40px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .orange-machinery {
+            background: linear-gradient(45deg, var(--neon-orange), rgba(255, 122, 26, 0.3));
+            border: 1px solid var(--neon-orange);
+            box-shadow: 0 0 15px var(--neon-orange);
+        }
+
+        .orange-machinery::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--neon-orange);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: machinery-spin 2s linear infinite;
+        }
+
+        @keyframes machinery-spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .teal-terminals {
+            background: linear-gradient(45deg, var(--neon-teal), rgba(26, 234, 224, 0.3));
+            border: 1px solid var(--neon-teal);
+            box-shadow: 0 0 15px var(--neon-teal);
+        }
+
+        .teal-terminals::after {
+            content: '|||';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--neon-teal);
+            font-size: 8px;
+            font-weight: bold;
+        }
+
+        .green-towers {
+            background: linear-gradient(45deg, var(--neon-green), rgba(63, 242, 122, 0.3));
+            border: 1px solid var(--neon-green);
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+
+        .green-towers::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            width: 4px;
+            height: 20px;
+            background: var(--neon-green);
+            transform: translateX(-50%);
+            box-shadow: 10px 0 var(--neon-green), -10px 0 var(--neon-green);
+        }
+
+        .purple-geo {
+            background: linear-gradient(45deg, var(--neon-purple-deep), rgba(112, 48, 240, 0.3));
+            border: 1px solid var(--neon-purple-deep);
+            box-shadow: 0 0 15px var(--neon-purple-deep);
+        }
+
+        .purple-geo::after {
+            content: '◆';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--neon-purple-deep);
+            font-size: 16px;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+            50% { transform: translate(-50%, -50%) translateY(-4px); }
+        }
+
+        .gray-arms {
+            background: linear-gradient(45deg, var(--neon-gray), rgba(200, 205, 212, 0.3));
+            border: 1px solid var(--neon-gray);
+            box-shadow: 0 0 15px var(--neon-gray);
+        }
+
+        .gray-arms::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 20%;
+            width: 20px;
+            height: 3px;
+            background: var(--neon-gray);
+            transform: translateY(-50%);
+            box-shadow: 0 8px var(--neon-gray), 0 -8px var(--neon-gray);
+        }
+
+        .amber-crates {
+            background: linear-gradient(45deg, var(--neon-amber), rgba(255, 203, 58, 0.3));
+            border: 1px solid var(--neon-amber);
+            box-shadow: 0 0 15px var(--neon-amber);
+        }
+
+        .amber-crates::after {
+            content: '■ ■ ■';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--neon-amber);
+            font-size: 8px;
+            letter-spacing: 2px;
+        }
+
+        .purple-orb {
+            background: linear-gradient(45deg, var(--neon-purple-soft), rgba(176, 136, 255, 0.3));
+            border: 1px solid var(--neon-purple-soft);
+            box-shadow: 0 0 15px var(--neon-purple-soft);
+        }
+
+        .purple-orb::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            background: var(--neon-purple-soft);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: orb-pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes orb-pulse {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .vacant-cell {
+            background: rgba(5, 7, 13, 0.8);
+            border: 2px dashed rgba(242, 237, 227, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: rgba(242, 237, 227, 0.6);
+            text-align: center;
+        }
+
+        @keyframes pulse-trim {
+            0%, 100% { box-shadow: 0 0 5px currentColor; }
+            50% { box-shadow: 0 0 15px currentColor; }
+        }
+
+        .bay-name {
+            position: absolute;
+            top: 4px;
+            left: 8px;
+            font-size: 8px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .failure-alarm {
+            position: absolute;
+            top: 4px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--neon-red);
+            border-radius: 50%;
+            animation: alarm-blink 1s infinite;
+        }
+
+        @keyframes alarm-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .loading-state {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            color: var(--neon-green);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="starfield" id="starfield"></div>
+    
+    <div class="hud-top" id="hudTop">
+        <span class="hud-stat">CONNECTING...</span>
+    </div>
+
+    <div class="event-panel" id="eventPanel">
+        <div class="event-line">
+            <span class="event-time">[--:--]</span>
+            <span class="event-bay">SYSTEM</span> :: 
+            <span class="event-msg">initializing command center</span>
+        </div>
+    </div>
+
+    <div class="yard-scene">
+        <div class="command-grid" id="commandGrid">
+            <div class="loading-state">
+                CONNECTING TO<br>BREWINGTON YARD<br>COMMAND NETWORK
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate starfield
+        function generateStars() {
+            const starfield = document.getElementById('starfield');
+            for (let i = 0; i < 150; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 2 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starfield.appendChild(star);
+            }
+        }
+
+        // Bay theme mapping
+        const bayThemes = {
+            'Jax': { theme: 'orange-machinery', color: 'var(--neon-orange)', equipment: 'orange-machinery' },
+            'Hank': { theme: 'teal-terminals', color: 'var(--neon-teal)', equipment: 'teal-terminals' },
+            'Vega': { theme: 'green-towers', color: 'var(--neon-green)', equipment: 'green-towers' },
+            'Brix': { theme: 'purple-geo', color: 'var(--neon-purple-deep)', equipment: 'purple-geo' },
+            'Doss': { theme: 'gray-arms', color: 'var(--neon-gray)', equipment: 'gray-arms' },
+            'Vault': { theme: 'amber-crates', color: 'var(--neon-amber)', equipment: 'amber-crates' },
+            'SignalScout': { theme: 'purple-orb', color: 'var(--neon-purple-soft)', equipment: 'purple-orb' }
+        };
+
+        // Grid positions (0-8, left to right, top to bottom)
+        const gridPositions = [
+            'Jax', 'Hank', 'Vega',
+            'Brix', 'portal', 'Doss',
+            'Vault', 'SignalScout', 'vacant'
+        ];
+
+        let lastData = null;
+        let eventLog = [];
+
+        function formatTime() {
+            const now = new Date();
+            return now.toTimeString().slice(0, 8);
+        }
+
+        function addEvent(bay, message, color = 'var(--bone)') {
+            const time = formatTime().slice(0, 5);
+            eventLog.unshift({ time, bay, message, color });
+            if (eventLog.length > 8) eventLog.pop();
+            updateEventPanel();
+        }
+
+        function updateEventPanel() {
+            const panel = document.getElementById('eventPanel');
+            panel.innerHTML = eventLog.map(event => `
+                <div class="event-line">
+                    <span class="event-time">[${event.time}]</span>
+                    <span class="event-bay" style="color: ${event.color}">${event.bay}</span> :: 
+                    <span class="event-msg">${event.message}</span>
+                </div>
+            `).join('');
+        }
+
+        function createBayCell(bayData, theme) {
+            const cell = document.createElement('div');
+            cell.className = 'grid-cell';
+            cell.style.borderColor = theme.color;
+            
+            const now = Date.now();
+            const lastTick = bayData.last_tick_at ? new Date(bayData.last_tick_at).getTime() : 0;
+            const hoursSince = (now - lastTick) / (1000 * 60 * 60);
+            
+            if (hoursSince < 6) {
+                cell.classList.add('active');
+            }
+            
+            cell.innerHTML = `
+                <div class="bay-name" style="color: ${theme.color}">${bayData.display_name}</div>
+                ${bayData.failures_in_row > 0 ? '<div class="failure-alarm"></div>' : ''}
+                <div class="room-floor"></div>
+                <div class="room-lighting" style="background: radial-gradient(circle at center, ${theme.color}20 0%, transparent 70%)"></div>
+                <div class="room-content">
+                    <div class="equipment ${theme.equipment}"></div>
+                    <div class="sprite"></div>
+                </div>
+            `;
+            
+            return cell;
+        }
+
+        function createPortalCell() {
+            const cell = document.createElement('div');
+            cell.className = 'grid-cell portal';
+            cell.innerHTML = '<div class="portal-effect"></div>';
+            return cell;
+        }
+
+        function createVacantCell() {
+            const cell = document.createElement('div');
+            cell.className = 'grid-cell vacant-cell';
+            cell.innerHTML = 'FOR LEASE<br>NEXT HIRE';
+            return cell;
+        }
+
+        function updateGrid(data) {
+            const grid = document.getElementById('commandGrid');
+            grid.innerHTML = '';
+            grid.className = 'command-grid';
+            
+            const bayMap = {};
+            if (data.businesses) {
+                data.businesses.forEach(bay => {
+                    bayMap[bay.display_name] = bay;
+                });
+            }
+            
+            gridPositions.forEach(position => {
+                let cell;
+                
+                if (position === 'portal') {
+                    cell = createPortalCell();
+                } else if (position === 'vacant') {
+                    cell = createVacantCell();
+                } else {
+                    const bayData = bayMap[position];
+                    const theme = bayThemes[position];
+                    
+                    if (bayData && theme) {
+                        cell = createBayCell(bayData, theme);
+                    } else {
+                        cell = createVacantCell();
+                    }
+                }
+                
+                grid.appendChild(cell);
+            });
+        }
+
+        function updateHUD(data) {
+            const hud = document.getElementById('hudTop');
+            const time = formatTime();
+            
+            let totalIncome = 0;
+            let totalExpenses = 0;
+            let alerts = 0;
+            let tenantCount = 0;
+            
+            if (data.businesses) {
+                tenantCount = data.businesses.length;
+                data.businesses.forEach(bay => {
+                    if (bay.month_to_date) {
+                        totalIncome += bay.month_to_date.income || 0;
+                        totalExpenses += bay.month_to_date.expenses || 0;
+                    }
+                    if (bay.failures_in_row > 0) alerts++;
+                });
+            }
+            
+            const net = totalIncome - totalExpenses;
+            
+            hud.innerHTML = `
+                <span class="hud-stat">NET <span class="accent">$${net}</span></span>
+                <span class="hud-stat">MTD IN <span class="accent">$${totalIncome}</span></span>
+                <span class="hud-stat">MTD OUT <span class="accent">$${totalExpenses}</span></span>
+                <span class="hud-stat">ALERTS <span class="accent">${alerts}</span></span>
+                <span class="hud-stat">TENANTS <span class="accent">${tenantCount}/8</span></span>
+                <span class="hud-stat">${time}</span>
+            `;
+        }
+
+        function processDataChanges(newData) {
+            if (!lastData) {
+                addEvent('SYSTEM', 'command center online', 'var(--neon-green)');
+            } else if (newData.businesses) {
+                newData.businesses.forEach(bay => {
+                    const oldBay = lastData.businesses?.find(b => b.display_name === bay.display_name);
+                    const theme = bayThemes[bay.display_name];
+                    
+                    if (!oldBay) {
+                        addEvent(bay.display_name, 'bay connected', theme?.color || 'var(--bone)');
+                    } else {
+                        const oldTick = oldBay.last_tick_at;
+                        const newTick = bay.last_tick_at;
+                        
+                        if (newTick !== oldTick) {
+                            addEvent(bay.display_name, bay.last_tick_summary || 'status update', theme?.color || 'var(--bone)');
+                        }
+                        
+                        const oldIncome = oldBay.month_to_date?.income || 0;
+                        const newIncome = bay.month_to_date?.income || 0;
+                        
+                        if (newIncome > oldIncome) {
+                            addEvent(bay.display_name, `income +$${newIncome - oldIncome}`, 'var(--neon-amber)');
+                        }
+                    }
+                });
+            }
+            
+            lastData = newData;
+        }
+
+        async function fetchData() {
+            try {
+                const response = await fetch('/api/state');
+                const data = await response.json();
+                
+                processDataChanges(data);
+                updateGrid(data);
+                updateHUD(data);
+                
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+                addEvent('SYSTEM', 'connection error', 'var(--neon-red)');
+            }
+        }
+
+        // Initialize
+        generateStars();
+        addEvent('SYSTEM', 'initializing command center', 'var(--neon-green)');
+        
+        // Initial fetch
+        fetchData();
+        
+        // Poll every 15 seconds
+        setInterval(fetchData, 15000);
+        
+        // Update time in HUD every second
+        setInterval(() => {
+            if (lastData) {
+                updateHUD(lastData);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

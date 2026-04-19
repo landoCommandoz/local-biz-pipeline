@@ -1,0 +1,1074 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewington Yard Command Center v10</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --concrete: #2a2a2a;
+            --concrete-dark: #1a1a1a;
+            --gold: #ffd700;
+            --teal: #00d4aa;
+            --red: #ff4757;
+            --clay: #a0522d;
+            --text: #ffffff;
+            --text-dim: #cccccc;
+            --text-faint: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: linear-gradient(135deg, var(--concrete-dark) 0%, var(--concrete) 100%);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .hud {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 36px;
+            background: rgba(26, 26, 26, 0.95);
+            border-bottom: 1px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 100;
+        }
+
+        .hud-left, .hud-right {
+            display: flex;
+            gap: 30px;
+        }
+
+        .hud-field {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .hud-label {
+            color: var(--text-dim);
+        }
+
+        .hud-value {
+            color: var(--gold);
+        }
+
+        .grid-container {
+            position: absolute;
+            top: 36px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr 1fr;
+            gap: 2px;
+            padding: 20px;
+            background: var(--concrete-dark);
+        }
+
+        .corridor-h, .corridor-v {
+            position: absolute;
+            background: var(--concrete);
+            z-index: 1;
+        }
+
+        .corridor-h {
+            height: 2px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .corridor-h.top {
+            top: calc(36px + 20px + 33.33vh);
+        }
+
+        .corridor-h.bottom {
+            top: calc(36px + 20px + 66.67vh);
+        }
+
+        .corridor-v {
+            width: 2px;
+            top: calc(36px + 20px);
+            bottom: 20px;
+        }
+
+        .corridor-v.left {
+            left: calc(20px + 33.33vw);
+        }
+
+        .corridor-v.right {
+            left: calc(20px + 66.67vw);
+        }
+
+        .tracer {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--teal);
+            border-radius: 50%;
+            opacity: 0;
+            animation: tracerMove 4s infinite linear;
+        }
+
+        @keyframes tracerMove {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .tracer-h {
+            animation: tracerMoveH 4s infinite linear;
+        }
+
+        .tracer-v {
+            animation: tracerMoveV 4s infinite linear;
+        }
+
+        @keyframes tracerMoveH {
+            0% { left: 20px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { left: calc(100vw - 20px); opacity: 0; }
+        }
+
+        @keyframes tracerMoveV {
+            0% { top: calc(36px + 20px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: calc(100vh - 20px); opacity: 0; }
+        }
+
+        .room {
+            position: relative;
+            background: var(--concrete);
+            border: 2px solid var(--gold);
+            border-radius: 4px;
+            padding: 15px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .room:hover {
+            border-color: var(--teal);
+        }
+
+        .room-glow {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            opacity: 0.3;
+            animation: breathe 4s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.36; }
+        }
+
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .room-name {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+        }
+
+        .status-light {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--teal);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .status-light.red {
+            background: var(--red);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .room-content {
+            position: relative;
+            height: calc(100% - 30px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .character {
+            width: 32px;
+            height: 32px;
+            background: var(--text-dim);
+            border-radius: 2px;
+            margin-bottom: 8px;
+            animation: bob 3s infinite ease-in-out, shift 30s infinite ease-in-out;
+            position: relative;
+        }
+
+        @keyframes bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+
+        @keyframes shift {
+            0%, 90%, 100% { left: 0; }
+            95% { left: 3px; }
+        }
+
+        .role-label {
+            font-size: 9px;
+            color: var(--text-faint);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .last-tick {
+            font-size: 8px;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        /* Ambient Animations */
+        .welding-sparks {
+            position: absolute;
+            top: 20px;
+            right: 15px;
+            width: 8px;
+            height: 8px;
+        }
+
+        .spark {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: sparkFly 2s infinite ease-out;
+        }
+
+        .spark:nth-child(1) { animation-delay: 0s; }
+        .spark:nth-child(2) { animation-delay: 0.3s; }
+        .spark:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes sparkFly {
+            0% { opacity: 1; transform: translate(0, 0); }
+            100% { opacity: 0; transform: translate(-10px, 10px); }
+        }
+
+        .phone-terminal {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            width: 60px;
+            height: 30px;
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid var(--teal);
+            font-size: 6px;
+            line-height: 8px;
+            color: var(--teal);
+            overflow: hidden;
+        }
+
+        .phone-list {
+            animation: scrollUp 8s infinite linear;
+            padding: 2px;
+        }
+
+        @keyframes scrollUp {
+            0% { transform: translateY(30px); }
+            100% { transform: translateY(-30px); }
+        }
+
+        .chart-bars {
+            position: absolute;
+            bottom: 30px;
+            right: 10px;
+            display: flex;
+            gap: 2px;
+            align-items: end;
+        }
+
+        .bar {
+            width: 4px;
+            background: var(--teal);
+            animation: barPulse 3s infinite ease-in-out;
+        }
+
+        .bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+        .bar:nth-child(2) { height: 12px; animation-delay: 0.5s; }
+        .bar:nth-child(3) { height: 6px; animation-delay: 1s; }
+        .bar:nth-child(4) { height: 10px; animation-delay: 1.5s; }
+
+        @keyframes barPulse {
+            0%, 100% { height: inherit; }
+            50% { height: calc(inherit + 4px); }
+        }
+
+        .wrench-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            border: 2px solid var(--gold);
+            border-radius: 2px;
+            animation: spin 6s infinite linear;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .radar-sweep {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--teal);
+            border-radius: 50%;
+            transform: translateX(-50%);
+        }
+
+        .radar-sweep::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 1px;
+            background: var(--teal);
+            transform-origin: 0 50%;
+            animation: radarSpin 4s infinite linear;
+        }
+
+        @keyframes radarSpin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .coin-pile {
+            position: absolute;
+            bottom: 25px;
+            right: 15px;
+            width: 20px;
+            height: 15px;
+        }
+
+        .coin {
+            position: absolute;
+            bottom: 0;
+            width: 8px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: coinDrop 8s infinite ease-in;
+        }
+
+        .coin:nth-child(1) { animation-delay: 0s; left: 0; }
+        .coin:nth-child(2) { animation-delay: 2s; left: 4px; bottom: 2px; }
+        .coin:nth-child(3) { animation-delay: 4s; left: 2px; bottom: 4px; }
+
+        @keyframes coinDrop {
+            0% { transform: translateY(-20px); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .waveform {
+            position: absolute;
+            bottom: 25px;
+            left: 15px;
+            right: 15px;
+            height: 20px;
+            display: flex;
+            align-items: end;
+            gap: 1px;
+        }
+
+        .wave-bar {
+            flex: 1;
+            background: var(--teal);
+            animation: wavePulse 2s infinite ease-in-out;
+        }
+
+        .wave-bar:nth-child(1) { animation-delay: 0s; }
+        .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.6s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes wavePulse {
+            0%, 100% { height: 2px; }
+            50% { height: 20px; }
+        }
+
+        .portal {
+            background: radial-gradient(circle, rgba(255, 71, 87, 0.3) 0%, rgba(255, 71, 87, 0.1) 70%, transparent 100%);
+        }
+
+        .portal-core {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            transform: translate(-50%, -50%);
+            border: 2px solid var(--red);
+            border-radius: 50%;
+            animation: portalSpin 8s infinite linear;
+        }
+
+        .portal-core::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--red);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: portalSpinReverse 6s infinite linear;
+        }
+
+        .portal-core::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: var(--red);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes portalSpin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes portalSpinReverse {
+            from { transform: translate(-50%, -50%) rotate(360deg); }
+            to { transform: translate(-50%, -50%) rotate(0deg); }
+        }
+
+        .portal-pulse {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: var(--red);
+            border-radius: 50%;
+            animation: portalPulseExpand 20s infinite ease-out;
+            opacity: 0;
+        }
+
+        @keyframes portalPulseExpand {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 0.3; }
+            100% { transform: translate(-50%, -50%) scale(20); opacity: 0; }
+        }
+
+        .live-feed {
+            background: var(--concrete-dark);
+            border: 2px solid var(--clay);
+        }
+
+        .feed-monitor {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            right: 15px;
+            bottom: 35px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--teal);
+            padding: 8px;
+            font-size: 8px;
+            line-height: 12px;
+            color: var(--teal);
+            overflow: hidden;
+        }
+
+        .feed-content {
+            animation: feedScroll 10s infinite linear;
+        }
+
+        @keyframes feedScroll {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(-100%); }
+        }
+
+        .lock-icon {
+            position: absolute;
+            bottom: 8px;
+            left: 15px;
+            font-size: 10px;
+            color: var(--clay);
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: var(--concrete);
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            padding: 30px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            color: var(--red);
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .modal-role {
+            font-size: 12px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+
+        .modal-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .modal-log {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--text-faint);
+            border-radius: 4px;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .modal-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+        }
+
+        .metric-label {
+            color: var(--text-dim);
+        }
+
+        .metric-value {
+            color: var(--gold);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            background: transparent;
+            border: 1px solid var(--teal);
+            color: var(--teal);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background: var(--teal);
+            color: var(--concrete);
+        }
+
+        /* Neon flicker */
+        .room.flicker {
+            border-color: transparent;
+            animation: neonFlicker 0.5s ease-in-out;
+        }
+
+        @keyframes neonFlicker {
+            0%, 100% { border-color: var(--gold); }
+            20%, 60% { border-color: transparent; }
+            40%, 80% { border-color: var(--gold); }
+        }
+
+        /* Room-specific glow colors */
+        .room[data-role="Builder"] .room-glow { background: #ffd700; }
+        .room[data-role="Hustler"] .room-glow { background: #00d4aa; }
+        .room[data-role="Analyst"] .room-glow { background: #ff6b6b; }
+        .room[data-role="System Builder"] .room-glow { background: #4ecdc4; }
+        .room[data-role="Guardian"] .room-glow { background: #45b7d1; }
+        .room[data-role="Treasurer"] .room-glow { background: #ffd700; }
+        .room[data-role="Researcher"] .room-glow { background: #96ceb4; }
+        .room.live-feed .room-glow { background: #a0522d; }
+
+        /* Blocked state */
+        .room.blocked {
+            filter: brightness(0.6);
+        }
+
+        .room.blocked .status-light {
+            background: var(--red);
+        }
+    </style>
+</head>
+<body>
+    <div class="hud">
+        <div class="hud-left">
+            <div class="hud-field">
+                <span class="hud-label">NET:</span>
+                <span class="hud-value" id="net-worth">$127,450</span>
+            </div>
+            <div class="hud-field">
+                <span class="hud-label">MRR:</span>
+                <span class="hud-value" id="mrr">$12,340</span>
+            </div>
+            <div class="hud-field">
+                <span class="hud-label">CLIENTS:</span>
+                <span class="hud-value" id="clients">23</span>
+            </div>
+        </div>
+        <div class="hud-right">
+            <div class="hud-field">
+                <span class="hud-label">ALERTS:</span>
+                <span class="hud-value" id="alerts">2</span>
+            </div>
+            <div class="hud-field">
+                <span class="hud-label">UPTIME:</span>
+                <span class="hud-value" id="uptime">99.8%</span>
+            </div>
+            <div class="hud-field">
+                <span class="hud-label">UTC:</span>
+                <span class="hud-value" id="clock">14:23:17</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-container">
+        <!-- Corridors -->
+        <div class="corridor-h top">
+            <div class="tracer tracer-h" style="animation-delay: 0s;"></div>
+            <div class="tracer tracer-h" style="animation-delay: 2s;"></div>
+        </div>
+        <div class="corridor-h bottom">
+            <div class="tracer tracer-h" style="animation-delay: 1s;"></div>
+            <div class="tracer tracer-h" style="animation-delay: 3s;"></div>
+        </div>
+        <div class="corridor-v left">
+            <div class="tracer tracer-v" style="animation-delay: 0.5s;"></div>
+            <div class="tracer tracer-v" style="animation-delay: 2.5s;"></div>
+        </div>
+        <div class="corridor-v right">
+            <div class="tracer tracer-v" style="animation-delay: 1.5s;"></div>
+            <div class="tracer tracer-v" style="animation-delay: 3.5s;"></div>
+        </div>
+
+        <!-- Room 1: JAX (Builder) -->
+        <div class="room" data-role="Builder" data-agent="JAX">
+            <div class="room-glow"></div>
+            <div class="room-header">
+                <div class="room-name">JAX</div>
+                <div class="status-light"></div>
+            </div>
+            <div class="room-content">
+                <div class="character"></div>
+                <div class="role-label">Builder</div>
+                <div class="last-tick">Last tick: 2h ago</div>
+            </div>
+            <div class="welding-sparks">
+                <div class="spark"></div>
+                <div class="spark"></div>
+                <div class="spark"></div>
+            </div>
+        </div>
+
+        <!-- Room 2: HANK (Hustler) -->
+        <div class="room" data-role="Hustler" data-agent="HANK">
+            <div class="room-glow"></div>
+            <div class="room-header">
+                <div class="room-name">HANK</div>
+                <div class="status-light"></div>
+            </div>
+            <div class="room-content">
+                <div class="character"></div>
+                <div class="role-label">Hustler</div>
+                <div class="last-tick">Last tick: 45m ago</div>
+            </div>
+            <div class="phone-terminal">
+                <div class="phone-list">
+                    (555) 0123<br>
+                    ACME Corp<br>
+                    (555) 0456<br>
+                    Tech Ltd<br>
+                    (555) 0789<br>
+                    Global Inc<br>
+                </div>
+            </div>
+        </div>
+
+        <!-- Room 3: VEGA (Analyst) -->
+        <div class="room" data-role="Analyst" data-agent="VEGA">
+            <div class="room-glow"></div>
+            <div class="room-header">
+                <div class="room-name">VEGA</div>
+                <div class="status-light"></div>
+            </div>
+            <div class="room-content">
+                <div class="character"></div>
+                <div class="role-label">Analyst</div>
+                <div class="last-tick">Last tick: 1h ago</div>
+            </div>
+            <div class="chart-bars">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+
+        <!-- Room 4: BRIX (System Builder) -->
+        <div class="room" data-role="System Builder" data-agent="BRIX">
+            <div class="room-glow"></div>
+            <div class="room-header">
+                <div class="room-name">BRIX</div>
+                <div class="status-light"></div>
+            </div>
+            <div class="room-content">
+                <div class="character"></div>
+                <div class="role-label">System Builder</div>
+                <div class="last-tick">Last tick: 30m ago</div>
+            </div>
+            <div class="wrench-icon"></div>
+        </div>
+
+        <!-- Room 5: PORTAL (Center) -->
+        <div class="room portal" data-role="Portal" data-agent="PORTAL">
+            <div class="portal-core"></div>
+            <div class="portal-pulse"></div>
+        </div>
+
+        <!-- Room 6: DOSS (Guardian) -->
+        <div class="room" data-role="Guardian" data-agent="DOSS">
+            <div class="room-glow"></div>
+            <div class="room-header">
+                <div class="room-name">DOSS</div>
+                <div class="status-light"></div>
+            </div>
+            <div class="room-content">
+                <div class="character"></div>
+                <div class="role-label">Guardian</div>
+                <div class="last-tick">Last tick: 15m ago</div>
+            </div>
+            <div class="radar-sweep"></div>
+        </div>
+
+        <!-- Room 7: VAULT (Treasurer) -->
+        <div class="room" data-role="Treasurer" data-agent="VAULT">
+            <div class="room-glow"></div>
+            <div class="room-header">
+                <div class="room-name">VAULT</div>
+                <div class="status-light"></div>
+            </div>
+            <div class="room-content">
+                <div class="character"></div>
+                <div class="role-label">Treasurer</div>
+                <div class="last-tick">Last tick: 3h ago</div>
+            </div>
+            <div class="coin-pile">
+                <div class="coin"></div>
+                <div class="coin"></div>
+                <div class="coin"></div>
+            </div>
+        </div>
+
+        <!-- Room 8: SIGNALSCOUT (Researcher) -->
+        <div class="room" data-role="Researcher" data-agent="SIGNALSCOUT">
+            <div class="room-glow"></div>
+            <div class="room-header">
+                <div class="room-name">SIGNALSCOUT</div>
+                <div class="status-light"></div>
+            </div>
+            <div class="room-content">
+                <div class="character"></div>
+                <div class="role-label">Researcher</div>
+                <div class="last-tick">Last tick: 20m ago</div>
+            </div>
+            <div class="waveform">
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+                <div class="wave-bar"></div>
+            </div>
+        </div>
+
+        <!-- Room 9: Live Feed Monitor -->
+        <div class="room live-feed" data-role="Monitor" data-agent="FEED">
+            <div class="room-glow"></div>
+            <div class="room-header">
+                <div class="room-name">LIVE FEED</div>
+                <div class="status-light"></div>
+            </div>
+            <div class="feed-monitor">
+                <div class="feed-content">
+                    [14:23:17] HANK: Cold call to TechStart Inc<br>
+                    [14:22:45] VEGA: Market analysis complete<br>
+                    [14:22:12] BRIX: System optimization running<br>
+                    [14:21:58] VAULT: Revenue calculation updated<br>
+                    [14:21:33] DOSS: Security scan initiated<br>
+                    [14:21:07] JAX: Project milestone reached<br>
+                    [14:20:44] SIGNALSCOUT: Research data parsed<br>
+                    [14:20:21] PORTAL: Data sync in progress<br>
+                    [14:19:58] HANK: Follow-up scheduled<br>
+                    [14:19:35] VEGA: Trend analysis updated<br>
+                </div>
+            </div>
+            <div class="lock-icon">🔒 FOR LEASE</div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-backdrop" id="modal-backdrop">
+        <div class="modal">
+            <button class="modal-close" id="modal-close">×</button>
+            <div class="modal-header">
+                <div class="modal-title" id="modal-title">JAX</div>
+                <div class="modal-role" id="modal-role">Builder</div>
+            </div>
+            <div class="modal-content">
+                <div class="modal-log" id="modal-log">
+                    [14:15:32] Started foundation work on Project Alpha<br>
+                    [14:12:18] Reviewed architectural blueprints<br>
+                    [14:08:45] Updated material requirements list<br>
+                    [14:05:12] Coordinated with BRIX on system integration<br>
+                    [14:01:33] Completed safety inspection checklist<br>
+                    [13:58:07] Met with client for design approval<br>
+                    [13:54:44] Submitted permit applications<br>
+                    [13:51:21] Scheduled subcontractor meetings<br>
+                </div>
+                <div class="modal-metrics">
+                    <div class="metric-row">
+                        <span class="metric-label">Status:</span>
+                        <span class="metric-value" id="modal-status">ACTIVE</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Last Tick:</span>
+                        <span class="metric-value" id="modal-last-tick">2h ago</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Success Rate:</span>
+                        <span class="metric-value" id="modal-success-rate">94.2%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Revenue:</span>
+                        <span class="metric-value" id="modal-revenue">$23,450</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Efficiency:</span>
+                        <span class="metric-value" id="modal-efficiency">87%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn">PAUSE</button>
+                <button class="modal-btn">FORCE TICK</button>
+                <button class="modal-btn">OPEN CHARTER</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let gameState = {};
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const modalClose = document.getElementById('modal-close');
+
+        // Clock update
+        function updateClock() {
+            const now = new Date();
+            const utc = now.toISOString().substr(11, 8);
+            document.getElementById('clock').textContent = utc;
+        }
+
+        // Modal functionality
+        function openModal(agentName, role) {
+            document.getElementById('modal-title').textContent = agentName;
+            document.getElementById('modal-role').textContent = role;
+            modalBackdrop.style.display = 'flex';
+        }
+
+        function closeModal() {
+            modalBackdrop.style.display = 'none';
+        }
+
+        // Random neon flicker
+        function randomFlicker() {
+            const rooms = document.querySelectorAll('.room:not(.portal)');
+            const randomRoom = rooms[Math.floor(Math.random() * rooms.length)];
+            randomRoom.classList.add('flicker');
+            setTimeout(() => randomRoom.classList.remove('flicker'), 500);
+        }
+
+        // Event listeners
+        modalClose.addEventListener('click', closeModal);
+        modalBackdrop.addEventListener('click', (e) => {
+            if (e.target === modalBackdrop) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Room click handlers
+        document.querySelectorAll('.room:not(.portal):not(.live-feed)').forEach(room => {
+            room.addEventListener('click', () => {
+                const agent = room.dataset.agent;
+                const role = room.dataset.role;
+                openModal(agent, role);
+            });
+        });
+
+        // Fetch game state
+        async function fetchGameState() {
+            try {
+                const response = await fetch('/api/state');
+                if (response.ok) {
+                    gameState = await response.json();
+                    updateUI();
+                }
+            } catch (error) {
+                console.log('API not available, using mock data');
+            }
+        }
+
+        function updateUI() {
+            // Update HUD if data available
+            if (gameState.net_worth) {
+                document.getElementById('net-worth').textContent = `$${gameState.net_worth.toLocaleString()}`;
+            }
+            if (gameState.mrr) {
+                document.getElementById('mrr').textContent = `$${gameState.mrr.toLocaleString()}`;
+            }
+            if (gameState.clients) {
+                document.getElementById('clients').textContent = gameState.clients;
+            }
+        }
+
+        // Fetch live feed
+        async function fetchLiveFeed() {
+            try {
+                const response = await fetch('/api/activity');
+                if (response.ok) {
+                    const activities = await response.json();
+                    updateLiveFeed(activities);
+                }
+            } catch (error) {
+                console.log('Live feed API not available');
+            }
+        }
+
+        function updateLiveFeed(activities) {
+            const feedContent = document.querySelector('.feed-content');
+            if (feedContent && activities && activities.length > 0) {
+                feedContent.innerHTML = activities.slice(0, 10).map(activity => 
+                    `[${activity.timestamp}] ${activity.agent}: ${activity.message}`
+                ).join('<br>');
+            }
+        }
+
+        // Initialize
+        updateClock();
+        setInterval(updateClock, 1000);
+        setInterval(randomFlicker, 60000);
+        fetchGameState();
+        fetchLiveFeed();
+        setInterval(fetchGameState, 30000);
+        setInterval(fetchLiveFeed, 10000);
+    </script>
+</body>
+</html>
