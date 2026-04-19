@@ -1,0 +1,30 @@
+{
+  "business": "pixel",
+  "charter_version": "0.1",
+  "bay_status": "installing",
+  "m1_revenue_target_low": 45,
+  "m1_revenue_target_high": 90,
+  "m3_revenue_target_low": 225,
+  "m3_revenue_target_high": 300,
+  "paid_unlock_threshold": 50,
+  "attributed_revenue_mtd": 0,
+  "tiktok_app_approved": false,
+  "tiktok_app_filed_at": null,
+  "etsy_shop_slug": null,
+  "post_day_key": null,
+  "posts_today": 0,
+  "posts_month": 0,
+  "daily_post_cap": 2,
+  "oauth_refresh_expires_at": null,
+  "last_published_post_url": null,
+  "last_tick_at": null,
+  "last_tick_summary": null,
+  "failures_in_row": 0,
+  "notes": [
+    "bay_status progression: installing -> awaiting_approval (TIKTOK_ACCESS_TOKEN present) -> active (Lando flips tiktok_app_approved=true after TikTok email arrives).",
+    "Unlock paid upload-post.com upgrade when attributed_revenue_mtd >= 50. Doss meter owns the alert per Phase 3.",
+    "All posts stay PRIVATE until tiktok_app_approved=true. tick.js enforces.",
+    "Lando must populate etsy_shop_slug before first useful tick. Pattern: https://www.etsy.com/shop/<slug>/rss",
+    "OAuth token lifespan: 60 days. tick.js warns 7 days before expiry and attempts auto-refresh."
+  ]
+}

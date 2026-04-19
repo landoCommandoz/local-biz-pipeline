@@ -1,0 +1,59 @@
+{
+  "at": "2026-04-18T04:00:06.230Z",
+  "systems_checked": 7,
+  "systems_online": 7,
+  "systems_offline": 0,
+  "avg_latency_ms": 878,
+  "all_green": true,
+  "checks": [
+    {
+      "system": "stripe",
+      "url": "https://api.stripe.com/v1",
+      "ok": true,
+      "status": 404,
+      "latency_ms": 110
+    },
+    {
+      "system": "netlify",
+      "url": "https://api.netlify.com/api/v1/user",
+      "ok": true,
+      "status": 401,
+      "latency_ms": 314
+    },
+    {
+      "system": "twilio",
+      "url": "https://api.twilio.com",
+      "ok": true,
+      "status": 200,
+      "latency_ms": 128
+    },
+    {
+      "system": "ghl",
+      "url": "https://services.leadconnectorhq.com/",
+      "ok": true,
+      "status": 404,
+      "latency_ms": 112
+    },
+    {
+      "system": "itch",
+      "url": "https://itch.io",
+      "ok": true,
+      "status": 200,
+      "latency_ms": 103
+    },
+    {
+      "system": "overpass",
+      "url": "https://overpass-api.de/api/status",
+      "ok": true,
+      "status": 200,
+      "latency_ms": 5372
+    },
+    {
+      "system": "godview",
+      "url": "http://localhost:3000/",
+      "ok": true,
+      "status": 200,
+      "latency_ms": 5
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "v1_subreddits": [
+    { "name": "smallbusiness", "tone": "small-biz", "priority": 1, "link": "brewington-digital" },
+    { "name": "Entrepreneur", "tone": "small-biz", "priority": 2, "link": "brewington-digital" },
+    { "name": "AutoDetailing", "tone": "car-community", "priority": 3, "link": "hotr" },
+    { "name": "HVAC", "tone": "small-biz", "priority": 4, "link": "brewington-digital" },
+    { "name": "Plumbing", "tone": "small-biz", "priority": 5, "link": "brewington-digital" },
+    { "name": "mechanics", "tone": "car-community", "priority": 6, "link": "hotr" },
+    { "name": "AutoBody", "tone": "car-community", "priority": 7, "link": "hotr" }
+  ],
+  "keywords": {
+    "primary": [
+      "need a website",
+      "website for my business",
+      "website for my shop",
+      "my website sucks",
+      "website is down",
+      "recommend a web designer",
+      "wordpress vs squarespace",
+      "website builder vs agency",
+      "getting more leads",
+      "getting more service calls"
+    ],
+    "secondary": [
+      "google my business",
+      "how are you getting customers",
+      "marketing for my shop",
+      "online booking for"
+    ]
+  },
+  "reject_keywords": [
+    "ai website builder",
+    "chatgpt made my website",
+    "free website",
+    "no budget"
+  ],
+  "v2_expansion_deferred": ["LocalLLaMA", "webdev", "Flipping"],
+  "v3_platform_expansion_deferred": ["X (Twitter)", "forums"]
+}

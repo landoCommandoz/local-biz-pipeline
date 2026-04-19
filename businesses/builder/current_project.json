@@ -1,9 +1,10 @@
 {
-  "project_id": "command-center-redesign-v2",
-  "brief_path": "businesses/builder/briefs/command-center-redesign-v2.md",
-  "output_path": "businesses/public/concepts/concept-v2.html",
-  "status": "in_progress",
-  "assigned_at": "2026-04-17T10:45:00Z",
-  "supersedes": "command-center-redesign-v1",
-  "note": "v1 card-grid superseded by the god-view living ecosystem. Tenant plots, rent status, live activity motion."
+  "project_id": "command-center-redesign-v11",
+  "brief_path": "businesses/builder/briefs/command-center-redesign-v11.md",
+  "output_path": "businesses/public/concepts/concept-v11.html",
+  "generate": false,
+  "status": "queued",
+  "assigned_at": "2026-04-18T01:48:00Z",
+  "supersedes": "command-center-redesign-v10",
+  "note": "Seventh designer run. v10 had shooting-line motion Lando disliked. v11 keeps v10's no-sidebar layout + per-room ambient animations, removes all cross-grid motion (corridor tracers, portal outward pulses). Motion is LOCAL to each room only."
 }

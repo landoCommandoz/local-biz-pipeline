@@ -1,0 +1,18 @@
+{"level":30,"time":1776468648242,"agent":"signalscout","msg":"tick start"}
+{"level":30,"time":1776468648242,"agent":"signalscout","mode":"dry_run","hasRedditCreds":false,"hasAnthropicKey":false,"queue_depth":0,"msg":"tick context"}
+{"level":40,"time":1776468648243,"agent":"signalscout","msg":"blocked: needs Lando setup"}
+{"level":30,"time":1776470400209,"agent":"signalscout","msg":"tick start"}
+{"level":30,"time":1776470400210,"agent":"signalscout","mode":"dry_run","hasRedditCreds":false,"hasAnthropicKey":true,"queue_depth":0,"msg":"tick context"}
+{"level":30,"time":1776470400210,"agent":"signalscout","msg":"dry_run tick: would poll subreddits and draft 10, no scheduled loop yet"}
+{"level":30,"time":1776477600018,"agent":"signalscout","msg":"tick start"}
+{"level":30,"time":1776477600018,"agent":"signalscout","mode":"dry_run","hasRedditCreds":false,"hasAnthropicKey":true,"queue_depth":0,"msg":"tick context"}
+{"level":30,"time":1776477600018,"agent":"signalscout","msg":"dry_run tick: would poll subreddits and draft 10, no scheduled loop yet"}
+{"level":30,"time":1776480379057,"agent":"signalscout","msg":"tick start"}
+{"level":30,"time":1776480379059,"agent":"signalscout","mode":"dry_run","hasRedditCreds":false,"hasAnthropicKey":true,"queue_depth":0,"msg":"tick context"}
+{"level":30,"time":1776480379060,"agent":"signalscout","msg":"dry_run tick: would poll subreddits and draft 10, no scheduled loop yet"}
+{"level":30,"time":1776480431643,"agent":"signalscout","msg":"tick start"}
+{"level":30,"time":1776480431645,"agent":"signalscout","mode":"dry_run","hasRedditCreds":false,"hasAnthropicKey":true,"queue_depth":0,"msg":"tick context"}
+{"level":30,"time":1776480431645,"agent":"signalscout","msg":"dry_run tick: would poll subreddits and draft 10, no scheduled loop yet"}
+{"level":30,"time":1776484800010,"agent":"signalscout","msg":"tick start"}
+{"level":30,"time":1776484800010,"agent":"signalscout","mode":"dry_run","hasRedditCreds":false,"hasAnthropicKey":true,"queue_depth":0,"msg":"tick context"}
+{"level":30,"time":1776484800010,"agent":"signalscout","msg":"dry_run tick: would poll subreddits and draft 10, no scheduled loop yet"}

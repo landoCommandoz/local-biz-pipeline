@@ -1,13 +1,13 @@
 {
   "business": "builder",
   "charter_version": "0.1",
-  "status": "active",
-  "current_mode": "live_send",
+  "status": "filed",
+  "current_mode": "internal_build",
   "current_project": {
-    "project_id": "command-center-redesign-v1",
-    "status": "queued",
-    "output_path": "businesses/public/concepts/concept-v1.html",
-    "assigned_at": "2026-04-17T09:15:00Z"
+    "project_id": "command-center-redesign-v11",
+    "status": "filed",
+    "output_path": "businesses/public/concepts/concept-v11.html",
+    "assigned_at": "2026-04-18T01:48:00Z"
   },
   "hired_roster": [
     {
@@ -15,12 +15,64 @@
       "package": "tick-branch",
       "purpose": "internal yard tooling mode for the builder bay",
       "installed_at": "2026-04-17T09:15:00Z"
+    },
+    {
+      "slug": "designer-claude-sonnet",
+      "package": "businesses/lib/designer.js",
+      "purpose": "generates complete HTML from a brief file. Called from tick.js internal_build mode when current_project.generate === true. Baked-in system prompt enforces no em dashes, no 'AI', command-deck aesthetic. Metered via metered-anthropic. Tested 5 cases PASS.",
+      "installed_at": "2026-04-17T12:15:00Z",
+      "kill_clock": {
+        "rule": "Pay for itself in rating quality. Three consecutive RED ratings and Hank hunts a replacement.",
+        "d30_checkpoint": "2026-05-17",
+        "rating_scale": [
+          "RED",
+          "YELLOW",
+          "GREEN",
+          "GOLD"
+        ],
+        "kill_condition": "rating_log[-1] === 'RED' AND rating_log[-2] === 'RED' AND rating_log[-3] === 'RED'",
+        "replacement_role_brief": "Agent dashboard framework (Foreman Phase 1 brief #1 was tool hire; if designer fails, promote to full agent hire)",
+        "rating_log": [
+          {
+            "project_id": "command-center-redesign-v5",
+            "rated_at": "2026-04-17T20:30:00Z",
+            "rating": "RED",
+            "reason": "Lando rejected. Bays never rendered in browser, sidebar placement wrong, overall design hated. Rolled back to v4."
+          },
+          {
+            "project_id": "command-center-redesign-v6",
+            "rated_at": "2026-04-17T20:50:00Z",
+            "rating": "YELLOW",
+            "reason": "Lando: 'looks sloppy but better'. Direction (iso diorama, tiny humans, Stardew, golden hour) is right. Execution is rough. Not promoted. Iterate with specific sloppiness targets before next run."
+          },
+          {
+            "project_id": "command-center-redesign-v7",
+            "rated_at": "2026-04-17T23:50:00Z",
+            "rating": "YELLOW",
+            "reason": "Lando: 'layout is completely fucked up'. CSS 3D isometric math broken. Not promoted."
+          },
+          {
+            "project_id": "command-center-redesign-v13",
+            "rated_at": "2026-04-18T03:30:00Z",
+            "rating": "YELLOW",
+            "reason": "Anthill cross-section. Direction OK, execution felt static + empty."
+          },
+          {
+            "project_id": "command-center-redesign-v14",
+            "rated_at": "2026-04-18T03:38:00Z",
+            "rating": "RED",
+            "reason": "Lando: 'no....' 10 iterations, still missing. Comprehension gap on my side, not skill gap on designer."
+          }
+        ],
+        "runs_completed": 5,
+        "first_run_due": "2026-04-17 on v5 brief"
+      }
     }
   ],
   "sends_today": 0,
   "deploys_today": 0,
-  "last_tick_at": "2026-04-17T10:43:49.875Z",
-  "last_tick_summary": "live send stub (not yet implemented)",
+  "last_tick_at": "2026-04-18T04:00:00.074Z",
+  "last_tick_summary": "internal build complete: command-center-redesign-v11 output filed at businesses/public/concepts/concept-v11.html",
   "last_escalation_at": null,
   "last_escalation_reason": null,
   "failures_in_row": 0,

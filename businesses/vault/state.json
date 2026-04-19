@@ -1,0 +1,118 @@
+{
+  "business": "vault",
+  "display_name": "Vault",
+  "role_title": "Archivist",
+  "charter_version": "0.1",
+  "status": "scouting",
+  "current_mode": "dry_run",
+  "paused": false,
+  "pools_scanned": 3,
+  "pitches_drafted": 3,
+  "listings_live": 1,
+  "listings_retired": 0,
+  "gross_revenue_mtd": 0,
+  "net_revenue_mtd": 0,
+  "last_tick_at": "2026-04-18T02:47:22.914Z",
+  "last_tick_summary": "pitch 3 filed: isometric-tiles-landscape via port-threejs",
+  "last_scout_at": "2026-04-18T02:47:22.902Z",
+  "last_publish_at": "2026-04-18T01:16:14.511Z",
+  "last_escalation_at": "2026-04-17T23:30:48.178Z",
+  "last_escalation_reason": "need Itch.io account + BUTLER_API_KEY before first publish",
+  "failures_in_row": 0,
+  "standing_scout_queue": [
+    {
+      "source": "kenney.nl/starter-kits",
+      "license": "CC0",
+      "next_visit": "2026-04-20",
+      "priority": 1
+    },
+    {
+      "source": "kenney.nl/assets",
+      "license": "CC0",
+      "next_visit": "2026-04-20",
+      "priority": 2
+    },
+    {
+      "source": "opengameart.org/art-search-advanced",
+      "license": "CC0-filter",
+      "next_visit": "2026-04-23",
+      "priority": 3
+    },
+    {
+      "source": "github.com/tailwindlabs/heroicons",
+      "license": "MIT",
+      "next_visit": "2026-04-27",
+      "priority": 4
+    },
+    {
+      "source": "github.com/sindresorhus/awesome",
+      "license": "MIT",
+      "next_visit": "2026-04-30",
+      "priority": 5
+    }
+  ],
+  "month_to_date": {
+    "income": 0,
+    "cost": 0,
+    "month_key": "2026-04"
+  },
+  "motive": {
+    "from": "Lando Brewington",
+    "to_agent": "vault",
+    "stamped_at": "2026-04-17T22:40:00Z",
+    "doctrine_ref": "businesses/OPERATING-DOCTRINE.md",
+    "core_message": "CC0 and MIT public assets are rentable mines. Your job is to spot them, port them, bundle them, and ship them to Itch. Every approved pool becomes a listing within 7 days. One listing must clear $19 within 30 days or Lando starts asking questions.",
+    "escalation_policy": "Only escalate: missing BUTLER_API_KEY, 3-failure smoke test, TOS complaints, spend approaching cap.",
+    "thirty_day_rule": true
+  },
+  "self_funding_plan": {
+    "product_or_service": "Itch.io digital asset bundles. Primary: Kenney Unity starter-kits ported to Three.js at $19. Secondary: Kenney UI packs as Tailwind + React at $14. Backup: curated free-asset PDF atlases at $9.",
+    "target_revenue_mo_1": 50,
+    "target_revenue_mo_3": 300,
+    "pivot_at_d15_under": 25,
+    "kill_at_d30_under": 25,
+    "contract_clock_starts_when": "First Itch listing goes live and accepts its first sale attempt.",
+    "rule": "Pay for yourself within 30 days. First listing ships by day 3.",
+    "authority": "Full authority on pool selection, pitch angle, bundle assembly, pricing under $79. Lando only touches first-time Itch project page creation per family.",
+    "updated_at": "2026-04-17T22:40:00Z"
+  },
+  "business_pitch": {
+    "business_name": "Brewington Vault",
+    "why_this": "Public CC0 assets are a free inventory stream. Most devs don't port Unity starter-kits to Three.js themselves. Vault does the integration work and sells the deliverable. Zero IP conflict (CC0 explicitly permits derivatives), pure productization labor arbitrage.",
+    "projected_mo_revenue": 90,
+    "revenue_basis": "Month 1 base case: 5 sales of Kenney Isometric City Three.js starter at $19 + 2 sales of UI pack at $14 = $123 gross, $99 net after Itch 10% + PayPal.",
+    "cost_mo": 5,
+    "margin_mo": 94,
+    "channel": "Itch.io (primary) + one-launch cross-post to r/threejs and r/gamedev-resources",
+    "status_badge": "awaiting_butler_key",
+    "d15_checkpoint": "2026-05-02",
+    "d30_checkpoint": "2026-05-17",
+    "kill_under": 25,
+    "pivot_under": 25,
+    "last_action": "Bay scaffolded 2026-04-17. Awaiting BUTLER_API_KEY and first Itch project page creation to flip live."
+  },
+  "hired_roster": [],
+  "notes": [
+    "Hired 2026-04-17 from Hank's designer-monetizer hunt (top pick: agent-asset-monetizer-itch-butler-sonnet).",
+    "Needs from Lando: (1) Itch.io account creation, (2) BUTLER_API_KEY from Itch account settings pasted into .env, (3) approval of first pitch before publish.",
+    "Kenney packs already live at businesses/public/assets/kenney/. First scout target is the Isometric City starter-kit port.",
+    "Rent clock starts when first listing accepts first sale attempt, NOT at bay activation."
+  ],
+  "itch_projects": {
+    "isometric-tiles-city": {
+      "slug": "brewingtondigital/brewington-isometric-city-threejs-starter",
+      "url": "https://brewingtondigital.itch.io/brewington-isometric-city-threejs-starter",
+      "status": "build-uploaded-awaiting-publish",
+      "page_verified_at": "2026-04-18T01:09:58.554Z",
+      "butler_channel": "html5",
+      "awaiting": "bundle assembly (Phase 2)",
+      "last_build_id": "1620029",
+      "last_build_version": "1.0.0",
+      "last_build_at": "2026-04-18T01:16:14.511Z"
+    }
+  },
+  "trusted_work_types": [
+    "screenshots",
+    "cover-images"
+  ]
+}

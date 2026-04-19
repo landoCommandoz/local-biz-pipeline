@@ -1,0 +1,21 @@
+{
+  "business": "zenith",
+  "charter_version": "0.1",
+  "bay_status": "scaffolded",
+  "m1_revenue_target": 417,
+  "m3_revenue_target": 1251,
+  "paid_unlock_threshold": null,
+  "attributed_revenue_mtd": 0,
+  "city_market_reports_sold_mtd": 0,
+  "last_rescan_at": null,
+  "last_tick_at": null,
+  "last_tick_summary": null,
+  "ticks_today": 0,
+  "failures_in_row": 0,
+  "notes": [
+    "bay_status progression: scaffolded -> active (first healthy tick with CENSUS_API_KEY present).",
+    "Rescan cadence: monthly. Artifacts: market-map.json + 90-day-plan.md.",
+    "Shares CENSUS_API_KEY with ATLAS. No duplicate signup.",
+    "No paid upgrade path — this is the free-forever stack."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "at": "2026-04-18T02:47:09.476Z",
+  "systems_clean": true,
+  "threat_count": 0,
+  "findings_summary": {
+    "exposed_keys": 0,
+    "gitignore_env_missing": false,
+    "env_file_tracked": false,
+    "bays_in_failure_streak": 0
+  },
+  "exposed_keys": [],
+  "gitignore_status": {
+    "covers": true,
+    "reason": null
+  },
+  "env_tracked_status": {
+    "tracked": false,
+    "detail": null
+  },
+  "bay_hotspots": []
+}

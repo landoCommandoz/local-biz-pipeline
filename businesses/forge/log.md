@@ -1,0 +1,11 @@
+# FORGE Log
+
+2026-04-18 14:15 :: SCAFFOLD :: Bay created by Hank per Lando approval 2026-04-18. bay_status=scaffolded. Skill (impeccable + Opus 4.7 via Claude Agent SDK) fully installed in Cockpit Round Phase 1 (impeccable vendored at .claude/skills/impeccable/ SHA 00d4856); businesses/lib/forge.js wrapper TODO with anchors in tick.js. First healthy tick with ANTHROPIC_API_KEY present will flip to active. Event-driven: Blueprint rating dispatcher calls tick.js when section rates < 8.
+
+2026-04-18 23:55 :: TAKEOVER :: Full ownership of Brewington Yard Cockpit redirected to FORGE by Lando after frontend-design's flat-grid approach was rejected. Mission: true 3D POV cockpit, rooms floating in space, luma-keyed video backgrounds, mouse parallax, cinematic dolly-in. Budget: $0.
+
+2026-04-18 23:58 :: TOOLING :: Installed three@latest via npm (free MIT). Vendored three.module.min.js + three.core.min.js to businesses/public/vendor/ for offline ES-module import. No paid deps. No CDN dependency at runtime.
+
+2026-04-18 23:59 :: INTAKE :: Stood up Brix intake path at businesses/realtor/inbox/videos/ with README describing filename convention and catalog flow.
+
+2026-04-19 00:02 :: TEST-TILE :: Shipped businesses/public/forge-test-jax.html at http://localhost:3000/forge-test-jax.html. Single-room proof of approach. Stack: WebGL / Three.js r-latest, custom ShaderMaterial with luma-key fragment shader (threshold 0.02, softness 0.06, warm edge-bloom in agent color), PerspectiveCamera POV, cinematic dolly from z=14 → z=5.6 over 2.2s with sit-down settle shake, mouse parallax with smoothed lerp, scroll-wheel micro-zoom, volumetric light shaft above hero room, reflective under-floor shader with gold falloff, 380 GPU-simulated dust motes with additive blending, 6 fogged ambient neighbor rooms hinting at the wraparound, anamorphic lens flare, command chair silhouette + control console rails in foreground, film grain, scanlines, chromatic-aberration edge fringing, HUD reticle, always-on gold-bordered nameplate. Falls back to detailed animated canvas placeholder (iso room + JAX at keyboard + scrolling code monitor) when /assets/videos/jax.mp4 is absent. Pending Lando approval before full 18-room cockpit build.

@@ -1,0 +1,26 @@
+{
+  "business": "atlas",
+  "charter_version": "0.1",
+  "bay_status": "installing",
+  "m1_revenue_target_attributed": 148,
+  "m3_revenue_target_attributed": 594,
+  "paid_unlock_threshold": 200,
+  "attributed_revenue_mtd": 0,
+  "last_full_rescan_at": null,
+  "census_cache_refreshed_at": null,
+  "bls_cache_refreshed_at": null,
+  "osm_cache_refreshed_at": null,
+  "zips_scored_today": 0,
+  "zips_scored_month": 0,
+  "osm_query_count_today": 0,
+  "top_targets_count": 0,
+  "last_tick_at": null,
+  "last_tick_summary": null,
+  "failures_in_row": 0,
+  "notes": [
+    "bay_status progression: installing -> active (first healthy tick with CENSUS_API_KEY present).",
+    "Unlock paid DataForSEO when attributed_revenue_mtd >= 200. Doss meter owns the alert per Phase 3.",
+    "Rescan cadence: weekly. Census cache 30d, BLS 90d, OSM 7d per metro.",
+    "Check ZENITH state.json for existing CENSUS_API_KEY before asking Lando to sign up again."
+  ]
+}

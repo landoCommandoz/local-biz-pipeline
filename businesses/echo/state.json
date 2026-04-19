@@ -1,0 +1,27 @@
+{
+  "business": "echo",
+  "charter_version": "0.1",
+  "bay_status": "installing",
+  "m1_revenue_target": 297,
+  "m3_revenue_target_low": 1100,
+  "m3_revenue_target_high": 1500,
+  "paid_unlock_threshold": 100,
+  "attributed_revenue_mtd": 0,
+  "send_domain": "brewingtondigital-outbound.com",
+  "resend_warmup_start": null,
+  "send_day_key": null,
+  "send_month_key": null,
+  "emails_sent_today": 0,
+  "emails_sent_month": 0,
+  "daily_cap": 100,
+  "monthly_cap": 3000,
+  "reply_triage_queue": [],
+  "last_tick_at": null,
+  "last_tick_summary": null,
+  "failures_in_row": 0,
+  "notes": [
+    "bay_status progression: installing -> warming (first healthy tick with RESEND_API_KEY present) -> normal (after 14-day warmup).",
+    "Unlock paid Instantly upgrade when attributed_revenue_mtd >= 100. Doss meter owns the alert per Phase 3.",
+    "Resend free tier hard caps: 100/day, 3000/month. tick.js enforces both."
+  ]
+}

@@ -1,0 +1,18 @@
+{"level":30,"time":1776468648177,"agent":"vault","msg":"tick start"}
+{"level":30,"time":1776468648178,"agent":"vault","mode":"dry_run","hasButlerKey":false,"hasAnthropicKey":false,"pitches_on_disk":0,"msg":"tick context"}
+{"level":40,"time":1776468648178,"agent":"vault","msg":"blocked: needs Lando setup"}
+{"level":30,"time":1776473410955,"agent":"vault","msg":"tick start"}
+{"level":30,"time":1776473410956,"agent":"vault","mode":"dry_run","hasAnthropicKey":false,"hasButlerKey":false,"pitches_filed":0,"msg":"tick context"}
+{"level":40,"time":1776473410956,"agent":"vault","msg":"no ANTHROPIC_API_KEY, cannot draft pitches"}
+{"level":30,"time":1776473428936,"agent":"vault","msg":"tick start"}
+{"level":30,"time":1776473428937,"agent":"vault","mode":"dry_run","hasAnthropicKey":true,"hasButlerKey":true,"pitches_filed":0,"msg":"tick context"}
+{"level":30,"time":1776473428937,"agent":"vault","pack":"isometric-tiles-city","angle":"port-threejs","msg":"scout pick"}
+{"level":30,"time":1776473440465,"agent":"vault","path":"/workspaces/local-biz-pipeline/businesses/vault/pitches/0001-isometric-tiles-city-port-threejs.md","pack":"isometric-tiles-city","angle":"port-threejs","png_count":142,"msg":"pitch filed"}
+{"level":30,"time":1776480379268,"agent":"vault","msg":"tick start"}
+{"level":30,"time":1776480379270,"agent":"vault","mode":"dry_run","hasAnthropicKey":true,"hasButlerKey":true,"pitches_filed":1,"msg":"tick context"}
+{"level":30,"time":1776480379270,"agent":"vault","pack":"isometric-tiles-buildings","angle":"port-threejs","msg":"scout pick"}
+{"level":30,"time":1776480390117,"agent":"vault","path":"/workspaces/local-biz-pipeline/businesses/vault/pitches/0002-isometric-tiles-buildings-port-threejs.md","pack":"isometric-tiles-buildings","angle":"port-threejs","png_count":132,"msg":"pitch filed"}
+{"level":30,"time":1776480431810,"agent":"vault","msg":"tick start"}
+{"level":30,"time":1776480431812,"agent":"vault","mode":"dry_run","hasAnthropicKey":true,"hasButlerKey":true,"pitches_filed":2,"msg":"tick context"}
+{"level":30,"time":1776480431813,"agent":"vault","pack":"isometric-tiles-landscape","angle":"port-threejs","msg":"scout pick"}
+{"level":30,"time":1776480442901,"agent":"vault","path":"/workspaces/local-biz-pipeline/businesses/vault/pitches/0003-isometric-tiles-landscape-port-threejs.md","pack":"isometric-tiles-landscape","angle":"port-threejs","png_count":130,"msg":"pitch filed"}

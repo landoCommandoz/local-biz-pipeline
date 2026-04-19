@@ -1,0 +1,29 @@
+{
+  "business": "rex",
+  "charter_version": "0.1",
+  "bay_status": "scaffolded",
+  "m1_revenue_target": 261,
+  "m3_revenue_target": 1044,
+  "paid_unlock_threshold": null,
+  "attributed_revenue_mtd": 0,
+  "claude_spend_cap_mo": 15,
+  "claude_spend_mtd": 0,
+  "drafts_mtd": 0,
+  "violations_caught": 0,
+  "violations_slipped_through": 0,
+  "tested_combos": [],
+  "gumroad_pack_published_at": null,
+  "gumroad_pack_sales_mtd": 0,
+  "copy_subscription_attaches": 0,
+  "last_tick_at": null,
+  "last_tick_summary": null,
+  "ticks_today": 0,
+  "failures_in_row": 0,
+  "notes": [
+    "bay_status progression: scaffolded -> active (first healthy tick with ANTHROPIC_API_KEY present).",
+    "Hard rules: no 'AI' word (word-boundary match), no U+2014 em dash (regex).",
+    "Request-driven (not pull). JAX/Scout/Realtor/ECHO call businesses/lib/rex.js.draftCopy().",
+    "Gumroad pack publishes automatically once tested_combos.length >= 40.",
+    "No paid upgrade path — this is the free-tier stack."
+  ]
+}

@@ -2,12 +2,12 @@
   "business": "foreman",
   "charter_version": "0.2",
   "current_mode": "active_hiring",
-  "phase": 1,
+  "phase": 2,
   "hiring_freeze": false,
   "role_briefs_open_phase_1": 5,
   "role_briefs_locked_phase_2": 8,
-  "candidates_researched": 16,
-  "candidates_pitched": 6,
+  "candidates_researched": 66,
+  "candidates_pitched": 18,
   "candidates_approved": 6,
   "candidates_hired": 7,
   "candidates_rejected": 0,
@@ -133,11 +133,84 @@
       ],
       "purpose": "Polling + overlay drill-down layer for the command center. Lets bays pull live /api/state without a build step.",
       "pilot_subtask_tbd": "Wire into redesigned command center HTML after the designer pass ships concepts."
+    },
+    {
+      "slug": "designer-upgrade-replicate-flux-schnell",
+      "brief": "designer_upgrade",
+      "package": "replicate",
+      "package_version_installed": "1.4.0",
+      "install_cmd": "npm install replicate",
+      "installed_at": "2026-04-17T21:15:00Z",
+      "installed_by": "hank (Lando approved combo 2026-04-17)",
+      "files_touched": [
+        "package.json",
+        "node_modules/replicate/",
+        "businesses/builder/assets/characters/"
+      ],
+      "purpose": "Flux Schnell (Apache 2.0) via Replicate for bespoke character portraits. Replaces sloppy LLM hand-drawn SVG characters that caused v5 RED and v6 YELLOW. Cost ~$0.15/month at yard volume, hard cap $10/month.",
+      "needs_env": "REPLICATE_API_TOKEN (Lando must provide before first call)",
+      "pilot_subtask_tbd": "Augment businesses/lib/designer.js with a pre-render step that generates 5 character PNGs into businesses/builder/assets/characters/ before the Sonnet composer runs. Cache by slug+prompt hash.",
+      "kill_criteria": "3 paid runs without a GREEN rating, OR monthly spend exceeds $10."
+    },
+    {
+      "slug": "designer-upgrade-kenney-cc0-packs",
+      "brief": "designer_upgrade",
+      "package": "kenney-isometric-packs",
+      "package_version_installed": "bundle-2026-03-13",
+      "install_cmd": "manual download from kenney.nl -> businesses/public/assets/kenney/",
+      "installed_at": "2026-04-17T21:15:00Z",
+      "installed_by": "hank (Lando approved combo 2026-04-17, pack download pending)",
+      "files_touched": [
+        "businesses/public/assets/kenney/"
+      ],
+      "purpose": "CC0 isometric sprite packs for buildings, ground, props, fences, lamps. Deterministic base layer paired with Flux Schnell for bespoke characters. Under $1/month combined.",
+      "needs_download": "Lando downloads 4 Kenney packs (Isometric City, Isometric Tiles Buildings, Isometric Miniature Library, Isometric Landscape) from kenney.nl and drops into businesses/public/assets/kenney/",
+      "pilot_subtask_tbd": "After download: write businesses/builder/character-map.json binding display_names to sprite paths. Designer composer uses this map in HTML scene generation.",
+      "kill_criteria": "2 runs rated RED for generic asset-flip look."
     }
   ],
   "approved_queue": [],
-  "last_tick_at": "2026-04-17T10:43:50.295Z",
+  "last_tick_at": "2026-04-18T02:47:09.121Z",
   "last_tick_summary": "routine tick: 0 hires ready to install, 0 watchdog findings",
+  "last_hunt_at": "2026-04-18T02:15:00Z",
+  "hunts_log": [
+    {
+      "at": "2026-04-17T21:08:54Z",
+      "brief_slug": "designer-upgrade",
+      "dossiers_filed": 3,
+      "top_pick_slug": "designer-upgrade-replicate-flux-schnell",
+      "runner_up_slug": "designer-upgrade-kenney-cc0-packs",
+      "candidates_evaluated": 12,
+      "escalation_path": "businesses/foreman/pending-escalations/hunt-designer-upgrade-2026-04-17.md"
+    },
+    {
+      "at": "2026-04-17T22:15:00Z",
+      "brief_slug": "asset-monetizer",
+      "dossiers_filed": 3,
+      "top_pick_slug": "agent-asset-monetizer-itch-butler-sonnet",
+      "runner_up_slug": "agent-asset-monetizer-ruflo-swarm",
+      "candidates_evaluated": 15,
+      "escalation_path": "businesses/foreman/pending-escalations/hunt-asset-monetizer-2026-04-17.md"
+    },
+    {
+      "at": "2026-04-17T22:40:00Z",
+      "brief_slug": "auto-reply",
+      "dossiers_filed": 3,
+      "top_pick_slug": "agent-auto-reply-signalscout-praw-draft-queue",
+      "runner_up_slug": "agent-auto-reply-signalscout-x-tweepy-draft-queue",
+      "candidates_evaluated": 12,
+      "escalation_path": "businesses/foreman/pending-escalations/hunt-auto-reply-2026-04-17.md"
+    },
+    {
+      "at": "2026-04-18T02:15:00Z",
+      "brief_slug": "designer-replacement",
+      "dossiers_filed": 3,
+      "top_pick_slug": "designer-replacement-claude-agent-sdk-frontend-skill",
+      "runner_up_slug": "designer-replacement-gpt-5-4-frontend-skill",
+      "candidates_evaluated": 11,
+      "escalation_path": "businesses/foreman/pending-escalations/hunt-designer-replacement-2026-04-18.md"
+    }
+  ],
   "status": "hunting",
   "last_escalation_at": null,
   "last_escalation_reason": null,
@@ -204,5 +277,21 @@
       "enabled": true,
       "rule": "If you are stuck, you are in the wrong business. Every question you want to send Lando is evidence you have not tried hard enough. Answer it yourself, log the answer, move. Escalate ONLY: commitments beyond budget, brand or customer damage risk, facts only a human can provide."
     }
+  },
+  "hustler": {
+    "last_run_at": "2026-04-18T01:19:09.307Z",
+    "last_run_target": {
+      "city": "Phoenix",
+      "trade": "hvac"
+    },
+    "pois_scanned_total": 49,
+    "prospects_queued_total": 10,
+    "queue_depth": 10
+  },
+  "incubator": {
+    "last_batch_at": "2026-04-18T03:04:13.841Z",
+    "pitches_filed_total": 10,
+    "catalog_size": 10,
+    "pitches_dir": "businesses/foreman/incubator-pitches/"
   }
 }

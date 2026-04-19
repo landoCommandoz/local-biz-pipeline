@@ -1,0 +1,70 @@
+{
+  "business": "signalscout",
+  "display_name": "SignalScout",
+  "role_title": "Watcher",
+  "charter_version": "0.1",
+  "status": "awaiting_lando_setup",
+  "current_mode": "dry_run",
+  "paused": false,
+  "drafts_today": 0,
+  "queue_depth": 0,
+  "drafts_total_mtd": 0,
+  "approvals_mtd": 0,
+  "rejections_mtd": 0,
+  "conversions_mtd": 0,
+  "rent_paid_mtd": 0,
+  "last_tick_at": "2026-04-18T04:00:00.078Z",
+  "last_tick_summary": "dry_run tick: queue_depth=0, awaiting Lando eyeball before live",
+  "last_match_at": null,
+  "last_escalation_at": "2026-04-17T23:30:48.243Z",
+  "last_escalation_reason": "need REDDIT_CLIENT_ID + REDDIT_CLIENT_SECRET in .env",
+  "failures_in_row": 0,
+  "approval_rate": null,
+  "month_to_date": {
+    "income": 0,
+    "cost": 0,
+    "month_key": "2026-04"
+  },
+  "motive": {
+    "from": "Lando Brewington",
+    "to_agent": "signalscout",
+    "stamped_at": "2026-04-17T22:40:00Z",
+    "doctrine_ref": "businesses/OPERATING-DOCTRINE.md",
+    "core_message": "Reddit is a firehose of people literally typing the words 'I need a website' every day. Your job is to find them, draft a reply that actually helps, and put it in front of Lando in one tap. You do not post. You never post. One tap from Lando, one conversation, one $297 customer. Do that once a month and you cover rent 10x over.",
+    "escalation_policy": "Escalate on queue-depth-5, Reddit 401/403, spend approaching cap, approval rate under 10%, or any platform moderator contact.",
+    "thirty_day_rule": true
+  },
+  "self_funding_plan": {
+    "product_or_service": "Qualified Reddit threads with draft replies queued for Lando's one-tap approval. Revenue comes from downstream Brewington Digital Starter ($297/mo) and Growth ($497/mo) plan conversions.",
+    "target_revenue_mo_1": 297,
+    "target_revenue_mo_3": 891,
+    "pivot_at_d15_under": 0,
+    "kill_at_d30_under": 0,
+    "contract_clock_starts_when": "First draft lands in queue.jsonl and passes the copy filter.",
+    "rule": "Pay for yourself within 30 days via 1 Brewington Digital conversion. Rent is $20, compute is up to $10, so $30 total rent + compute; 1 conversion covers it 9x over.",
+    "authority": "Full authority on subreddit sweep, keyword matching, draft writing, copy filtering, queue management. Lando's only touchpoint is the tap-to-approve queue.",
+    "updated_at": "2026-04-17T22:40:00Z"
+  },
+  "business_pitch": {
+    "business_name": "SignalScout",
+    "why_this": "Reddit is dense with small-biz owners openly asking for website help. Autonomous posting is dead on every platform in 2026, but a draft-queue-with-human-poster is TOS-clean and lets Lando close conversations that currently never surface. Brewington's HOTR cred means his replies land better than a new sock account ever would.",
+    "projected_mo_revenue": 297,
+    "revenue_basis": "1 Brewington Digital Starter conversion in month 1 from 300 triggered threads surfaced, ~60 approved-and-posted, 1-2 calls, 30-50% close rate on the call.",
+    "cost_mo": 10,
+    "margin_mo": 287,
+    "channel": "Reddit (r/smallbusiness, r/Entrepreneur, r/AutoDetailing, r/HVAC, r/Plumbing, r/mechanics, r/AutoBody)",
+    "status_badge": "awaiting_reddit_oauth",
+    "d15_checkpoint": "2026-05-02",
+    "d30_checkpoint": "2026-05-17",
+    "kill_under": 0,
+    "pivot_under": 0,
+    "last_action": "Bay scaffolded 2026-04-17. Awaiting REDDIT_CLIENT_ID + REDDIT_CLIENT_SECRET from Lando."
+  },
+  "hired_roster": [],
+  "notes": [
+    "Hired 2026-04-17 from Hank's phase-2-auto-reply hunt (top pick: agent-auto-reply-signalscout-praw-draft-queue).",
+    "Needs from Lando: (1) Register a Reddit developer app under his existing Reddit handle, (2) drop REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET into .env, (3) eyeball first 10 drafts and help tune the copy prompt.",
+    "Sprint 1 pick: snoowrap (Node) for cleanest integration. PRAW (Python subprocess) is the fallback if snoowrap doesn't handle Reddit's 2026 OAuth properly.",
+    "Never posts. Ever. Design is human-in-the-loop, not safety rail."
+  ]
+}

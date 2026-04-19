@@ -1,0 +1,26 @@
+{
+  "business": "nova",
+  "charter_version": "0.1",
+  "bay_status": "scaffolded",
+  "m1_revenue_target_direct": 0,
+  "m1_defensive_value": 297,
+  "m3_revenue_target_direct": 145,
+  "m3_defensive_value": 594,
+  "paid_unlock_threshold": null,
+  "direct_revenue_mtd": 0,
+  "pre_deploy_runs_mtd": 0,
+  "builds_blocked_mtd": 0,
+  "issues_caught_mtd": 0,
+  "external_subs_active": 0,
+  "last_tick_at": null,
+  "last_tick_summary": null,
+  "ticks_today": 0,
+  "failures_in_row": 0,
+  "notes": [
+    "bay_status progression: scaffolded -> active (first healthy tick; no env required).",
+    "Event-driven: MAX calls `node businesses/nova/tick.js <build-dir>` before deploy.",
+    "Also supports scheduled sweep (no arg) for regression detection on already-deployed sites.",
+    "Shares Chromium runtime with IRIS.",
+    "No paid upgrade path — free-tier stack."
+  ]
+}

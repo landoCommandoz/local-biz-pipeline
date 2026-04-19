@@ -1,0 +1,39 @@
+{
+  "business": "max",
+  "charter_version": "0.1",
+  "bay_status": "scaffolded",
+  "m1_revenue_target": 98,
+  "m3_revenue_target": 245,
+  "paid_unlock_threshold": null,
+  "direct_revenue_mtd": 0,
+  "deploys_completed_mtd": 0,
+  "deploys_blocked_by_nova": 0,
+  "netlify_credits_est": 849,
+  "care_attaches_active": 0,
+  "care_attaches_mtd_new": 0,
+  "uptime_monitors_active": 0,
+  "last_tick_at": null,
+  "last_tick_summary": null,
+  "ticks_today": 0,
+  "failures_in_row": 0,
+  "upside_tier": {
+    "name": "Brewington Care + Uptime",
+    "price_mo": 49,
+    "target_attach_rate_starter": 0.40,
+    "target_attach_rate_growth": 0.60,
+    "includes": [
+      "24/7 uptime monitoring",
+      "Up to 4 deploys/month",
+      "Monthly Care Report",
+      "Deploy rollback on request",
+      "Priority on next-day deploys"
+    ]
+  },
+  "notes": [
+    "bay_status progression: scaffolded -> active (first healthy tick with NETLIFY_AUTH_TOKEN present).",
+    "Event-driven: JAX/Realtor calls tick.js with approvedBuildDir + clientSlug.",
+    "NOVA pre-deploy gate is mandatory. Block on non-zero exit.",
+    "IRIS post-deploy audit is mandatory. IRIS returns findings to client record.",
+    "No paid upgrade path — netlify-skills baseline is the hire. Revenue comes from $49 Care attach SKU."
+  ]
+}

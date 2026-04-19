@@ -1,0 +1,29 @@
+{
+  "business": "forge",
+  "charter_version": "0.1",
+  "bay_status": "scaffolded",
+  "m1_productivity_savings_target": 300,
+  "m3_direct_revenue_target": 25,
+  "paid_unlock_threshold": null,
+  "opus_spend_cap_mo": 25,
+  "opus_spend_mtd": 0,
+  "rebuilds_mtd": 0,
+  "green_ratings_mtd": 0,
+  "yellow_ratings_mtd": 0,
+  "red_ratings_mtd": 0,
+  "consecutive_non_green_rebuilds": 0,
+  "last_tick_at": null,
+  "last_tick_summary": null,
+  "ticks_today": 0,
+  "failures_in_row": 0,
+  "impeccable_sha": "00d485659af82982aef0328d0419c49a2716d123",
+  "impeccable_version": "v2.1.7",
+  "notes": [
+    "bay_status progression: scaffolded -> active (first healthy tick with ANTHROPIC_API_KEY present).",
+    "Event-driven: Blueprint rating dispatcher calls tick.js with rating-critique input path when score < 8.",
+    "Opus spend hard cap: $25/mo. Resets on calendar month rollover.",
+    "God-view palette pinned in the FORGE system prompt. Non-negotiable.",
+    "Kill criteria: 3 consecutive paid rebuilds without any GREEN rating.",
+    "Impeccable skill vendored at .claude/skills/impeccable/ at pinned SHA 00d4856 (Apache-2.0)."
+  ]
+}

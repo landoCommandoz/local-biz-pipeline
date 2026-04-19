@@ -1,0 +1,74 @@
+{
+  "at": "2026-04-18T02:47:11.430Z",
+  "month_to_date": {
+    "income": 0,
+    "cost": 0,
+    "net": 0
+  },
+  "mrr_estimate": 0,
+  "client_count": 4,
+  "burn_rate_per_day": 0,
+  "day_of_month": 18,
+  "days_remaining_in_month": 12,
+  "break_even": true,
+  "shortfall_to_break_even": 0,
+  "days_until_profitable": 0,
+  "per_bay": [
+    {
+      "bay": "builder",
+      "display_name": "Jax",
+      "income": 0,
+      "cost": 0,
+      "tenants": 0,
+      "conversions": 0
+    },
+    {
+      "bay": "foreman",
+      "display_name": "Hank",
+      "income": 0,
+      "cost": 0,
+      "tenants": 0,
+      "conversions": 0
+    },
+    {
+      "bay": "paymaster",
+      "display_name": "Doss",
+      "income": 0,
+      "cost": 0,
+      "tenants": 0,
+      "conversions": 0
+    },
+    {
+      "bay": "realtor",
+      "display_name": "Brix",
+      "income": 0,
+      "cost": 0,
+      "tenants": 4,
+      "conversions": 0
+    },
+    {
+      "bay": "scout",
+      "display_name": "Vega",
+      "income": 0,
+      "cost": 0,
+      "tenants": 0,
+      "conversions": 0
+    },
+    {
+      "bay": "signalscout",
+      "display_name": "SignalScout",
+      "income": 0,
+      "cost": 0,
+      "tenants": 0,
+      "conversions": 0
+    },
+    {
+      "bay": "vault",
+      "display_name": "Vault",
+      "income": 0,
+      "cost": 0,
+      "tenants": 0,
+      "conversions": 0
+    }
+  ]
+}

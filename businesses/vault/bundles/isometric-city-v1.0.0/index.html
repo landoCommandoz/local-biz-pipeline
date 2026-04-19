@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Brewington Isometric City — Three.js Starter</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0b1020; color: #f2ede3; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    #canvas-wrap { position: fixed; inset: 0; }
+    #hud { position: fixed; top: 16px; left: 16px; background: rgba(11,16,32,0.75); border: 1px solid #3a4663; padding: 12px 16px; border-radius: 6px; font-size: 13px; line-height: 1.5; max-width: 320px; backdrop-filter: blur(8px); }
+    #hud h1 { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: #f7c873; }
+    #hud p { opacity: 0.85; margin-bottom: 4px; }
+    #hud .hint { font-size: 11px; opacity: 0.6; margin-top: 8px; font-family: ui-monospace, monospace; }
+    #hud a { color: #00e5ff; text-decoration: none; }
+    #controls { position: fixed; bottom: 16px; left: 16px; background: rgba(11,16,32,0.75); border: 1px solid #3a4663; padding: 8px 12px; border-radius: 6px; font-size: 11px; font-family: ui-monospace, monospace; opacity: 0.75; }
+    #loading { position: fixed; inset: 0; display: grid; place-items: center; background: #0b1020; color: #f7c873; font-family: ui-monospace, monospace; z-index: 10; transition: opacity 0.4s; }
+    #loading.hidden { opacity: 0; pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div id="canvas-wrap"></div>
+
+  <div id="hud">
+    <h1>Isometric City Starter</h1>
+    <p>Three.js r160, 142 Kenney CC0 sprites, working isometric camera, grid placement helper.</p>
+    <p>Edit <code>js/scene.js</code> to extend. See <code>README.md</code> for the full walkthrough.</p>
+    <p class="hint">Brewington Digital · v1.0.0</p>
+  </div>
+
+  <div id="controls">drag to orbit · scroll to zoom · right-click drag to pan</div>
+
+  <div id="loading">loading sprites...</div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="./js/scene.js"></script>
+</body>
+</html>

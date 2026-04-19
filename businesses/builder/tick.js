@@ -15,6 +15,7 @@ const { createLogger } = require('../lib/logger');
 const { stateFor } = require('../lib/state');
 const { escalate } = require('../twilio-whatsapp');
 const { readCSV } = require('../../csv-utils');
+const { designOnce } = require('../lib/designer');
 
 const NAME = 'builder';
 const PROSPECTS_PATH = path.join(__dirname, '../../prospects.csv');
@@ -228,6 +229,26 @@ Approve live_send mode? Reply Y to flip mode to live_send, or N to hold.`
       }
 
       log.info('internal build progress: brief loaded, checking output');
+
+      if (project.generate === true) {
+        log.info('internal build: designer hire invoked', { project_id, model: 'claude-sonnet-4' });
+        const designResult = await designOnce({
+          briefPath: briefAbs,
+          outputPath: outputAbs,
+          agent: NAME
+        });
+        if (designResult.ok) {
+          log.info('internal build: designer shipped HTML', {
+            bytes: designResult.bytes,
+            model: designResult.model
+          });
+        } else {
+          log.warn('internal build: designer failed', {
+            reason: designResult.reason,
+            error: designResult.error
+          });
+        }
+      }
 
       const outputReady = !!output_path && fs.existsSync(outputAbs);
       const nextStatus = outputReady ? 'filed' : 'awaiting_output';

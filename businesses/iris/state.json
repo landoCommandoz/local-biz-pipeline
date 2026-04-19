@@ -1,0 +1,24 @@
+{
+  "business": "iris",
+  "charter_version": "0.1",
+  "bay_status": "scaffolded",
+  "m1_revenue_target": 147,
+  "m3_revenue_target": 437,
+  "paid_unlock_threshold": null,
+  "direct_revenue_mtd": 0,
+  "audits_run_mtd": 0,
+  "violations_caught_mtd": 0,
+  "refunds_prevented_estimate": 0,
+  "external_retainers_active": 0,
+  "one_off_reports_sold_mtd": 0,
+  "last_tick_at": null,
+  "last_tick_summary": null,
+  "ticks_today": 0,
+  "failures_in_row": 0,
+  "notes": [
+    "bay_status progression: scaffolded -> active (first healthy tick; no env required).",
+    "Shares Chromium runtime with NOVA.",
+    "Copy-violation regex: /\\bAI\\b/i and /\\u2014/.",
+    "No paid upgrade path — free-tier stack."
+  ]
+}

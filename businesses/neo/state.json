@@ -1,0 +1,26 @@
+{
+  "business": "neo",
+  "charter_version": "0.1",
+  "bay_status": "scaffolded",
+  "m1_revenue_target": 297,
+  "m3_revenue_target": 1136,
+  "paid_unlock_threshold": null,
+  "attributed_revenue_mtd": 0,
+  "claude_spend_cap_mo": 5,
+  "claude_spend_mtd": 0,
+  "replies_processed_mtd": 0,
+  "classifier_precision_last": null,
+  "angles_shipped_mtd": 0,
+  "last_retrain_at": null,
+  "last_tick_at": null,
+  "last_tick_summary": null,
+  "ticks_today": 0,
+  "failures_in_row": 0,
+  "notes": [
+    "bay_status progression: scaffolded -> active (first healthy tick with ANTHROPIC_API_KEY present).",
+    "Retrain cadence: weekly. Cold start needs ~100 labeled replies before useful precision.",
+    "Claude spend hard cap: $5/mo. Resets on calendar month rollover.",
+    "First run downloads ~22MB ONNX weights (cached).",
+    "No paid upgrade path — this is the canonical free-tier stack."
+  ]
+}

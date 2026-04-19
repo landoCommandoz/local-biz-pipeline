@@ -1,0 +1,33 @@
+Brewington Isometric City Starter — License
+
+Copyright (c) 2026 Brewington Digital
+
+The source code in this package, including index.html, js/scene.js, README.md,
+and this LICENSE file, is licensed to the purchaser under these terms:
+
+1. ALLOWED USES
+   - Use in personal projects, commercial projects, and client work.
+   - Modification, extension, and inclusion as part of a larger product.
+   - Sublicensing the final derivative product (your game, your app, your site).
+   - Distribution of compiled or bundled output from a derivative work.
+
+2. NOT ALLOWED
+   - Redistribution of this starter as-is, unmodified, or nearly unmodified,
+     whether free or paid. Buy a copy, do not rehost.
+   - Public repositories containing the unmodified starter code.
+   - Inclusion in asset packs, starter collections, or bundles by other sellers.
+
+3. NO WARRANTY
+   The software is provided "as is", without warranty of any kind. The author
+   is not liable for any damages arising from its use.
+
+4. SPRITES
+   The sprites under assets/sprites/ are Kenney CC0 and are not governed by
+   this license. See KENNEY-CC0-NOTICE.txt.
+
+5. TRANSFER
+   The purchaser may hand off their copy to another developer when handing
+   off a project (e.g. selling a freelance project to a client), as long as
+   the new party agrees to these terms.
+
+Questions: brewingtondigital.com
