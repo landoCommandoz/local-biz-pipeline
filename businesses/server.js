@@ -242,6 +242,10 @@ app.get('/api/activity', (req, res) => {
 
 app.use(express.static(path.join(BUSINESSES_DIR, 'public')));
 
+app.get('/agents.json', (req, res) => res.sendFile(path.join(BUSINESSES_DIR, '..', 'agents.json')));
+app.get('/businesses/realtor/rent-roll.json', (req, res) => res.sendFile(path.join(BUSINESSES_DIR, 'realtor', 'rent-roll.json')));
+app.get('/businesses/pnl.json', (req, res) => res.sendFile(path.join(BUSINESSES_DIR, 'pnl.json')));
+
 const sseClients = new Set();
 function sseBroadcast(eventName, payload) {
   const data = `event: ${eventName}\ndata: ${JSON.stringify(payload)}\n\n`;

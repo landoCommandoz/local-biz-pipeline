@@ -18,7 +18,7 @@
       "status": "live"
     }
   ],
-  "last_tick_at": "2026-04-17T10:43:50.116Z",
+  "last_tick_at": "2026-04-18T02:47:11.411Z",
   "last_tick_summary": "live refresh stub (not yet implemented)",
   "last_escalation_at": null,
   "last_escalation_reason": null,
@@ -107,5 +107,16 @@
         "GUMROAD_ACCESS_TOKEN"
       ]
     }
-  ]
+  ],
+  "analyst": {
+    "last_run_at": "2026-04-18T02:47:11.430Z",
+    "mtd_income": 0,
+    "mtd_cost": 0,
+    "mtd_net": 0,
+    "mrr_estimate": 0,
+    "client_count": 4,
+    "burn_rate_per_day": 0,
+    "break_even": true,
+    "days_until_profitable": 0
+  }
 }

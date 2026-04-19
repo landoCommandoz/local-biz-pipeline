@@ -19,7 +19,9 @@ const CADENCE = {
   scout: { cron: '0 9 * * *', name: 'daily at 09:00 local' },
   builder: { cron: '0 */4 * * *', name: 'every 4 hours' },
   paymaster: { cron: '0 23 * * 0', name: 'Sunday at 23:00 (weekly digest)' },
-  realtor: { cron: '0 */4 * * *', name: 'every 4 hours' }
+  realtor: { cron: '0 */4 * * *', name: 'every 4 hours' },
+  vault: { cron: '0 9 * * 1,4', name: 'Mon + Thu 09:00 local (scout Mon, publish Thu)' },
+  signalscout: { cron: '0 */2 * * *', name: 'every 2 hours' }
 };
 
 function listAgents() {

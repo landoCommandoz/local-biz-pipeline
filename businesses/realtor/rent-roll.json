@@ -1,6 +1,6 @@
 {
   "month_key": "2026-04",
-  "computed_at": "2026-04-17T10:44:03.571Z",
+  "computed_at": "2026-04-18T11:45:00Z",
   "baseline_rent_mo": 20,
   "tenants": [
     {
@@ -38,9 +38,116 @@
       "rent_paid_mtd": 0,
       "status": "behind",
       "d30_checkpoint": "2026-05-17"
+    },
+    {
+      "tenant": "signalscout",
+      "display_name": "SignalScout",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": null
+    },
+    {
+      "tenant": "vault",
+      "display_name": "Vault",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": null
+    },
+    {
+      "tenant": "zenith",
+      "display_name": "Zenith",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": "2026-05-18",
+      "skill": "Census CBP/ZBP + ACS density scoring",
+      "skill_type": "free-tier",
+      "moved_in": "2026-04-18"
+    },
+    {
+      "tenant": "neo",
+      "display_name": "Neo",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": "2026-05-18",
+      "skill": "Transformers.js + Xenova/all-MiniLM-L6-v2 + ml-logistic-regression",
+      "skill_type": "free-tier",
+      "moved_in": "2026-04-18"
+    },
+    {
+      "tenant": "rex",
+      "display_name": "Rex",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": "2026-05-18",
+      "skill": "Direct Claude Sonnet-4 + REX system prompt + marketing:brand-review + Gumroad copy pack",
+      "skill_type": "free-tier",
+      "moved_in": "2026-04-18"
+    },
+    {
+      "tenant": "iris",
+      "display_name": "Iris",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": "2026-05-18",
+      "skill": "Playwright + axe-core (visual regression + copy scan + a11y)",
+      "skill_type": "free-tier",
+      "moved_in": "2026-04-18"
+    },
+    {
+      "tenant": "max",
+      "display_name": "Max",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": "2026-05-18",
+      "skill": "netlify-skills baseline (Care + Uptime upside tier awaiting SKU ratification)",
+      "skill_type": "free-tier",
+      "moved_in": "2026-04-18"
+    },
+    {
+      "tenant": "forge",
+      "display_name": "Forge",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": "2026-05-18",
+      "skill": "impeccable v2.1.7 (vendored at .claude/skills/impeccable/, SHA 00d4856, Apache-2.0) + Opus 4.7 via Claude Agent SDK",
+      "skill_type": "free-tier",
+      "moved_in": "2026-04-18"
+    },
+    {
+      "tenant": "nova",
+      "display_name": "Nova",
+      "rent_mo": 20,
+      "rent_owed_mtd": 20,
+      "rent_paid_mtd": 0,
+      "status": "behind",
+      "d30_checkpoint": "2026-05-18",
+      "skill": "Playwright + custom adversarial fixtures (rapid-click, null-fetch, 375px overflow, 44px touch-target, URL bypass, 6x CPU throttle)",
+      "skill_type": "free-tier",
+      "moved_in": "2026-04-18"
     }
   ],
-  "total_owed": 80,
+  "total_owed": 260,
   "total_paid": 0,
-  "occupancy_pct": 67
+  "occupancy_pct": 100,
+  "notes": [
+    "2026-04-18: Cockpit Round Phase 1. 7 new free-tier tenants moved in: Zenith, Neo, Rex, Iris, Max, Forge, Nova. Rent roll grows from 6 to 13. Existing 6 still behind. New 7 on 30-day grace per Brix's 15-day-grace + 30-day-eviction rule.",
+    "ECHO, ATLAS, PIXEL plots remain LISTED but VACANT pending free-tier replacements (Phase 2 hunt by Hank in flight). Paid upgrades parked at businesses/foreman/parked/.",
+    "HIRE plot deferred per Lando directive until VAULT shows active_clients == 5."
+  ]
 }

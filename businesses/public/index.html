@@ -1,858 +1,1545 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>BREWINGTON YARD // GOD VIEW</title>
-<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='8' fill='%2306060a'/><circle cx='32' cy='32' r='10' fill='none' stroke='%2300e5ff' stroke-width='3'/><circle cx='32' cy='32' r='2' fill='%2300e5ff'/></svg>">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brewington Yard — Command Center</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ================================================================
-   DESIGN NOTES
-   Top-down god view of the Brewington Yard as an operating property.
-   Five tenant plots around a central plaza (the landlord's marker),
-   two outlying vacant lots with FOR RENT signs. Each plot is a
-   building with tenant-specific details. Live data flows from
-   /api/state, /api/realestate, /api/activity, and /api/stream:
-     - last_tick_at < 90s = glowing building + pulse ring from plot
-     - hired_roster length = equipment icons on the plot
-     - rent status = plot edge color (success / amber / danger)
-     - vacancies = dashed outlines with FOR RENT signs
-     - new applications = letter icons drifting to Brix's office
-     - sales (mtd income > 0) = dollar packets drifting to plaza
-   Never the word "AI". No em dashes. Syne + DM Sans + JetBrains Mono.
-   ================================================================ */
-
-:root{
-  --bg: #06060a;
-  --bg-1: #08090f;
-  --bg-2: #0a0c14;
-  --bg-3: #10121c;
-  --ground: #14182a;
-  --ground-rim: #1e2338;
-  --road: #1a1e30;
-  --road-light: #22283e;
-  --line: #1e2130;
-  --line-2: #272b3c;
-  --bldg: #1e2330;
-  --bldg-1: #262c3d;
-  --bldg-2: #2e3548;
-  --bldg-dark: #12151e;
-  --cyan: #00e5ff;
-  --cyan-dim: rgba(0,229,255,.55);
-  --warm: #f2f0ed;
-  --warm-glow: #ffd079;
-  --muted: #6b6f7a;
-  --muted-2: #4a4e58;
-  --danger: #ff5a5f;
-  --success: #3dd68c;
-  --amber: #ffb347;
-  --purple: #d9a6ff;
-  --f-display: 'Syne', sans-serif;
-  --f-body: 'DM Sans', sans-serif;
-  --f-mono: 'JetBrains Mono', ui-monospace, monospace;
-}
-*{ box-sizing: border-box; margin:0; padding:0; }
-html, body{ height: 100%; }
-body{
-  background: var(--bg);
-  color: var(--warm);
-  font-family: var(--f-body);
-  overflow: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-body::before{
-  content:""; position: fixed; inset:0; pointer-events:none; z-index:0;
-  background:
-    radial-gradient(ellipse 1400px 700px at 50% 50%, rgba(0,229,255,.03), transparent 60%),
-    radial-gradient(ellipse 1200px 600px at 30% -10%, rgba(217,166,255,.04), transparent 60%),
-    radial-gradient(ellipse 1200px 600px at 100% 110%, rgba(255,179,71,.03), transparent 60%);
-}
-body::after{
-  content:""; position: fixed; inset:0; pointer-events:none; z-index:500;
-  background: repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 3px, rgba(0,0,0,.09) 3px 4px);
-  mix-blend-mode: multiply; opacity: .45;
-}
-
-.shell{
-  position: relative; z-index: 1;
-  height: 100vh; width: 100vw;
-  display: grid;
-  grid-template-rows: 60px 1fr;
-  grid-template-columns: 1fr 320px;
-  grid-template-areas:
-    "bar bar"
-    "map rail";
-}
-
-/* ================================================================ */
-/* TOP BAR                                                          */
-/* ================================================================ */
-.bar{
-  grid-area: bar;
-  display: flex; align-items: center;
-  padding: 0 24px;
-  border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, var(--bg-1), var(--bg));
-  gap: 24px;
-  z-index: 10;
-}
-.brand{
-  display: flex; align-items: center; gap: 12px;
-}
-.mark{
-  width: 30px; height: 30px;
-  border-radius: 4px;
-  background: var(--bg-3);
-  border: 1px solid var(--line-2);
-  display: grid; place-items: center;
-  color: var(--cyan);
-  font-family: var(--f-mono);
-  font-size: 14px;
-  font-weight: 600;
-}
-.brand-text{ display: flex; flex-direction: column; gap: 1px; }
-.brand-h{
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-size: 14px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--warm);
-}
-.brand-s{
-  font-family: var(--f-mono);
-  font-size: 9px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.brand-s .owner{ color: var(--cyan); }
-
-.bar-stats{ margin-left: auto; display: flex; gap: 22px; align-items: center; }
-.kv{ display: flex; flex-direction: column; gap: 1px; align-items: flex-end; }
-.kv .k{
-  font-family: var(--f-mono);
-  font-size: 9px;
-  color: var(--muted);
-  letter-spacing: .16em;
-  text-transform: uppercase;
-}
-.kv .v{
-  font-family: var(--f-mono);
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--warm);
-}
-.kv .v.pos{ color: var(--success); }
-.kv .v.neg{ color: var(--danger); }
-.kv .v.warn{ color: var(--amber); }
-.kv .v.cyan{ color: var(--cyan); }
-
-.clock{
-  font-family: var(--f-mono);
-  font-size: 16px;
-  color: var(--warm);
-  letter-spacing: .08em;
-  padding-left: 6px;
-}
-.lamp-wrap{
-  display: flex; align-items: center; gap: 6px;
-  padding-left: 14px;
-  border-left: 1px solid var(--line);
-  height: 28px;
-}
-.lamp{
-  width: 7px; height: 7px; border-radius: 50%;
-  background: var(--muted-2);
-}
-.lamp.on{
-  background: var(--success);
-  box-shadow: 0 0 10px rgba(61,214,140,.7);
-  animation: breathe 3s ease-in-out infinite;
-}
-.lamp.off{ background: var(--danger); }
-.lamp-lbl{
-  font-family: var(--f-mono);
-  font-size: 9px;
-  letter-spacing: .14em;
-  color: var(--muted);
-}
-@keyframes breathe{ 0%,100%{opacity:1} 50%{opacity:.4} }
-
-/* ================================================================ */
-/* MAP                                                              */
-/* ================================================================ */
-.map{
-  grid-area: map;
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse 900px 600px at 50% 50%, #0d1018, #060608 85%);
-}
-.map svg{
-  display: block;
-  width: 100%; height: 100%;
-}
-
-/* SVG styling */
-.ground{ fill: var(--ground); }
-.ground-rim{ fill: none; stroke: var(--ground-rim); stroke-width: 1.5; }
-.ground-hatch{ fill: none; stroke: rgba(255,255,255,.02); stroke-width: 1; }
-.road{ stroke: var(--road); stroke-width: 10; fill: none; stroke-linecap: round; }
-.road-line{ stroke: var(--road-light); stroke-width: 1; stroke-dasharray: 4 6; fill: none; }
-
-.plot-outline{ fill: var(--ground); stroke: var(--ground-rim); stroke-width: 2; }
-.plot-outline.current{ stroke: var(--success); }
-.plot-outline.partial{ stroke: var(--amber); }
-.plot-outline.behind{ stroke: var(--danger); }
-.plot-outline.default{ stroke: var(--danger); stroke-dasharray: 8 4; }
-.plot-outline.vacant{ stroke: var(--cyan); stroke-dasharray: 6 6; fill: var(--bg-3); }
-.plot-outline.working{ filter: drop-shadow(0 0 8px var(--cyan-dim)); }
-
-.bldg{ fill: var(--bldg); stroke: var(--line-2); stroke-width: 1; }
-.bldg-roof{ fill: var(--bldg-dark); }
-.bldg-light{ fill: var(--bldg-2); stroke: var(--line-2); stroke-width: 1; }
-.window{ fill: var(--bg-2); stroke: var(--line-2); stroke-width: .5; }
-.window.lit{ fill: var(--warm-glow); animation: flicker 4s ease-in-out infinite; }
-@keyframes flicker{ 0%,100%{opacity:.95} 45%{opacity:.75} 55%{opacity:1} }
-
-.tname{
-  font-family: var(--f-display);
-  font-weight: 800;
-  fill: var(--warm);
-  font-size: 18px;
-  letter-spacing: .04em;
-}
-.trole{
-  font-family: var(--f-mono);
-  font-size: 9px;
-  fill: var(--muted);
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-.tsign-bg{ fill: var(--bg-3); stroke: var(--line-2); stroke-width: 1; }
-.tsign-bg.current{ stroke: var(--success); }
-.tsign-bg.partial{ stroke: var(--amber); }
-.tsign-bg.behind{ stroke: var(--danger); }
-.tsign-bg.default{ fill: var(--danger); stroke: var(--danger); }
-.tsign-text{
-  font-family: var(--f-mono);
-  font-size: 9px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  fill: var(--warm);
-}
-.tsign-text.current{ fill: var(--success); }
-.tsign-text.partial{ fill: var(--amber); }
-.tsign-text.behind{ fill: var(--danger); }
-.tsign-text.default{ fill: var(--bg); font-weight: 500; }
-
-.hire-dot{ fill: var(--cyan-dim); stroke: var(--cyan); stroke-width: .6; }
-.vacant-sign-bg{ fill: var(--bg-3); stroke: var(--cyan); stroke-width: 1.2; }
-.vacant-sign-post{ stroke: var(--line-2); stroke-width: 2; }
-.vacant-sign-text{
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-size: 11px;
-  letter-spacing: .16em;
-  fill: var(--cyan);
-}
-.vacant-rent-text{
-  font-family: var(--f-mono);
-  font-size: 9px;
-  letter-spacing: .1em;
-  fill: var(--muted);
-}
-
-.plaza-ring{ fill: none; stroke: var(--cyan-dim); stroke-width: 1; stroke-dasharray: 2 4; }
-.plaza-core{ fill: var(--bg-3); stroke: var(--cyan); stroke-width: 1.2; }
-.plaza-label{
-  font-family: var(--f-display);
-  font-weight: 800;
-  fill: var(--warm);
-  font-size: 12px;
-  letter-spacing: .3em;
-}
-
-.pulse-ring{
-  fill: none;
-  stroke: var(--cyan);
-  stroke-width: 1.5;
-  opacity: 0;
-  animation: pulseRing 2.4s ease-out infinite;
-}
-@keyframes pulseRing{
-  0%{ r: 8; opacity: .7; }
-  100%{ r: 120; opacity: 0; }
-}
-
-.dust{ fill: var(--cyan); }
-
-.label-sm{
-  font-family: var(--f-mono);
-  font-size: 9px;
-  fill: var(--muted);
-  letter-spacing: .1em;
-}
-.label-big{
-  font-family: var(--f-mono);
-  font-size: 10px;
-  fill: var(--warm);
-  letter-spacing: .1em;
-  font-weight: 500;
-}
-.label-cyan{ fill: var(--cyan); }
-
-/* Per-tenant accent colors */
-.a-foreman{ color: var(--amber); }
-.a-scout{ color: var(--success); }
-.a-builder{ color: var(--cyan); }
-.a-paymaster{ color: var(--purple); }
-.a-realtor{ color: var(--warm); }
-
-/* ================================================================ */
-/* RAIL                                                             */
-/* ================================================================ */
-.rail{
-  grid-area: rail;
-  border-left: 1px solid var(--line);
-  background: linear-gradient(180deg, var(--bg-1), var(--bg));
-  display: flex; flex-direction: column;
-  overflow: hidden;
-}
-.rail-sec{
-  border-bottom: 1px solid var(--line);
-}
-.rail-head{
-  padding: 14px 20px 10px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.rail-title{
-  font-family: var(--f-display);
-  font-weight: 800;
-  font-size: 11px;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--warm);
-}
-.rail-meta{
-  font-family: var(--f-mono);
-  font-size: 9px;
-  color: var(--muted);
-  letter-spacing: .14em;
-}
-.rail-meta .cyan{ color: var(--cyan); }
-.inbox, .feed{
-  list-style: none;
-  overflow-y: auto;
-  padding: 2px 0 8px;
-  max-height: 240px;
-}
-.feed{ max-height: none; flex: 1; }
-.inbox::-webkit-scrollbar, .feed::-webkit-scrollbar{ width: 4px; }
-.inbox::-webkit-scrollbar-thumb, .feed::-webkit-scrollbar-thumb{ background: var(--line-2); }
-
-.app, .entry{
-  padding: 8px 20px;
-  border-top: 1px solid rgba(30,33,48,.5);
-  display: flex; flex-direction: column; gap: 3px;
-  font-size: 11px;
-  line-height: 1.45;
-  color: var(--warm);
-  opacity: .88;
-  cursor: pointer;
-}
-.app:hover, .entry:hover{ background: rgba(0,229,255,.03); }
-.app-title{
-  font-family: var(--f-display);
-  font-weight: 700;
-  font-size: 12px;
-  color: var(--warm);
-  letter-spacing: .02em;
-}
-.app-meta, .entry-head{
-  font-family: var(--f-mono);
-  font-size: 9px;
-  letter-spacing: .12em;
-  color: var(--muted);
-  display: flex; gap: 6px; align-items: center;
-}
-.app-tag{
-  font-size: 8px;
-  padding: 2px 5px;
-  border-radius: 2px;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-.app-tag.triaged{ background: rgba(0,229,255,.1); color: var(--cyan); border: 1px solid var(--cyan-dim); }
-.app-tag.untriaged{ background: rgba(255,179,71,.1); color: var(--amber); border: 1px solid rgba(255,179,71,.3); }
-
-.entry-agent{ font-weight: 600; }
-.entry-agent.foreman{ color: var(--amber); }
-.entry-agent.scout{ color: var(--success); }
-.entry-agent.builder{ color: var(--cyan); }
-.entry-agent.paymaster{ color: var(--purple); }
-.entry-agent.realtor{ color: var(--warm); }
-.empty-note{
-  padding: 20px;
-  color: var(--muted-2);
-  font-size: 11px;
-  font-style: italic;
-  text-align: center;
-}
-
-@media (max-width: 1000px){
-  .shell{
-    grid-template-columns: 1fr;
-    grid-template-rows: 60px 1fr 280px;
-    grid-template-areas: "bar" "map" "rail";
+  :root {
+    --bg: #0a0a0a;
+    --bg-2: #111111;
+    --panel: #141414;
+    --panel-2: #1a1a1a;
+    --stroke: #242424;
+    --stroke-2: #2f2f2f;
+    --gold: #c9a24b;
+    --gold-dim: #8c6f33;
+    --bone: #e8e4d8;
+    --text: #e8e4d8;
+    --text-dim: #8a867c;
+    --cyan: #00e5ff;
+    --cyan-dim: #0a7686;
+    --red: #d64545;
+    --green: #6fae6f;
+    --amber: #e0a94a;
+    --vacant: #3a3a3a;
   }
-  .rail{ border-left: none; border-top: 1px solid var(--line); flex-direction: row; }
-  .rail-sec{ border-right: 1px solid var(--line); border-bottom: none; flex: 1; overflow: auto; }
-}
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    height: 100%;
+    overflow: hidden;
+    image-rendering: pixelated;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    background:
+      radial-gradient(ellipse at top, #141414 0%, #0a0a0a 60%) fixed;
+  }
+
+  /* ====================== HUD STRIP ====================== */
+  .hud {
+    flex: 0 0 auto;
+    height: 62px;
+    border-bottom: 1px solid var(--stroke);
+    background: linear-gradient(180deg, #141414, #0d0d0d);
+    display: flex;
+    align-items: stretch;
+    padding: 0 18px;
+    font-size: 11px;
+    position: relative;
+    z-index: 10;
+  }
+  .hud::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+    opacity: 0.4;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-right: 18px;
+    border-right: 1px solid var(--stroke);
+    margin-right: 18px;
+  }
+  .brand-mark {
+    width: 32px; height: 32px;
+    border: 1px solid var(--gold);
+    display: grid;
+    place-items: center;
+    color: var(--gold);
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    background: #0a0a0a;
+  }
+  .brand-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: var(--bone);
+    line-height: 1.5;
+  }
+  .brand-sub {
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 1.5px;
+    margin-top: 3px;
+    text-transform: uppercase;
+  }
+
+  .hud-stats {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+    overflow-x: auto;
+  }
+  .stat {
+    padding: 4px 12px;
+    border: 1px solid var(--stroke);
+    background: #0d0d0d;
+    min-width: 110px;
+    position: relative;
+  }
+  .stat-label {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .stat-value {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 12px;
+    color: var(--bone);
+  }
+  .stat-value.pos { color: var(--green); }
+  .stat-value.neg { color: var(--red); }
+  .stat-value.cyan { color: var(--cyan); }
+  .stat-value.gold { color: var(--gold); }
+
+  .hud-clock {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    min-width: 180px;
+    padding-left: 18px;
+    border-left: 1px solid var(--stroke);
+  }
+  .hud-clock-date {
+    font-size: 9px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .hud-clock-time {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 14px;
+    color: var(--gold);
+    margin-top: 4px;
+  }
+
+  /* ====================== GRID ====================== */
+  .stage {
+    flex: 1 1 auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 18px;
+    padding: 18px;
+    min-height: 0;
+    background:
+      /* vertical gold hairlines at column boundaries */
+      linear-gradient(90deg, transparent calc(20% - 1px), rgba(201,162,75,0.45) calc(20% - 0.5px), rgba(201,162,75,0.65) 20%, rgba(201,162,75,0.45) calc(20% + 0.5px), transparent calc(20% + 1px)),
+      linear-gradient(90deg, transparent calc(40% - 1px), rgba(201,162,75,0.45) calc(40% - 0.5px), rgba(201,162,75,0.65) 40%, rgba(201,162,75,0.45) calc(40% + 0.5px), transparent calc(40% + 1px)),
+      linear-gradient(90deg, transparent calc(60% - 1px), rgba(201,162,75,0.45) calc(60% - 0.5px), rgba(201,162,75,0.65) 60%, rgba(201,162,75,0.45) calc(60% + 0.5px), transparent calc(60% + 1px)),
+      linear-gradient(90deg, transparent calc(80% - 1px), rgba(201,162,75,0.45) calc(80% - 0.5px), rgba(201,162,75,0.65) 80%, rgba(201,162,75,0.45) calc(80% + 0.5px), transparent calc(80% + 1px)),
+      /* horizontal gold hairlines at row boundaries */
+      linear-gradient(180deg, transparent calc(25% - 1px), rgba(201,162,75,0.45) calc(25% - 0.5px), rgba(201,162,75,0.65) 25%, rgba(201,162,75,0.45) calc(25% + 0.5px), transparent calc(25% + 1px)),
+      linear-gradient(180deg, transparent calc(50% - 1px), rgba(201,162,75,0.45) calc(50% - 0.5px), rgba(201,162,75,0.65) 50%, rgba(201,162,75,0.45) calc(50% + 0.5px), transparent calc(50% + 1px)),
+      linear-gradient(180deg, transparent calc(75% - 1px), rgba(201,162,75,0.45) calc(75% - 0.5px), rgba(201,162,75,0.65) 75%, rgba(201,162,75,0.45) calc(75% + 0.5px), transparent calc(75% + 1px)),
+      /* metal corridor base — brushed vertical sheen */
+      repeating-linear-gradient(90deg, #1b1b1b 0, #1b1b1b 1px, #161616 1px, #161616 3px),
+      linear-gradient(180deg, #1a1a1a, #0f0f0f);
+  }
+
+  /* corridor edge shadow on each tile to simulate doorway depth */
+  .tile {
+    box-shadow:
+      0 0 0 1px #0a0a0a,
+      0 0 6px rgba(0,0,0,0.6);
+  }
+
+  .tile {
+    position: relative;
+    background: #0a0a0a;
+    border: 1px solid var(--stroke);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.15s, transform 0.15s;
+    display: flex;
+    flex-direction: column;
+  }
+  .tile:hover {
+    border-color: var(--gold);
+    z-index: 3;
+  }
+  .tile.active {
+    border-color: var(--cyan);
+    box-shadow: inset 0 0 0 1px var(--cyan);
+  }
+
+  .tile-img {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+  }
+  .tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.55) 55%, rgba(10,10,10,0.9) 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .tile::after {
+    /* top-right watermark cover — the source art carries a corner watermark */
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 70px; height: 24px;
+    background: linear-gradient(180deg, rgba(10,10,10,0.92), rgba(10,10,10,0));
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .tile-header {
+    position: relative;
+    z-index: 3;
+    padding: 7px 9px 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .tile-badge {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    letter-spacing: 1px;
+    padding: 3px 5px;
+    border: 1px solid;
+    background: rgba(10,10,10,0.75);
+    white-space: nowrap;
+  }
+  .tile-badge.live { color: var(--green); border-color: var(--green); }
+  .tile-badge.live::before {
+    content: '';
+    display: inline-block;
+    width: 5px; height: 5px;
+    background: var(--green);
+    margin-right: 4px;
+    vertical-align: middle;
+    animation: pulse 1.6s infinite;
+  }
+  .tile-badge.idle { color: var(--text-dim); border-color: var(--stroke-2); }
+  .tile-badge.warn { color: var(--amber); border-color: var(--amber); }
+  .tile-badge.crit { color: var(--red); border-color: var(--red); }
+  .tile-badge.sys  { color: var(--cyan); border-color: var(--cyan); }
+  .tile-badge.rent { color: var(--gold); border-color: var(--gold); }
+
+  .tile-id {
+    font-size: 8px;
+    color: var(--gold);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-family: 'Press Start 2P', monospace;
+  }
+
+  .tile-footer {
+    position: relative;
+    z-index: 3;
+    margin-top: auto;
+    padding: 8px 9px 9px;
+  }
+  .tile-name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 11px;
+    color: var(--bone);
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+  }
+  .tile-role {
+    font-size: 9px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .tile-task {
+    font-size: 10px;
+    color: var(--text);
+    margin-top: 6px;
+    opacity: 0.85;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tile-bar {
+    margin-top: 7px;
+    height: 4px;
+    background: #1a1a1a;
+    border: 1px solid var(--stroke);
+    position: relative;
+    overflow: hidden;
+  }
+  .tile-bar-fill {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
+    transition: width 0.5s ease;
+  }
+  .tile-bar-fill.crit { background: linear-gradient(90deg, #6b2323, var(--red)); }
+  .tile-bar-fill.warn { background: linear-gradient(90deg, #7a5a1d, var(--amber)); }
+  .tile-bar-fill.cyan { background: linear-gradient(90deg, var(--cyan-dim), var(--cyan)); }
+  .tile-bar-fill.green{ background: linear-gradient(90deg, #2a5a2a, var(--green)); }
+
+  .tile-meta {
+    margin-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 8px;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .tile-meta strong {
+    color: var(--bone);
+    font-weight: 500;
+  }
+
+  /* Vacant tile variant */
+  .tile.vacant {
+    background:
+      repeating-linear-gradient(45deg, #0a0a0a 0px, #0a0a0a 8px, #141414 8px, #141414 16px);
+  }
+  .tile.vacant::before { display: none; }
+  .tile.vacant::after { display: none; }
+  .tile.vacant .tile-footer {
+    text-align: center;
+    padding: 0 14px;
+  }
+  .tile.vacant .tile-name {
+    color: var(--gold);
+    font-size: 12px;
+  }
+  .tile.vacant .tile-role {
+    color: var(--text-dim);
+  }
+  .tile.vacant .vacant-core {
+    position: relative;
+    z-index: 3;
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    text-align: center;
+  }
+  .tile.vacant .vacant-mark {
+    border: 2px solid var(--gold);
+    padding: 10px 16px;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+  }
+
+  /* ====================== LIVE FEED ====================== */
+  .feed {
+    flex: 0 0 auto;
+    height: 92px;
+    border-top: 1px solid var(--stroke);
+    background: #0d0d0d;
+    padding: 6px 14px;
+    display: flex;
+    flex-direction: column;
+  }
+  .feed::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cyan) 50%, transparent);
+    opacity: 0.35;
+  }
+  .feed-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--stroke);
+    flex: 0 0 auto;
+  }
+  .feed-header strong {
+    color: var(--cyan);
+    font-weight: 500;
+  }
+  .feed-list {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-size: 10px;
+    padding: 4px 0 0;
+  }
+  .feed-list::-webkit-scrollbar { width: 4px; }
+  .feed-list::-webkit-scrollbar-thumb { background: var(--stroke-2); }
+  .feed-row {
+    display: grid;
+    grid-template-columns: 90px 90px 1fr;
+    gap: 12px;
+    padding: 2px 0;
+    border-bottom: 1px dashed #1a1a1a;
+    white-space: nowrap;
+  }
+  .feed-ts { color: var(--text-dim); font-size: 9px; }
+  .feed-agent {
+    color: var(--gold);
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .feed-text {
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ====================== SIDEBAR ====================== */
+  .sidebar {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: 460px;
+    max-width: 92vw;
+    background: #0d0d0d;
+    border-left: 1px solid var(--gold);
+    transform: translateX(100%);
+    transition: transform 0.28s cubic-bezier(.3,.7,.3,1);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -12px 0 48px rgba(0,0,0,0.6);
+  }
+  .sidebar.open { transform: translateX(0); }
+
+  .sidebar-head {
+    padding: 20px 22px 14px;
+    border-bottom: 1px solid var(--stroke);
+    background: linear-gradient(180deg, #161616, #0d0d0d);
+    position: relative;
+  }
+  .sidebar-close {
+    position: absolute;
+    top: 16px; right: 18px;
+    width: 28px; height: 28px;
+    border: 1px solid var(--stroke);
+    background: transparent;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    font-family: inherit;
+  }
+  .sidebar-close:hover { color: var(--gold); border-color: var(--gold); }
+
+  .sidebar-bayid {
+    font-size: 9px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Press Start 2P', monospace;
+    margin-bottom: 6px;
+  }
+  .sidebar-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 18px;
+    color: var(--bone);
+    line-height: 1.3;
+  }
+  .sidebar-role {
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 6px;
+  }
+  .sidebar-status-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 8px;
+    padding: 4px 7px;
+    border: 1px solid;
+    letter-spacing: 1px;
+  }
+  .chip.live { color: var(--green); border-color: var(--green); }
+  .chip.idle { color: var(--text-dim); border-color: var(--stroke-2); }
+  .chip.warn { color: var(--amber); border-color: var(--amber); }
+  .chip.crit { color: var(--red); border-color: var(--red); }
+  .chip.cyan { color: var(--cyan); border-color: var(--cyan); }
+
+  .sidebar-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 18px 22px 60px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .sidebar-body::-webkit-scrollbar { width: 4px; }
+  .sidebar-body::-webkit-scrollbar-thumb { background: var(--stroke-2); }
+  .section {
+    margin-top: 20px;
+  }
+  .section:first-child { margin-top: 0; }
+  .section h4 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--stroke);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .kv {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 6px 12px;
+    font-size: 11px;
+  }
+  .kv dt {
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-size: 9px;
+    padding-top: 2px;
+  }
+  .kv dd { color: var(--text); }
+  .kv dd.pos { color: var(--green); }
+  .kv dd.neg { color: var(--red); }
+  .kv dd.gold { color: var(--gold); }
+
+  .blockquote {
+    border-left: 2px solid var(--gold);
+    padding: 4px 12px;
+    color: var(--text);
+    font-size: 11px;
+    line-height: 1.65;
+    background: rgba(201,162,75,0.04);
+  }
+
+  .log-list { font-size: 11px; }
+  .log-list li {
+    list-style: none;
+    padding: 5px 0;
+    border-bottom: 1px dashed #1a1a1a;
+    color: var(--text);
+  }
+  .log-list li:last-child { border-bottom: none; }
+  .log-list .log-ts { color: var(--text-dim); font-size: 9px; margin-right: 8px; }
+
+  .sidebar-scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+    z-index: 49;
+  }
+  .sidebar-scrim.open { opacity: 1; pointer-events: auto; }
+
+  /* ====================== ANIMATIONS ====================== */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(200%); }
+  }
+  .tile.live-scan::before {
+    animation: none;
+  }
+  .tile.live-scan .scan-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0.2;
+    animation: scan 3.5s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ====================== AGENT SPRITES ====================== */
+  .sprite {
+    position: absolute;
+    z-index: 2;
+    font-size: 16px;
+    line-height: 1;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,0.75)) drop-shadow(0 0 6px rgba(201,162,75,0.35));
+    user-select: none;
+    pointer-events: none;
+    animation-duration: var(--sprite-duration, 6s);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: left, top, transform;
+  }
+
+  /* Jax — walks back and forth between desk and wall */
+  .sprite.walk-jax {
+    animation-name: walk-jax;
+    top: 62%;
+  }
+  @keyframes walk-jax {
+    0%        { left: 22%; transform: scaleX(1)   translateY(0); }
+    45%       { left: 72%; transform: scaleX(1)   translateY(0); }
+    47%       { left: 72%; transform: scaleX(-1)  translateY(0); }
+    50%       { left: 72%; transform: scaleX(-1)  translateY(-2px); }
+    95%       { left: 22%; transform: scaleX(-1)  translateY(0); }
+    97%, 100% { left: 22%; transform: scaleX(1)   translateY(0); }
+  }
+
+  /* Hank — paces a small circle around his workbench */
+  .sprite.walk-hank {
+    animation-name: walk-hank;
+  }
+  @keyframes walk-hank {
+    0%   { left: 38%; top: 50%; }
+    25%  { left: 60%; top: 52%; }
+    50%  { left: 62%; top: 72%; }
+    75%  { left: 38%; top: 72%; }
+    100% { left: 38%; top: 50%; }
+  }
+
+  /* Vega — sits and bobs while typing */
+  .sprite.walk-vega {
+    animation-name: walk-vega;
+    left: 46%;
+    top: 58%;
+  }
+  @keyframes walk-vega {
+    0%,100% { transform: translateY(0)   rotate(-3deg); }
+    50%     { transform: translateY(-3px) rotate(3deg); }
+  }
+
+  /* Brix — crawls along the floor checking cables */
+  .sprite.walk-brix {
+    animation-name: walk-brix;
+    top: 74%;
+    font-size: 14px;
+  }
+  @keyframes walk-brix {
+    0%        { left: 18%; transform: scaleX(1)  translateY(0); }
+    48%       { left: 78%; transform: scaleX(1)  translateY(-1px); }
+    50%       { left: 78%; transform: scaleX(-1) translateY(0); }
+    98%       { left: 18%; transform: scaleX(-1) translateY(-1px); }
+    100%      { left: 18%; transform: scaleX(1)  translateY(0); }
+  }
+
+  /* Doss — stands and rotates scanning the vault */
+  .sprite.walk-doss {
+    animation-name: walk-doss;
+    left: 46%;
+    top: 60%;
+  }
+  @keyframes walk-doss {
+    0%   { transform: rotate(0deg); }
+    50%  { transform: rotate(180deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Vault — counts coins, hand pulses */
+  .sprite.walk-vault {
+    animation-name: walk-vault;
+    left: 50%;
+    top: 60%;
+  }
+  @keyframes walk-vault {
+    0%, 100% { transform: translateY(0)   scale(1); }
+    50%      { transform: translateY(-4px) scale(1.15); }
+  }
+
+  /* Ambient: bob (float in place) */
+  .sprite.ambient-bob {
+    animation-name: ambient-bob;
+    left: 46%;
+    top: 56%;
+  }
+  @keyframes ambient-bob {
+    0%,100% { transform: translateY(0); }
+    50%     { transform: translateY(-3px); }
+  }
+
+  /* Ambient: slow rotate (radar / watch tower) */
+  .sprite.ambient-rotate {
+    animation-name: ambient-rotate;
+    left: 46%;
+    top: 58%;
+  }
+  @keyframes ambient-rotate {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Ambient: walk (linear traversal) */
+  .sprite.ambient-walk {
+    animation-name: ambient-walk;
+    top: 64%;
+  }
+  @keyframes ambient-walk {
+    0%        { left: 22%; transform: scaleX(1); }
+    48%       { left: 72%; transform: scaleX(1); }
+    50%       { left: 72%; transform: scaleX(-1); }
+    98%       { left: 22%; transform: scaleX(-1); }
+    100%      { left: 22%; transform: scaleX(1); }
+  }
+
+  /* Ambient: pulse (scale in place) */
+  .sprite.ambient-pulse {
+    animation-name: ambient-pulse;
+    left: 48%;
+    top: 58%;
+  }
+  @keyframes ambient-pulse {
+    0%, 100% { transform: scale(1);   filter: drop-shadow(0 0 2px rgba(0,229,255,0.3)); }
+    50%      { transform: scale(1.18);filter: drop-shadow(0 0 6px rgba(0,229,255,0.7)); }
+  }
+
+  /* ====================== CONNECTION PULSES ====================== */
+  .conn-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+  }
+  .conn-pulse {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow:
+      0 0 14px 2px var(--cyan),
+      0 0 4px var(--cyan);
+    opacity: 0;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+    will-change: left, top, opacity;
+  }
+  .conn-pulse.gold {
+    background: var(--gold);
+    box-shadow:
+      0 0 14px 2px var(--gold),
+      0 0 4px var(--gold);
+  }
+  .conn-pulse.red {
+    background: var(--red);
+    box-shadow: 0 0 14px 2px var(--red), 0 0 4px var(--red);
+  }
+
+  /* Grid-cell-center helper percentages:
+     cols 1..5 -> x = 10, 30, 50, 70, 90
+     rows 1..4 -> y = 12.5, 37.5, 62.5, 87.5 */
+
+  /* Jax (7: 30,37.5) -> Hank (8: 50,37.5) — build request */
+  @keyframes flow-jax-hank {
+    0%   { left: 30%; top: 37.5%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 50%; top: 37.5%; opacity: 0; }
+  }
+  .conn-pulse.ch-jax-hank { animation-name: flow-jax-hank; animation-duration: 3.8s; }
+
+  /* Hank (8) -> Jax (7) — tool installed */
+  @keyframes flow-hank-jax {
+    0%   { left: 50%; top: 37.5%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 30%; top: 37.5%; opacity: 0; }
+  }
+  .conn-pulse.ch-hank-jax { animation-name: flow-hank-jax; animation-duration: 4.2s; animation-delay: 1.9s; }
+
+  /* Auditor (9: 70,37.5) -> Jax (7: 30,37.5) — rating back */
+  @keyframes flow-aud-jax {
+    0%   { left: 70%; top: 37.5%; opacity: 0; }
+    8%   { opacity: 1; }
+    92%  { opacity: 1; }
+    100% { left: 30%; top: 37.5%; opacity: 0; }
+  }
+  .conn-pulse.ch-aud-jax { animation-name: flow-aud-jax; animation-duration: 5.2s; animation-delay: 2.6s; }
+
+  /* Vega (4: 70,12.5) -> Doss (16: 10,87.5) — sale reported */
+  @keyframes flow-vega-doss {
+    0%   { left: 70%; top: 12.5%; opacity: 0; }
+    12%  { opacity: 1; }
+    50%  { left: 50%; top: 50%;  opacity: 1; }
+    88%  { opacity: 1; }
+    100% { left: 10%; top: 87.5%; opacity: 0; }
+  }
+  .conn-pulse.ch-vega-doss { animation-name: flow-vega-doss; animation-duration: 6.4s; }
+
+  /* Brix (14: 70,62.5) -> Doss (16: 10,87.5) — rent reported */
+  @keyframes flow-brix-doss {
+    0%   { left: 70%; top: 62.5%; opacity: 0; }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { left: 10%; top: 87.5%; opacity: 0; }
+  }
+  .conn-pulse.ch-brix-doss { animation-name: flow-brix-doss; animation-duration: 5.6s; animation-delay: 3.3s; }
+
+  /* Dispatcher (5: 90,12.5) -> Vega (4: 70,12.5) — tick pulse */
+  @keyframes flow-dsp-vega {
+    0%   { left: 90%; top: 12.5%; opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { left: 70%; top: 12.5%; opacity: 0; }
+  }
+  .conn-pulse.ch-dsp-vega { animation-name: flow-dsp-vega; animation-duration: 2.8s; }
+
+  /* Dispatcher (5) -> Jax (7: 30,37.5) — scheduler tick */
+  @keyframes flow-dsp-jax {
+    0%   { left: 90%; top: 12.5%; opacity: 0; }
+    10%  { opacity: 1; }
+    50%  { left: 50%; top: 22%;    opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 30%; top: 37.5%;  opacity: 0; }
+  }
+  .conn-pulse.ch-dsp-jax { animation-name: flow-dsp-jax; animation-duration: 3.4s; animation-delay: 0.9s; }
+
+  /* Dispatcher (5) -> Hank (8: 50,37.5) */
+  @keyframes flow-dsp-hank {
+    0%   { left: 90%; top: 12.5%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 50%; top: 37.5%; opacity: 0; }
+  }
+  .conn-pulse.ch-dsp-hank { animation-name: flow-dsp-hank; animation-duration: 3.6s; animation-delay: 1.6s; }
+
+  /* Dispatcher (5) -> Brix (14: 70,62.5) */
+  @keyframes flow-dsp-brix {
+    0%   { left: 90%; top: 12.5%; opacity: 0; }
+    12%  { opacity: 1; }
+    88%  { opacity: 1; }
+    100% { left: 70%; top: 62.5%; opacity: 0; }
+  }
+  .conn-pulse.ch-dsp-brix { animation-name: flow-dsp-brix; animation-duration: 4.4s; animation-delay: 2.3s; }
+
+  /* Paymaster (16) -> Revenue board (17: 30,87.5) — ledger update */
+  @keyframes flow-doss-rev {
+    0%   { left: 10%; top: 87.5%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 30%; top: 87.5%; opacity: 0; }
+  }
+  .conn-pulse.ch-doss-rev { animation-name: flow-doss-rev; animation-duration: 3.2s; }
+
+  /* Neural (12: 50,62.5) -> Jax (7: 30,37.5) — pattern nudge (gold) */
+  @keyframes flow-neural-jax {
+    0%   { left: 50%; top: 62.5%; opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { left: 30%; top: 37.5%; opacity: 0; }
+  }
+  .conn-pulse.ch-neural-jax { animation-name: flow-neural-jax; animation-duration: 5.1s; animation-delay: 1.2s; }
+
+  .loading { color: var(--text-dim); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; padding: 20px; }
+
+  @media (max-width: 1100px) {
+    .stage { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(7, minmax(160px, 1fr)); }
+    .feed { height: 120px; }
+  }
+  @media (max-width: 720px) {
+    .stage { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto; overflow-y: auto; }
+    .tile { min-height: 180px; }
+    .sidebar { width: 100vw; }
+  }
 </style>
 </head>
-<body x-data="godView()" x-init="boot()">
+<body>
 
-<div class="shell">
-
-  <!-- TOP BAR -->
-  <header class="bar">
-    <div class="brand">
-      <div class="mark">B</div>
-      <div class="brand-text">
-        <div class="brand-h">Brewington Yard // God View</div>
-        <div class="brand-s"><span class="owner">Lando Brewington</span> // Landlord</div>
-      </div>
+<!-- ================= HUD STRIP ================= -->
+<header class="hud">
+  <div class="brand">
+    <div class="brand-mark">B</div>
+    <div>
+      <div class="brand-name">BREWINGTON YARD</div>
+      <div class="brand-sub">Command Center</div>
     </div>
-    <div class="bar-stats">
-      <div class="kv">
-        <div class="k">Occupancy</div>
-        <div class="v cyan" x-text="(re.occupancy_pct || 0) + '%'"></div>
-      </div>
-      <div class="kv">
-        <div class="k">Rent Owed</div>
-        <div class="v warn" x-text="fmt(re.rent_roll && re.rent_roll.total_owed)"></div>
-      </div>
-      <div class="kv">
-        <div class="k">Rent Paid</div>
-        <div class="v pos" x-text="fmt(re.rent_roll && re.rent_roll.total_paid)"></div>
-      </div>
-      <div class="kv">
-        <div class="k">Behind</div>
-        <div class="v neg" x-text="behindCount()"></div>
-      </div>
-      <div class="kv">
-        <div class="k">Vacant</div>
-        <div class="v" x-text="re.vacancies_total || 0"></div>
-      </div>
-      <div class="kv">
-        <div class="k">Apps</div>
-        <div class="v" x-text="re.applications_total || 0"></div>
-      </div>
-      <div class="clock" x-text="clock">--:--:--</div>
-      <div class="lamp-wrap">
-        <div class="lamp" :class="stream.ok ? 'on' : 'off'"></div>
-        <div class="lamp-lbl" x-text="stream.ok ? 'LIVE' : 'OFFLINE'"></div>
-      </div>
-    </div>
-  </header>
+  </div>
+  <div class="hud-stats" id="hudStats">
+    <div class="stat"><div class="stat-label">Tenants</div><div class="stat-value gold" id="statTenants">—</div></div>
+    <div class="stat"><div class="stat-label">Occupancy</div><div class="stat-value cyan" id="statOccupancy">—</div></div>
+    <div class="stat"><div class="stat-label">MTD Income</div><div class="stat-value pos" id="statIncome">—</div></div>
+    <div class="stat"><div class="stat-label">MTD Cost</div><div class="stat-value neg" id="statCost">—</div></div>
+    <div class="stat"><div class="stat-label">Net</div><div class="stat-value" id="statNet">—</div></div>
+    <div class="stat"><div class="stat-label">Active Bays</div><div class="stat-value gold" id="statActive">—</div></div>
+    <div class="stat"><div class="stat-label">Applications</div><div class="stat-value cyan" id="statApps">—</div></div>
+    <div class="stat"><div class="stat-label">Yard Health</div><div class="stat-value pos" id="statHealth">GREEN</div></div>
+  </div>
+  <div class="hud-clock">
+    <div class="hud-clock-date" id="clockDate">—</div>
+    <div class="hud-clock-time" id="clockTime">--:--:--</div>
+  </div>
+</header>
 
-  <!-- MAP -->
-  <section class="map">
-    <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid meet">
+<!-- ================= GRID ================= -->
+<main class="stage" id="stage">
+  <div class="conn-layer" aria-hidden="true">
+    <div class="conn-pulse ch-jax-hank"></div>
+    <div class="conn-pulse ch-hank-jax gold"></div>
+    <div class="conn-pulse ch-aud-jax"></div>
+    <div class="conn-pulse ch-vega-doss gold"></div>
+    <div class="conn-pulse ch-brix-doss gold"></div>
+    <div class="conn-pulse ch-dsp-vega"></div>
+    <div class="conn-pulse ch-dsp-jax"></div>
+    <div class="conn-pulse ch-dsp-hank"></div>
+    <div class="conn-pulse ch-dsp-brix"></div>
+    <div class="conn-pulse ch-doss-rev gold"></div>
+    <div class="conn-pulse ch-neural-jax"></div>
+  </div>
+</main>
 
-      <!-- background texture: soft radial gradient already on parent -->
+<!-- ================= LIVE FEED ================= -->
+<footer class="feed">
+  <div class="feed-header">
+    <span>Yard Activity <strong>// LIVE STREAM</strong></span>
+    <span id="feedCount">—</span>
+  </div>
+  <div class="feed-list" id="feedList"><div class="loading">connecting to stream…</div></div>
+</footer>
 
-      <!-- subtle grid hatch -->
-      <defs>
-        <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" class="ground-hatch"/>
-        </pattern>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="4" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-      <rect x="0" y="0" width="1600" height="1000" fill="url(#grid)" opacity=".35"/>
+<!-- ================= SIDEBAR ================= -->
+<div class="sidebar-scrim" id="scrim"></div>
+<aside class="sidebar" id="sidebar" aria-hidden="true">
+  <div class="sidebar-head">
+    <button class="sidebar-close" id="sidebarClose" aria-label="Close">×</button>
+    <div class="sidebar-bayid" id="sbId">BAY —</div>
+    <div class="sidebar-title" id="sbTitle">—</div>
+    <div class="sidebar-role" id="sbRole">—</div>
+    <div class="sidebar-status-row" id="sbChips"></div>
+  </div>
+  <div class="sidebar-body" id="sbBody"></div>
+</aside>
 
-      <!-- ROADS: each plot center to plaza center (800, 500) -->
-      <g>
-        <!-- hank top-left -->
-        <line x1="800" y1="500" x2="400" y2="280" class="road"/>
-        <line x1="800" y1="500" x2="400" y2="280" class="road-line"/>
-        <!-- vega top-right -->
-        <line x1="800" y1="500" x2="1200" y2="280" class="road"/>
-        <line x1="800" y1="500" x2="1200" y2="280" class="road-line"/>
-        <!-- jax bottom-left -->
-        <line x1="800" y1="500" x2="400" y2="780" class="road"/>
-        <line x1="800" y1="500" x2="400" y2="780" class="road-line"/>
-        <!-- doss bottom-right -->
-        <line x1="800" y1="500" x2="1200" y2="780" class="road"/>
-        <line x1="800" y1="500" x2="1200" y2="780" class="road-line"/>
-        <!-- brix directly below plaza -->
-        <line x1="800" y1="500" x2="800" y2="700" class="road"/>
-        <line x1="800" y1="500" x2="800" y2="700" class="road-line"/>
-        <!-- vacant plots as outlier lots, connected by dashed path -->
-        <line x1="800" y1="500" x2="160" y2="530" class="road" style="stroke-opacity:.4"/>
-        <line x1="800" y1="500" x2="1440" y2="530" class="road" style="stroke-opacity:.4"/>
-      </g>
-
-      <!-- PLAZA (center, landlord marker) -->
-      <g transform="translate(800,500)">
-        <circle r="120" class="plaza-ring"/>
-        <circle r="80" class="plaza-ring" style="stroke-dasharray:4 6"/>
-        <circle r="30" class="plaza-core"/>
-        <circle r="4" fill="#00e5ff"/>
-        <text x="0" y="-44" text-anchor="middle" class="plaza-label">LANDLORD</text>
-        <text x="0" y="52" text-anchor="middle" class="label-sm" style="letter-spacing:.2em">THE YARD</text>
-      </g>
-
-      <!-- TENANT PLOTS -->
-      <template x-for="t in tenants()" :key="t.name">
-        <g :transform="'translate(' + t.pos.x + ',' + t.pos.y + ')'">
-          <!-- plot outline -->
-          <rect x="-110" y="-80" width="220" height="160" rx="4"
-                class="plot-outline"
-                :class="[t.rentStatus, (t.working ? 'working' : '')]"/>
-
-          <!-- pulse rings when ticking -->
-          <template x-if="t.working">
-            <g>
-              <circle cx="0" cy="0" r="8" class="pulse-ring"/>
-              <circle cx="0" cy="0" r="8" class="pulse-ring" style="animation-delay:.8s"/>
-              <circle cx="0" cy="0" r="8" class="pulse-ring" style="animation-delay:1.6s"/>
-            </g>
-          </template>
-
-          <!-- building (tenant-specific SVG, inlined via ternary) -->
-          <g transform="translate(0, -10)">
-            <!-- base pad -->
-            <rect x="-70" y="-30" width="140" height="60" rx="2" class="bldg"/>
-            <rect x="-70" y="-30" width="140" height="10" class="bldg-roof"/>
-
-            <!-- foreman: hiring board with flyers -->
-            <template x-if="t.name === 'foreman'">
-              <g>
-                <rect x="-56" y="-22" width="112" height="44" class="bldg-light"/>
-                <text x="0" y="-8" text-anchor="middle" class="label-big" style="fill:var(--amber)">HIRING</text>
-                <!-- flyers, one per hire -->
-                <template x-for="(h, i) in (t.roster || []).slice(0,7)" :key="h.slug + i">
-                  <rect :x="-50 + (i % 4) * 28" :y="-4 + Math.floor(i/4) * 14"
-                        width="22" height="10" fill="#ffb347" opacity=".7"/>
-                </template>
-              </g>
-            </template>
-
-            <!-- scout: storefront with OPEN sign -->
-            <template x-if="t.name === 'scout'">
-              <g>
-                <!-- awning -->
-                <rect x="-56" y="-26" width="112" height="8" fill="#3dd68c" opacity=".6"/>
-                <!-- storefront window -->
-                <rect x="-50" y="-12" width="60" height="30" class="window lit"/>
-                <!-- door -->
-                <rect x="18" y="-8" width="20" height="26" class="bldg-dark" fill="#12151e"/>
-                <!-- OPEN sign -->
-                <g transform="translate(0,-4)">
-                  <rect x="-20" y="0" width="40" height="14" class="bldg-dark" fill="#0a0c14" stroke="#3dd68c"/>
-                  <text x="0" y="10" text-anchor="middle" class="label-big" style="fill:#3dd68c;font-size:9px">OPEN</text>
-                </g>
-                <!-- dollar icon -->
-                <text x="42" y="-16" class="label-big" style="fill:var(--success);font-size:14px">$</text>
-              </g>
-            </template>
-
-            <!-- builder: garage with roll-up door -->
-            <template x-if="t.name === 'builder'">
-              <g>
-                <!-- garage frame -->
-                <rect x="-56" y="-22" width="112" height="44" class="bldg-light"/>
-                <!-- roll-up door (partial when building) -->
-                <rect x="-40" y="-14" :width="t.working ? 50 : 80" height="30" fill="#12151e" stroke="#272b3c"/>
-                <line x1="-40" y1="-6" :x2="t.working ? 10 : 40" y2="-6" stroke="#2a3040"/>
-                <line x1="-40" y1="2" :x2="t.working ? 10 : 40" y2="2" stroke="#2a3040"/>
-                <line x1="-40" y1="10" :x2="t.working ? 10 : 40" y2="10" stroke="#2a3040"/>
-                <!-- hammer icon on side -->
-                <g transform="translate(38,-4) rotate(-20)">
-                  <rect x="-2" y="-10" width="4" height="14" fill="#ffb347"/>
-                  <rect x="-6" y="-14" width="12" height="6" fill="#00e5ff"/>
-                </g>
-              </g>
-            </template>
-
-            <!-- paymaster: accountant's office with ledger -->
-            <template x-if="t.name === 'paymaster'">
-              <g>
-                <rect x="-56" y="-22" width="112" height="44" class="bldg-light"/>
-                <!-- ledger book -->
-                <rect x="-30" y="-14" width="30" height="24" fill="#d9a6ff" opacity=".25" stroke="#d9a6ff"/>
-                <line x1="-15" y1="-14" x2="-15" y2="10" stroke="#d9a6ff" opacity=".6"/>
-                <!-- calculator dots -->
-                <g transform="translate(20,-4)">
-                  <rect x="-12" y="-8" width="24" height="20" fill="#12151e" stroke="#272b3c"/>
-                  <circle cx="-6" cy="-3" r="1.4" fill="#d9a6ff"/>
-                  <circle cx="0" cy="-3" r="1.4" fill="#d9a6ff"/>
-                  <circle cx="6" cy="-3" r="1.4" fill="#d9a6ff"/>
-                  <circle cx="-6" cy="3" r="1.4" fill="#d9a6ff"/>
-                  <circle cx="0" cy="3" r="1.4" fill="#d9a6ff"/>
-                  <circle cx="6" cy="3" r="1.4" fill="#d9a6ff"/>
-                </g>
-              </g>
-            </template>
-
-            <!-- realtor: real-estate office with listed signs -->
-            <template x-if="t.name === 'realtor'">
-              <g>
-                <rect x="-56" y="-22" width="112" height="44" class="bldg-light"/>
-                <text x="0" y="-4" text-anchor="middle" class="label-big" style="fill:var(--warm)">REALTY</text>
-                <rect x="-40" y="6" width="80" height="12" fill="#0a0c14" stroke="#00e5ff"/>
-                <text x="0" y="15" text-anchor="middle" class="tsign-text" style="fill:var(--cyan)"
-                      x-text="(re.vacancies_total || 0) + ' LISTED'"></text>
-              </g>
-            </template>
-
-          </g>
-
-          <!-- Tenant name + role -->
-          <text x="0" y="-50" text-anchor="middle" class="tname" x-text="t.display_name"></text>
-          <text x="0" y="-36" text-anchor="middle" class="trole" x-text="t.role"></text>
-
-          <!-- Rent status badge -->
-          <g :transform="'translate(' + 0 + ',' + 54 + ')'">
-            <rect x="-52" y="-10" width="104" height="20" rx="2"
-                  class="tsign-bg" :class="t.rentStatus"/>
-            <text x="0" y="4" text-anchor="middle"
-                  class="tsign-text" :class="t.rentStatus"
-                  x-text="t.rentBadge"></text>
-          </g>
-
-          <!-- Hires dots (one per roster item, bottom-left) -->
-          <g transform="translate(-98, 62)">
-            <template x-for="(h, i) in (t.roster || [])" :key="h.slug + i">
-              <circle :cx="i * 8" cy="0" r="3" class="hire-dot"/>
-            </template>
-          </g>
-
-          <!-- Mode / last tick (bottom-right) -->
-          <text x="100" y="66" text-anchor="end" class="label-sm" x-text="t.modeShort"></text>
-
-        </g>
-      </template>
-
-      <!-- VACANT PLOTS -->
-      <template x-for="(v, i) in (re.vacancies || [])" :key="v.slug">
-        <g :transform="'translate(' + (i === 0 ? 160 : 1440) + ',' + 530 + ')'">
-          <rect x="-80" y="-60" width="160" height="120" rx="4" class="plot-outline vacant"/>
-
-          <!-- FOR RENT sign -->
-          <g transform="translate(0,0)">
-            <line x1="0" y1="-10" x2="0" y2="26" class="vacant-sign-post"/>
-            <rect x="-50" y="-40" width="100" height="34" rx="2" class="vacant-sign-bg"/>
-            <text x="0" y="-24" text-anchor="middle" class="vacant-sign-text">FOR RENT</text>
-            <text x="0" y="-10" text-anchor="middle" class="vacant-rent-text" x-text="'$' + (v.rent_mo || 20) + '/mo // ' + v.slug"></text>
-          </g>
-
-          <!-- small dust drift -->
-          <circle cx="-30" cy="30" r="1.5" class="dust" opacity=".4">
-            <animate attributeName="cx" values="-30;30;-30" dur="18s" repeatCount="indefinite"/>
-          </circle>
-          <circle cx="20" cy="10" r="1" class="dust" opacity=".3">
-            <animate attributeName="cx" values="20;-20;20" dur="24s" repeatCount="indefinite"/>
-          </circle>
-        </g>
-      </template>
-
-      <!-- Ambient drifting dust particles -->
-      <g opacity=".5">
-        <circle cx="200" cy="400" r="1" class="dust"><animate attributeName="cy" values="400;380;400" dur="12s" repeatCount="indefinite"/></circle>
-        <circle cx="1400" cy="600" r="1" class="dust"><animate attributeName="cy" values="600;620;600" dur="15s" repeatCount="indefinite"/></circle>
-        <circle cx="900" cy="200" r="1" class="dust"><animate attributeName="cx" values="900;920;900" dur="20s" repeatCount="indefinite"/></circle>
-        <circle cx="700" cy="900" r="1" class="dust"><animate attributeName="cx" values="700;680;700" dur="18s" repeatCount="indefinite"/></circle>
-      </g>
-
-    </svg>
-  </section>
-
-  <!-- RIGHT RAIL -->
-  <aside class="rail">
-
-    <div class="rail-sec">
-      <div class="rail-head">
-        <div class="rail-title">Inbox</div>
-        <div class="rail-meta"><span class="cyan" x-text="re.applications_total || 0"></span> apps // triaged <span x-text="triagedCount()"></span></div>
-      </div>
-      <ul class="inbox" x-show="(re.applications || []).length > 0">
-        <template x-for="a in (re.applications || [])" :key="a.slug">
-          <li class="app" @click="alert((a.title || a.slug) + '\n\n' + (a.body || '').slice(0, 900))">
-            <div class="app-title" x-text="a.title || a.slug"></div>
-            <div class="app-meta">
-              <span class="app-tag" :class="a.triaged ? 'triaged' : 'untriaged'" x-text="a.triaged ? 'Triaged' : 'Untriaged'"></span>
-              <span x-text="ago(a.listed_at)"></span>
-            </div>
-          </li>
-        </template>
-      </ul>
-      <div class="empty-note" x-show="(re.applications || []).length === 0">(no applications yet)</div>
-    </div>
-
-    <div class="rail-sec" style="flex:1;display:flex;flex-direction:column">
-      <div class="rail-head">
-        <div class="rail-title">Yard Activity</div>
-        <div class="rail-meta" x-text="activity.length + ' events'"></div>
-      </div>
-      <ul class="feed" x-show="activity.length > 0">
-        <template x-for="(e, i) in activity" :key="i">
-          <li class="entry">
-            <div class="entry-head">
-              <span class="entry-agent" :class="e.agent" x-text="e.agent"></span>
-              <span x-text="e.ts || ''"></span>
-            </div>
-            <div x-text="e.text"></div>
-          </li>
-        </template>
-      </ul>
-      <div class="empty-note" x-show="activity.length === 0">(no activity yet)</div>
-    </div>
-
-  </aside>
-
-</div>
-
-<script src="/vendor/alpine.min.js" defer></script>
 <script>
-  // Plot positions (SVG coords). Tuned for visual balance around the plaza at (800,500).
-  const TENANT_POS = {
-    foreman:   { x: 400,  y: 280 },
-    scout:     { x: 1200, y: 280 },
-    builder:   { x: 400,  y: 780 },
-    paymaster: { x: 1200, y: 780 },
-    realtor:   { x: 800,  y: 770 }
-  };
-  const ROLE = {
-    foreman: 'Foreman', scout: 'Scout', builder: 'Builder',
-    paymaster: 'Paymaster', realtor: 'Realtor'
-  };
+/* =======================================================
+   ROOM REGISTRY — 17 rooms mapped to images + data source
+   ======================================================= */
+const ROOMS = [
+  // Row 1: intel floor
+  { slot: 1,  id: 'HQ-00', kind: 'hq',      bay: null,       title: 'WAR ROOM',      role: 'Lando / HQ',          img: '/assets/rooms/zenith.jpg',
+    blurb: '28 years of walls, now one yard. Lando signs the leases. The bays do the work.' },
+  { slot: 2,  id: 'TER-01',kind: 'support', bay: null,       title: 'TERRITORY',     role: 'Phoenix Metro Map',   img: '/assets/rooms/atlas.jpg',
+    blurb: 'US map pinned with prospect cities. Phoenix metro is the opening beachhead for Vega.' },
+  { slot: 3,  id: 'RAD-02',kind: 'support', bay: null,       title: 'RADAR',         role: 'Signal Sweep',        img: '/assets/rooms/signalscout.png',
+    blurb: 'Long-range radar for traffic channels, mentions, and inbound leads. Feeds Scout and Realtor.' },
+  { slot: 4,  id: 'SCT-03',kind: 'bay',     bay: 'scout',    title: 'VEGA',          role: 'Scout',               img: '/assets/rooms/vega.jpg' },
+  { slot: 5,  id: 'DSP-04',kind: 'support', bay: null,       title: 'DISPATCHER',    role: 'Scheduler / Ticks',   img: '/assets/rooms/echo.jpg',
+    blurb: 'The scheduler loop. Every bay gets a tick. The dispatcher decides who runs and when.' },
 
-  function godView(){
-    return {
-      state: { businesses: [] },
-      re: { vacancies: [], applications: [], rent_roll: null, vacancies_total: 0, applications_total: 0, occupancy_pct: 0 },
-      activity: [],
-      stream: { ok: false },
-      clock: '--:--:--',
+  // Row 2: production floor
+  { slot: 6,  id: 'DSN-05',kind: 'support', bay: null,       title: 'DESIGNER',      role: 'Concept Studio',      img: '/assets/rooms/forge.jpg',
+    blurb: 'Site-rebuild studio. Concepts painted on easels. Current: command-center redesign at v14.' },
+  { slot: 7,  id: 'BLD-06',kind: 'bay',     bay: 'builder',  title: 'JAX',           role: 'Builder',             img: '/assets/rooms/jax.jpg' },
+  { slot: 8,  id: 'FRM-07',kind: 'bay',     bay: 'foreman',  title: 'HANK',          role: 'Foreman',             img: '/assets/rooms/hank.jpg' },
+  { slot: 9,  id: 'AUD-08',kind: 'support', bay: null,       title: 'AUDITOR',       role: 'Rating Loop',         img: '/assets/rooms/iris.jpg',
+    blurb: 'Runs approver.js and agentQA.js. Grades work RED / YELLOW / GREEN / GOLD before it ships.' },
+  { slot: 10, id: 'LAB-09',kind: 'support', bay: null,       title: 'TEST LAB',      role: 'PASS / FAIL',         img: '/assets/rooms/nova.jpg',
+    blurb: 'Deploys against a QA panel. Every build runs through a PASS / FAIL wall before it is lit.' },
 
-      boot(){
-        this.tickClock();
-        setInterval(() => this.tickClock(), 1000);
-        this.loadAll();
-        setInterval(() => this.loadAll(), 10000);
-        this.openStream();
-      },
+  // Row 3: ops floor
+  { slot: 11, id: 'SRV-10',kind: 'support', bay: null,       title: 'SURVEILLANCE',  role: 'Channel Watch',       img: '/assets/rooms/surveillance.jpg',
+    blurb: 'Watches Gumroad, referral inboxes, competitor sites. Anything worth pulling into the yard.' },
+  { slot: 12, id: 'NRL-11',kind: 'support', bay: null,       title: 'NEURAL CORE',   role: 'Pattern Engine',      img: '/assets/rooms/neo.jpg',
+    blurb: 'Pattern memory and token routing. Keeps the yard learning between ticks.' },
+  { slot: 13, id: 'SVR-12',kind: 'support', bay: null,       title: 'SERVER ROOM',   role: 'Infra / Cables',      img: '/assets/rooms/server-room.png',
+    blurb: 'Racks and cables. The box the whole yard runs on. Quiet until it is not.' },
+  { slot: 14, id: 'RLT-13',kind: 'bay',     bay: 'realtor',  title: 'BRIX',          role: 'Realtor',             img: '/assets/rooms/brix.jpg' },
+  { slot: 15, id: 'VLT-14',kind: 'support', bay: null,       title: 'VAULT',         role: 'Secrets / Security',  img: '/assets/rooms/vault.png',
+    blurb: 'Keys, tokens, contracts. Anything with a seal on it lives behind this door.' },
 
-      tickClock(){
-        const d = new Date();
-        this.clock = [d.getHours(), d.getMinutes(), d.getSeconds()]
-          .map(n => String(n).padStart(2, '0')).join(':');
-      },
+  // Row 4: revenue + security + vacant
+  { slot: 16, id: 'PAY-15',kind: 'bay',     bay: 'paymaster',title: 'DOSS',          role: 'Paymaster',           img: '/assets/rooms/doss.jpg' },
+  { slot: 17, id: 'REV-16',kind: 'support', bay: null,       title: 'REVENUE',       role: 'Ledger Board',        img: '/assets/rooms/revenue.png',
+    blurb: 'Live P&L. Every sale lands here. Every cost lands here. Nothing hides.' },
+  { slot: 18, id: 'VAC-A', kind: 'vacant',  bay: null,       title: 'FOR RENT',      role: '$20 / month' },
+  { slot: 19, id: 'VAC-B', kind: 'vacant',  bay: null,       title: 'FOR RENT',      role: '$20 / month' },
+  { slot: 20, id: 'VAC-C', kind: 'vacant',  bay: null,       title: 'FOR RENT',      role: '$20 / month' }
+];
 
-      async loadAll(){
-        this.loadState();
-        this.loadRealEstate();
-        this.loadActivity();
-      },
-      async loadState(){
-        try {
-          const r = await fetch('/api/state');
-          if (r.ok) this.state = await r.json();
-        } catch {}
-      },
-      async loadRealEstate(){
-        try {
-          const r = await fetch('/api/realestate');
-          if (r.ok) this.re = await r.json();
-        } catch {}
-      },
-      async loadActivity(){
-        try {
-          const r = await fetch('/api/activity?limit=40');
-          if (r.ok) {
-            const j = await r.json();
-            this.activity = j.entries || [];
-          }
-        } catch {}
-      },
-      openStream(){
-        try {
-          const sse = new EventSource('/api/stream');
-          sse.addEventListener('hello', () => { this.stream.ok = true; });
-          sse.addEventListener('change', () => { this.loadState(); this.loadActivity(); });
-          sse.addEventListener('realestate', () => { this.loadRealEstate(); });
-          sse.addEventListener('hire', () => { this.loadState(); });
-          sse.onerror = () => { this.stream.ok = false; };
-        } catch {}
-      },
+const BAY_DISPLAY = {
+  builder:   { name: 'Jax',  role: 'Builder',   mission: 'Internal tooling + site-rebuild product line.' },
+  foreman:   { name: 'Hank', role: 'Foreman',   mission: 'Hires tools and agents. Runs the kill-clocks.' },
+  scout:     { name: 'Vega', role: 'Scout',     mission: 'Prospect research. Ships paid lead-list drops on Gumroad.' },
+  realtor:   { name: 'Brix', role: 'Realtor',   mission: 'Runs the rent roll. Every bay pays $20 / month.' },
+  paymaster: { name: 'Doss', role: 'Paymaster', mission: 'The books. Sets caps. Every dollar in and out.' }
+};
 
-      tenants(){
-        const bizMap = new Map((this.state.businesses || []).map(b => [b.name, b]));
-        const roll = (this.re.rent_roll && this.re.rent_roll.tenants) || [];
-        const rollMap = new Map(roll.map(t => [t.tenant, t]));
-        const names = ['foreman', 'scout', 'builder', 'paymaster', 'realtor'];
-        return names.map(name => {
-          const b = bizMap.get(name) || {};
-          const r = rollMap.get(name);
-          const rent_mo = r ? r.rent_mo : (name === 'realtor' ? 0 : 20);
-          const rent_paid_mtd = r ? r.rent_paid_mtd : 0;
-          const rentStatus = name === 'realtor' ? 'current' : (r ? r.status : 'behind');
-          const working = b.last_tick_at
-            ? (Date.now() - new Date(b.last_tick_at).getTime()) < 90000
-            : false;
-          return {
-            name,
-            display_name: b.display_name || name.toUpperCase(),
-            role: ROLE[name],
-            pos: TENANT_POS[name] || { x: 800, y: 500 },
-            mode: b.mode || 'idle',
-            modeShort: (b.mode || 'idle').replace(/_/g, ' ').toUpperCase(),
-            rentStatus,
-            rentBadge: name === 'realtor'
-              ? 'LANDLORD STAFF'
-              : (rentStatus === 'current' ? 'CURRENT $' + rent_mo
-              : rentStatus === 'partial' ? 'PARTIAL'
-              : rentStatus === 'behind' ? 'BEHIND $' + rent_mo
-              : rentStatus === 'default' ? 'DEFAULT'
-              : rentStatus.toUpperCase()),
-            roster: b.hired_roster || [],
-            working
-          };
-        });
-      },
+/* Sprite registry: each slot id -> { glyph, animClass, baseDuration } */
+const SPRITES = {
+  'HQ-00':  { glyph: '\u{1F451}', anim: 'ambient-bob',    base: 4.5 },   // crown
+  'TER-01': { glyph: '\u{1F4CD}', anim: 'ambient-bob',    base: 3.2 },   // pin
+  'RAD-02': { glyph: '\u{1F4E1}', anim: 'ambient-rotate', base: 8.0 },   // radar
+  'SCT-03': { glyph: '\u{1F50D}', anim: 'walk-vega',      base: 2.4 },   // Vega
+  'DSP-04': { glyph: '\u{1F4FB}', anim: 'ambient-pulse',  base: 1.6 },   // dispatcher
+  'DSN-05': { glyph: '\u{1F3A8}', anim: 'ambient-walk',   base: 5.8 },   // designer
+  'BLD-06': { glyph: '\u{1F528}', anim: 'walk-jax',       base: 5.2 },   // Jax hammer
+  'FRM-07': { glyph: '\u{1F477}', anim: 'walk-hank',      base: 6.0 },   // Hank
+  'AUD-08': { glyph: '\u{1F50E}', anim: 'ambient-walk',   base: 6.4 },   // auditor
+  'LAB-09': { glyph: '\u{2697}\u{FE0F}', anim: 'ambient-pulse', base: 2.0 }, // flask
+  'SRV-10': { glyph: '\u{1F441}\u{FE0F}', anim: 'ambient-rotate', base: 9.0 }, // eye
+  'NRL-11': { glyph: '\u{1F9E0}', anim: 'ambient-pulse',  base: 2.4 },   // brain
+  'SVR-12': { glyph: '\u{1F4BE}', anim: 'ambient-pulse',  base: 1.4 },   // floppy / led
+  'RLT-13': { glyph: '\u{1F527}', anim: 'walk-brix',      base: 7.0 },   // wrench (Brix)
+  'VLT-14': { glyph: '\u{1FA99}', anim: 'walk-vault',     base: 1.8 },   // coin
+  'PAY-15': { glyph: '\u{1F4B0}', anim: 'walk-doss',      base: 10.0 },  // moneybag (Doss)
+  'REV-16': { glyph: '\u{1F4C8}', anim: 'ambient-pulse',  base: 2.2 }    // chart
+};
 
-      behindCount(){
-        const roll = (this.re.rent_roll && this.re.rent_roll.tenants) || [];
-        return roll.filter(t => t.status === 'behind' || t.status === 'default').length;
-      },
-      triagedCount(){
-        return (this.re.applications || []).filter(a => a.triaged).length;
-      },
+/* ============= HELPERS ============= */
+function fmtMoney(n) {
+  n = Number(n || 0);
+  if (n === 0) return '$0';
+  const abs = Math.abs(n);
+  if (abs >= 1000) return (n < 0 ? '-' : '') + '$' + (abs / 1000).toFixed(1) + 'k';
+  return (n < 0 ? '-' : '') + '$' + abs.toFixed(0);
+}
+function fmtTimeAgo(iso) {
+  if (!iso) return '—';
+  const ms = Date.now() - new Date(iso).getTime();
+  if (isNaN(ms)) return '—';
+  if (ms < 60_000) return Math.floor(ms / 1000) + 's ago';
+  if (ms < 3_600_000) return Math.floor(ms / 60_000) + 'm ago';
+  if (ms < 86_400_000) return Math.floor(ms / 3_600_000) + 'h ago';
+  return Math.floor(ms / 86_400_000) + 'd ago';
+}
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[c]));
+}
 
-      fmt(v){
-        const n = Number(v) || 0;
-        return (n < 0 ? '-' : '') + '$' + Math.abs(Math.round(n));
-      },
-      ago(iso){
-        if (!iso) return '';
-        const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
-        if (s < 60) return s + 's';
-        if (s < 3600) return Math.floor(s/60) + 'm';
-        if (s < 86400) return Math.floor(s/3600) + 'h';
-        return Math.floor(s/86400) + 'd';
-      }
-    };
+/* ============= STATE ============= */
+const state = {
+  byBay: {},         // bay name -> business state
+  realestate: null,
+  portfolio: null,
+  activity: [],
+  currentSlot: null
+};
+
+/* ============= RENDER GRID ============= */
+function buildTiles() {
+  const stage = document.getElementById('stage');
+  stage.innerHTML = '';
+  for (const room of ROOMS) {
+    const tile = document.createElement('div');
+    tile.className = 'tile' + (room.kind === 'vacant' ? ' vacant' : ' live-scan');
+    tile.dataset.slot = room.slot;
+    tile.dataset.id = room.id;
+    if (room.kind === 'vacant') {
+      tile.innerHTML = `
+        <div class="tile-header">
+          <span class="tile-id">${room.id}</span>
+          <span class="tile-badge rent">VACANT</span>
+        </div>
+        <div class="vacant-core">
+          <div class="vacant-mark">FOR RENT</div>
+        </div>
+        <div class="tile-footer">
+          <div class="tile-name">FOR RENT</div>
+          <div class="tile-role">$20 / MONTH</div>
+        </div>
+      `;
+    } else {
+      const sp = SPRITES[room.id];
+      const spriteHTML = sp
+        ? `<span class="sprite ${sp.anim}" style="--sprite-duration:${sp.base}s;">${sp.glyph}</span>`
+        : '';
+      tile.innerHTML = `
+        <div class="tile-img" style="background-image:url('${room.img}');"></div>
+        <span class="scan-line"></span>
+        ${spriteHTML}
+        <div class="tile-header">
+          <span class="tile-id">${room.id}</span>
+          <span class="tile-badge ${room.kind === 'bay' ? 'idle' : 'sys'}" data-role="badge">
+            ${room.kind === 'bay' ? 'LOADING' : 'SYSTEM'}
+          </span>
+        </div>
+        <div class="tile-footer">
+          <div class="tile-name">${room.title}</div>
+          <div class="tile-role">${room.role}</div>
+          <div class="tile-task" data-role="task">—</div>
+          <div class="tile-bar"><div class="tile-bar-fill" data-role="bar" style="width: 0%"></div></div>
+          <div class="tile-meta" data-role="meta">
+            <span>—</span><span>—</span>
+          </div>
+        </div>
+      `;
+    }
+    tile.addEventListener('click', () => openSidebar(room));
+    stage.appendChild(tile);
   }
+}
+
+/* ============= UPDATE TILE DATA ============= */
+function updateTile(room) {
+  const tile = document.querySelector(`.tile[data-slot="${room.slot}"]`);
+  if (!tile || room.kind === 'vacant') return;
+
+  const badge = tile.querySelector('[data-role="badge"]');
+  const task  = tile.querySelector('[data-role="task"]');
+  const bar   = tile.querySelector('[data-role="bar"]');
+  const meta  = tile.querySelector('[data-role="meta"]');
+  if (!badge) return;
+
+  if (room.kind === 'bay') {
+    const b = state.byBay[room.bay];
+    if (!b) return;
+
+    // badge
+    let cls = 'idle', label = 'IDLE';
+    const failures = b.failures_in_row || 0;
+    if (b.last_escalation_reason) { cls = 'crit'; label = 'ESCALATED'; }
+    else if (failures >= 2) { cls = 'warn'; label = 'WARN'; }
+    else if (b.status === 'live' || b.status === 'active' || b.status === 'ready') { cls = 'live'; label = 'LIVE'; }
+    else if (b.status === 'filed') { cls = 'live'; label = 'LIVE'; }
+    badge.className = 'tile-badge ' + cls;
+    badge.textContent = label;
+
+    // sprite speed: active = faster, idle/warn = slower
+    const sprite = tile.querySelector('.sprite');
+    const baseSp = SPRITES[room.id]?.base || 6;
+    if (sprite) {
+      let mult = 1;
+      if (cls === 'live') mult = 0.7;       // quicker
+      else if (cls === 'warn') mult = 1.3;  // plodding
+      else if (cls === 'crit') mult = 0.45; // urgent
+      else mult = 1.6;                      // idle -> slower
+      sprite.style.setProperty('--sprite-duration', (baseSp * mult).toFixed(2) + 's');
+    }
+
+    // task line
+    const taskText = b.last_tick_summary || b.mode || 'standing by';
+    task.textContent = taskText;
+
+    // progress bar: route by bay
+    const bp = progressForBay(room.bay, b);
+    bar.style.width = bp.pct + '%';
+    bar.className = 'tile-bar-fill ' + bp.tone;
+
+    // meta row
+    const left = b.last_tick_at ? fmtTimeAgo(b.last_tick_at) : '—';
+    const right = b.month_to_date
+      ? `${fmtMoney(b.month_to_date.income)} / ${fmtMoney(b.month_to_date.cost)}`
+      : '—';
+    meta.innerHTML = `<span>${escapeHtml(left)}</span><span><strong>${escapeHtml(right)}</strong></span>`;
+  } else {
+    // support rooms — derive something live-ish
+    const s = supportMetric(room.id);
+    badge.className = 'tile-badge ' + s.badgeCls;
+    badge.textContent = s.badge;
+    task.textContent = s.task;
+    bar.style.width = s.pct + '%';
+    bar.className = 'tile-bar-fill ' + s.tone;
+    meta.innerHTML = `<span>${escapeHtml(s.metaL)}</span><span><strong>${escapeHtml(s.metaR)}</strong></span>`;
+  }
+}
+
+function progressForBay(name, b) {
+  // derive a % and tone per bay
+  if (name === 'scout') {
+    const income = b.month_to_date?.income || 0;
+    const target = 245;
+    const pct = Math.min(100, Math.round((income / target) * 100));
+    return { pct, tone: pct >= 40 ? 'green' : pct > 0 ? 'cyan' : 'warn' };
+  }
+  if (name === 'paymaster') {
+    const income = b.month_to_date?.income || 0;
+    const target = 100;
+    const pct = Math.min(100, Math.round((income / target) * 100));
+    return { pct, tone: pct > 0 ? 'cyan' : 'warn' };
+  }
+  if (name === 'realtor') {
+    const re = state.realestate;
+    if (re) {
+      const pct = Math.min(100, Math.round((re.occupancy_pct || 0) * 100));
+      return { pct, tone: pct >= 70 ? 'green' : pct >= 30 ? 'cyan' : 'warn' };
+    }
+    return { pct: 50, tone: 'cyan' };
+  }
+  if (name === 'foreman') {
+    // approval ratio
+    const hired = b.hired_roster?.length || 0;
+    const pct = Math.min(100, hired * 14);
+    return { pct, tone: 'cyan' };
+  }
+  if (name === 'builder') {
+    // reads current_project progress loosely: if a project_id exists => 66%
+    const pct = b.current_project?.project_id ? 66 : 10;
+    return { pct, tone: 'warn' };
+  }
+  return { pct: 50, tone: 'cyan' };
+}
+
+function supportMetric(id) {
+  const re = state.realestate;
+  const bays = Object.values(state.byBay);
+  switch (id) {
+    case 'HQ-00':
+      return { badge: 'STANDING', badgeCls: 'sys', task: 'yard growth supervised by Lando', pct: 100, tone: 'green', metaL: 'TENANTS', metaR: String(re?.tenants_total ?? '—') };
+    case 'TER-01': {
+      const pf = state.portfolio;
+      return { badge: pf ? 'SCANNED' : 'LOADING', badgeCls: 'sys', task: 'phoenix metro leads indexed', pct: 80, tone: 'cyan', metaL: 'LEADS', metaR: String(pf?.total ?? '—') };
+    }
+    case 'RAD-02':
+      return { badge: 'SWEEP', badgeCls: 'sys', task: 'traffic + mention sweep on 60s tick', pct: 65, tone: 'cyan', metaL: 'SOURCES', metaR: '6' };
+    case 'DSP-04':
+      return { badge: 'TICK', badgeCls: 'live', task: 'scheduler loop every 60s, all bays ticking', pct: 100, tone: 'green', metaL: 'CADENCE', metaR: '60s' };
+    case 'DSN-05': {
+      const bld = state.byBay.builder;
+      const proj = bld?.current_project?.project_id || 'no project';
+      return { badge: 'BRIEF', badgeCls: 'sys', task: proj.replace(/-/g, ' '), pct: 60, tone: 'warn', metaL: 'PROJECT', metaR: proj.split('-').pop() };
+    }
+    case 'AUD-08':
+      return { badge: 'READY', badgeCls: 'sys', task: 'rating queue / approver live', pct: 75, tone: 'cyan', metaL: 'SCALE', metaR: 'R/Y/G/G' };
+    case 'LAB-09':
+      return { badge: 'READY', badgeCls: 'sys', task: 'agentQA gate on every ship', pct: 85, tone: 'green', metaL: 'GATE', metaR: 'PASS/FAIL' };
+    case 'SRV-10':
+      return { badge: 'WATCH', badgeCls: 'sys', task: 'gumroad + referral channels watched', pct: 60, tone: 'cyan', metaL: 'EYES', metaR: 'ON' };
+    case 'NRL-11':
+      return { badge: 'LEARN', badgeCls: 'sys', task: 'pattern memory updating per tick', pct: 70, tone: 'cyan', metaL: 'BRIDGE', metaR: 'HOT' };
+    case 'SVR-12':
+      return { badge: 'UP', badgeCls: 'live', task: 'port 3000 / SSE connected', pct: 100, tone: 'green', metaL: 'UPTIME', metaR: 'OK' };
+    case 'VLT-14':
+      return { badge: 'SEALED', badgeCls: 'sys', task: 'credentials and contracts locked', pct: 100, tone: 'green', metaL: 'DOOR', metaR: 'CLOSED' };
+    case 'REV-16': {
+      const totals = bays.reduce((a, b) => ({
+        inc: a.inc + (b.month_to_date?.income || 0),
+        cost: a.cost + (b.month_to_date?.cost || 0)
+      }), { inc: 0, cost: 0 });
+      const pct = Math.min(100, Math.round((totals.inc / 345) * 100));
+      return {
+        badge: totals.inc > 0 ? 'POS' : 'WAIT',
+        badgeCls: totals.inc > 0 ? 'sys' : 'warn',
+        task: `MTD in: ${fmtMoney(totals.inc)}   out: ${fmtMoney(totals.cost)}`,
+        pct, tone: totals.inc > 0 ? 'green' : 'warn',
+        metaL: 'NET', metaR: fmtMoney(totals.inc - totals.cost)
+      };
+    }
+    default:
+      return { badge: 'SYS', badgeCls: 'sys', task: 'standing by', pct: 50, tone: 'cyan', metaL: '—', metaR: '—' };
+  }
+}
+
+/* ============= HUD ============= */
+function renderHud() {
+  const re = state.realestate;
+  const bays = Object.values(state.byBay);
+  const totIn  = bays.reduce((s, b) => s + (b.month_to_date?.income || 0), 0);
+  const totOut = bays.reduce((s, b) => s + (b.month_to_date?.cost || 0), 0);
+  const activeBays = bays.filter(b => b.status === 'live' || b.status === 'active' || b.status === 'ready' || b.status === 'filed').length;
+  const escalations = bays.filter(b => b.last_escalation_reason).length;
+
+  document.getElementById('statTenants').textContent = re ? re.tenants_total : '—';
+  document.getElementById('statOccupancy').textContent = re ? Math.round((re.occupancy_pct || 0) * 100) + '%' : '—';
+  document.getElementById('statIncome').textContent = fmtMoney(totIn);
+  document.getElementById('statCost').textContent = fmtMoney(totOut);
+  const net = totIn - totOut;
+  const netEl = document.getElementById('statNet');
+  netEl.textContent = fmtMoney(net);
+  netEl.className = 'stat-value ' + (net > 0 ? 'pos' : net < 0 ? 'neg' : 'gold');
+  document.getElementById('statActive').textContent = activeBays + '/5';
+  document.getElementById('statApps').textContent = re ? re.applications_total : '—';
+
+  const health = document.getElementById('statHealth');
+  if (escalations > 0) { health.textContent = 'ALERT'; health.className = 'stat-value neg'; }
+  else if (bays.some(b => (b.failures_in_row||0) >= 2)) { health.textContent = 'WATCH'; health.className = 'stat-value'; health.style.color = 'var(--amber)'; }
+  else { health.textContent = 'GREEN'; health.className = 'stat-value pos'; }
+}
+
+function renderClock() {
+  const now = new Date();
+  document.getElementById('clockDate').textContent = now.toISOString().slice(0, 10);
+  document.getElementById('clockTime').textContent = now.toTimeString().slice(0, 8);
+}
+
+/* ============= ACTIVITY FEED ============= */
+function renderFeed() {
+  const list = document.getElementById('feedList');
+  const entries = state.activity.slice(0, 60);
+  if (!entries.length) {
+    list.innerHTML = '<div class="loading">no activity yet</div>';
+    return;
+  }
+  list.innerHTML = entries.map(e => `
+    <div class="feed-row">
+      <span class="feed-ts">${escapeHtml(e.ts || '').slice(11, 16) || '--:--'}</span>
+      <span class="feed-agent">${escapeHtml(e.agent)}</span>
+      <span class="feed-text">${escapeHtml(e.text)}</span>
+    </div>
+  `).join('');
+  document.getElementById('feedCount').textContent = entries.length + ' events';
+}
+
+/* ============= SIDEBAR ============= */
+function openSidebar(room) {
+  state.currentSlot = room.slot;
+  document.querySelectorAll('.tile.active').forEach(t => t.classList.remove('active'));
+  const tile = document.querySelector(`.tile[data-slot="${room.slot}"]`);
+  if (tile) tile.classList.add('active');
+
+  const sb = document.getElementById('sidebar');
+  const sc = document.getElementById('scrim');
+  sb.classList.add('open');
+  sc.classList.add('open');
+  sb.setAttribute('aria-hidden', 'false');
+
+  document.getElementById('sbId').textContent = 'BAY ' + room.id;
+  document.getElementById('sbTitle').textContent = room.title;
+  document.getElementById('sbRole').textContent = room.role || '';
+
+  const chips = document.getElementById('sbChips');
+  const body = document.getElementById('sbBody');
+  chips.innerHTML = '';
+  body.innerHTML = '';
+
+  if (room.kind === 'vacant') {
+    chips.innerHTML = '<span class="chip cyan">AVAILABLE</span>';
+    body.innerHTML = `
+      <div class="section">
+        <h4>Plot open for a tenant</h4>
+        <div class="blockquote">
+          The yard is real estate. Every bay is a rental. Baseline rent: $20 / month. Premium bays: $40 / month.
+          Tenant applications route to Brix for triage.
+        </div>
+      </div>
+      <div class="section">
+        <h4>How to apply</h4>
+        <div class="kv">
+          <dt>Baseline</dt><dd>$20 / month</dd>
+          <dt>Grace</dt><dd>15 day onboarding</dd>
+          <dt>Eviction</dt><dd>day 30 under rent</dd>
+          <dt>Queue</dt><dd>Realtor inbox</dd>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  if (room.kind === 'bay') {
+    const b = state.byBay[room.bay];
+    if (!b) {
+      body.innerHTML = '<div class="loading">loading bay state…</div>';
+      return;
+    }
+    const failures = b.failures_in_row || 0;
+    chips.innerHTML = '';
+    if (b.status) chips.insertAdjacentHTML('beforeend', `<span class="chip live">${escapeHtml(String(b.status).toUpperCase())}</span>`);
+    if (b.mode)   chips.insertAdjacentHTML('beforeend', `<span class="chip cyan">${escapeHtml(String(b.mode).replace(/_/g,' ').toUpperCase())}</span>`);
+    if (failures >= 2) chips.insertAdjacentHTML('beforeend', `<span class="chip warn">FAILS x${failures}</span>`);
+    if (b.last_escalation_reason) chips.insertAdjacentHTML('beforeend', `<span class="chip crit">ESCALATED</span>`);
+
+    const mtd = b.month_to_date || {};
+    const pitch = b.business_pitch || {};
+    const plan = b.self_funding_plan || {};
+    const logs = Array.isArray(b.recent_log) ? b.recent_log : [];
+    const hires = Array.isArray(b.hired_roster) ? b.hired_roster : [];
+
+    body.innerHTML = `
+      <div class="section">
+        <h4>Mission</h4>
+        <div class="blockquote">${escapeHtml(b.mission || BAY_DISPLAY[room.bay]?.mission || '—')}</div>
+      </div>
+
+      <div class="section">
+        <h4>Live</h4>
+        <dl class="kv">
+          <dt>Last tick</dt><dd>${escapeHtml(b.last_tick_summary || '—')}</dd>
+          <dt>When</dt><dd>${escapeHtml(fmtTimeAgo(b.last_tick_at))}</dd>
+          <dt>Charter</dt><dd>v${escapeHtml(b.charter_version || '—')}</dd>
+          <dt>Mode</dt><dd>${escapeHtml(b.mode || '—')}</dd>
+        </dl>
+      </div>
+
+      <div class="section">
+        <h4>Ledger (MTD)</h4>
+        <dl class="kv">
+          <dt>Income</dt><dd class="pos">${fmtMoney(mtd.income || 0)}</dd>
+          <dt>Cost</dt><dd class="neg">${fmtMoney(mtd.cost || 0)}</dd>
+          <dt>Net</dt><dd class="${(mtd.income||0) - (mtd.cost||0) >= 0 ? 'pos' : 'neg'}">${fmtMoney((mtd.income||0) - (mtd.cost||0))}</dd>
+          ${mtd.rent_collected != null ? `<dt>Rent Collected</dt><dd class="gold">${fmtMoney(mtd.rent_collected)}</dd>` : ''}
+          ${mtd.sales_count != null ? `<dt>Sales</dt><dd>${mtd.sales_count}</dd>` : ''}
+        </dl>
+      </div>
+
+      ${pitch && (pitch.business_name || pitch.why_this) ? `
+      <div class="section">
+        <h4>Product / Pitch</h4>
+        ${pitch.business_name ? `<div style="font-family:'Press Start 2P',monospace; font-size:11px; color:var(--bone); margin-bottom:6px;">${escapeHtml(pitch.business_name)}</div>` : ''}
+        ${pitch.why_this ? `<div class="blockquote">${escapeHtml(pitch.why_this)}</div>` : ''}
+        ${pitch.projected_mo_revenue ? `<div class="kv" style="margin-top:10px;"><dt>Target / mo</dt><dd class="gold">${fmtMoney(pitch.projected_mo_revenue)}</dd></div>` : ''}
+      </div>` : ''}
+
+      ${plan && (plan.pivot_at_d15_under || plan.kill_at_d30_under) ? `
+      <div class="section">
+        <h4>30-Day Contract</h4>
+        <dl class="kv">
+          ${plan.target_revenue_mo_1 != null ? `<dt>Target mo 1</dt><dd>${fmtMoney(plan.target_revenue_mo_1)}</dd>` : ''}
+          ${plan.pivot_at_d15_under != null ? `<dt>Pivot d15</dt><dd class="neg">under ${fmtMoney(plan.pivot_at_d15_under)}</dd>` : ''}
+          ${plan.kill_at_d30_under != null ? `<dt>Kill d30</dt><dd class="neg">under ${fmtMoney(plan.kill_at_d30_under)}</dd>` : ''}
+        </dl>
+      </div>` : ''}
+
+      ${hires.length ? `
+      <div class="section">
+        <h4>Hired Roster (${hires.length})</h4>
+        <ul class="log-list">
+          ${hires.slice(0, 10).map(h => `
+            <li>
+              <span class="log-ts">${escapeHtml((h.installed_at || '').slice(0, 10))}</span>
+              <strong>${escapeHtml(h.package || h.slug || 'tool')}</strong>
+              ${h.purpose ? `<div style="color:var(--text-dim); font-size:10px; padding-left:90px;">${escapeHtml(h.purpose.slice(0, 200))}${h.purpose.length > 200 ? '…' : ''}</div>` : ''}
+            </li>
+          `).join('')}
+        </ul>
+      </div>` : ''}
+
+      ${logs.length ? `
+      <div class="section">
+        <h4>Recent Log</h4>
+        <ul class="log-list">
+          ${logs.slice(-8).reverse().map(l => `<li>${escapeHtml(l)}</li>`).join('')}
+        </ul>
+      </div>` : ''}
+    `;
+    return;
+  }
+
+  // support room
+  chips.innerHTML = '<span class="chip cyan">SYSTEM</span>';
+  const s = supportMetric(room.id);
+  body.innerHTML = `
+    <div class="section">
+      <h4>What it does</h4>
+      <div class="blockquote">${escapeHtml(room.blurb || 'system component')}</div>
+    </div>
+    <div class="section">
+      <h4>Live</h4>
+      <dl class="kv">
+        <dt>Status</dt><dd>${escapeHtml(s.badge)}</dd>
+        <dt>Task</dt><dd>${escapeHtml(s.task)}</dd>
+        <dt>${escapeHtml(s.metaL)}</dt><dd>${escapeHtml(s.metaR)}</dd>
+      </dl>
+    </div>
+  `;
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('scrim').classList.remove('open');
+  document.querySelectorAll('.tile.active').forEach(t => t.classList.remove('active'));
+  state.currentSlot = null;
+}
+
+/* ============= FETCH ============= */
+async function fetchJSON(url) {
+  const r = await fetch(url);
+  if (!r.ok) throw new Error(url + ' ' + r.status);
+  return r.json();
+}
+
+async function refreshState() {
+  try {
+    const s = await fetchJSON('/api/state');
+    state.byBay = {};
+    for (const b of s.businesses || []) state.byBay[b.name] = b;
+  } catch (e) { console.warn('state fail', e); }
+  try { state.realestate = await fetchJSON('/api/realestate'); } catch (e) { console.warn('re fail', e); }
+  try { state.portfolio  = await fetchJSON('/api/portfolio');  } catch (e) { console.warn('pf fail', e); }
+  try {
+    const a = await fetchJSON('/api/activity?limit=80');
+    state.activity = a.entries || [];
+  } catch (e) { console.warn('act fail', e); }
+
+  for (const room of ROOMS) updateTile(room);
+  renderHud();
+  renderFeed();
+  // refresh sidebar if open
+  if (state.currentSlot) {
+    const room = ROOMS.find(r => r.slot === state.currentSlot);
+    if (room) openSidebar(room);
+  }
+}
+
+/* ============= SSE ============= */
+function wireStream() {
+  try {
+    const es = new EventSource('/api/stream');
+    es.addEventListener('change', () => refreshState());
+    es.addEventListener('realestate', () => refreshState());
+    es.addEventListener('hire', () => refreshState());
+    es.onerror = () => {
+      // let browser retry
+    };
+  } catch (e) { console.warn('sse fail', e); }
+}
+
+/* ============= BOOT ============= */
+document.getElementById('sidebarClose').addEventListener('click', closeSidebar);
+document.getElementById('scrim').addEventListener('click', closeSidebar);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
+
+buildTiles();
+refreshState();
+wireStream();
+
+setInterval(renderClock, 1000);
+renderClock();
+setInterval(refreshState, 20_000); // safety poll in case SSE drops
 </script>
 </body>
 </html>

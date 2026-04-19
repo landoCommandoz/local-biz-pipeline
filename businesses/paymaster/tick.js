@@ -190,15 +190,27 @@ async function run(opts = {}) {
       return { stub: true, mode: 'monthly_research' };
     }
 
-    // default: no-op heartbeat
+    // default: heartbeat + unlock-threshold monitor (Phase 3)
     log.info('heartbeat tick');
+    let unlockResult = null;
+    try {
+      const { checkUnlocks } = require('./unlock-monitor');
+      const { escalate } = require('../twilio-whatsapp');
+      unlockResult = await checkUnlocks({ log, state, escalate });
+      log.info('unlock monitor ran', {
+        checked: unlockResult.checked,
+        fired: unlockResult.events.filter((e) => e.fired).length
+      });
+    } catch (err) {
+      log.warn('unlock monitor failed', { error: err.message });
+    }
     await state.recordTick({
-      summary: 'heartbeat',
+      summary: 'heartbeat + unlock monitor',
       status: s.status,
       mode: s.current_mode,
       failed: false
     });
-    return { heartbeat: true };
+    return { heartbeat: true, unlocks: unlockResult };
   } catch (err) {
     log.error('tick failed', { error: err.message });
     try {
@@ -208,12 +220,47 @@ async function run(opts = {}) {
   }
 }
 
+// Doss's Guardian role (v9 rename). Runs every tick, reports threats.
+async function runGuardianScan(log, state) {
+  try {
+    const guardian = require('./guardian');
+    const report = guardian.runOnce();
+    log.info('guardian scan', {
+      systems_clean: report.systems_clean,
+      threat_count: report.threat_count,
+      exposed_keys: report.findings_summary.exposed_keys
+    });
+    await state.update((cur) => {
+      cur.guardian = {
+        last_run_at: report.at,
+        systems_clean: report.systems_clean,
+        threat_count: report.threat_count,
+        exposed_keys_count: report.findings_summary.exposed_keys,
+        gitignore_env_missing: report.findings_summary.gitignore_env_missing,
+        env_file_tracked: report.findings_summary.env_file_tracked,
+        bays_in_failure_streak: report.findings_summary.bays_in_failure_streak
+      };
+      return cur;
+    });
+  } catch (err) {
+    log.warn('guardian run failed', { error: err.message });
+  }
+}
+
+async function runWithGuardian(opts) {
+  const { createLogger } = require('../lib/logger');
+  const { stateFor } = require('../lib/state');
+  const r = await run(opts);
+  await runGuardianScan(createLogger('paymaster'), stateFor('paymaster'));
+  return r;
+}
+
 if (require.main === module) {
   const mode = process.argv[2] || undefined;
-  run(mode ? { mode } : {}).then(() => process.exit(0)).catch((err) => {
+  runWithGuardian(mode ? { mode } : {}).then(() => process.exit(0)).catch((err) => {
     console.error(err);
     process.exit(1);
   });
 }
 
-module.exports = { run, recordAgentTick };
+module.exports = { run: runWithGuardian, runOriginal: run, recordAgentTick, runGuardianScan };

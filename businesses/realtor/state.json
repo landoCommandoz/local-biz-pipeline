@@ -14,8 +14,8 @@
   "evictions_completed": 0,
   "tenants_current": 4,
   "baseline_rent_mo": 20,
-  "last_tick_at": "2026-04-17T10:44:03.571Z",
-  "last_tick_summary": "listed 2 plots, 2 applications on file, 0 triaged this tick, 4 tenants in rent roll (4 behind, 0 partial)",
+  "last_tick_at": "2026-04-18T04:00:00.061Z",
+  "last_tick_summary": "listed 2 plots, 3 applications on file, 0 triaged this tick, 6 tenants in rent roll (6 behind, 0 partial)",
   "last_checked_applications_at": null,
   "last_escalation_at": null,
   "last_escalation_reason": null,
@@ -67,5 +67,13 @@
     "pivot_under": 40,
     "last_action": "Bay initialized, 2 plots listed, awaiting first application"
   },
-  "hired_roster": []
+  "hired_roster": [],
+  "system_builder": {
+    "last_run_at": "2026-04-18T04:00:06.230Z",
+    "systems_online": 7,
+    "systems_offline": 0,
+    "avg_latency_ms": 878,
+    "all_green": true,
+    "offline_systems": []
+  }
 }

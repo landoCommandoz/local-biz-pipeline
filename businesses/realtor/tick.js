@@ -153,11 +153,46 @@ async function run() {
   }
 }
 
+// Brix's System Builder role (v9 rename). Runs every tick. Probes external infra.
+async function runSystemsCheck(log, state) {
+  try {
+    const sysb = require('./system-builder');
+    const report = await sysb.runOnce();
+    log.info('systems check', {
+      systems_online: report.systems_online,
+      systems_offline: report.systems_offline,
+      avg_latency_ms: report.avg_latency_ms,
+      all_green: report.all_green
+    });
+    await state.update((cur) => {
+      cur.system_builder = {
+        last_run_at: report.at,
+        systems_online: report.systems_online,
+        systems_offline: report.systems_offline,
+        avg_latency_ms: report.avg_latency_ms,
+        all_green: report.all_green,
+        offline_systems: report.checks.filter((c) => !c.ok).map((c) => c.system)
+      };
+      return cur;
+    });
+  } catch (err) {
+    log.warn('systems check failed', { error: err.message });
+  }
+}
+
+async function runWithSystemsCheck() {
+  const { createLogger } = require('../lib/logger');
+  const { stateFor } = require('../lib/state');
+  const r = await run();
+  await runSystemsCheck(createLogger('realtor'), stateFor('realtor'));
+  return r;
+}
+
 if (require.main === module) {
-  run().then(() => process.exit(0)).catch((err) => {
+  runWithSystemsCheck().then(() => process.exit(0)).catch((err) => {
     console.error(err);
     process.exit(1);
   });
 }
 
-module.exports = { run };
+module.exports = { run: runWithSystemsCheck, runOriginal: run, runSystemsCheck };

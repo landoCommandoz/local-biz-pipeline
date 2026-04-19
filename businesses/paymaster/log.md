@@ -13,3 +13,14 @@
 2026-04-17 09:09 :: INFO :: hired reader-gumroad (gumroad-api-v2) :: businesses/lib/gumroad-reader.js pollSales() pulls Vega's Gumroad sales into scout/sales.jsonl and appends income entries to paymaster/ledger.json. Cursor at paymaster/gumroad-cursor.json. Needs GUMROAD_ACCESS_TOKEN in .env.
 2026-04-17 10:43 :: INFO :: tick start :: {"opts":{}}
 2026-04-17 10:43 :: INFO :: heartbeat tick
+2026-04-17 10:49 :: INFO :: tick start :: {"opts":{}}
+2026-04-17 10:49 :: INFO :: heartbeat tick
+2026-04-18 02:11 :: INFO :: tick start :: {"opts":{}}
+2026-04-18 02:11 :: INFO :: heartbeat tick
+2026-04-18 02:11 :: INFO :: guardian scan :: {"systems_clean":true,"threat_count":0,"exposed_keys":0}
+2026-04-18 02:46 :: INFO :: tick start :: {"opts":{}}
+2026-04-18 02:46 :: INFO :: heartbeat tick
+2026-04-18 02:46 :: INFO :: guardian scan :: {"systems_clean":true,"threat_count":0,"exposed_keys":0}
+2026-04-18 02:47 :: INFO :: tick start :: {"opts":{}}
+2026-04-18 02:47 :: INFO :: heartbeat tick
+2026-04-18 02:47 :: INFO :: guardian scan :: {"systems_clean":true,"threat_count":0,"exposed_keys":0}

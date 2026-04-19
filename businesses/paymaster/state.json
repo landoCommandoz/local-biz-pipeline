@@ -7,7 +7,7 @@
   "ledger_exists": true,
   "budgets_exists": true,
   "deploy_plan_exists": true,
-  "last_tick_at": "2026-04-17T10:43:49.938Z",
+  "last_tick_at": "2026-04-18T02:47:09.308Z",
   "last_tick_summary": "heartbeat",
   "last_weekly_digest_at": null,
   "last_monthly_research_at": null,
@@ -90,5 +90,26 @@
       "entrypoint": "businesses/lib/gumroad-reader.js",
       "installed_at": "2026-04-17T09:10:23.306Z"
     }
-  ]
+  ],
+  "guardian": {
+    "last_run_at": "2026-04-18T02:47:09.476Z",
+    "systems_clean": true,
+    "threat_count": 0,
+    "exposed_keys_count": 0,
+    "gitignore_env_missing": false,
+    "env_file_tracked": false,
+    "bays_in_failure_streak": 0
+  },
+  "unlock_monitor": {
+    "installed_at": "2026-04-18T14:15:00Z",
+    "version": "0.1",
+    "watched": [
+      { "bay": "echo", "threshold": 100, "upgrade_name": "Instantly paid", "parked_pitch": "businesses/foreman/parked/echo-instantly-paid.md" },
+      { "bay": "atlas", "threshold": 200, "upgrade_name": "DataForSEO paid", "parked_pitch": "businesses/foreman/parked/atlas-dataforseo-paid.md" },
+      { "bay": "pixel", "threshold": 50, "upgrade_name": "upload-post.com paid", "parked_pitch": "businesses/foreman/parked/pixel-uploadpost-paid.md" }
+    ],
+    "last_check_at": null,
+    "alerts_by_month": {},
+    "policy": "Alert only. Never auto-install. Lando confirms, Hank executes the unpark."
+  }
 }

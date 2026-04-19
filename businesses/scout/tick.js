@@ -187,11 +187,49 @@ Approve first Gumroad publish? Reply Y or N.`
   }
 }
 
+// Vega's Analyst role (v9 rename). Runs every tick regardless of mode.
+async function runAnalystReport(log, state) {
+  try {
+    const analyst = require('./analyst');
+    const metrics = analyst.runOnce();
+    log.info('analyst report', {
+      mtd_income: metrics.month_to_date.income,
+      mtd_net: metrics.month_to_date.net,
+      clients: metrics.client_count,
+      break_even: metrics.break_even
+    });
+    await state.update((cur) => {
+      cur.analyst = {
+        last_run_at: metrics.at,
+        mtd_income: metrics.month_to_date.income,
+        mtd_cost: metrics.month_to_date.cost,
+        mtd_net: metrics.month_to_date.net,
+        mrr_estimate: metrics.mrr_estimate,
+        client_count: metrics.client_count,
+        burn_rate_per_day: metrics.burn_rate_per_day,
+        break_even: metrics.break_even,
+        days_until_profitable: metrics.days_until_profitable
+      };
+      return cur;
+    });
+  } catch (err) {
+    log.warn('analyst run failed', { error: err.message });
+  }
+}
+
+async function runWithAnalyst() {
+  const log = createLogger(NAME);
+  const state = stateFor(NAME);
+  const r = await run();
+  await runAnalystReport(log, state);
+  return r;
+}
+
 if (require.main === module) {
-  run().then(() => process.exit(0)).catch((err) => {
+  runWithAnalyst().then(() => process.exit(0)).catch((err) => {
     console.error(err);
     process.exit(1);
   });
 }
 
-module.exports = { run };
+module.exports = { run: runWithAnalyst, runOriginal: run, runAnalystReport };
